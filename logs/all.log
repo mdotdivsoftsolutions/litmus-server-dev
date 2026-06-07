@@ -383,3 +383,12 @@
 2026-06-07 10:09:56:956 [32minfo[39m: [32m[0mGET /api-docs/swagger-ui-init.js [36m304[0m 0.293 ms - -[0m[39m
 2026-06-07 10:09:56:956 [32minfo[39m: [32m[0mGET /api-docs/swagger-ui-bundle.js [36m304[0m 3.040 ms - -[0m[39m
 2026-06-07 10:09:56:956 [32minfo[39m: [32m[0mGET /api-docs/swagger-ui-standalone-preset.js [36m304[0m 5.222 ms - -[0m[39m
+2026-06-07 10:23:08:238 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-07 10:23:08:238 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-07 10:23:11:2311 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-07 10:27:44:2744 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-07 10:27:44:2744 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-07 10:27:47:2747 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-07 10:28:38:2838 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-07 10:28:38:2838 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-07 10:28:40:2840 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
