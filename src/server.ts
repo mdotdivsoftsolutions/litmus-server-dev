@@ -24,3 +24,6 @@ const startServer = async () => {
 };
 
 startServer();
+
+// Export the Express API for Vercel
+export default app;
