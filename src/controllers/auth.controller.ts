@@ -18,17 +18,20 @@ export class AuthController {
     try {
       const { user, accessToken, refreshToken } = await AuthService.register(req.body);
       
+      const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+      const sameSiteValue = isSecure ? 'none' : 'lax';
+
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: isSecure,
+        sameSite: sameSiteValue,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: isSecure,
+        sameSite: sameSiteValue,
         maxAge: 15 * 60 * 1000, // 15 mins
       });
 
@@ -47,17 +50,20 @@ export class AuthController {
     try {
       const { user, accessToken, refreshToken } = await AuthService.login(req.body);
 
+      const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+      const sameSiteValue = isSecure ? 'none' : 'lax';
+
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: isSecure,
+        sameSite: sameSiteValue,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: isSecure,
+        sameSite: sameSiteValue,
         maxAge: 15 * 60 * 1000, // 15 mins
       });
 
@@ -125,17 +131,20 @@ export class AuthController {
 
       const { accessToken, refreshToken: newRefreshToken } = await AuthService.refreshToken(refreshToken);
 
+      const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+      const sameSiteValue = isSecure ? 'none' : 'lax';
+
       res.cookie('refreshToken', newRefreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: isSecure,
+        sameSite: sameSiteValue,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
       
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: isSecure,
+        sameSite: sameSiteValue,
         maxAge: 15 * 60 * 1000, // 15 mins
       });
 
