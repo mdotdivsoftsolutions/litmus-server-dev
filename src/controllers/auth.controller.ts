@@ -79,8 +79,19 @@ export class AuthController {
   }
 
   static async logout(req: Request, res: Response): Promise<void> {
-    res.clearCookie('refreshToken');
-    res.clearCookie('accessToken');
+    const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+    const sameSiteValue = isSecure ? 'none' : 'lax';
+
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: isSecure,
+      sameSite: sameSiteValue,
+    });
+    res.clearCookie('accessToken', {
+      httpOnly: true,
+      secure: isSecure,
+      sameSite: sameSiteValue,
+    });
     res.status(200).json({ success: true, message: 'Logged out successfully' });
   }
 
