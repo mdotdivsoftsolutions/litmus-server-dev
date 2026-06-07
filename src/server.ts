@@ -8,22 +8,16 @@ import logger from './utils/logger';
 
 const PORT = process.env.PORT || 5000;
 
-const startServer = async () => {
-  try {
-    // Connect to Database
-    await connectDB();
+// Initialize Database connection
+connectDB();
 
-    app.listen(PORT, () => {
-      logger.info(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-      logger.info(`API Docs available at http://localhost:${PORT}/api-docs`);
-    });
-  } catch (error) {
-    logger.error('Failed to start server', error);
-    process.exit(1);
-  }
-};
-
-startServer();
+// Only listen if not running on Vercel
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    logger.info(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+    logger.info(`API Docs available at http://localhost:${PORT}/api-docs`);
+  });
+}
 
 // Export the Express API for Vercel
 export default app;

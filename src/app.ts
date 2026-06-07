@@ -11,7 +11,7 @@ const app: Application = express();
 
 // Middlewares
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : 'http://localhost:8080',
+  origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : '*',
   credentials: true,
 }));
 app.use(express.json());
