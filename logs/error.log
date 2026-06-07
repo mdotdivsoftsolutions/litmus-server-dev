@@ -1,0 +1,14 @@
+2026-05-28 14:10:43:1043 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 12:07:30:730 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 12:14:44:1444 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 12:15:04:154 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 12:15:15:1515 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 12:15:17:1517 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 12:39:47:3947 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 13:00:43:043 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 13:01:20:120 [31merror[39m: [31mError connecting to MongoDB: querySrv ECONNREFUSED _mongodb._tcp.cluster0.qfo3j6s.mongodb.net[39m
+2026-05-31 13:26:20:2620 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-05-31 13:45:08:458 [31merror[39m: [31mError sending email: getaddrinfo ENOTFOUND smtp.example.com[39m
+2026-05-31 13:49:25:4925 [31merror[39m: [31mError sending email: getaddrinfo ENOTFOUND smtp.example.com[39m
+2026-05-31 13:50:45:5045 [31merror[39m: [31mError sending email: getaddrinfo ENOTFOUND smtp.example.com[39m
+2026-05-31 13:52:11:5211 [31merror[39m: [31mError sending email: getaddrinfo ENOTFOUND smtp.example.com[39m
