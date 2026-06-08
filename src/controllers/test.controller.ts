@@ -19,7 +19,7 @@ export const createTest = async (req: Request, res: Response): Promise<void> => 
 
 export const getTests = async (req: Request, res: Response): Promise<void> => {
   try {
-    const tests = await Test.find();
+    const tests = await Test.find().populate('applicableCategories', 'name');
     res.status(200).json({
       success: true,
       count: tests.length,
@@ -36,7 +36,7 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
 
 export const getTestById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const test = await Test.findById(req.params.id);
+    const test = await Test.findById(req.params.id).populate('applicableCategories', 'name');
     if (!test) {
       res.status(404).json({
         success: false,

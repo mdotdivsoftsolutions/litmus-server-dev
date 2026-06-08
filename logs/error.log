@@ -12,3 +12,14 @@
 2026-05-31 13:49:25:4925 [31merror[39m: [31mError sending email: getaddrinfo ENOTFOUND smtp.example.com[39m
 2026-05-31 13:50:45:5045 [31merror[39m: [31mError sending email: getaddrinfo ENOTFOUND smtp.example.com[39m
 2026-05-31 13:52:11:5211 [31merror[39m: [31mError sending email: getaddrinfo ENOTFOUND smtp.example.com[39m
+2026-06-07 11:37:51:3751 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-07 11:38:01:381 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-07 11:38:14:3814 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-07 11:38:17:3817 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-08 14:08:48:848 [31merror[39m: [31mSendOTP Error: Email already registered[39m
+2026-06-08 14:09:28:928 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-08 14:09:33:933 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-08 14:11:41:1141 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-08 14:18:21:1821 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-06-08 15:08:28:828 [31merror[39m: [31mLogin Error: ACCOUNT_BLOCKED[39m
+2026-06-08 15:08:33:833 [31merror[39m: [31mLogin Error: ACCOUNT_BLOCKED[39m

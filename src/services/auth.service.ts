@@ -74,6 +74,10 @@ export class AuthService {
       throw new Error('Invalid credentials');
     }
 
+    if (user.isActive === false) {
+      throw new Error('ACCOUNT_BLOCKED');
+    }
+
     const isMatch = await user.comparePassword(data.password);
     if (!isMatch) {
       throw new Error('Invalid credentials');

@@ -19,7 +19,26 @@ export const createCategory = async (req: Request, res: Response): Promise<void>
 
 export const getCategories = async (req: Request, res: Response): Promise<void> => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: 'products',
+          localField: '_id',
+          foreignField: 'categoryId',
+          as: 'products'
+        }
+      },
+      {
+        $addFields: {
+          productCount: { $size: '$products' }
+        }
+      },
+      {
+        $project: {
+          products: 0
+        }
+      }
+    ]);
     res.status(200).json({
       success: true,
       count: categories.length,
@@ -29,6 +48,29 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
     res.status(500).json({
       success: false,
       message: 'Failed to fetch categories',
+      error: error.message,
+    });
+  }
+};
+
+export const getCategory = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      res.status(404).json({
+        success: false,
+        message: 'Category not found',
+      });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: category,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch category',
       error: error.message,
     });
   }

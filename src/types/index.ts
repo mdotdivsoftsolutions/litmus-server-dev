@@ -59,6 +59,10 @@ export interface ILaboratory extends Document {
   requiresAdminApprovalForReport: boolean;
   dailyLimit: number;
   metadata?: any;
+  startingYear?: number;
+  affiliationDocs?: string[];
+  additionalDetails?: string;
+  isDeleted?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -66,6 +70,8 @@ export interface ILaboratory extends Document {
 export interface ICategory extends Document {
   name: string;
   description?: string;
+  imageUrl?: string;
+  productCount?: number;
   metadata?: any;
   createdAt: Date;
   updatedAt: Date;
@@ -74,6 +80,10 @@ export interface ICategory extends Document {
 export interface IProduct extends Document {
   name: string;
   categoryId: mongoose.Types.ObjectId;
+  description?: string;
+  imageUrl?: string;
+  fssaiReference?: string;
+  isActive: boolean;
   availableTests: mongoose.Types.ObjectId[];
   metadata?: any;
   createdAt: Date;
@@ -85,6 +95,8 @@ export interface ITest extends Document {
   description?: string;
   price: number;
   metadata?: any;
+  applicableCategories?: mongoose.Types.ObjectId[];
+  isApplicableToAll: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

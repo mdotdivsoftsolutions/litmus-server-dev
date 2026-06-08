@@ -64,6 +64,19 @@ const LaboratorySchema: Schema = new Schema(
     metadata: {
       type: Schema.Types.Mixed,
     },
+    startingYear: {
+      type: Number,
+    },
+    affiliationDocs: [{
+      type: String,
+    }],
+    additionalDetails: {
+      type: String,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -142,6 +142,47 @@ export const approveBookingResult = async (req: Request, res: Response): Promise
   }
 };
 
+export const rejectBookingResult = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { reason } = req.body;
+    import('../models/Booking').then(async ({ default: Booking }) => {
+      import('../types').then(async ({ BookingStatus }) => {
+        const booking = await Booking.findById(req.params.id);
+        
+        if (!booking) {
+          res.status(404).json({
+            success: false,
+            message: 'Booking not found',
+          });
+          return;
+        }
+
+        booking.isReportApprovedByAdmin = false;
+        booking.status = BookingStatus.IN_PROGRESS; // Revert status
+        booking.reportFiles = []; // Remove rejected reports
+        
+        // Optionally save the rejection reason in metadata or notes
+        if (!booking.metadata) booking.metadata = {};
+        booking.metadata.rejectionReason = reason;
+
+        await booking.save();
+
+        res.status(200).json({
+          success: true,
+          message: 'Booking result rejected and sent back to lab',
+          data: booking,
+        });
+      });
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to reject booking result',
+      error: error.message,
+    });
+  }
+};
+
 export const getAdminStats = async (req: Request, res: Response): Promise<void> => {
   try {
     const totalUsers = await User.countDocuments();

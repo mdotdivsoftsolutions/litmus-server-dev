@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, getAdminBookings, approveBookingResult, getAdminStats, getAdminPayments } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, getAdminBookings, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments } from '../controllers/admin.controller';
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
@@ -23,6 +23,7 @@ router.delete('/lab/:id', deleteLab);
 // Booking Management
 router.get('/bookings', getAdminBookings);
 router.patch('/booking/:id/approve-result', approveBookingResult);
+router.patch('/booking/:id/reject-result', rejectBookingResult);
 
 // Stats & Payments
 router.get('/stats', getAdminStats);

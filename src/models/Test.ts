@@ -20,6 +20,16 @@ const TestSchema: Schema = new Schema(
     metadata: {
       type: Schema.Types.Mixed,
     },
+    applicableCategories: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+      },
+    ],
+    isApplicableToAll: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

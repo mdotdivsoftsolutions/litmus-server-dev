@@ -13,6 +13,9 @@ const CategorySchema: Schema = new Schema(
       type: String,
       trim: true,
     },
+    imageUrl: {
+      type: String,
+    },
     metadata: {
       type: Schema.Types.Mixed,
     },

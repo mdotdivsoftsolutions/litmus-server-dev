@@ -1,12 +1,63 @@
 import { Request, Response } from 'express';
 import Laboratory from '../models/Laboratory';
+import User from '../models/User';
+import { UserRole } from '../types';
+import { sendLabWelcomeEmail } from '../utils/mailer';
 
 export const createLab = async (req: Request, res: Response): Promise<void> => {
   try {
+    let generatedPassword = '';
+    
+    // Create a User account if email is provided
+    if (req.body.contactEmail && req.body.contactPhone && req.body.labName) {
+      const existingUser = await User.findOne({ email: req.body.contactEmail });
+      
+      if (existingUser) {
+        res.status(400).json({
+          success: false,
+          message: 'User with this email already exists',
+        });
+        return;
+      }
+
+      const rawPassword = req.body.password || `${req.body.labName.substring(0, 4).replace(/\s/g, '')}${req.body.contactPhone.substring(0, 4)}${req.body.startingYear || ''}`;
+      
+      if (!req.body.password) {
+        generatedPassword = rawPassword;
+      }
+
+      const user = new User({
+        firstName: req.body.labName,
+        email: req.body.contactEmail,
+        phone: req.body.contactPhone,
+        password: rawPassword,
+        role: UserRole.LAB,
+      });
+
+      await user.save();
+      req.body.userId = user._id;
+    } else if (!req.body.userId) {
+       res.status(400).json({
+          success: false,
+          message: 'Contact email, phone, and lab name are required to create a lab account.',
+       });
+       return;
+    }
+
     const lab = await Laboratory.create(req.body);
+    
+    if (req.body.contactEmail) {
+      sendLabWelcomeEmail(
+        req.body.contactEmail,
+        req.body.labName,
+        generatedPassword || undefined
+      );
+    }
+
     res.status(201).json({
       success: true,
       data: lab,
+      generatedPassword: generatedPassword || undefined,
     });
   } catch (error: any) {
     res.status(400).json({
@@ -19,7 +70,7 @@ export const createLab = async (req: Request, res: Response): Promise<void> => {
 
 export const getLabs = async (req: Request, res: Response): Promise<void> => {
   try {
-    const labs = await Laboratory.find().populate('tests');
+    const labs = await Laboratory.find({ isDeleted: { $ne: true } }).populate('tests');
     res.status(200).json({
       success: true,
       count: labs.length,
@@ -74,7 +125,7 @@ const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => 
 
 export const getLabsPublic = async (req: Request, res: Response): Promise<void> => {
   try {
-    let labs = await Laboratory.find().populate('tests');
+    let labs = await Laboratory.find({ isDeleted: { $ne: true } }).populate('tests');
     
     // Check if location based sorting is requested
     const lat = req.query.lat ? parseFloat(req.query.lat as string) : null;
@@ -183,7 +234,11 @@ export const updateLab = async (req: Request, res: Response): Promise<void> => {
 
 export const deleteLab = async (req: Request, res: Response): Promise<void> => {
   try {
-    const lab = await Laboratory.findByIdAndDelete(req.params.id);
+    const lab = await Laboratory.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true }
+    );
 
     if (!lab) {
       res.status(404).json({
