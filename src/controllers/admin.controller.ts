@@ -3,7 +3,7 @@ import User from '../models/User';
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const users = await User.find();
+    const users = await User.find({ role: 'USER' });
     res.status(200).json({
       success: true,
       count: users.length,

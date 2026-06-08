@@ -1185,3 +1185,24 @@
 2026-06-08 17:28:40:2840 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [36m304[0m 274.287 ms - -[0m[39m
 2026-06-08 17:28:43:2843 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 1.968 ms - 65[0m[39m
 2026-06-08 17:28:43:2843 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.763 ms - 53[0m[39m
+2026-06-08 17:29:33:2933 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.856 ms - 65[0m[39m
+2026-06-08 17:29:33:2933 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.316 ms - 53[0m[39m
+2026-06-08 17:30:40:3040 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.405 ms - 65[0m[39m
+2026-06-08 17:30:40:3040 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 1.141 ms - 53[0m[39m
+2026-06-08 17:30:44:3044 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 276.615 ms - -[0m[39m
+2026-06-08 17:30:44:3044 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [36m304[0m 276.098 ms - -[0m[39m
+2026-06-08 17:30:45:3045 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.598 ms - -[0m[39m
+2026-06-08 17:30:45:3045 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 285.865 ms - -[0m[39m
+2026-06-08 17:30:49:3049 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [36m304[0m 267.582 ms - -[0m[39m
+2026-06-08 17:30:49:3049 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 281.509 ms - -[0m[39m
+2026-06-08 17:30:52:3052 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 4.794 ms - 65[0m[39m
+2026-06-08 17:30:52:3052 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 1.113 ms - 53[0m[39m
+2026-06-08 17:31:03:313 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.746 ms - 65[0m[39m
+2026-06-08 17:31:03:313 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.325 ms - 53[0m[39m
+2026-06-08 17:31:08:318 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 1.476 ms - 65[0m[39m
+2026-06-08 17:31:08:318 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.408 ms - 53[0m[39m
+2026-06-08 17:31:21:3121 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 3.775 ms - 65[0m[39m
+2026-06-08 17:31:21:3121 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.753 ms - 53[0m[39m
+2026-06-08 17:33:35:3335 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-08 17:33:35:3335 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-08 17:33:39:3339 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
