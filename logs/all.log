@@ -1206,3 +1206,57 @@
 2026-06-08 17:33:35:3335 [32minfo[39m: [32mServer running in development mode on port 5000[39m
 2026-06-08 17:33:35:3335 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
 2026-06-08 17:33:39:3339 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-08 17:34:09:349 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 316.227 ms - -[0m[39m
+2026-06-08 17:34:09:349 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [36m304[0m 286.941 ms - -[0m[39m
+2026-06-08 17:34:10:3410 [32minfo[39m: [32m[0mGET /api/v1/admin/users [32m200[0m 272.649 ms - 537[0m[39m
+2026-06-08 17:34:23:3423 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.714 ms - -[0m[39m
+2026-06-08 17:34:23:3423 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 277.603 ms - -[0m[39m
+2026-06-08 17:34:31:3431 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 259.905 ms - -[0m[39m
+2026-06-08 17:34:31:3431 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 261.658 ms - -[0m[39m
+2026-06-08 17:34:34:3434 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 279.328 ms - -[0m[39m
+2026-06-08 17:34:34:3434 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 306.760 ms - -[0m[39m
+2026-06-08 17:34:36:3436 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.762 ms - -[0m[39m
+2026-06-08 17:34:36:3436 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 270.454 ms - -[0m[39m
+2026-06-08 17:34:50:3450 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.974 ms - -[0m[39m
+2026-06-08 17:34:50:3450 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 266.131 ms - -[0m[39m
+2026-06-08 17:34:56:3456 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 263.776 ms - -[0m[39m
+2026-06-08 17:34:57:3457 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.599 ms - -[0m[39m
+2026-06-08 17:34:57:3457 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 262.762 ms - -[0m[39m
+2026-06-08 17:35:40:3540 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 288.515 ms - -[0m[39m
+2026-06-08 17:35:40:3540 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 290.942 ms - -[0m[39m
+2026-06-08 17:35:42:3542 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 318.017 ms - -[0m[39m
+2026-06-08 17:35:44:3544 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 301.051 ms - -[0m[39m
+2026-06-08 17:35:45:3545 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 268.323 ms - -[0m[39m
+2026-06-08 17:35:47:3547 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 298.539 ms - -[0m[39m
+2026-06-08 17:35:48:3548 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 265.039 ms - -[0m[39m
+2026-06-08 17:35:49:3549 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 269.117 ms - -[0m[39m
+2026-06-08 17:35:51:3551 [32minfo[39m: [32m[0mGET /api/v1/products [36m304[0m 549.361 ms - -[0m[39m
+2026-06-08 17:35:55:3555 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 403.283 ms - -[0m[39m
+2026-06-08 17:35:56:3556 [32minfo[39m: [32m[0mGET /api/v1/products [36m304[0m 648.349 ms - -[0m[39m
+2026-06-08 17:35:56:3556 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 275.362 ms - -[0m[39m
+2026-06-08 17:36:02:362 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.594 ms - -[0m[39m
+2026-06-08 17:36:02:362 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 270.372 ms - -[0m[39m
+2026-06-08 17:36:55:3655 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 405.727 ms - -[0m[39m
+2026-06-08 17:36:55:3655 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 419.345 ms - -[0m[39m
+2026-06-09 15:05:47:547 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-09 15:05:47:547 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-09 15:05:49:549 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-09 15:16:10:1610 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 3.531 ms - 65[0m[39m
+2026-06-09 15:16:11:1611 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 1.537 ms - 53[0m[39m
+2026-06-09 15:16:16:1616 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 349.019 ms - 380[0m[39m
+2026-06-09 15:16:16:1616 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 270.755 ms - 275[0m[39m
+2026-06-09 15:18:09:189 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-09 15:18:09:189 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-09 15:18:12:1812 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-09 15:18:22:1822 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-09 15:18:22:1822 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-09 15:18:24:1824 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-09 15:18:43:1843 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-09 15:18:43:1843 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-09 15:18:46:1846 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-09 15:19:09:199 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-09 15:19:09:199 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-09 15:19:11:1911 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-09 15:19:25:1925 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-09 15:19:25:1925 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-09 15:19:27:1927 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m

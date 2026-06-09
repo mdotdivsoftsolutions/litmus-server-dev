@@ -8,6 +8,31 @@ const router = Router();
 
 /**
  * @swagger
+ * /api/v1/auth/send-otp:
+ *   post:
+ *     summary: Send OTP for phone verification
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - phone
+ *             properties:
+ *               phone:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: OTP sent successfully
+ *       400:
+ *         description: Validation error
+ */
+router.post('/send-otp', validate(sendOtpSchema), AuthController.sendOtp);
+
+/**
+ * @swagger
  * /api/v1/auth/register:
  *   post:
  *     summary: Register a new user
@@ -24,6 +49,7 @@ const router = Router();
  *               - email
  *               - password
  *               - phone
+ *               - otp
  *             properties:
  *               firstName:
  *                 type: string
@@ -37,6 +63,8 @@ const router = Router();
  *                 minLength: 6
  *               phone:
  *                 type: string
+ *               otp:
+ *                 type: string
  *               role:
  *                 type: string
  *                 enum: [USER, ADMIN, LAB]
@@ -44,19 +72,7 @@ const router = Router();
  *       201:
  *         description: User registered successfully
  *       400:
- *         description: Validation error or email already exists
- */
-router.post('/send-otp', validate(sendOtpSchema), AuthController.sendOtp);
-
-/**
- * @swagger
- * /api/v1/auth/register:
- *   post:
- *     summary: Register a new user
- *     tags: [Auth]
- *     responses:
- *       201:
- *         description: User registered successfully
+ *         description: Validation error or invalid OTP
  */
 router.post('/register', validate(registerSchema), AuthController.register);
 
