@@ -17,6 +17,7 @@ app.use(cors({
     'http://localhost:3000',
     'http://127.0.0.1:5173',
     'http://127.0.0.1:8080',
+    'https://litmus-frontend-dev.vercel.app/',
     process.env.FRONTEND_URL || '' // Adds your production domain from .env
   ],
   credentials: true,
