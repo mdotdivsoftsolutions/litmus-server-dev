@@ -125,7 +125,11 @@ const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => 
 
 export const getLabsPublic = async (req: Request, res: Response): Promise<void> => {
   try {
-    let labs = await Laboratory.find({ isDeleted: { $ne: true } }).populate('tests');
+    const query: any = { isDeleted: { $ne: true } };
+    if (req.query.isTrusted === 'true') {
+      query.isTrusted = true;
+    }
+    let labs = await Laboratory.find(query).populate('tests');
     
     // Check if location based sorting is requested
     const lat = req.query.lat ? parseFloat(req.query.lat as string) : null;

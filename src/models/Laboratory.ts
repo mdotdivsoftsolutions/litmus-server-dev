@@ -29,6 +29,10 @@ const LaboratorySchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    isTrusted: {
+      type: Boolean,
+      default: false,
+    },
     nablAccreditationNumber: {
       type: String,
       trim: true,

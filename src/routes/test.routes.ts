@@ -11,6 +11,22 @@ const router = Router();
  *   get:
  *     summary: Get all tests
  *     tags: [Test]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of items per page
+ *       - in: query
+ *         name: isPopular
+ *         schema:
+ *           type: boolean
+ *         description: Filter by popular tests
  *     responses:
  *       200:
  *         description: List of tests

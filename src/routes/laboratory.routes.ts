@@ -10,6 +10,17 @@ const router = Router();
  *   get:
  *     summary: Get all laboratories (public)
  *     tags: [Laboratory]
+ *     parameters:
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *         description: Search by location text
+ *       - in: query
+ *         name: isTrusted
+ *         schema:
+ *           type: boolean
+ *         description: Filter trusted laboratories
  *     responses:
  *       200:
  *         description: List of laboratories

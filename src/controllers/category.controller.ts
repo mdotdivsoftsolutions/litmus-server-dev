@@ -22,20 +22,31 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
     const categories = await Category.aggregate([
       {
         $lookup: {
-          from: 'products',
-          localField: '_id',
-          foreignField: 'categoryId',
-          as: 'products'
+          from: 'tests',
+          let: { categoryId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    { $eq: ['$isApplicableToAll', true] },
+                    { $in: ['$$categoryId', { $ifNull: ['$applicableCategories', []] }] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: 'tests'
         }
       },
       {
         $addFields: {
-          productCount: { $size: '$products' }
+          testCount: { $size: '$tests' }
         }
       },
       {
         $project: {
-          products: 0
+          tests: 0
         }
       }
     ]);

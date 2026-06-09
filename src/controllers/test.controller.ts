@@ -19,10 +19,33 @@ export const createTest = async (req: Request, res: Response): Promise<void> => 
 
 export const getTests = async (req: Request, res: Response): Promise<void> => {
   try {
-    const tests = await Test.find().populate('applicableCategories', 'name');
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 0; // 0 means no limit
+    
+    const query: any = {};
+    if (req.query.isPopular === 'true') {
+      query.isPopular = true;
+    } else if (req.query.isPopular === 'false') {
+      query.isPopular = false;
+    }
+
+    const skip = (page - 1) * (limit || 10);
+
+    const testQuery = Test.find(query).populate('applicableCategories', 'name');
+    
+    if (limit > 0) {
+      testQuery.skip(skip).limit(limit);
+    }
+
+    const tests = await testQuery;
+    const total = await Test.countDocuments(query);
+
     res.status(200).json({
       success: true,
       count: tests.length,
+      total,
+      page,
+      pages: limit > 0 ? Math.ceil(total / limit) : 1,
       data: tests,
     });
   } catch (error: any) {

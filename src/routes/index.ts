@@ -9,6 +9,7 @@ import bookingRoutes from './booking.routes';
 import uploadRoutes from './upload.routes';
 import paymentRoutes from './payment.routes';
 import labPortalRoutes from './lab-portal.routes';
+import reviewRoutes from './review.routes';
 
 const router = Router();
 
@@ -23,5 +24,6 @@ router.use('/bookings', bookingRoutes);
 router.use('/booking', bookingRoutes); // To satisfy the GET /booking/:id request if they strictly use the singular path as well
 router.use('/upload', uploadRoutes);
 router.use('/payment', paymentRoutes);
+router.use('/reviews', reviewRoutes);
 
 export default router;

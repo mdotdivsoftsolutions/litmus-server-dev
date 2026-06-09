@@ -17,6 +17,18 @@ const TestSchema: Schema = new Schema(
       required: [true, 'Test price is required'],
       min: 0,
     },
+    offerPrice: {
+      type: Number,
+      min: 0,
+    },
+    turnAroundTime: {
+      type: String,
+      trim: true,
+    },
+    isPopular: {
+      type: Boolean,
+      default: false,
+    },
     metadata: {
       type: Schema.Types.Mixed,
     },

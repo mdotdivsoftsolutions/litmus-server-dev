@@ -50,6 +50,7 @@ export interface ILaboratory extends Document {
   contactPhone?: string;
   isNablAccredited?: boolean;
   isFssaiApproved?: boolean;
+  isTrusted?: boolean;
   nablAccreditationNumber?: string;
   location: any;
   tests: mongoose.Types.ObjectId[];
@@ -94,6 +95,9 @@ export interface ITest extends Document {
   testName: string;
   description?: string;
   price: number;
+  offerPrice?: number;
+  turnAroundTime?: string;
+  isPopular?: boolean;
   metadata?: any;
   applicableCategories?: mongoose.Types.ObjectId[];
   isApplicableToAll: boolean;
