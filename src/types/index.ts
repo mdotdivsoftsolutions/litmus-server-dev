@@ -130,3 +130,14 @@ export interface IPayment extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IReview extends Document {
+  name: string;
+  city: string;
+  rating: number;
+  text: string;
+  dateText?: string;
+  isVisible: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
