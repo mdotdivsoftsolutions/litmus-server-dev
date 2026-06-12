@@ -9,6 +9,7 @@ const router = Router();
  * /api/v1/laboratory:
  *   get:
  *     summary: Get all laboratories (public)
+ *     description: Returns a list of active (isActive=true) laboratories.
  *     tags: [Laboratory]
  *     parameters:
  *       - in: query
@@ -42,6 +43,8 @@ router.get('/', getLabsPublic);
  *     responses:
  *       200:
  *         description: Laboratory details
+ *       404:
+ *         description: Laboratory not found or inactive
  */
 router.get('/:id', getLabByIdPublic);
 

@@ -125,7 +125,7 @@ const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => 
 
 export const getLabsPublic = async (req: Request, res: Response): Promise<void> => {
   try {
-    const query: any = { isDeleted: { $ne: true } };
+    const query: any = { isDeleted: { $ne: true }, isActive: true };
     if (req.query.isTrusted === 'true') {
       query.isTrusted = true;
     }
@@ -187,7 +187,7 @@ export const getLabByIdPublic = async (req: Request, res: Response): Promise<voi
   try {
     const lab = await Laboratory.findById(req.params.id).populate('tests');
     
-    if (!lab) {
+    if (!lab || lab.isDeleted || !lab.isActive) {
       res.status(404).json({
         success: false,
         message: 'Laboratory not found',

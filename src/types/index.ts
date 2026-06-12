@@ -62,8 +62,10 @@ export interface ILaboratory extends Document {
   metadata?: any;
   startingYear?: number;
   affiliationDocs?: string[];
+  expertiseArea?: string[];
   additionalDetails?: string;
   isDeleted?: boolean;
+  isActive?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -138,6 +140,25 @@ export interface IReview extends Document {
   text: string;
   dateText?: string;
   isVisible: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IPackage extends Document {
+  name: string;
+  description: string;
+  testCount: number;
+  price: number;
+  mrp: number;
+  tat: string;
+  category: string;
+  categoryId?: mongoose.Types.ObjectId;
+  tests?: mongoose.Types.ObjectId[];
+  discountType?: 'PERCENTAGE' | 'FLAT';
+  discountValue?: number;
+  tag?: string;
+  features: string[];
+  createdBy: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }

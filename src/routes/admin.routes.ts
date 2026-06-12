@@ -90,6 +90,19 @@ router.patch('/user/status', updateUserStatus);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               labName:
+ *                 type: string
+ *               location:
+ *                 type: object
+ *               expertiseArea:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Max 4 expertise areas
+ *               isActive:
+ *                 type: boolean
+ *                 description: Toggle visibility of the lab to the public
  *     responses:
  *       201:
  *         description: Lab created successfully
@@ -150,6 +163,16 @@ router.get('/lab/:id', getLabById);
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               labName:
+ *                 type: string
+ *               expertiseArea:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               isActive:
+ *                 type: boolean
+ *                 description: Visibility toggle
  *     responses:
  *       200:
  *         description: Lab updated successfully

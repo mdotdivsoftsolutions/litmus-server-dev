@@ -29,9 +29,18 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
       query.isPopular = false;
     }
 
+    if (req.query.category) {
+      query.$or = [
+        { applicableCategories: req.query.category },
+        { isApplicableToAll: true }
+      ];
+    }
+
     const skip = (page - 1) * (limit || 10);
 
-    const testQuery = Test.find(query).populate('applicableCategories', 'name');
+    const testQuery = Test.find(query)
+      .populate('applicableCategories', 'name')
+      .populate('labId', 'labName');
     
     if (limit > 0) {
       testQuery.skip(skip).limit(limit);
@@ -59,7 +68,9 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
 
 export const getTestById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const test = await Test.findById(req.params.id).populate('applicableCategories', 'name');
+    const test = await Test.findById(req.params.id)
+      .populate('applicableCategories', 'name')
+      .populate('labId', 'labName');
     if (!test) {
       res.status(404).json({
         success: false,

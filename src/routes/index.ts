@@ -10,8 +10,15 @@ import uploadRoutes from './upload.routes';
 import paymentRoutes from './payment.routes';
 import labPortalRoutes from './lab-portal.routes';
 import reviewRoutes from './review.routes';
+import packageRoutes from './package.routes';
+import tagRoutes from './tag.routes';
+import testTypeRoutes from './testType.routes';
+import logisticsRoutes from './logistics.routes';
+import infrastructureRoutes from './infrastructure.routes';
+import activityStatusRoutes from './activityStatus.routes';
 
 const router = Router();
+
 
 router.use('/auth', authRoutes);
 router.use('/admin', adminRoutes);
@@ -25,5 +32,11 @@ router.use('/booking', bookingRoutes); // To satisfy the GET /booking/:id reques
 router.use('/upload', uploadRoutes);
 router.use('/payment', paymentRoutes);
 router.use('/reviews', reviewRoutes);
+router.use('/packages', packageRoutes);
+router.use('/tags', tagRoutes);
+router.use('/test-types', testTypeRoutes);
+router.use('/logistics', logisticsRoutes);
+router.use('/infrastructure', infrastructureRoutes);
+router.use('/activity-status', activityStatusRoutes);
 
 export default router;

@@ -42,6 +42,15 @@ const TestSchema: Schema = new Schema(
       type: Boolean,
       default: false,
     },
+    creatorType: {
+      type: String,
+      enum: ['ADMIN', 'LAB'],
+      default: 'ADMIN',
+    },
+    labId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Laboratory',
+    },
   },
   {
     timestamps: true,
