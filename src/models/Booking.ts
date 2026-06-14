@@ -11,19 +11,46 @@ const BookingSchema: Schema = new Schema(
     labId: {
       type: Schema.Types.ObjectId,
       ref: 'Laboratory',
-      required: [true, 'Lab ID is required'],
+      // Optional: because "Litmus Smart Allocation" means no lab is assigned yet
     },
-    productId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Product',
-      required: [true, 'Product ID is required'],
-    },
-    selectedTests: [
+    items: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Test',
-      },
+        itemType: {
+          type: String,
+          enum: ['TEST', 'PACKAGE'],
+          required: true,
+        },
+        testId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Test',
+        },
+        packageId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Package',
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        mrp: {
+          type: Number,
+          required: true,
+        },
+        samples: [
+          {
+            productName: { type: String, required: true },
+            quantity: { type: String },
+            batchNumber: { type: String },
+            sku: { type: String },
+            specifics: { type: String },
+            selectedParameters: [{ type: String }],
+          }
+        ]
+      }
     ],
+    totalAmount: {
+      type: Number,
+    },
     status: {
       type: String,
       enum: Object.values(BookingStatus),

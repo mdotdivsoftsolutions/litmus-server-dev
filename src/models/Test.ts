@@ -21,6 +21,16 @@ const TestSchema: Schema = new Schema(
       type: Number,
       min: 0,
     },
+    discountType: {
+      type: String,
+      enum: ['FLAT', 'PERCENTAGE', 'NONE'],
+      default: 'NONE',
+    },
+    discountValue: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     turnAroundTime: {
       type: String,
       trim: true,

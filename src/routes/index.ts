@@ -16,6 +16,7 @@ import testTypeRoutes from './testType.routes';
 import logisticsRoutes from './logistics.routes';
 import infrastructureRoutes from './infrastructure.routes';
 import activityStatusRoutes from './activityStatus.routes';
+import cartRoutes from './cart.routes';
 
 const router = Router();
 
@@ -38,5 +39,6 @@ router.use('/test-types', testTypeRoutes);
 router.use('/logistics', logisticsRoutes);
 router.use('/infrastructure', infrastructureRoutes);
 router.use('/activity-status', activityStatusRoutes);
+router.use('/cart', cartRoutes);
 
 export default router;

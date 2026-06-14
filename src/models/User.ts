@@ -42,7 +42,11 @@ const UserSchema: Schema = new Schema(
       default: true,
     },
     documents: [{
-      type: String,
+      name: String,
+      url: String,
+      docType: String,
+      status: { type: String, default: 'Pending' },
+      size: String
     }],
     address: {
       type: Schema.Types.Mixed,

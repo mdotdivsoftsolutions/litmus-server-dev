@@ -132,6 +132,31 @@ export class AuthController {
     }
   }
 
+  static async changePassword(req: Request, res: Response): Promise<void> {
+    try {
+      const { currentPassword, newPassword } = req.body;
+      const user = await User.findById(req.user?.id).select('+password');
+      if (!user) {
+        res.status(404).json({ success: false, message: 'User not found' });
+        return;
+      }
+      
+      const isMatch = await user.comparePassword(currentPassword);
+      if (!isMatch) {
+        res.status(401).json({ success: false, message: 'Incorrect current password' });
+        return;
+      }
+      
+      user.password = newPassword;
+      await user.save();
+      
+      res.status(200).json({ success: true, message: 'Password changed successfully' });
+    } catch (error: any) {
+      logger.error(`ChangePassword Error: ${error.message}`);
+      res.status(400).json({ success: false, message: error.message });
+    }
+  }
+
   static async refreshToken(req: Request, res: Response): Promise<void> {
     try {
       const refreshToken = req.cookies.refreshToken;

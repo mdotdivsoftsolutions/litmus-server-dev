@@ -29,7 +29,13 @@ export interface IUser extends Document {
   phone: string;
   role: UserRole;
   isActive: boolean;
-  documents?: string[];
+  documents?: {
+    name: string;
+    url: string;
+    docType: string;
+    status: string;
+    size?: string;
+  }[];
   address?: any;
   fssaiNumber?: string;
   metadata?: any;
@@ -107,11 +113,31 @@ export interface ITest extends Document {
   updatedAt: Date;
 }
 
+export interface ISampleDetail {
+  id?: string;
+  productName: string;
+  quantity: string;
+  batchNumber: string;
+  sku: string;
+  specifics: string;
+  selectedParameters: string[];
+}
+
+export interface IBookingItem {
+  _id?: mongoose.Types.ObjectId;
+  itemType: 'TEST' | 'PACKAGE';
+  testId?: mongoose.Types.ObjectId;
+  packageId?: mongoose.Types.ObjectId;
+  samples: ISampleDetail[];
+  price: number;
+  mrp: number;
+}
+
 export interface IBooking extends Document {
   userId: mongoose.Types.ObjectId;
   labId: mongoose.Types.ObjectId;
-  productId: mongoose.Types.ObjectId;
-  selectedTests: mongoose.Types.ObjectId[];
+  items: IBookingItem[];
+  totalAmount?: number;
   status: BookingStatus;
   paymentStatus: PaymentStatus;
   bookingDate: Date;
@@ -159,6 +185,24 @@ export interface IPackage extends Document {
   tag?: string;
   features: string[];
   createdBy: mongoose.Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ICartItem {
+  _id?: mongoose.Types.ObjectId;
+  itemType: 'TEST' | 'PACKAGE';
+  testId?: mongoose.Types.ObjectId;
+  packageId?: mongoose.Types.ObjectId;
+  parameters?: string[];
+  price: number;
+  mrp: number;
+}
+
+export interface ICart extends Document {
+  userId?: mongoose.Types.ObjectId;
+  sessionId?: string;
+  items: ICartItem[];
   createdAt: Date;
   updatedAt: Date;
 }

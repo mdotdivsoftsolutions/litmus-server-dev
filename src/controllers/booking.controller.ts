@@ -4,23 +4,28 @@ import { BookingStatus, UserRole } from '../types';
 
 export const createBooking = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { labId, productId, selectedTests, bookingDate } = req.body;
+    let { labId, items, bookingDate, totalAmount, metadata } = req.body;
     const userId = req.user?.id;
 
-    if (!labId || !productId || !bookingDate) {
+    if (!items || !items.length || !bookingDate) {
       res.status(400).json({
         success: false,
-        message: 'Please provide labId, productId, and bookingDate',
+        message: 'Please provide items, and bookingDate',
       });
       return;
+    }
+
+    if (labId === 'admin') {
+      labId = undefined; // Litmus Smart Allocation
     }
 
     const booking = await Booking.create({
       userId,
       labId,
-      productId,
-      selectedTests,
+      items,
       bookingDate,
+      totalAmount,
+      metadata,
       status: BookingStatus.PENDING,
     });
 
@@ -42,8 +47,8 @@ export const getMyBookings = async (req: Request, res: Response): Promise<void> 
     const userId = req.user?.id;
     const bookings = await Booking.find({ userId })
       .populate('labId', 'labName location')
-      .populate('productId', 'name')
-      .populate('selectedTests', 'testName price')
+      .populate('items.testId', 'testName price metadata')
+      .populate('items.packageId', 'name tests')
       .sort('-createdAt');
 
     const sanitizedBookings = bookings.map(b => {
@@ -72,8 +77,8 @@ export const getBookingById = async (req: Request, res: Response): Promise<void>
   try {
     const booking = await Booking.findById(req.params.id)
       .populate('labId')
-      .populate('productId')
-      .populate('selectedTests')
+      .populate('items.testId')
+      .populate('items.packageId')
       .populate('userId', 'firstName lastName email phone');
 
     if (!booking) {

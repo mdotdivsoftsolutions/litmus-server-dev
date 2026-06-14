@@ -163,4 +163,36 @@ router.get('/me', authMiddleware, AuthController.getMe);
  */
 router.patch('/profile', authMiddleware, AuthController.updateProfile);
 
+/**
+ * @swagger
+ * /api/v1/auth/change-password:
+ *   post:
+ *     summary: Change current user password
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - currentPassword
+ *               - newPassword
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *       400:
+ *         description: Validation error
+ *       401:
+ *         description: Incorrect password
+ */
+router.post('/change-password', authMiddleware, AuthController.changePassword);
+
 export default router;
