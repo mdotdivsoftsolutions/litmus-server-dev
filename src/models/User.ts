@@ -55,6 +55,20 @@ const UserSchema: Schema = new Schema(
       type: String,
       trim: true,
     },
+    notifications: {
+      email: {
+        type: Boolean,
+        default: true,
+      },
+      whatsapp: {
+        type: Boolean,
+        default: true,
+      },
+      promo: {
+        type: Boolean,
+        default: false,
+      },
+    },
     metadata: {
       type: Schema.Types.Mixed,
     },

@@ -38,6 +38,11 @@ export interface IUser extends Document {
   }[];
   address?: any;
   fssaiNumber?: string;
+  notifications?: {
+    email: boolean;
+    whatsapp: boolean;
+    promo: boolean;
+  };
   metadata?: any;
   createdAt: Date;
   updatedAt: Date;
