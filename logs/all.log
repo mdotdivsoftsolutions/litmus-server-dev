@@ -6296,3 +6296,13 @@
 2026-06-15 19:32:22:3222 [32minfo[39m: [32mServer running in development mode on port 5000[39m
 2026-06-15 19:32:22:3222 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
 2026-06-15 19:32:25:3225 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-15 19:32:38:3238 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-06-15 19:32:38:3238 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-06-15 19:32:41:3241 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-06-15 19:34:25:3425 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 3.896 ms - 65[0m[39m
+2026-06-15 19:34:25:3425 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.584 ms - 53[0m[39m
+2026-06-15 19:34:25:3425 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 267.805 ms - -[0m[39m
+2026-06-15 19:34:25:3425 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [36m304[0m 288.991 ms - -[0m[39m
+2026-06-15 19:34:25:3425 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 289.435 ms - -[0m[39m
+2026-06-15 19:34:26:3426 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [36m304[0m 539.781 ms - -[0m[39m
+2026-06-15 19:34:26:3426 [32minfo[39m: [32m[0mGET /api/v1/packages [36m304[0m 560.546 ms - -[0m[39m
