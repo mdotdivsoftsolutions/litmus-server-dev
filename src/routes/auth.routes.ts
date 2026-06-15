@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { validate } from '../middleware/validate.middleware';
 import { authMiddleware } from '../middleware/auth.middleware';
-import { registerSchema, loginSchema, sendOtpSchema } from '../validators/auth.validator';
+import { registerSchema, loginSchema, sendOtpSchema, forgotPasswordSchema, resetPasswordSchema } from '../validators/auth.validator';
 
 const router = Router();
 
@@ -30,6 +30,65 @@ const router = Router();
  *         description: Validation error
  */
 router.post('/send-otp', validate(sendOtpSchema), AuthController.sendOtp);
+
+/**
+ * @swagger
+ * /api/v1/auth/forgot-password:
+ *   post:
+ *     summary: Request OTP for password reset
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: OTP sent successfully
+ *       400:
+ *         description: Validation error or user not found
+ */
+router.post('/forgot-password', validate(forgotPasswordSchema), AuthController.forgotPassword);
+
+/**
+ * @swagger
+ * /api/v1/auth/reset-password:
+ *   post:
+ *     summary: Reset password using OTP
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *               - newPassword
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               otp:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *                 minLength: 6
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ *       400:
+ *         description: Validation error or invalid OTP
+ */
+router.post('/reset-password', validate(resetPasswordSchema), AuthController.resetPassword);
 
 /**
  * @swagger

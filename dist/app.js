@@ -14,7 +14,15 @@ const logger_1 = __importDefault(require("./utils/logger"));
 const app = (0, express_1.default)();
 // Middlewares
 app.use((0, cors_1.default)({
-    origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : 'http://localhost:3000',
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:8080',
+        'http://localhost:3000',
+        'http://127.0.0.1:5173',
+        'http://127.0.0.1:8080',
+        'https://litmus-frontend-dev.vercel.app',
+        process.env.FRONTEND_URL || '' // Adds your production domain from .env
+    ],
     credentials: true,
 }));
 app.use(express_1.default.json());

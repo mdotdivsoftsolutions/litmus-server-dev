@@ -24,10 +24,52 @@ const createTest = async (req, res) => {
 exports.createTest = createTest;
 const getTests = async (req, res) => {
     try {
-        const tests = await Test_1.default.find();
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = req.query.limit ? parseInt(req.query.limit, 10) : 0; // 0 means no limit
+        const query = {};
+        if (req.query.isPopular === 'true') {
+            query.isPopular = true;
+        }
+        else if (req.query.isPopular === 'false') {
+            query.isPopular = false;
+        }
+        if (req.query.category) {
+            query.$or = [
+                { applicableCategories: req.query.category },
+                { isApplicableToAll: true }
+            ];
+        }
+        if (req.query.search) {
+            const searchRegex = new RegExp(req.query.search, 'i');
+            if (query.$or) {
+                query.$and = [
+                    { $or: query.$or },
+                    { $or: [{ testName: searchRegex }, { parameters: searchRegex }] }
+                ];
+                delete query.$or;
+            }
+            else {
+                query.$or = [
+                    { testName: searchRegex },
+                    { parameters: searchRegex }
+                ];
+            }
+        }
+        const skip = (page - 1) * (limit || 10);
+        const testQuery = Test_1.default.find(query)
+            .populate('applicableCategories', 'name')
+            .populate('labId', 'labName');
+        if (limit > 0) {
+            testQuery.skip(skip).limit(limit);
+        }
+        const tests = await testQuery;
+        const total = await Test_1.default.countDocuments(query);
         res.status(200).json({
             success: true,
             count: tests.length,
+            total,
+            page,
+            pages: limit > 0 ? Math.ceil(total / limit) : 1,
             data: tests,
         });
     }
@@ -42,7 +84,9 @@ const getTests = async (req, res) => {
 exports.getTests = getTests;
 const getTestById = async (req, res) => {
     try {
-        const test = await Test_1.default.findById(req.params.id);
+        const test = await Test_1.default.findById(req.params.id)
+            .populate('applicableCategories', 'name')
+            .populate('labId', 'labName');
         if (!test) {
             res.status(404).json({
                 success: false,

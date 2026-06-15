@@ -36,11 +36,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAdminPayments = exports.getAdminStats = exports.approveBookingResult = exports.getAdminBookings = exports.updateUserStatus = exports.getUserById = exports.getUsers = void 0;
+exports.getAdminPayments = exports.getAdminStats = exports.rejectBookingResult = exports.approveBookingResult = exports.getAdminBookings = exports.updateUserStatus = exports.getUserById = exports.getUsers = void 0;
 const User_1 = __importDefault(require("../models/User"));
+const types_1 = require("../types");
 const getUsers = async (req, res) => {
     try {
-        const users = await User_1.default.find();
+        const users = await User_1.default.find({ role: types_1.UserRole.USER });
         res.status(200).json({
             success: true,
             count: users.length,
@@ -170,6 +171,44 @@ const approveBookingResult = async (req, res) => {
     }
 };
 exports.approveBookingResult = approveBookingResult;
+const rejectBookingResult = async (req, res) => {
+    try {
+        const { reason } = req.body;
+        Promise.resolve().then(() => __importStar(require('../models/Booking'))).then(async ({ default: Booking }) => {
+            Promise.resolve().then(() => __importStar(require('../types'))).then(async ({ BookingStatus }) => {
+                const booking = await Booking.findById(req.params.id);
+                if (!booking) {
+                    res.status(404).json({
+                        success: false,
+                        message: 'Booking not found',
+                    });
+                    return;
+                }
+                booking.isReportApprovedByAdmin = false;
+                booking.status = BookingStatus.IN_PROGRESS; // Revert status
+                booking.reportFiles = []; // Remove rejected reports
+                // Optionally save the rejection reason in metadata or notes
+                if (!booking.metadata)
+                    booking.metadata = {};
+                booking.metadata.rejectionReason = reason;
+                await booking.save();
+                res.status(200).json({
+                    success: true,
+                    message: 'Booking result rejected and sent back to lab',
+                    data: booking,
+                });
+            });
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to reject booking result',
+            error: error.message,
+        });
+    }
+};
+exports.rejectBookingResult = rejectBookingResult;
 const getAdminStats = async (req, res) => {
     try {
         const totalUsers = await User_1.default.countDocuments();

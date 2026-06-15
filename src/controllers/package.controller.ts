@@ -71,7 +71,16 @@ export const createPackage = async (req: Request, res: Response) => {
 // @access  Public
 export const getPackages = async (req: Request, res: Response) => {
   try {
-    const packages = await Package.find()
+    const query: any = {};
+    if (req.query.search) {
+      const searchRegex = new RegExp(req.query.search as string, 'i');
+      query.$or = [
+        { name: searchRegex },
+        { description: searchRegex }
+      ];
+    }
+
+    const packages = await Package.find(query)
       .populate('categoryId', 'name')
       .populate('tests', 'testName price offerPrice')
       .sort({ createdAt: -1 });

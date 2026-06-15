@@ -8,18 +8,274 @@ const router = (0, express_1.Router)();
 // Protect all admin routes
 router.use(auth_middleware_1.authMiddleware, auth_middleware_1.adminMiddleware);
 // User Management
+/**
+ * @swagger
+ * /api/v1/admin/users:
+ *   get:
+ *     summary: Get all users (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of users retrieved successfully
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Admin access required
+ */
 router.get('/users', admin_controller_1.getUsers);
+/**
+ * @swagger
+ * /api/v1/admin/user/{id}:
+ *   get:
+ *     summary: Get user by ID (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User retrieved successfully
+ *       404:
+ *         description: User not found
+ */
 router.get('/user/:id', admin_controller_1.getUserById);
+/**
+ * @swagger
+ * /api/v1/admin/user/status:
+ *   patch:
+ *     summary: Update user status (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [ACTIVE, INACTIVE, BLOCKED]
+ *     responses:
+ *       200:
+ *         description: User status updated successfully
+ */
 router.patch('/user/status', admin_controller_1.updateUserStatus);
 // Lab Management
+/**
+ * @swagger
+ * /api/v1/admin/lab:
+ *   post:
+ *     summary: Create a new lab (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               labName:
+ *                 type: string
+ *               location:
+ *                 type: object
+ *               expertiseArea:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Max 4 expertise areas
+ *               isActive:
+ *                 type: boolean
+ *                 description: Toggle visibility of the lab to the public
+ *     responses:
+ *       201:
+ *         description: Lab created successfully
+ */
 router.post('/lab', laboratory_controller_1.createLab);
+/**
+ * @swagger
+ * /api/v1/admin/labs:
+ *   get:
+ *     summary: Get all labs (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of labs
+ */
 router.get('/labs', laboratory_controller_1.getLabs);
+/**
+ * @swagger
+ * /api/v1/admin/lab/{id}:
+ *   get:
+ *     summary: Get lab by ID (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Lab details
+ */
+router.get('/lab/:id', laboratory_controller_1.getLabById);
+/**
+ * @swagger
+ * /api/v1/admin/lab/{id}:
+ *   patch:
+ *     summary: Update lab (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               labName:
+ *                 type: string
+ *               expertiseArea:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               isActive:
+ *                 type: boolean
+ *                 description: Visibility toggle
+ *     responses:
+ *       200:
+ *         description: Lab updated successfully
+ */
 router.patch('/lab/:id', laboratory_controller_1.updateLab);
+/**
+ * @swagger
+ * /api/v1/admin/lab/{id}:
+ *   delete:
+ *     summary: Delete lab (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Lab deleted successfully
+ */
 router.delete('/lab/:id', laboratory_controller_1.deleteLab);
 // Booking Management
+/**
+ * @swagger
+ * /api/v1/admin/bookings:
+ *   get:
+ *     summary: Get all bookings (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all bookings
+ */
 router.get('/bookings', admin_controller_1.getAdminBookings);
+/**
+ * @swagger
+ * /api/v1/admin/booking/{id}/approve-result:
+ *   patch:
+ *     summary: Approve a booking result (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Result approved
+ */
 router.patch('/booking/:id/approve-result', admin_controller_1.approveBookingResult);
+/**
+ * @swagger
+ * /api/v1/admin/booking/{id}/reject-result:
+ *   patch:
+ *     summary: Reject a booking result (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               reason:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Result rejected
+ */
+router.patch('/booking/:id/reject-result', admin_controller_1.rejectBookingResult);
 // Stats & Payments
+/**
+ * @swagger
+ * /api/v1/admin/stats:
+ *   get:
+ *     summary: Get admin dashboard stats (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Admin statistics
+ */
 router.get('/stats', admin_controller_1.getAdminStats);
+/**
+ * @swagger
+ * /api/v1/admin/payments:
+ *   get:
+ *     summary: Get all payments (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of payments
+ */
 router.get('/payments', admin_controller_1.getAdminPayments);
 exports.default = router;

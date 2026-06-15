@@ -8,6 +8,87 @@ const auth_validator_1 = require("../validators/auth.validator");
 const router = (0, express_1.Router)();
 /**
  * @swagger
+ * /api/v1/auth/send-otp:
+ *   post:
+ *     summary: Send OTP for phone verification
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - phone
+ *             properties:
+ *               phone:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: OTP sent successfully
+ *       400:
+ *         description: Validation error
+ */
+router.post('/send-otp', (0, validate_middleware_1.validate)(auth_validator_1.sendOtpSchema), auth_controller_1.AuthController.sendOtp);
+/**
+ * @swagger
+ * /api/v1/auth/forgot-password:
+ *   post:
+ *     summary: Request OTP for password reset
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: OTP sent successfully
+ *       400:
+ *         description: Validation error or user not found
+ */
+router.post('/forgot-password', (0, validate_middleware_1.validate)(auth_validator_1.forgotPasswordSchema), auth_controller_1.AuthController.forgotPassword);
+/**
+ * @swagger
+ * /api/v1/auth/reset-password:
+ *   post:
+ *     summary: Reset password using OTP
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *               - newPassword
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               otp:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *                 minLength: 6
+ *     responses:
+ *       200:
+ *         description: Password reset successfully
+ *       400:
+ *         description: Validation error or invalid OTP
+ */
+router.post('/reset-password', (0, validate_middleware_1.validate)(auth_validator_1.resetPasswordSchema), auth_controller_1.AuthController.resetPassword);
+/**
+ * @swagger
  * /api/v1/auth/register:
  *   post:
  *     summary: Register a new user
@@ -24,6 +105,7 @@ const router = (0, express_1.Router)();
  *               - email
  *               - password
  *               - phone
+ *               - otp
  *             properties:
  *               firstName:
  *                 type: string
@@ -37,6 +119,8 @@ const router = (0, express_1.Router)();
  *                 minLength: 6
  *               phone:
  *                 type: string
+ *               otp:
+ *                 type: string
  *               role:
  *                 type: string
  *                 enum: [USER, ADMIN, LAB]
@@ -44,7 +128,7 @@ const router = (0, express_1.Router)();
  *       201:
  *         description: User registered successfully
  *       400:
- *         description: Validation error or email already exists
+ *         description: Validation error or invalid OTP
  */
 router.post('/register', (0, validate_middleware_1.validate)(auth_validator_1.registerSchema), auth_controller_1.AuthController.register);
 /**
@@ -129,4 +213,35 @@ router.get('/me', auth_middleware_1.authMiddleware, auth_controller_1.AuthContro
  *         description: Validation error
  */
 router.patch('/profile', auth_middleware_1.authMiddleware, auth_controller_1.AuthController.updateProfile);
+/**
+ * @swagger
+ * /api/v1/auth/change-password:
+ *   post:
+ *     summary: Change current user password
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - currentPassword
+ *               - newPassword
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *       400:
+ *         description: Validation error
+ *       401:
+ *         description: Incorrect password
+ */
+router.post('/change-password', auth_middleware_1.authMiddleware, auth_controller_1.AuthController.changePassword);
 exports.default = router;

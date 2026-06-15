@@ -36,14 +36,53 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.submitBookingResult = exports.deleteLab = exports.updateLab = exports.getLabByIdPublic = exports.getLabsPublic = exports.getLabs = exports.createLab = void 0;
+exports.submitBookingResult = exports.deleteLab = exports.updateLab = exports.getLabByIdPublic = exports.getLabsPublic = exports.getLabById = exports.getLabs = exports.createLab = void 0;
 const Laboratory_1 = __importDefault(require("../models/Laboratory"));
+const User_1 = __importDefault(require("../models/User"));
+const types_1 = require("../types");
+const mailer_1 = require("../utils/mailer");
 const createLab = async (req, res) => {
     try {
+        let generatedPassword = '';
+        // Create a User account if email is provided
+        if (req.body.contactEmail && req.body.contactPhone && req.body.labName) {
+            const existingUser = await User_1.default.findOne({ email: req.body.contactEmail });
+            if (existingUser) {
+                res.status(400).json({
+                    success: false,
+                    message: 'User with this email already exists',
+                });
+                return;
+            }
+            const rawPassword = req.body.password || `${req.body.labName.substring(0, 4).replace(/\s/g, '')}${req.body.contactPhone.substring(0, 4)}${req.body.startingYear || ''}`;
+            if (!req.body.password) {
+                generatedPassword = rawPassword;
+            }
+            const user = new User_1.default({
+                firstName: req.body.labName,
+                email: req.body.contactEmail,
+                phone: req.body.contactPhone,
+                password: rawPassword,
+                role: types_1.UserRole.LAB,
+            });
+            await user.save();
+            req.body.userId = user._id;
+        }
+        else if (!req.body.userId) {
+            res.status(400).json({
+                success: false,
+                message: 'Contact email, phone, and lab name are required to create a lab account.',
+            });
+            return;
+        }
         const lab = await Laboratory_1.default.create(req.body);
+        if (req.body.contactEmail) {
+            (0, mailer_1.sendLabWelcomeEmail)(req.body.contactEmail, req.body.labName, generatedPassword || undefined);
+        }
         res.status(201).json({
             success: true,
             data: lab,
+            generatedPassword: generatedPassword || undefined,
         });
     }
     catch (error) {
@@ -57,7 +96,7 @@ const createLab = async (req, res) => {
 exports.createLab = createLab;
 const getLabs = async (req, res) => {
     try {
-        const labs = await Laboratory_1.default.find().populate('tests');
+        const labs = await Laboratory_1.default.find({ isDeleted: { $ne: true } }).populate('tests');
         res.status(200).json({
             success: true,
             count: labs.length,
@@ -73,6 +112,30 @@ const getLabs = async (req, res) => {
     }
 };
 exports.getLabs = getLabs;
+const getLabById = async (req, res) => {
+    try {
+        const lab = await Laboratory_1.default.findById(req.params.id).populate('tests');
+        if (!lab) {
+            res.status(404).json({
+                success: false,
+                message: 'Laboratory not found',
+            });
+            return;
+        }
+        res.status(200).json({
+            success: true,
+            data: lab,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch laboratory',
+            error: error.message,
+        });
+    }
+};
+exports.getLabById = getLabById;
 // Helper function for Haversine distance
 const getDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the earth in km
@@ -86,7 +149,18 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
 };
 const getLabsPublic = async (req, res) => {
     try {
-        let labs = await Laboratory_1.default.find().populate('tests');
+        const query = { isDeleted: { $ne: true }, isActive: true };
+        if (req.query.isTrusted === 'true') {
+            query.isTrusted = true;
+        }
+        if (req.query.search) {
+            const searchRegex = new RegExp(req.query.search, 'i');
+            query.$or = [
+                { labName: searchRegex },
+                { 'location.city': searchRegex },
+            ];
+        }
+        let labs = await Laboratory_1.default.find(query).populate('tests');
         // Check if location based sorting is requested
         const lat = req.query.lat ? parseFloat(req.query.lat) : null;
         const lng = req.query.lng ? parseFloat(req.query.lng) : null;
@@ -139,7 +213,7 @@ exports.getLabsPublic = getLabsPublic;
 const getLabByIdPublic = async (req, res) => {
     try {
         const lab = await Laboratory_1.default.findById(req.params.id).populate('tests');
-        if (!lab) {
+        if (!lab || lab.isDeleted || !lab.isActive) {
             res.status(404).json({
                 success: false,
                 message: 'Laboratory not found',
@@ -189,7 +263,7 @@ const updateLab = async (req, res) => {
 exports.updateLab = updateLab;
 const deleteLab = async (req, res) => {
     try {
-        const lab = await Laboratory_1.default.findByIdAndDelete(req.params.id);
+        const lab = await Laboratory_1.default.findByIdAndUpdate(req.params.id, { isDeleted: true }, { new: true });
         if (!lab) {
             res.status(404).json({
                 success: false,

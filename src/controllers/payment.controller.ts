@@ -28,8 +28,8 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
 
     // Calculate total amount from selected tests
     let totalAmount = 0;
-    if (booking.selectedTests && booking.selectedTests.length > 0) {
-      booking.selectedTests.forEach((test: any) => {
+    if ((booking as any).selectedTests && (booking as any).selectedTests.length > 0) {
+      (booking as any).selectedTests.forEach((test: any) => {
         totalAmount += test.price || 0;
       });
     }

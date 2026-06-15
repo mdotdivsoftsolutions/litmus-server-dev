@@ -36,6 +36,22 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
       ];
     }
 
+    if (req.query.search) {
+      const searchRegex = new RegExp(req.query.search as string, 'i');
+      if (query.$or) {
+        query.$and = [
+          { $or: query.$or },
+          { $or: [{ testName: searchRegex }, { parameters: searchRegex }] }
+        ];
+        delete query.$or;
+      } else {
+        query.$or = [
+          { testName: searchRegex },
+          { parameters: searchRegex }
+        ];
+      }
+    }
+
     const skip = (page - 1) * (limit || 10);
 
     const testQuery = Test.find(query)

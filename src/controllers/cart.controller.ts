@@ -82,10 +82,10 @@ export const addToCart = async (req: Request, res: Response) => {
       const baseTotal = calculatedPrice > 0 ? calculatedPrice : (test.price || 0);
       
       let discount = 0;
-      if (test.discountType === 'PERCENTAGE') {
-        discount = baseTotal * ((test.discountValue || 0) / 100);
-      } else if (test.discountType === 'FLAT') {
-        discount = test.discountValue || 0;
+      if ((test as any).discountType === 'PERCENTAGE') {
+        discount = baseTotal * (((test as any).discountValue || 0) / 100);
+      } else if ((test as any).discountType === 'FLAT') {
+        discount = (test as any).discountValue || 0;
       }
       
       price = Math.max(0, baseTotal - discount);

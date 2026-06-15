@@ -47,7 +47,7 @@ const UserSchema = new mongoose_1.Schema({
     },
     lastName: {
         type: String,
-        required: [true, 'Last name is required'],
+        required: false,
         trim: true,
     },
     email: {
@@ -78,7 +78,11 @@ const UserSchema = new mongoose_1.Schema({
         default: true,
     },
     documents: [{
-            type: String,
+            name: String,
+            url: String,
+            docType: String,
+            status: { type: String, default: 'Pending' },
+            size: String
         }],
     address: {
         type: mongoose_1.Schema.Types.Mixed,
@@ -86,6 +90,20 @@ const UserSchema = new mongoose_1.Schema({
     fssaiNumber: {
         type: String,
         trim: true,
+    },
+    notifications: {
+        email: {
+            type: Boolean,
+            default: true,
+        },
+        whatsapp: {
+            type: Boolean,
+            default: true,
+        },
+        promo: {
+            type: Boolean,
+            default: false,
+        },
     },
     metadata: {
         type: mongoose_1.Schema.Types.Mixed,

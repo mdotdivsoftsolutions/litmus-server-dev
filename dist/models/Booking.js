@@ -44,19 +44,46 @@ const BookingSchema = new mongoose_1.Schema({
     labId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Laboratory',
-        required: [true, 'Lab ID is required'],
+        // Optional: because "Litmus Smart Allocation" means no lab is assigned yet
     },
-    productId: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: [true, 'Product ID is required'],
-    },
-    selectedTests: [
+    items: [
         {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'Test',
-        },
+            itemType: {
+                type: String,
+                enum: ['TEST', 'PACKAGE'],
+                required: true,
+            },
+            testId: {
+                type: mongoose_1.Schema.Types.ObjectId,
+                ref: 'Test',
+            },
+            packageId: {
+                type: mongoose_1.Schema.Types.ObjectId,
+                ref: 'Package',
+            },
+            price: {
+                type: Number,
+                required: true,
+            },
+            mrp: {
+                type: Number,
+                required: true,
+            },
+            samples: [
+                {
+                    productName: { type: String, required: true },
+                    quantity: { type: String },
+                    batchNumber: { type: String },
+                    sku: { type: String },
+                    specifics: { type: String },
+                    selectedParameters: [{ type: String }],
+                }
+            ]
+        }
     ],
+    totalAmount: {
+        type: Number,
+    },
     status: {
         type: String,
         enum: Object.values(types_1.BookingStatus),

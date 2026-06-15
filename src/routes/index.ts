@@ -17,6 +17,8 @@ import logisticsRoutes from './logistics.routes';
 import infrastructureRoutes from './infrastructure.routes';
 import activityStatusRoutes from './activityStatus.routes';
 import cartRoutes from './cart.routes';
+import searchRoutes from './search.routes';
+import consultationRoutes from './consultation.routes';
 
 const router = Router();
 
@@ -40,5 +42,7 @@ router.use('/logistics', logisticsRoutes);
 router.use('/infrastructure', infrastructureRoutes);
 router.use('/activity-status', activityStatusRoutes);
 router.use('/cart', cartRoutes);
+router.use('/search', searchRoutes);
+router.use('/consultations', consultationRoutes);
 
 export default router;

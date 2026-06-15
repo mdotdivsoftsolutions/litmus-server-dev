@@ -7,12 +7,19 @@ exports.labMiddleware = exports.adminMiddleware = exports.roleMiddleware = expor
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const types_1 = require("../types");
 const authMiddleware = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    let token;
+    // 1. Check Authorization header
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+        token = req.headers.authorization.split(' ')[1];
+    }
+    // 2. Fallback to HttpOnly cookie
+    else if (req.cookies && req.cookies.accessToken) {
+        token = req.cookies.accessToken;
+    }
+    if (!token) {
         res.status(401).json({ success: false, message: 'Not authorized to access this route' });
         return;
     }
-    const token = authHeader.split(' ')[1];
     try {
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_ACCESS_SECRET);
         req.user = decoded;

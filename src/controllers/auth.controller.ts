@@ -14,6 +14,26 @@ export class AuthController {
     }
   }
 
+  static async forgotPassword(req: Request, res: Response): Promise<void> {
+    try {
+      const result = await AuthService.forgotPassword(req.body.email);
+      res.status(200).json(result);
+    } catch (error: any) {
+      logger.error(`ForgotPassword Error: ${error.message}`);
+      res.status(400).json({ success: false, message: error.message });
+    }
+  }
+
+  static async resetPassword(req: Request, res: Response): Promise<void> {
+    try {
+      const result = await AuthService.resetPassword(req.body);
+      res.status(200).json(result);
+    } catch (error: any) {
+      logger.error(`ResetPassword Error: ${error.message}`);
+      res.status(400).json({ success: false, message: error.message });
+    }
+  }
+
   static async register(req: Request, res: Response): Promise<void> {
     try {
       const { user, accessToken, refreshToken } = await AuthService.register(req.body);

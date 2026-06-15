@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import OTP from '../models/OTP';
-import { RegisterInput, LoginInput } from '../validators/auth.validator';
+import { RegisterInput, LoginInput, ResetPasswordInput } from '../validators/auth.validator';
 import { IUser, JwtPayload } from '../types';
 import { sendOtpEmail } from '../utils/mailer';
 
@@ -110,5 +110,44 @@ export class AuthService {
     } catch (error) {
       throw new Error('Invalid refresh token');
     }
+  }
+
+  static async forgotPassword(email: string) {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit OTP
+    
+    // Clear old OTPs for this email
+    await OTP.deleteMany({ email });
+    
+    // Save new OTP
+    await OTP.create({ email, otp });
+    
+    // Send email
+    await sendOtpEmail(email, otp);
+    
+    return { success: true, message: 'Password reset OTP sent successfully' };
+  }
+
+  static async resetPassword(data: ResetPasswordInput) {
+    const user = await User.findOne({ email: data.email });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const otpRecord = await OTP.findOne({ email: data.email, otp: data.otp });
+    if (!otpRecord) {
+      throw new Error('Invalid or expired OTP');
+    }
+
+    user.password = data.newPassword;
+    await user.save();
+
+    await OTP.deleteOne({ _id: otpRecord._id });
+
+    return { success: true, message: 'Password reset successfully' };
   }
 }

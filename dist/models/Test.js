@@ -49,8 +49,49 @@ const TestSchema = new mongoose_1.Schema({
         required: [true, 'Test price is required'],
         min: 0,
     },
+    offerPrice: {
+        type: Number,
+        min: 0,
+    },
+    discountType: {
+        type: String,
+        enum: ['FLAT', 'PERCENTAGE', 'NONE'],
+        default: 'NONE',
+    },
+    discountValue: {
+        type: Number,
+        min: 0,
+        default: 0,
+    },
+    turnAroundTime: {
+        type: String,
+        trim: true,
+    },
+    isPopular: {
+        type: Boolean,
+        default: false,
+    },
     metadata: {
         type: mongoose_1.Schema.Types.Mixed,
+    },
+    applicableCategories: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'Category',
+        },
+    ],
+    isApplicableToAll: {
+        type: Boolean,
+        default: false,
+    },
+    creatorType: {
+        type: String,
+        enum: ['ADMIN', 'LAB'],
+        default: 'ADMIN',
+    },
+    labId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'Laboratory',
     },
 }, {
     timestamps: true,

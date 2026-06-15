@@ -45,6 +45,9 @@ const CategorySchema = new mongoose_1.Schema({
         type: String,
         trim: true,
     },
+    imageUrl: {
+        type: String,
+    },
     metadata: {
         type: mongoose_1.Schema.Types.Mixed,
     },

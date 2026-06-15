@@ -129,6 +129,13 @@ export const getLabsPublic = async (req: Request, res: Response): Promise<void> 
     if (req.query.isTrusted === 'true') {
       query.isTrusted = true;
     }
+    if (req.query.search) {
+       const searchRegex = new RegExp(req.query.search as string, 'i');
+       query.$or = [
+         { labName: searchRegex },
+         { 'location.city': searchRegex },
+       ];
+    }
     let labs = await Laboratory.find(query).populate('tests');
     
     // Check if location based sorting is requested

@@ -45,6 +45,21 @@ const ProductSchema = new mongoose_1.Schema({
         ref: 'Category',
         required: [true, 'Category ID is required'],
     },
+    description: {
+        type: String,
+        trim: true,
+    },
+    imageUrl: {
+        type: String,
+    },
+    fssaiReference: {
+        type: String,
+        trim: true,
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
     availableTests: [
         {
             type: mongoose_1.Schema.Types.ObjectId,

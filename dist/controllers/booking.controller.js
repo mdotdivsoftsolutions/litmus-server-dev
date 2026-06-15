@@ -8,21 +8,25 @@ const Booking_1 = __importDefault(require("../models/Booking"));
 const types_1 = require("../types");
 const createBooking = async (req, res) => {
     try {
-        const { labId, productId, selectedTests, bookingDate } = req.body;
+        let { labId, items, bookingDate, totalAmount, metadata } = req.body;
         const userId = req.user?.id;
-        if (!labId || !productId || !bookingDate) {
+        if (!items || !items.length || !bookingDate) {
             res.status(400).json({
                 success: false,
-                message: 'Please provide labId, productId, and bookingDate',
+                message: 'Please provide items, and bookingDate',
             });
             return;
+        }
+        if (labId === 'admin') {
+            labId = undefined; // Litmus Smart Allocation
         }
         const booking = await Booking_1.default.create({
             userId,
             labId,
-            productId,
-            selectedTests,
+            items,
             bookingDate,
+            totalAmount,
+            metadata,
             status: types_1.BookingStatus.PENDING,
         });
         res.status(201).json({
@@ -44,8 +48,8 @@ const getMyBookings = async (req, res) => {
         const userId = req.user?.id;
         const bookings = await Booking_1.default.find({ userId })
             .populate('labId', 'labName location')
-            .populate('productId', 'name')
-            .populate('selectedTests', 'testName price')
+            .populate('items.testId', 'testName price metadata')
+            .populate('items.packageId', 'name tests')
             .sort('-createdAt');
         const sanitizedBookings = bookings.map(b => {
             const obj = b.toObject();
@@ -73,8 +77,8 @@ const getBookingById = async (req, res) => {
     try {
         const booking = await Booking_1.default.findById(req.params.id)
             .populate('labId')
-            .populate('productId')
-            .populate('selectedTests')
+            .populate('items.testId')
+            .populate('items.packageId')
             .populate('userId', 'firstName lastName email phone');
         if (!booking) {
             res.status(404).json({
