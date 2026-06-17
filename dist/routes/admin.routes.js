@@ -206,6 +206,62 @@ router.delete('/lab/:id', laboratory_controller_1.deleteLab);
 router.get('/bookings', admin_controller_1.getAdminBookings);
 /**
  * @swagger
+ * /api/v1/admin/booking/{id}/assign-lab:
+ *   patch:
+ *     summary: Assign a lab to a booking (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               labId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Lab assigned successfully
+ */
+router.patch('/booking/:id/assign-lab', admin_controller_1.assignLabToBooking);
+/**
+ * @swagger
+ * /api/v1/admin/booking/{id}/reject:
+ *   patch:
+ *     summary: Reject a booking entirely (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               reason:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Booking rejected successfully
+ */
+router.patch('/booking/:id/reject', admin_controller_1.rejectBooking);
+/**
+ * @swagger
  * /api/v1/admin/booking/{id}/approve-result:
  *   patch:
  *     summary: Approve a booking result (Admin only)
@@ -278,4 +334,17 @@ router.get('/stats', admin_controller_1.getAdminStats);
  *         description: List of payments
  */
 router.get('/payments', admin_controller_1.getAdminPayments);
+/**
+ * @swagger
+ * /api/v1/admin/analytics:
+ *   get:
+ *     summary: Get admin dashboard analytics (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Admin analytics data
+ */
+router.get('/analytics', admin_controller_1.getAdminAnalytics);
 exports.default = router;

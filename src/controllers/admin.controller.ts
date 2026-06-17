@@ -90,8 +90,8 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
       const bookings = await Booking.find()
         .populate('userId', 'firstName lastName email phone')
         .populate('labId', 'labName location')
-        .populate('productId', 'name')
-        .populate('selectedTests', 'testName price')
+        .populate('items.testId', 'name testName')
+        .populate('items.packageId', 'name')
         .sort('-createdAt');
         
       res.status(200).json({
@@ -104,6 +104,90 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
     res.status(500).json({
       success: false,
       message: 'Failed to fetch bookings',
+      error: error.message,
+    });
+  }
+};
+
+// -----------------------------------------
+// NEW: Booking Assignment & Rejection
+// -----------------------------------------
+
+export const assignLabToBooking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    import('../models/Booking').then(async ({ default: Booking }) => {
+      const { labId } = req.body;
+      const { id } = req.params;
+
+      if (!labId) {
+        res.status(400).json({ success: false, message: 'Lab ID is required' });
+        return;
+      }
+
+      const booking = await Booking.findByIdAndUpdate(
+        id,
+        { 
+          labId, 
+          status: 'IN_PROGRESS' 
+        },
+        { new: true }
+      );
+
+      if (!booking) {
+        res.status(404).json({ success: false, message: 'Booking not found' });
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Lab assigned successfully',
+        data: booking,
+      });
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to assign lab',
+      error: error.message,
+    });
+  }
+};
+
+export const rejectBooking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    import('../models/Booking').then(async ({ default: Booking }) => {
+      const { reason } = req.body;
+      const { id } = req.params;
+
+      if (!reason) {
+        res.status(400).json({ success: false, message: 'Rejection reason is required' });
+        return;
+      }
+
+      const booking = await Booking.findByIdAndUpdate(
+        id,
+        { 
+          status: 'REJECTED',
+          $set: { 'metadata.rejectionReason': reason }
+        },
+        { new: true }
+      );
+
+      if (!booking) {
+        res.status(404).json({ success: false, message: 'Booking not found' });
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Booking rejected successfully',
+        data: booking,
+      });
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to reject booking',
       error: error.message,
     });
   }
@@ -248,6 +332,136 @@ export const getAdminPayments = async (req: Request, res: Response): Promise<voi
     res.status(500).json({
       success: false,
       message: 'Failed to fetch admin payments',
+      error: error.message,
+    });
+  }
+};
+
+export const getAdminAnalytics = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { default: Booking } = await import('../models/Booking');
+    const { default: Laboratory } = await import('../models/Laboratory');
+    const { default: User } = await import('../models/User');
+
+    // 1. Booking Volume (Last 14 days)
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+    
+    const bookingVolumeAgg = await Booking.aggregate([
+      { $match: { createdAt: { $gte: fourteenDaysAgo } } },
+      { 
+        $group: { 
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, 
+          bookings: { $sum: 1 } 
+        } 
+      },
+      { $sort: { _id: 1 } }
+    ]);
+    
+    const bookingVolume = bookingVolumeAgg.map(item => ({
+      day: item._id,
+      bookings: item.bookings
+    }));
+
+    // 2. Revenue by Lab
+    const revenueByLabAgg = await Booking.aggregate([
+      { $match: { status: { $ne: 'PENDING' } } },
+      { $unwind: { path: "$items", preserveNullAndEmptyArrays: true } },
+      {
+        $group: {
+          _id: "$labId",
+          revenue: { $sum: "$items.price" },
+          bookings: { $sum: 1 }
+        }
+      },
+      {
+        $lookup: {
+          from: 'laboratories',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'lab'
+        }
+      },
+      { $unwind: { path: "$lab", preserveNullAndEmptyArrays: true } },
+      { $sort: { revenue: -1 } },
+      { $limit: 10 }
+    ]);
+
+    const revenueByLab = revenueByLabAgg.map(item => ({
+      name: item.lab?.labName || item.lab?.city || "Unknown Lab",
+      revenue: item.revenue || 0,
+      bookings: item.bookings
+    }));
+
+    // 3. User Growth (monthly)
+    const currentYear = new Date().getFullYear();
+    const startOfYear = new Date(currentYear, 0, 1);
+    
+    const userGrowthAgg = await User.aggregate([
+      { $match: { createdAt: { $gte: startOfYear }, role: 'USER' } },
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          users: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    const userGrowth = userGrowthAgg.map(item => ({
+      month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][item._id - 1],
+      users: item.users
+    }));
+
+    // 4. Top Products
+    const topProductsAgg = await Booking.aggregate([
+      { $unwind: "$items" },
+      {
+        $group: {
+          _id: "$items.packageId", // Group by packageId or testId, let's use packageId or just the string itemType
+          bookings: { $sum: 1 },
+          revenue: { $sum: "$items.price" }
+        }
+      },
+      {
+        $lookup: {
+          from: 'packages',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'package'
+        }
+      },
+      { $unwind: { path: "$package", preserveNullAndEmptyArrays: true } },
+      { $sort: { bookings: -1 } },
+      { $limit: 10 }
+    ]);
+
+    const topProducts = topProductsAgg.map(item => ({
+      name: item.package?.name || "Service / Test",
+      bookings: item.bookings,
+      revenue: `₹${(item.revenue / 100000).toFixed(1)}L` 
+    }));
+
+    const testTypeDistribution = [
+      { name: "Chemical", value: 45, color: "#E03A18" },
+      { name: "Microbiological", value: 30, color: "#F26419" },
+      { name: "Physical", value: 25, color: "#F59E2B" },
+    ];
+
+    res.status(200).json({
+      success: true,
+      data: {
+        bookingVolume,
+        revenueByLab,
+        userGrowth,
+        topProducts,
+        testTypeDistribution
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch analytics',
       error: error.message,
     });
   }

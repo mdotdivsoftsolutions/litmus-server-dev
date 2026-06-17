@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, getAdminBookings, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics } from '../controllers/admin.controller';
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
@@ -216,6 +216,64 @@ router.get('/bookings', getAdminBookings);
 
 /**
  * @swagger
+ * /api/v1/admin/booking/{id}/assign-lab:
+ *   patch:
+ *     summary: Assign a lab to a booking (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               labId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Lab assigned successfully
+ */
+router.patch('/booking/:id/assign-lab', assignLabToBooking);
+
+/**
+ * @swagger
+ * /api/v1/admin/booking/{id}/reject:
+ *   patch:
+ *     summary: Reject a booking entirely (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               reason:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Booking rejected successfully
+ */
+router.patch('/booking/:id/reject', rejectBooking);
+
+/**
+ * @swagger
  * /api/v1/admin/booking/{id}/approve-result:
  *   patch:
  *     summary: Approve a booking result (Admin only)
@@ -291,5 +349,19 @@ router.get('/stats', getAdminStats);
  *         description: List of payments
  */
 router.get('/payments', getAdminPayments);
+
+/**
+ * @swagger
+ * /api/v1/admin/analytics:
+ *   get:
+ *     summary: Get admin dashboard analytics (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Admin analytics data
+ */
+router.get('/analytics', getAdminAnalytics);
 
 export default router;
