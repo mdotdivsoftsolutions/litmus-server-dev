@@ -47,8 +47,15 @@ export const getMyLabBookings = async (req: Request, res: Response): Promise<voi
 
     const bookings = await Booking.find({ labId: lab._id })
       .populate('userId', 'firstName lastName email phone')
-      .populate('items.testId', 'testName price')
-      .populate('items.packageId', 'name price')
+      .populate('items.testId', 'testName price metadata')
+      .populate({
+        path: 'items.packageId',
+        select: 'name price tests features',
+        populate: {
+          path: 'tests',
+          select: 'testName metadata'
+        }
+      })
       .sort('-createdAt');
 
     res.status(200).json({

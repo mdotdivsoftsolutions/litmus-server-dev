@@ -90,8 +90,15 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
       const bookings = await Booking.find()
         .populate('userId', 'firstName lastName email phone')
         .populate('labId', 'labName location')
-        .populate('items.testId', 'name testName')
-        .populate('items.packageId', 'name')
+        .populate('items.testId', 'name testName metadata')
+        .populate({
+          path: 'items.packageId',
+          select: 'name tests features',
+          populate: {
+            path: 'tests',
+            select: 'testName metadata'
+          }
+        })
         .sort('-createdAt');
         
       res.status(200).json({
