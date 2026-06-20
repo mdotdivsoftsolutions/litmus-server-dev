@@ -466,3 +466,44 @@ export const getAdminAnalytics = async (req: Request, res: Response): Promise<vo
     });
   }
 };
+
+export const updateCollectionDetails = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { status, collectorName, collectorContact } = req.body;
+    const { id } = req.params;
+
+    import('../models/Booking').then(async ({ default: Booking }) => {
+      const updateData: any = {};
+      if (status) updateData.collectionStatus = status;
+      if (collectorName !== undefined || collectorContact !== undefined) {
+        updateData.assignedCollector = {
+          name: collectorName,
+          contact: collectorContact
+        };
+      }
+
+      const booking = await Booking.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      );
+
+      if (!booking) {
+        res.status(404).json({ success: false, message: 'Booking not found' });
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Collection details updated successfully',
+        data: booking,
+      });
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update collection details',
+      error: error.message,
+    });
+  }
+};

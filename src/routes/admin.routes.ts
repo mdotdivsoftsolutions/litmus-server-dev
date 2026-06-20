@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails } from '../controllers/admin.controller';
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
@@ -242,6 +242,37 @@ router.get('/bookings', getAdminBookings);
  *         description: Lab assigned successfully
  */
 router.patch('/booking/:id/assign-lab', assignLabToBooking);
+
+/**
+ * @swagger
+ * /api/v1/admin/booking/{id}/collection:
+ *   patch:
+ *     summary: Update collection details (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *               collector:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Collection details updated
+ */
+router.patch('/booking/:id/collection', updateCollectionDetails);
 
 /**
  * @swagger

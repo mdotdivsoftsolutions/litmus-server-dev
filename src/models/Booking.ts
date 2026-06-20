@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IBooking, BookingStatus, PaymentStatus } from '../types';
+import { IBooking, BookingStatus, PaymentStatus, CollectionStatus } from '../types';
 
 const BookingSchema: Schema = new Schema(
   {
@@ -44,6 +44,7 @@ const BookingSchema: Schema = new Schema(
             sku: { type: String },
             specifics: { type: String },
             selectedParameters: [{ type: String }],
+            selectedTests: [{ type: String }],
           }
         ]
       }
@@ -73,6 +74,15 @@ const BookingSchema: Schema = new Schema(
     isReportApprovedByAdmin: {
       type: Boolean,
       default: false,
+    },
+    collectionStatus: {
+      type: String,
+      enum: Object.values(CollectionStatus),
+      default: CollectionStatus.PENDING,
+    },
+    assignedCollector: {
+      name: { type: String },
+      contact: { type: String }
     },
     metadata: {
       type: Schema.Types.Mixed,

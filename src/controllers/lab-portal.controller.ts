@@ -47,8 +47,8 @@ export const getMyLabBookings = async (req: Request, res: Response): Promise<voi
 
     const bookings = await Booking.find({ labId: lab._id })
       .populate('userId', 'firstName lastName email phone')
-      .populate('productId', 'name')
-      .populate('selectedTests', 'testName price')
+      .populate('items.testId', 'testName price')
+      .populate('items.packageId', 'name price')
       .sort('-createdAt');
 
     res.status(200).json({
@@ -58,6 +58,42 @@ export const getMyLabBookings = async (req: Request, res: Response): Promise<voi
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: 'Failed to fetch lab bookings', error: error.message });
+  }
+};
+
+export const updateBookingStatus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const lab = await Laboratory.findOne({ userId });
+    if (!lab) {
+      res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
+      return;
+    }
+
+    const booking = await Booking.findOne({ _id: id, labId: lab._id });
+    if (!booking) {
+      res.status(404).json({ success: false, message: 'Booking not found or not assigned to this lab' });
+      return;
+    }
+
+    if (!Object.values(BookingStatus).includes(status)) {
+      res.status(400).json({ success: false, message: 'Invalid booking status' });
+      return;
+    }
+
+    booking.status = status;
+    await booking.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Booking status updated successfully',
+      data: booking,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to update booking status', error: error.message });
   }
 };
 
@@ -84,5 +120,51 @@ export const updateMyLabProfile = async (req: Request, res: Response): Promise<v
     });
   } catch (error: any) {
     res.status(400).json({ success: false, message: 'Failed to update lab profile', error: error.message });
+  }
+};
+
+export const updateCollectionDetails = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { status, collectorName, collectorContact } = req.body;
+    const { id } = req.params;
+    const userId = req.user?.id;
+    const lab = await Laboratory.findOne({ userId });
+
+    if (!lab) {
+      res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
+      return;
+    }
+
+    import('../models/Booking').then(async ({ default: Booking }) => {
+      // Find the booking and make sure it belongs to this lab
+      const booking = await Booking.findOne({ _id: id, labId: lab._id });
+
+      if (!booking) {
+        res.status(404).json({ success: false, message: 'Booking not found or not assigned to this lab' });
+        return;
+      }
+
+      if (status) booking.collectionStatus = status;
+      if (collectorName !== undefined || collectorContact !== undefined) {
+        booking.assignedCollector = {
+          name: collectorName,
+          contact: collectorContact
+        };
+      }
+
+      await booking.save();
+
+      res.status(200).json({
+        success: true,
+        message: 'Collection details updated successfully',
+        data: booking,
+      });
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update collection details',
+      error: error.message,
+    });
   }
 };

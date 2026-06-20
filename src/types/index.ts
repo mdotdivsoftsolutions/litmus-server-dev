@@ -12,6 +12,15 @@ export enum BookingStatus {
   REJECTED = 'REJECTED',
   IN_PROGRESS = 'IN_PROGRESS',
   COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum CollectionStatus {
+  NOT_REQUIRED = 'NOT_REQUIRED',
+  PENDING = 'PENDING',
+  ASSIGNED = 'ASSIGNED',
+  REACHED = 'REACHED',
+  COLLECTED = 'COLLECTED',
 }
 
 export enum PaymentStatus {
@@ -148,6 +157,11 @@ export interface IBooking extends Document {
   bookingDate: Date;
   reportFiles?: string[];
   isReportApprovedByAdmin: boolean;
+  collectionStatus?: CollectionStatus;
+  assignedCollector?: {
+    name: string;
+    contact: string;
+  };
   metadata?: any;
   createdAt: Date;
   updatedAt: Date;
