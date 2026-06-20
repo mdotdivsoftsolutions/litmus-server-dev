@@ -7868,3 +7868,16 @@
 2026-06-20 16:23:45:2345 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1141.800 ms - -[0m[39m
 2026-06-20 16:23:48:2348 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 750.725 ms - -[0m[39m
 2026-06-20 16:23:48:2348 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1041.991 ms - -[0m[39m
+2026-06-20 16:24:09:249 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 357.515 ms - -[0m[39m
+2026-06-20 16:24:10:2410 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 798.303 ms - -[0m[39m
+2026-06-20 16:24:10:2410 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1128.487 ms - -[0m[39m
+2026-06-20 16:24:32:2432 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 308.970 ms - -[0m[39m
+2026-06-20 16:24:32:2432 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 323.605 ms - -[0m[39m
+2026-06-20 16:24:32:2432 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [36m304[0m 321.490 ms - -[0m[39m
+2026-06-20 16:24:32:2432 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 333.875 ms - -[0m[39m
+2026-06-20 16:24:32:2432 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [36m304[0m 669.160 ms - -[0m[39m
+2026-06-20 16:24:33:2433 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 355.465 ms - -[0m[39m
+2026-06-20 16:24:33:2433 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 706.110 ms - -[0m[39m
+2026-06-20 16:24:34:2434 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 997.552 ms - -[0m[39m
+2026-06-20 16:24:34:2434 [32minfo[39m: [32m[0mGET /api/v1/packages [36m304[0m 2705.007 ms - -[0m[39m
+2026-06-20 16:24:38:2438 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1630.849 ms - -[0m[39m
