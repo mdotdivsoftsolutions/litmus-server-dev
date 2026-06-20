@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Booking from '../models/Booking';
+import Laboratory from '../models/Laboratory';
 import { BookingStatus, UserRole } from '../types';
 
 export const createBooking = async (req: Request, res: Response): Promise<void> => {
@@ -15,8 +16,15 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       return;
     }
 
+    let status = BookingStatus.PENDING;
+
     if (labId === 'admin') {
       labId = undefined; // Litmus Smart Allocation
+    } else if (labId) {
+      const lab = await Laboratory.findById(labId);
+      if (lab && lab.isAutoBooking) {
+        status = BookingStatus.IN_PROGRESS; // Auto-approved and moved to lab side
+      }
     }
 
     const booking = await Booking.create({
@@ -26,7 +34,7 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       bookingDate,
       totalAmount,
       metadata,
-      status: BookingStatus.PENDING,
+      status,
     });
 
     res.status(201).json({
