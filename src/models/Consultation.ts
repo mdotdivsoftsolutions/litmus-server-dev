@@ -9,6 +9,7 @@ export interface IConsultation extends Document {
   time: string;
   serviceName: string;
   source: string;
+  message?: string;
   status: 'Pending' | 'Contacted' | 'Resolved';
   createdAt: Date;
   updatedAt: Date;
@@ -51,6 +52,10 @@ const consultationSchema = new Schema<IConsultation>(
     source: {
       type: String,
       required: true,
+    },
+    message: {
+      type: String,
+      trim: true,
     },
     status: {
       type: String,
