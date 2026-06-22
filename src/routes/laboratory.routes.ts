@@ -48,6 +48,30 @@ router.get('/', getLabsPublic);
  */
 router.get('/:id', getLabByIdPublic);
 
+/**
+ * @swagger
+ * /api/v1/laboratory/{id}/availability:
+ *   get:
+ *     summary: Check laboratory availability for a given date (public)
+ *     tags: [Laboratory]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: date
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: Laboratory availability status
+ */
+router.get('/:id/availability', require('../controllers/laboratory.controller').getLabAvailability);
+
 import { submitBookingResult } from '../controllers/laboratory.controller';
 import { authMiddleware, roleMiddleware } from '../middleware/auth.middleware';
 import { UserRole } from '../types';

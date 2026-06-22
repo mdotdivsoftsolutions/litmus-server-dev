@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
@@ -394,5 +394,12 @@ router.get('/payments', getAdminPayments);
  *         description: Admin analytics data
  */
 router.get('/analytics', getAdminAnalytics);
+
+// Approvals (Tests & Packages)
+router.get('/pending-approvals', getPendingApprovals);
+router.patch('/test/:id/approve', approveTest);
+router.patch('/test/:id/reject', rejectTest);
+router.patch('/package/:id/approve', approvePackage);
+router.patch('/package/:id/reject', rejectPackage);
 
 export default router;

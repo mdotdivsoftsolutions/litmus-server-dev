@@ -68,6 +68,14 @@ const PackageSchema: Schema = new Schema(
       ref: 'User',
       required: true,
     },
+    approvalStatus: {
+      type: String,
+      enum: ['PENDING', 'APPROVED', 'REJECTED'],
+      default: 'APPROVED',
+    },
+    rejectionReason: {
+      type: String,
+    },
   },
   {
     timestamps: true,

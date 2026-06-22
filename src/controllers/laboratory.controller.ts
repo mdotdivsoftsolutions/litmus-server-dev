@@ -338,3 +338,64 @@ export const submitBookingResult = async (req: Request, res: Response): Promise<
     });
   }
 };
+
+export const getLabAvailability = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { date } = req.query;
+
+    if (!date) {
+      res.status(400).json({
+        success: false,
+        message: 'Please provide a date query parameter (YYYY-MM-DD)',
+      });
+      return;
+    }
+
+    const lab = await Laboratory.findById(id);
+    if (!lab || lab.isDeleted || !lab.isActive) {
+      res.status(404).json({
+        success: false,
+        message: 'Laboratory not found',
+      });
+      return;
+    }
+
+    // Count bookings for this lab on the given date
+    const targetDate = new Date(date as string);
+    const nextDate = new Date(targetDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+
+    import('../models/Booking').then(async ({ default: Booking }) => {
+      // Find active bookings (not cancelled/rejected)
+      const bookingCount = await Booking.countDocuments({
+        labId: id,
+        bookingDate: {
+          $gte: targetDate,
+          $lt: nextDate,
+        },
+        status: { $nin: ['CANCELLED', 'REJECTED'] },
+      });
+
+      const dailyLimit = lab.dailyLimit || 0;
+      const isAvailable = dailyLimit === 0 || bookingCount < dailyLimit;
+
+      res.status(200).json({
+        success: true,
+        data: {
+          labId: id,
+          date,
+          bookingCount,
+          dailyLimit,
+          isAvailable,
+        },
+      });
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to check lab availability',
+      error: error.message,
+    });
+  }
+};

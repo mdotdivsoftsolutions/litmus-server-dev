@@ -1,5 +1,11 @@
 import mongoose, { Document } from 'mongoose';
 
+export enum ApprovalStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
+
 export enum UserRole {
   USER = 'USER',
   ADMIN = 'ADMIN',
@@ -74,6 +80,7 @@ export interface ILaboratory extends Document {
   nablAccreditationNumber?: string;
   location: any;
   tests: mongoose.Types.ObjectId[];
+  packages?: mongoose.Types.ObjectId[];
   pricing: any;
   availability: any;
   isAutoBooking: boolean;
@@ -123,6 +130,10 @@ export interface ITest extends Document {
   metadata?: any;
   applicableCategories?: mongoose.Types.ObjectId[];
   isApplicableToAll: boolean;
+  creatorType?: 'ADMIN' | 'LAB';
+  labId?: mongoose.Types.ObjectId;
+  approvalStatus?: ApprovalStatus;
+  rejectionReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -204,6 +215,8 @@ export interface IPackage extends Document {
   tag?: string;
   features: string[];
   createdBy: mongoose.Types.ObjectId;
+  approvalStatus?: ApprovalStatus;
+  rejectionReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }

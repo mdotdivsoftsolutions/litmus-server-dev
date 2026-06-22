@@ -61,6 +61,14 @@ const TestSchema: Schema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Laboratory',
     },
+    approvalStatus: {
+      type: String,
+      enum: ['PENDING', 'APPROVED', 'REJECTED'],
+      default: 'APPROVED',
+    },
+    rejectionReason: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -47,6 +47,12 @@ const LaboratorySchema: Schema = new Schema(
         ref: 'Test',
       },
     ],
+    packages: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Package',
+      },
+    ],
     pricing: {
       type: Schema.Types.Mixed,
     },

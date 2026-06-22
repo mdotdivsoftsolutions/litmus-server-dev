@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getLabDashboardStats, getMyLabBookings, updateMyLabProfile, updateBookingStatus, updateCollectionDetails } from '../controllers/lab-portal.controller';
+import { getLabDashboardStats, getMyLabBookings, getMyLabProfile, updateMyLabProfile, updateBookingStatus, updateCollectionDetails, getMyLabTests, createMyLabTest, updateMyLabTest, getMyLabPackages, createMyLabPackage, updateMyLabPackage, getPlatformTests, addExistingTestToLab, getPlatformPackages, addExistingPackageToLab } from '../controllers/lab-portal.controller';
 import { authMiddleware, roleMiddleware } from '../middleware/auth.middleware';
 import { UserRole } from '../types';
 
@@ -68,6 +68,14 @@ router.patch('/bookings/:id/status', updateBookingStatus);
 /**
  * @swagger
  * /api/v1/lab-portal/profile:
+ *   get:
+ *     summary: Get lab profile
+ *     tags: [Lab Portal]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lab profile data
  *   patch:
  *     summary: Update lab profile
  *     tags: [Lab Portal]
@@ -83,6 +91,7 @@ router.patch('/bookings/:id/status', updateBookingStatus);
  *       200:
  *         description: Lab profile updated successfully
  */
+router.get('/profile', getMyLabProfile);
 router.patch('/profile', updateMyLabProfile);
 
 /**
@@ -115,5 +124,17 @@ router.patch('/profile', updateMyLabProfile);
  *         description: Collection details updated successfully
  */
 router.patch('/bookings/:id/collection', updateCollectionDetails);
+
+// Test management
+router.get('/platform-tests', getPlatformTests);
+router.post('/tests/add-existing', addExistingTestToLab);
+router.get('/tests', getMyLabTests);
+router.post('/tests', createMyLabTest);
+router.put('/tests/:id', updateMyLabTest);
+
+// Package management
+router.get('/packages', getMyLabPackages);
+router.post('/packages', createMyLabPackage);
+router.put('/packages/:id', updateMyLabPackage);
 
 export default router;
