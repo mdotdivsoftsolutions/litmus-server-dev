@@ -154,7 +154,7 @@ export const updateMyLabProfile = async (req: Request, res: Response): Promise<v
 
 export const updateCollectionDetails = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { status, collectorName, collectorContact } = req.body;
+    const { status, collectorName, collectorContact, notifyDelay } = req.body;
     const { id } = req.params;
     const userId = req.user?.id;
     const lab = await Laboratory.findOne({ userId });
@@ -165,6 +165,7 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
     }
 
     import('../models/Booking').then(async ({ default: Booking }) => {
+      const { sendSampleCollectedEmail, sendCollectionDelayedEmail } = await import('../utils/mailer');
       // Find the booking and make sure it belongs to this lab
       const booking = await Booking.findOne({ _id: id, labId: lab._id });
 
@@ -182,6 +183,37 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
       }
 
       await booking.save();
+      await booking.populate('userId', 'firstName lastName email');
+
+      if (status === 'COLLECTED' && booking.userId) {
+        try {
+          const user = booking.userId as any;
+          const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+          if (user.email) {
+            await sendSampleCollectedEmail(user.email, {
+              customerName,
+              bookingId: booking._id.toString(),
+            });
+          }
+        } catch (e) {
+          console.error('Failed to send sample collected email:', e);
+        }
+      }
+
+      if (notifyDelay && booking.userId) {
+        try {
+          const user = booking.userId as any;
+          const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+          if (user.email) {
+            await sendCollectionDelayedEmail(user.email, {
+              customerName,
+              bookingId: booking._id.toString(),
+            });
+          }
+        } catch (e) {
+          console.error('Failed to send collection delayed email:', e);
+        }
+      }
 
       res.status(200).json({
         success: true,

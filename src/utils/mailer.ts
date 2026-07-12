@@ -181,13 +181,12 @@ export const sendTestReportReadyEmail = async (to: string, data: CustomerEmailDa
   const subject = `Your Test Report Is Ready ${data.bookingId}`;
   const html = `
     <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Dear ${data.customerName},</p>
-      <p>Your laboratory testing has been completed successfully.</p>
+      <p>Hello ${data.customerName},</p>
+      <p>Great news!</p>
+      <p>Your laboratory report is now ready.</p>
       <p><strong>Booking ID:</strong> ${data.bookingId}</p>
-      <p>Your test report is now available for viewing and download through your customer dashboard.</p>
-      <p>Please log in using your registered account to access the report.</p>
-      <p>Thank you for choosing Litmus Food Analytics.</p>
-      <p>Regards,<br/>Litmus Food Analytics</p>
+      <p>Please log in to your Litmus Customer Portal to view and download your report.</p>
+      <p>Thank you for choosing,<br/>Litmus Food Analytics.</p>
     </div>
 `;
   return sendGenericEmail(to, subject, html);
@@ -227,6 +226,36 @@ export const sendRevisedTimelineEmail = async (to: string, data: CustomerEmailDa
       <p>We appreciate your patience and apologize for any inconvenience caused.</p>
       <p>Thank you for choosing Litmus Food Analytics.</p>
       <p>Kind Regards,<br/>Litmus Food Analytics</p>
+    </div>
+`;
+  return sendGenericEmail(to, subject, html);
+};
+
+export const sendSampleCollectedEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = 'Sample Collected & Testing in Progress';
+  const html = `
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <p>Hello ${data.customerName},</p>
+      <p>Your sample has been successfully collected and received by respective lab.</p>
+      <p><strong>Booking ID:</strong> ${data.bookingId}</p>
+      <p>The sample has now entered our laboratory process and testing will begin shortly.</p>
+      <p>Track your sample status anytime through your customer portal.</p>
+      <p>Thank you for choosing,<br/>Litmus Food Analytics</p>
+    </div>
+`;
+  return sendGenericEmail(to, subject, html);
+};
+
+export const sendCollectionDelayedEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = 'Sample Collection Delayed';
+  const html = `
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <p>Hello ${data.customerName},</p>
+      <p>We would like to inform you that there is a slight delay in the scheduled collection of your sample.</p>
+      <p><strong>Booking ID:</strong> ${data.bookingId}</p>
+      <p>Our team is actively coordinating the collection and will update you with the revised schedule as soon as possible.</p>
+      <p>We apologize for the inconvenience and appreciate your patience.</p>
+      <p>Thank you,<br/>Litmus Food Analytics</p>
     </div>
 `;
   return sendGenericEmail(to, subject, html);

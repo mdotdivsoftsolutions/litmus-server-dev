@@ -8743,3 +8743,41 @@
 2026-07-12 15:09:25:925 [32minfo[39m: [32mServer running in development mode on port 5000[39m
 2026-07-12 15:09:25:925 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
 2026-07-12 15:09:27:927 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:13:07:137 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:13:07:137 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:13:10:1310 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:13:18:1318 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:13:18:1318 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:13:22:1322 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:13:48:1348 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:13:48:1348 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:13:51:1351 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:14:46:1446 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:14:46:1446 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:14:49:1449 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:14:59:1459 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:14:59:1459 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:15:03:153 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:15:10:1510 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:15:10:1510 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:15:12:1512 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:19:21:1921 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:19:21:1921 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:19:23:1923 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:20:18:2018 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:20:18:2018 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:20:21:2021 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:20:39:2039 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:20:39:2039 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:20:41:2041 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:20:49:2049 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:20:49:2049 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:20:51:2051 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-07-12 15:21:06:216 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 2.384 ms - 65[0m[39m
+2026-07-12 15:21:06:216 [32minfo[39m: [32m[0mGET /api/v1/tests/6a2e609d2d20d1c2c0f72a74 [36m304[0m 291.671 ms - -[0m[39m
+2026-07-12 15:21:06:216 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 280.529 ms - 231[0m[39m
+2026-07-12 15:21:06:216 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 554.831 ms - -[0m[39m
+2026-07-12 15:21:07:217 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 304.766 ms - -[0m[39m
+2026-07-12 15:23:57:2357 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-07-12 15:23:57:2357 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-07-12 15:24:00:240 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m

@@ -204,7 +204,8 @@ export const approveBookingResult = async (req: Request, res: Response): Promise
   try {
     import('../models/Booking').then(async ({ default: Booking }) => {
       import('../types').then(async ({ BookingStatus }) => {
-        const booking = await Booking.findById(req.params.id);
+        const { sendTestReportReadyEmail } = await import('../utils/mailer');
+        const booking = await Booking.findById(req.params.id).populate('userId', 'firstName lastName email');
         
         if (!booking) {
           res.status(404).json({
@@ -217,6 +218,21 @@ export const approveBookingResult = async (req: Request, res: Response): Promise
         booking.isReportApprovedByAdmin = true;
         booking.status = BookingStatus.COMPLETED;
         await booking.save();
+
+        if (booking.userId) {
+          try {
+            const user = booking.userId as any;
+            if (user.email) {
+              const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+              await sendTestReportReadyEmail(user.email, {
+                customerName,
+                bookingId: booking._id.toString(),
+              });
+            }
+          } catch (e) {
+            console.error('Failed to send report ready email:', e);
+          }
+        }
 
         res.status(200).json({
           success: true,
@@ -476,10 +492,11 @@ export const getAdminAnalytics = async (req: Request, res: Response): Promise<vo
 
 export const updateCollectionDetails = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { status, collectorName, collectorContact } = req.body;
+    const { status, collectorName, collectorContact, notifyDelay } = req.body;
     const { id } = req.params;
 
     import('../models/Booking').then(async ({ default: Booking }) => {
+      const { sendSampleCollectedEmail, sendCollectionDelayedEmail } = await import('../utils/mailer');
       const updateData: any = {};
       if (status) updateData.collectionStatus = status;
       if (collectorName !== undefined || collectorContact !== undefined) {
@@ -493,7 +510,37 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
         id,
         { $set: updateData },
         { new: true }
-      );
+      ).populate('userId', 'firstName lastName email');
+
+      if (status === 'COLLECTED' && booking && booking.userId) {
+        try {
+          const user = booking.userId as any;
+          const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+          if (user.email) {
+            await sendSampleCollectedEmail(user.email, {
+              customerName,
+              bookingId: booking._id.toString(),
+            });
+          }
+        } catch (e) {
+          console.error('Failed to send sample collected email:', e);
+        }
+      }
+
+      if (notifyDelay && booking && booking.userId) {
+        try {
+          const user = booking.userId as any;
+          const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+          if (user.email) {
+            await sendCollectionDelayedEmail(user.email, {
+              customerName,
+              bookingId: booking._id.toString(),
+            });
+          }
+        } catch (e) {
+          console.error('Failed to send collection delayed email:', e);
+        }
+      }
 
       if (!booking) {
         res.status(404).json({ success: false, message: 'Booking not found' });

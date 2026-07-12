@@ -285,7 +285,8 @@ export const submitBookingResult = async (req: Request, res: Response): Promise<
     }
 
     import('../models/Booking').then(async ({ default: Booking }) => {
-      const booking = await Booking.findById(req.params.bookingId).populate('labId');
+      const { sendTestReportReadyEmail } = await import('../utils/mailer');
+      const booking = await Booking.findById(req.params.bookingId).populate('labId').populate('userId', 'firstName lastName email');
       
       if (!booking) {
         res.status(404).json({
@@ -320,7 +321,21 @@ export const submitBookingResult = async (req: Request, res: Response): Promise<
         booking.isReportApprovedByAdmin = true;
         import('../types').then(({ BookingStatus }) => {
           booking.status = BookingStatus.COMPLETED;
-          booking.save().then((updatedBooking) => {
+          booking.save().then(async (updatedBooking) => {
+            if (updatedBooking.userId) {
+              try {
+                const user = updatedBooking.userId as any;
+                if (user.email) {
+                  const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+                  await sendTestReportReadyEmail(user.email, {
+                    customerName,
+                    bookingId: updatedBooking._id.toString(),
+                  });
+                }
+              } catch (e) {
+                console.error('Failed to send report ready email:', e);
+              }
+            }
             res.status(200).json({
               success: true,
               message: 'Result submitted and approved automatically',
@@ -367,28 +382,30 @@ export const getLabAvailability = async (req: Request, res: Response): Promise<v
     nextDate.setDate(nextDate.getDate() + 1);
 
     import('../models/Booking').then(async ({ default: Booking }) => {
-      // Find active bookings (not cancelled/rejected)
-      const bookingCount = await Booking.countDocuments({
-        labId: id,
-        bookingDate: {
-          $gte: targetDate,
-          $lt: nextDate,
-        },
-        status: { $nin: ['CANCELLED', 'REJECTED'] },
-      });
-
-      const dailyLimit = lab.dailyLimit || 0;
-      const isAvailable = dailyLimit === 0 || bookingCount < dailyLimit;
-
-      res.status(200).json({
-        success: true,
-        data: {
+      import('../types').then(async ({ BookingStatus }) => {
+        // Find active bookings (not cancelled/rejected)
+        const bookingCount = await Booking.countDocuments({
           labId: id,
-          date,
-          bookingCount,
-          dailyLimit,
-          isAvailable,
-        },
+          bookingDate: {
+            $gte: targetDate,
+            $lt: nextDate,
+          },
+          status: { $nin: [BookingStatus.CANCELLED, BookingStatus.REJECTED] },
+        });
+
+        const dailyLimit = lab.dailyLimit || 0;
+        const isAvailable = dailyLimit === 0 || bookingCount < dailyLimit;
+
+        res.status(200).json({
+          success: true,
+          data: {
+            labId: id,
+            date,
+            bookingCount,
+            dailyLimit,
+            isAvailable,
+          },
+        });
       });
     });
   } catch (error: any) {
