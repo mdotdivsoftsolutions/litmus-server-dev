@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Booking from '../models/Booking';
 import Laboratory from '../models/Laboratory';
 import { BookingStatus, UserRole } from '../types';
+import { sendBookingConfirmedEmail } from '../utils/mailer';
 
 export const createBooking = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -36,6 +37,43 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       metadata,
       status,
     });
+
+    try {
+      const populatedBooking = await Booking.findById(booking._id)
+        .populate('userId', 'firstName lastName email')
+        .populate('items.testId', 'testName')
+        .populate('items.packageId', 'name');
+
+      if (populatedBooking && (populatedBooking.userId as any).email) {
+        const user = populatedBooking.userId as any;
+        const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+        
+        const testNames = populatedBooking.items.map(item => {
+          if (item.testId) return (item.testId as any).testName;
+          if (item.packageId) return (item.packageId as any).name;
+          return 'Unknown Test';
+        }).filter(Boolean).join(', ');
+
+        const productNames = populatedBooking.items.map(item => {
+          return item.samples?.map(s => s.productName).filter(Boolean).join(', ');
+        }).filter(Boolean).join(', ');
+
+        const totalSamples = populatedBooking.items.reduce((total, item) => {
+          return total + (item.samples?.reduce((sum, s) => sum + (Number(s.quantity) || 1), 0) || 0);
+        }, 0);
+
+        await sendBookingConfirmedEmail(user.email, {
+          customerName,
+          bookingId: booking._id.toString(),
+          productName: productNames || 'N/A',
+          testList: testNames || 'N/A',
+          sampleQty: totalSamples.toString(),
+          bookingDate: new Date(bookingDate).toLocaleDateString(),
+        });
+      }
+    } catch (emailErr) {
+      console.error('Error sending booking confirmation email:', emailErr);
+    }
 
     res.status(201).json({
       success: true,
