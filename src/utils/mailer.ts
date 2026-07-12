@@ -104,3 +104,130 @@ export const sendLabWelcomeEmail = async (to: string, labName: string, plainPass
     return false;
   }
 };
+
+export interface CustomerEmailData {
+  customerName: string;
+  bookingId?: string;
+  productName?: string;
+  testList?: string;
+  sampleQty?: string;
+  bookingDate?: string;
+  receivedDate?: string;
+  amount?: string;
+  expectedDate?: string;
+}
+
+const sendGenericEmail = async (to: string, subject: string, html: string) => {
+  try {
+    const info = await transporter.sendMail({
+      from: \`"Litmus Food Analytics" <\${process.env.SMTP_FROM || 'noreply@litmus.example.com'}>\`,
+      to,
+      subject,
+      html,
+    });
+    logger.info(\`Email sent: \${info.messageId}\`);
+    return true;
+  } catch (error: any) {
+    logger.error(\`Error sending email: \${error.message}\`);
+    if (process.env.NODE_ENV === 'development') {
+        logger.info(\`DEV MODE: Email logic executed for \${to} | Subject: \${subject}\`);
+        return true;
+    }
+    return false;
+  }
+};
+
+export const sendBookingConfirmedEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = 'Your Test Booking Has Been Confirmed';
+  const html = \`
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <p>Dear \${data.customerName},</p>
+      <p>Thank you for choosing Litmus Food Analytics.</p>
+      <p>We are pleased to confirm that we have received your test booking.</p>
+      <h3>Booking Details</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li>• <strong>Booking ID:</strong> \${data.bookingId}</li>
+        <li>• <strong>Product Name:</strong> \${data.productName}</li>
+        <li>• <strong>Test(s) Selected:</strong> \${data.testList}</li>
+        <li>• <strong>Sample Quantity:</strong> \${data.sampleQty}</li>
+        <li>• <strong>Booking Date:</strong> \${data.bookingDate}</li>
+      </ul>
+      <p>Our team will coordinate with you regarding sample submission or collection.</p>
+      <p>You can monitor the status of your testing through your customer dashboard at any time.</p>
+      <p>Thank you for your trust in Litmus Food Analytics.</p>
+      <p>Kind Regards,<br/>Litmus Food Analytics</p>
+    </div>
+\`;
+  return sendGenericEmail(to, subject, html);
+};
+
+export const sendSampleReceivedEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = 'Sample Received & Under Testing Successfully';
+  const html = \`
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <p>Dear \${data.customerName},</p>
+      <p>We are pleased to inform you that your sample has been received by our laboratory.</p>
+      <p><strong>Booking ID:</strong> \${data.bookingId}<br/>
+      <strong>Date Received:</strong> \${data.receivedDate}</p>
+      <p>Your sample has now been registered into our Laboratory Information Management System (LIMS) and will proceed for testing as scheduled.</p>
+      <p>You can continue tracking the progress through your customer dashboard.</p>
+      <p>Regards,<br/>Litmus Food Analytics</p>
+    </div>
+\`;
+  return sendGenericEmail(to, subject, html);
+};
+
+export const sendTestReportReadyEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = \\\`Your Test Report Is Ready \${data.bookingId}\\\`;
+  const html = \`
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <p>Dear \${data.customerName},</p>
+      <p>Your laboratory testing has been completed successfully.</p>
+      <p><strong>Booking ID:</strong> \${data.bookingId}</p>
+      <p>Your test report is now available for viewing and download through your customer dashboard.</p>
+      <p>Please log in using your registered account to access the report.</p>
+      <p>Thank you for choosing Litmus Food Analytics.</p>
+      <p>Regards,<br/>Litmus Food Analytics</p>
+    </div>
+\`;
+  return sendGenericEmail(to, subject, html);
+};
+
+export const sendPaymentPendingEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = 'Complete Your Payment to Confirm Your Test Booking';
+  const html = \`
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <p>Dear \${data.customerName},</p>
+      <p>We noticed that you have selected one or more laboratory tests, but your payment is still pending.</p>
+      <p>Your booking will only be confirmed after successful payment.</p>
+      <h3>Cart Summary</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li>• <strong>Tests Selected:</strong> \${data.testList}</li>
+        <li>• <strong>Total Amount:</strong> ₹\${data.amount}</li>
+      </ul>
+      <p>Please log in to your customer portal and complete your payment to proceed.</p>
+      <p>If you have already made the payment, please ignore this email.</p>
+      <p>Thank you for choosing,<br/>Litmus Food Analytics</p>
+    </div>
+\`;
+  return sendGenericEmail(to, subject, html);
+};
+
+export const sendRevisedTimelineEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = 'Revised Timeline for Your Test Report';
+  const html = \`
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+      <p>Dear \${data.customerName},</p>
+      <p>We would like to update you regarding your laboratory testing.</p>
+      <p><strong>Booking ID:</strong> \${data.bookingId}<br/>
+      <strong>Product:</strong> \${data.productName}</p>
+      <p>Due to additional laboratory processing requirements, your report will be available later than originally anticipated.</p>
+      <p><strong>Revised Expected Report Date:</strong> \${data.expectedDate}</p>
+      <p>Our team is prioritizing your sample and will notify you as soon as the report is ready for download.</p>
+      <p>We appreciate your patience and apologize for any inconvenience caused.</p>
+      <p>Thank you for choosing Litmus Food Analytics.</p>
+      <p>Kind Regards,<br/>Litmus Food Analytics</p>
+    </div>
+\`;
+  return sendGenericEmail(to, subject, html);
+};
