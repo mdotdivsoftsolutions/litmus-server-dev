@@ -55,6 +55,10 @@ const UserSchema: Schema = new Schema(
       type: String,
       trim: true,
     },
+    companyName: {
+      type: String,
+      trim: true,
+    },
     notifications: {
       email: {
         type: Boolean,
