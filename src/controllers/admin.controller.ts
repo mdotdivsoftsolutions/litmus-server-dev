@@ -84,6 +84,116 @@ export const updateUserStatus = async (req: Request, res: Response): Promise<voi
   }
 };
 
+export const createUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { firstName, lastName, email, phone, password, role } = req.body;
+    
+    // Check if user exists
+    const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+    if (existingUser) {
+      if (existingUser.email === email) {
+        res.status(400).json({ success: false, message: 'Email already registered' });
+        return;
+      }
+      if (existingUser.phone === phone) {
+        res.status(400).json({ success: false, message: 'Mobile number already registered' });
+        return;
+      }
+    }
+
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      phone,
+      password, // Pre-save hook will hash it
+      role: role || UserRole.USER,
+      isActive: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      data: {
+        id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+        phone: newUser.phone,
+        role: newUser.role
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create user',
+      error: error.message,
+    });
+  }
+};
+
+export const getUserDetailedProfile = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    
+    if (!user) {
+      res.status(404).json({ success: false, message: 'User not found' });
+      return;
+    }
+
+    const { default: Booking } = await import('../models/Booking');
+    const { default: Payment } = await import('../models/Payment');
+    const { default: Cart } = await import('../models/Cart');
+
+    // Get bookings
+    const bookings = await Booking.find({ userId })
+      .populate('labId', 'labName location')
+      .populate('items.testId', 'name testName metadata')
+      .populate('items.packageId', 'name')
+      .sort('-createdAt');
+
+    // Get payments
+    const payments = await Payment.find({ bookingId: { $in: bookings.map(b => b._id) } })
+      .sort('-createdAt');
+
+    // Get abandoned cart
+    const cart = await Cart.findOne({ userId })
+      .populate('items.testId', 'name testName')
+      .populate('items.packageId', 'name');
+
+    // Calculate stats
+    const totalBookings = bookings.length;
+    const completedBookings = bookings.filter(b => b.status === 'COMPLETED').length;
+    const pendingBookings = bookings.filter(b => b.status !== 'COMPLETED' && b.status !== 'REJECTED').length;
+    const totalAmountPaid = payments
+      .filter(p => p.status === 'SUCCESS')
+      .reduce((sum, p) => sum + (p.amount || 0), 0);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        user,
+        stats: {
+          totalBookings,
+          completedBookings,
+          pendingBookings,
+          totalAmountPaid
+        },
+        bookings,
+        payments,
+        cart: cart || { items: [] }
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch detailed user profile',
+      error: error.message,
+    });
+  }
+};
+
 export const getAdminBookings = async (req: Request, res: Response): Promise<void> => {
   try {
     import('../models/Booking').then(async ({ default: Booking }) => {

@@ -44,6 +44,7 @@ export interface IUser extends Document {
   phone: string;
   role: UserRole;
   isActive: boolean;
+  lastLoginAt?: Date;
   documents?: {
     name: string;
     url: string;

@@ -30,6 +30,7 @@ const UserSchema: Schema = new Schema(
     phone: {
       type: String,
       required: [true, 'Phone number is required'],
+      unique: true,
       trim: true,
     },
     role: {
@@ -40,6 +41,10 @@ const UserSchema: Schema = new Schema(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    lastLoginAt: {
+      type: Date,
+      default: Date.now,
     },
     documents: [{
       name: String,

@@ -41,9 +41,14 @@ export class AuthService {
   }
 
   static async register(data: RegisterInput & { otp: string }) {
-    const existingUser = await User.findOne({ email: data.email });
+    const existingUser = await User.findOne({ $or: [{ email: data.email }, { phone: data.phone }] });
     if (existingUser) {
-      throw new Error('Email already registered');
+      if (existingUser.email === data.email) {
+        throw new Error('Email already registered');
+      }
+      if (existingUser.phone === data.phone) {
+        throw new Error('Mobile number is already registered');
+      }
     }
 
     const otpRecord = await OTP.findOne({ email: data.email, otp: data.otp });
@@ -83,6 +88,9 @@ export class AuthService {
       throw new Error('Invalid credentials');
     }
 
+    user.lastLoginAt = new Date();
+    await user.save();
+
     const { accessToken, refreshToken } = this.generateTokens(user);
 
     const userResponse = {
@@ -104,6 +112,9 @@ export class AuthService {
       if (!user || !user.isActive) {
         throw new Error('User not found or inactive');
       }
+
+      user.lastLoginAt = new Date();
+      await user.save();
 
       const { accessToken, refreshToken } = this.generateTokens(user);
       return { accessToken, refreshToken };

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
@@ -48,6 +48,40 @@ router.get('/users', getUsers);
  *         description: User not found
  */
 router.get('/user/:id', getUserById);
+
+/**
+ * @swagger
+ * /api/v1/admin/user:
+ *   post:
+ *     summary: Create a new user (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ */
+router.post('/user', createUser);
+
+/**
+ * @swagger
+ * /api/v1/admin/user/{id}/detailed:
+ *   get:
+ *     summary: Get detailed user profile including bookings, payments, and cart (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Detailed user profile retrieved successfully
+ */
+router.get('/user/:id/detailed', getUserDetailedProfile);
 
 /**
  * @swagger
