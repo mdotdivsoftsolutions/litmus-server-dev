@@ -9746,3 +9746,41 @@
 2026-08-02 15:40:21:4021 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 2175.125 ms - -[0m[39m
 2026-08-02 15:40:21:4021 [32minfo[39m: [32m[0mGET /api/v1/admin/analytics [36m304[0m 2414.663 ms - -[0m[39m
 2026-08-02 15:40:25:4025 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a1bfae23fd8f70bec1804ca/detailed [32m200[0m 1700.327 ms - 11185[0m[39m
+2026-08-02 15:43:33:4333 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-02 15:43:33:4333 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-02 15:43:35:4335 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-02 15:43:42:4342 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-02 15:43:42:4342 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-02 15:43:44:4344 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-02 15:43:49:4349 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 293.985 ms - -[0m[39m
+2026-08-02 15:43:49:4349 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 279.119 ms - -[0m[39m
+2026-08-02 15:43:49:4349 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [36m304[0m 277.977 ms - -[0m[39m
+2026-08-02 15:43:49:4349 [32minfo[39m: [32m[0mGET /api/v1/packages [36m304[0m 545.200 ms - -[0m[39m
+2026-08-02 15:43:49:4349 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [36m304[0m 544.667 ms - -[0m[39m
+2026-08-02 15:43:53:4353 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-02 15:43:53:4353 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-02 15:43:56:4356 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-02 15:43:59:4359 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 5794.863 ms - -[0m[39m
+2026-08-02 15:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 283.125 ms - -[0m[39m
+2026-08-02 15:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 271.844 ms - -[0m[39m
+2026-08-02 15:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [36m304[0m 271.255 ms - -[0m[39m
+2026-08-02 15:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 270.426 ms - -[0m[39m
+2026-08-02 15:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/packages [36m304[0m 537.378 ms - -[0m[39m
+2026-08-02 15:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [36m304[0m 541.741 ms - -[0m[39m
+2026-08-02 15:47:11:4711 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 259.556 ms - -[0m[39m
+2026-08-02 15:47:11:4711 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [36m304[0m 257.316 ms - -[0m[39m
+2026-08-02 15:47:11:4711 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 262.523 ms - -[0m[39m
+2026-08-02 15:47:11:4711 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 259.434 ms - -[0m[39m
+2026-08-02 15:47:11:4711 [32minfo[39m: [32m[0mGET /api/v1/packages [36m304[0m 521.512 ms - -[0m[39m
+2026-08-02 15:47:11:4711 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [36m304[0m 522.572 ms - -[0m[39m
+2026-08-02 15:47:15:4715 [32minfo[39m: [32m[0mPOST /api/v1/cart/add [32m200[0m 1088.850 ms - 452[0m[39m
+2026-08-02 15:47:16:4716 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 774.135 ms - 594[0m[39m
+2026-08-02 15:47:20:4720 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 256.774 ms - -[0m[39m
+2026-08-02 15:47:20:4720 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 258.315 ms - -[0m[39m
+2026-08-02 15:47:22:4722 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 278.623 ms - -[0m[39m
+2026-08-02 15:47:22:4722 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 259.351 ms - -[0m[39m
+2026-08-02 15:47:22:4722 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 259.042 ms - -[0m[39m
+2026-08-02 15:47:27:4727 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a1bfae23fd8f70bec1804ca/detailed [32m200[0m 2855.110 ms - 11646[0m[39m
+2026-08-02 15:49:08:498 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 258.243 ms - -[0m[39m
+2026-08-02 15:49:08:498 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.617 ms - -[0m[39m
+2026-08-02 15:49:10:4910 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a1bfae23fd8f70bec1804ca/detailed [36m304[0m 1592.340 ms - -[0m[39m

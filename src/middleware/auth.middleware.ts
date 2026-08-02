@@ -38,6 +38,28 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
   }
 };
 
+export const optionalAuthMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+  let token;
+
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies && req.cookies.accessToken) {
+    token = req.cookies.accessToken;
+  }
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET as string) as JwtPayload;
+      req.user = decoded;
+    } catch (error) {
+      // Token invalid or expired, just ignore for optional auth
+    }
+  }
+  
+  next();
+};
+
+
 export const roleMiddleware = (roles: UserRole[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     if (!req.user || !roles.includes(req.user.role)) {
