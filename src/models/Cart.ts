@@ -26,7 +26,7 @@ const CartItemSchema = new Schema<ICartItem>({
     type: Number,
     required: true,
   },
-});
+}, { timestamps: true });
 
 const CartSchema: Schema = new Schema(
   {
