@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { validate } from '../middleware/validate.middleware';
 import { authMiddleware } from '../middleware/auth.middleware';
-import { registerSchema, loginSchema, sendOtpSchema, forgotPasswordSchema, resetPasswordSchema } from '../validators/auth.validator';
+import { registerSchema, loginSchema, sendOtpSchema, forgotPasswordSchema, verifyOtpSchema, resetPasswordSchema } from '../validators/auth.validator';
 
 const router = Router();
 
@@ -56,6 +56,35 @@ router.post('/send-otp', validate(sendOtpSchema), AuthController.sendOtp);
  *         description: Validation error or user not found
  */
 router.post('/forgot-password', validate(forgotPasswordSchema), AuthController.forgotPassword);
+
+/**
+ * @swagger
+ * /api/v1/auth/verify-otp:
+ *   post:
+ *     summary: Verify OTP for password reset
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               otp:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: OTP verified successfully
+ *       400:
+ *         description: Validation error or invalid OTP
+ */
+router.post('/verify-otp', validate(verifyOtpSchema), AuthController.verifyOtp);
 
 /**
  * @swagger

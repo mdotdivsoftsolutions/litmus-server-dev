@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import OTP from '../models/OTP';
-import { RegisterInput, LoginInput, ResetPasswordInput } from '../validators/auth.validator';
+import { RegisterInput, LoginInput, ResetPasswordInput, VerifyOtpInput } from '../validators/auth.validator';
 import { IUser, JwtPayload } from '../types';
 import { sendOtpEmail } from '../utils/mailer';
 
@@ -141,6 +141,20 @@ export class AuthService {
     await sendOtpEmail(email, otp);
     
     return { success: true, message: 'Password reset OTP sent successfully' };
+  }
+
+  static async verifyOtp(data: VerifyOtpInput) {
+    const user = await User.findOne({ email: data.email });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const otpRecord = await OTP.findOne({ email: data.email, otp: data.otp });
+    if (!otpRecord) {
+      throw new Error('Invalid or expired OTP');
+    }
+
+    return { success: true, message: 'OTP verified successfully' };
   }
 
   static async resetPassword(data: ResetPasswordInput) {
