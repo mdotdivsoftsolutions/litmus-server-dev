@@ -216,6 +216,7 @@ export interface IPackage extends Document {
   discountValue?: number;
   tag?: string;
   features: string[];
+  image?: string;
   createdBy: mongoose.Types.ObjectId;
   approvalStatus?: ApprovalStatus;
   rejectionReason?: string;

@@ -63,6 +63,10 @@ const PackageSchema: Schema = new Schema(
       type: [String],
       default: [],
     },
+    image: {
+      type: String,
+      trim: true,
+    },
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',

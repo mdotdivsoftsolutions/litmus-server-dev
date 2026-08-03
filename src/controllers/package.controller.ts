@@ -22,6 +22,7 @@ export const createPackage = async (req: Request, res: Response) => {
       discountValue,
       tag,
       features,
+      image,
     } = req.body;
 
     // Use req.user?.id if authentication middleware attaches user
@@ -49,6 +50,7 @@ export const createPackage = async (req: Request, res: Response) => {
       discountValue,
       tag,
       features,
+      image,
       createdBy,
     });
 
