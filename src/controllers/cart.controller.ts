@@ -63,7 +63,7 @@ export const getCart = async (req: Request, res: Response) => {
     }
 
     if (cart) {
-      cart = await cart.populate([
+      cart = await (cart as any).populate([
         { path: 'items.testId', select: 'testName metadata discountType discountValue price turnAroundTime' },
         { 
           path: 'items.packageId', 
