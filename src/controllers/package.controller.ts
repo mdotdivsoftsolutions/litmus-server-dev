@@ -73,6 +73,9 @@ export const createPackage = async (req: Request, res: Response) => {
 // @access  Public
 export const getPackages = async (req: Request, res: Response) => {
   try {
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 0; // 0 means no limit
+
     const query: any = {};
     if (req.query.search) {
       const searchRegex = new RegExp(req.query.search as string, 'i');
@@ -82,14 +85,26 @@ export const getPackages = async (req: Request, res: Response) => {
       ];
     }
 
-    const packages = await Package.find(query)
+    const skip = (page - 1) * (limit || 10);
+
+    const packageQuery = Package.find(query)
       .populate('categoryId', 'name')
       .populate('tests', 'testName price offerPrice')
       .sort({ createdAt: -1 });
 
+    if (limit > 0) {
+      packageQuery.skip(skip).limit(limit);
+    }
+
+    const packages = await packageQuery;
+    const total = await Package.countDocuments(query);
+
     res.status(200).json({
       success: true,
       count: packages.length,
+      total,
+      page,
+      pages: limit > 0 ? Math.ceil(total / limit) : 1,
       data: packages,
     });
   } catch (error: any) {
