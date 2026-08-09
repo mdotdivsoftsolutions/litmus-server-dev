@@ -30,13 +30,48 @@ export const getCart = async (req: Request, res: Response) => {
     const userId = (req as any).user?.id || null;
     const sessionId = req.headers['x-session-id'] as string || '';
 
-    const cart = await Cart.findOne(userId ? { userId } : { sessionId })
-      .populate('items.testId', 'testName metadata discountType discountValue price turnAroundTime')
-      .populate({
-        path: 'items.packageId',
-        select: 'name features tests',
-        populate: { path: 'tests', select: 'testName' }
-      });
+    let cart: any = null;
+
+    if (userId) {
+      let userCart = await Cart.findOne({ userId });
+      const sessionCart = await Cart.findOne({ sessionId, userId: null });
+
+      if (sessionCart) {
+        if (userCart) {
+          // Merge sessionCart items into userCart
+          for (const item of sessionCart.items) {
+            const exists = userCart.items.find(i => 
+              (i.testId && i.testId.toString() === item.testId?.toString()) ||
+              (i.packageId && i.packageId.toString() === item.packageId?.toString())
+            );
+            if (!exists) {
+              userCart.items.push(item);
+            }
+          }
+          await userCart.save();
+          await Cart.deleteOne({ _id: sessionCart._id });
+        } else {
+          // Assign sessionCart to user
+          sessionCart.userId = userId as any;
+          await sessionCart.save();
+          userCart = sessionCart;
+        }
+      }
+      cart = userCart;
+    } else {
+      cart = await Cart.findOne({ sessionId });
+    }
+
+    if (cart) {
+      cart = await cart.populate([
+        { path: 'items.testId', select: 'testName metadata discountType discountValue price turnAroundTime' },
+        { 
+          path: 'items.packageId', 
+          select: 'name features tests',
+          populate: { path: 'tests', select: 'testName' }
+        }
+      ]);
+    }
 
     res.status(200).json({
       success: true,
