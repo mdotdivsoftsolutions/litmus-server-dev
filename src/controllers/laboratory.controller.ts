@@ -176,9 +176,21 @@ export const getLabsPublic = async (req: Request, res: Response): Promise<void> 
       });
     }
 
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 0;
+    const total = labs.length;
+
+    if (limit > 0) {
+      const skip = (page - 1) * limit;
+      labs = labs.slice(skip, skip + limit);
+    }
+
     res.status(200).json({
       success: true,
       count: labs.length,
+      total,
+      page,
+      pages: limit > 0 ? Math.ceil(total / limit) : 1,
       data: labs,
     });
   } catch (error: any) {
