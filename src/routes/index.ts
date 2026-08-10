@@ -20,6 +20,7 @@ import activityStatusRoutes from './activityStatus.routes';
 import cartRoutes from './cart.routes';
 import searchRoutes from './search.routes';
 import consultationRoutes from './consultation.routes';
+import optionRoutes from './systemOption.routes';
 
 const router = Router();
 
