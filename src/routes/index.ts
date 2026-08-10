@@ -47,5 +47,6 @@ router.use('/activity-status', activityStatusRoutes);
 router.use('/cart', cartRoutes);
 router.use('/search', searchRoutes);
 router.use('/consultations', consultationRoutes);
+router.use('/options', optionRoutes);
 
 export default router;
