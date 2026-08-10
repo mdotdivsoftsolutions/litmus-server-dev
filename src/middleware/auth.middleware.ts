@@ -71,5 +71,30 @@ export const roleMiddleware = (roles: UserRole[]) => {
 };
 
 // Ready-to-use role middlewares
-export const adminMiddleware = roleMiddleware([UserRole.ADMIN]);
+export const adminMiddleware = roleMiddleware([UserRole.ADMIN, UserRole.EMPLOYEE]);
 export const labMiddleware = roleMiddleware([UserRole.LAB, UserRole.ADMIN]);
+
+export const permissionMiddleware = (requiredPermissions: string[]) => {
+  return (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      res.status(401).json({ success: false, message: 'Not authorized' });
+      return;
+    }
+
+    if (req.user.role === UserRole.ADMIN) {
+      next();
+      return;
+    }
+
+    if (req.user.role === UserRole.EMPLOYEE) {
+      const hasPermission = requiredPermissions.every(p => req.user?.permissions?.includes(p));
+      if (hasPermission) {
+        next();
+        return;
+      }
+    }
+
+    res.status(403).json({ success: false, message: 'Forbidden: Insufficient permissions' });
+    return;
+  };
+};

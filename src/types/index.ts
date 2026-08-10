@@ -10,6 +10,17 @@ export enum UserRole {
   USER = 'USER',
   ADMIN = 'ADMIN',
   LAB = 'LAB',
+  EMPLOYEE = 'EMPLOYEE',
+}
+
+export enum Permission {
+  MANAGE_EMPLOYEES = 'MANAGE_EMPLOYEES',
+  MANAGE_LABS = 'MANAGE_LABS',
+  MANAGE_USERS = 'MANAGE_USERS',
+  VIEW_BOOKINGS = 'VIEW_BOOKINGS',
+  MANAGE_BOOKINGS = 'MANAGE_BOOKINGS',
+  VIEW_PRICING = 'VIEW_PRICING',
+  VIEW_LEADS = 'VIEW_LEADS',
 }
 
 export enum BookingStatus {
@@ -43,8 +54,12 @@ export interface IUser extends Document {
   password?: string;
   phone: string;
   role: UserRole;
+  permissions?: string[];
   isActive: boolean;
   lastLoginAt?: Date;
+  profilePic?: string;
+  designation?: string;
+  department?: string;
   documents?: {
     name: string;
     url: string;
@@ -69,6 +84,7 @@ export interface IUser extends Document {
 export interface JwtPayload {
   id: string;
   role: UserRole;
+  permissions?: string[];
 }
 
 export interface ILaboratory extends Document {

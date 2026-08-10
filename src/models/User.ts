@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { IUser, UserRole } from '../types';
+import { IUser, UserRole, Permission } from '../types';
 
 const UserSchema: Schema = new Schema(
   {
@@ -38,6 +38,10 @@ const UserSchema: Schema = new Schema(
       enum: Object.values(UserRole),
       default: UserRole.USER,
     },
+    permissions: [{
+      type: String,
+      enum: Object.values(Permission),
+    }],
     isActive: {
       type: Boolean,
       default: true,
@@ -55,6 +59,18 @@ const UserSchema: Schema = new Schema(
     }],
     address: {
       type: Schema.Types.Mixed,
+    },
+    profilePic: {
+      type: String,
+      trim: true,
+    },
+    designation: {
+      type: String,
+      trim: true,
+    },
+    department: {
+      type: String,
+      trim: true,
     },
     fssaiNumber: {
       type: String,
