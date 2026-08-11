@@ -261,20 +261,24 @@ export const sendCollectionDelayedEmail = async (to: string, data: CustomerEmail
   return sendGenericEmail(to, subject, html);
 };
 
-export const sendEmployeeWelcomeEmail = async (to: string, employeeName: string, plainPassword?: string) => {
+export const sendEmployeeWelcomeEmail = async (to: string, employeeName: string, plainPassword?: string, portalName: string = 'Litmus Admin') => {
   try {
-    const loginUrl = process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/login` : 'http://localhost:5173/login';
+    // If it's not Litmus Admin, it's a lab portal, so we should link to the lab frontend URL (port 8081) if possible
+    let loginUrl = process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/login` : 'http://localhost:5173/login';
+    if (portalName !== 'Litmus Admin') {
+      loginUrl = process.env.LAB_FRONTEND_URL ? `${process.env.LAB_FRONTEND_URL}/login` : 'http://localhost:8081/login';
+    }
     
     const htmlContent = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0;">
         <div style="text-align: center; margin-bottom: 25px;">
-          <h1 style="color: #0f172a; margin: 0;">Welcome to Litmus Admin!</h1>
+          <h1 style="color: #0f172a; margin: 0;">Welcome to ${portalName}!</h1>
           <p style="color: #64748b; font-size: 16px; margin-top: 5px;">Your Employee Account has been created</p>
         </div>
         
         <div style="background-color: #f8fafc; padding: 20px; border-radius: 6px; margin-bottom: 25px;">
           <p style="color: #334155; font-size: 16px; margin-top: 0;">Hello <strong>${employeeName}</strong>,</p>
-          <p style="color: #334155; font-size: 16px; line-height: 1.5;">You have been added as an employee to the Litmus admin panel.</p>
+          <p style="color: #334155; font-size: 16px; line-height: 1.5;">You have been added as an employee to ${portalName}.</p>
         </div>
 
         <h3 style="color: #0f172a; margin-bottom: 15px;">Your Account Credentials</h3>
@@ -297,7 +301,7 @@ export const sendEmployeeWelcomeEmail = async (to: string, employeeName: string,
         </table>
 
         <div style="text-align: center; margin-bottom: 30px;">
-          <a href="${loginUrl}" style="background-color: #059669; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Access Admin Panel</a>
+          <a href="${loginUrl}" style="background-color: #059669; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Access ${portalName}</a>
         </div>
       </div>
     `;
@@ -305,7 +309,7 @@ export const sendEmployeeWelcomeEmail = async (to: string, employeeName: string,
     const info = await transporter.sendMail({
       from: `"Litmus Platform" <${process.env.SMTP_FROM || 'noreply@litmus.example.com'}>`,
       to,
-      subject: 'Welcome to Litmus Admin - Your Account Credentials',
+      subject: `Welcome to ${portalName} - Your Account Credentials`,
       html: htmlContent,
     });
     logger.info(`Employee welcome email sent: ${info.messageId}`);

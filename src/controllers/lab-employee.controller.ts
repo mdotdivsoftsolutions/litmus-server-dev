@@ -55,8 +55,12 @@ export class LabEmployeeController {
         department,
       });
 
+      // Get Lab name for the email
+      const lab = await Laboratory.findById(labIdStr);
+      const portalName = lab ? `${lab.labName} Portal` : 'Lab Portal';
+
       // Send welcome email with password
-      await sendEmployeeWelcomeEmail(email, firstName, plainPassword);
+      await sendEmployeeWelcomeEmail(email, firstName, plainPassword, portalName);
 
       res.status(201).json({
         success: true,
@@ -160,7 +164,11 @@ export class LabEmployeeController {
         return;
       }
 
-      const employee = await User.findOneAndDelete({ _id: id, role: UserRole.LAB_EMPLOYEE, labId: labIdStr });
+      const employee = await User.findOneAndUpdate(
+        { _id: id, role: UserRole.LAB_EMPLOYEE, labId: labIdStr },
+        { isActive: false },
+        { new: true }
+      );
 
       if (!employee) {
         res.status(404).json({ success: false, message: 'Lab Employee not found or access denied' });

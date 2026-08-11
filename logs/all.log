@@ -15406,3 +15406,180 @@
 2026-08-11 16:33:14:3314 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m401[0m 6.209 ms - 65[0m[39m
 2026-08-11 16:33:15:3315 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 692.946 ms - 253[0m[39m
 2026-08-11 16:33:16:3316 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1198.059 ms - -[0m[39m
+2026-08-11 17:13:20:1320 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [33m401[0m 1.651 ms - 65[0m[39m
+2026-08-11 17:13:21:1321 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 646.846 ms - 253[0m[39m
+2026-08-11 17:13:22:1322 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 701.086 ms - 26[0m[39m
+2026-08-11 18:22:31:2231 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [33m401[0m 0.505 ms - 65[0m[39m
+2026-08-11 18:22:31:2231 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 650.375 ms - 253[0m[39m
+2026-08-11 18:22:32:2232 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 657.858 ms - -[0m[39m
+2026-08-11 18:22:44:2244 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 603.006 ms - -[0m[39m
+2026-08-11 18:22:48:2248 [31merror[39m: [31mCreate Lab Employee Error: User validation failed: phone: Phone number is required[39m
+2026-08-11 18:22:48:2248 [32minfo[39m: [32m[0mPOST /api/v1/lab-employees [31m500[0m 658.551 ms - 85[0m[39m
+2026-08-11 18:22:55:2255 [31merror[39m: [31mCreate Lab Employee Error: User validation failed: phone: Phone number is required[39m
+2026-08-11 18:22:55:2255 [32minfo[39m: [32m[0mPOST /api/v1/lab-employees [31m500[0m 636.937 ms - 85[0m[39m
+2026-08-11 18:23:22:2322 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 625.243 ms - -[0m[39m
+2026-08-11 18:23:43:2343 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 600.508 ms - -[0m[39m
+2026-08-11 18:23:59:2359 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 617.837 ms - -[0m[39m
+2026-08-11 18:24:06:246 [32minfo[39m: [32mEmployee welcome email sent: <7560c9fb-842a-2486-83fe-365bad3dcfb1@gmail.com>[39m
+2026-08-11 18:24:06:246 [32minfo[39m: [32m[0mPOST /api/v1/lab-employees [32m201[0m 5131.692 ms - 291[0m[39m
+2026-08-11 18:24:07:247 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 600.399 ms - 450[0m[39m
+2026-08-11 18:25:18:2518 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 601.874 ms - -[0m[39m
+2026-08-11 18:25:21:2521 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 601.904 ms - -[0m[39m
+2026-08-11 18:25:28:2528 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 598.680 ms - -[0m[39m
+2026-08-11 18:25:52:2552 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1206.278 ms - -[0m[39m
+2026-08-11 18:26:06:266 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/tests [36m304[0m 603.447 ms - -[0m[39m
+2026-08-11 18:26:08:268 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 573.175 ms - -[0m[39m
+2026-08-11 18:26:16:2616 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 583.857 ms - -[0m[39m
+2026-08-11 18:28:07:287 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 572.760 ms - -[0m[39m
+2026-08-11 18:28:13:2813 [32minfo[39m: [32m[0mDELETE /api/v1/lab-employees/6a7b1b6a076a41f815162ff1 [32m200[0m 627.528 ms - 62[0m[39m
+2026-08-11 18:28:14:2814 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 600.628 ms - 26[0m[39m
+2026-08-11 18:29:17:2917 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 567.539 ms - -[0m[39m
+2026-08-11 18:29:42:2942 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 573.830 ms - -[0m[39m
+2026-08-11 18:30:49:3049 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-11 18:30:49:3049 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-11 18:30:52:3052 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-11 18:31:22:3122 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 372.842 ms - 394[0m[39m
+2026-08-11 18:31:22:3122 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 306.810 ms - -[0m[39m
+2026-08-11 18:31:22:3122 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 619.237 ms - -[0m[39m
+2026-08-11 18:31:29:3129 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 298.316 ms - -[0m[39m
+2026-08-11 18:31:29:3129 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 602.720 ms - -[0m[39m
+2026-08-11 18:32:15:3215 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 315.842 ms - -[0m[39m
+2026-08-11 18:32:16:3216 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 607.257 ms - -[0m[39m
+2026-08-11 18:32:35:3235 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 304.779 ms - -[0m[39m
+2026-08-11 18:32:35:3235 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 590.395 ms - -[0m[39m
+2026-08-11 18:32:43:3243 [32minfo[39m: [32mEmployee welcome email sent: <ce9c6aef-e23c-521e-0889-68fb062c6107@gmail.com>[39m
+2026-08-11 18:32:43:3243 [32minfo[39m: [32m[0mPOST /api/v1/lab-employees [32m201[0m 7023.230 ms - 291[0m[39m
+2026-08-11 18:32:44:3244 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 593.378 ms - 450[0m[39m
+2026-08-11 18:33:03:333 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-11 18:33:03:333 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-11 18:33:05:335 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-11 18:33:08:338 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-11 18:33:08:338 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-11 18:33:10:3310 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-11 18:34:05:345 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 332.483 ms - -[0m[39m
+2026-08-11 18:34:05:345 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 583.215 ms - 450[0m[39m
+2026-08-11 18:34:07:347 [32minfo[39m: [32m[0mPOST /api/v1/auth/logout [32m200[0m 1.253 ms - 52[0m[39m
+2026-08-11 18:34:18:3418 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 650.055 ms - 520[0m[39m
+2026-08-11 18:34:23:3423 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 637.747 ms - 520[0m[39m
+2026-08-11 18:36:11:3611 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 670.288 ms - 520[0m[39m
+2026-08-11 18:36:44:3644 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 641.180 ms - 419[0m[39m
+2026-08-11 18:36:44:3644 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 290.178 ms - 394[0m[39m
+2026-08-11 18:36:44:3644 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 288.207 ms - -[0m[39m
+2026-08-11 18:37:05:375 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 405.344 ms - -[0m[39m
+2026-08-11 18:37:11:3711 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 575.837 ms - 450[0m[39m
+2026-08-11 18:37:35:3735 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 286.233 ms - -[0m[39m
+2026-08-11 18:37:35:3735 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 647.711 ms - -[0m[39m
+2026-08-11 18:37:54:3754 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 316.942 ms - -[0m[39m
+2026-08-11 18:37:55:3755 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 576.644 ms - -[0m[39m
+2026-08-11 18:38:24:3824 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 320.165 ms - -[0m[39m
+2026-08-11 18:38:24:3824 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 649.280 ms - -[0m[39m
+2026-08-11 18:38:40:3840 [32minfo[39m: [32m[0mPOST /api/v1/auth/logout [32m200[0m 0.385 ms - 52[0m[39m
+2026-08-11 18:38:52:3852 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 754.520 ms - 520[0m[39m
+2026-08-11 18:38:52:3852 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 335.599 ms - 456[0m[39m
+2026-08-11 18:38:57:3857 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 695.936 ms - 419[0m[39m
+2026-08-11 18:38:57:3857 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 317.385 ms - 394[0m[39m
+2026-08-11 18:38:59:3859 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 702.625 ms - 419[0m[39m
+2026-08-11 18:39:00:390 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 318.400 ms - 394[0m[39m
+2026-08-11 18:39:03:393 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 640.078 ms - 450[0m[39m
+2026-08-11 18:39:04:394 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 328.880 ms - -[0m[39m
+2026-08-11 18:39:10:3910 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1230.063 ms - -[0m[39m
+2026-08-11 18:39:11:3911 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/tests [36m304[0m 606.200 ms - -[0m[39m
+2026-08-11 18:39:12:3912 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/packages [36m304[0m 647.839 ms - -[0m[39m
+2026-08-11 18:39:13:3913 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 303.523 ms - -[0m[39m
+2026-08-11 18:39:14:3914 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 602.441 ms - -[0m[39m
+2026-08-11 18:39:15:3915 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 302.498 ms - -[0m[39m
+2026-08-11 18:39:16:3916 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 627.589 ms - -[0m[39m
+2026-08-11 18:39:22:3922 [32minfo[39m: [32m[0mPOST /api/v1/auth/logout [32m200[0m 0.305 ms - 52[0m[39m
+2026-08-11 18:39:39:3939 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 671.349 ms - 520[0m[39m
+2026-08-11 18:39:40:3940 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 301.065 ms - 456[0m[39m
+2026-08-11 18:39:46:3946 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-11 18:39:46:3946 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-11 18:39:48:3948 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-11 18:41:01:411 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 666.101 ms - 419[0m[39m
+2026-08-11 18:41:01:411 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 296.636 ms - 394[0m[39m
+2026-08-11 18:41:01:411 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 286.604 ms - -[0m[39m
+2026-08-11 18:41:12:4112 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 290.967 ms - -[0m[39m
+2026-08-11 18:41:39:4139 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 287.632 ms - -[0m[39m
+2026-08-11 18:42:31:4231 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 291.929 ms - -[0m[39m
+2026-08-11 18:42:34:4234 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 289.827 ms - -[0m[39m
+2026-08-11 18:42:38:4238 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 272.613 ms - -[0m[39m
+2026-08-11 18:42:38:4238 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 286.952 ms - -[0m[39m
+2026-08-11 18:42:50:4250 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 269.576 ms - -[0m[39m
+2026-08-11 18:42:50:4250 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 286.786 ms - -[0m[39m
+2026-08-11 18:43:46:4346 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 269.636 ms - -[0m[39m
+2026-08-11 18:43:46:4346 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 285.135 ms - -[0m[39m
+2026-08-11 18:44:23:4423 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 269.564 ms - -[0m[39m
+2026-08-11 18:44:23:4423 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 286.008 ms - -[0m[39m
+2026-08-11 18:44:43:4443 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 375.773 ms - -[0m[39m
+2026-08-11 18:44:43:4443 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 381.441 ms - -[0m[39m
+2026-08-11 18:45:09:459 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 270.718 ms - -[0m[39m
+2026-08-11 18:45:09:459 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 289.473 ms - -[0m[39m
+2026-08-11 18:45:40:4540 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-11 18:45:40:4540 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-11 18:45:42:4542 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-11 18:45:45:4545 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 1805.818 ms - -[0m[39m
+2026-08-11 18:45:45:4545 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 1811.039 ms - -[0m[39m
+2026-08-11 18:46:04:464 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 302.371 ms - -[0m[39m
+2026-08-11 18:46:39:4639 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 35063.687 ms - -[0m[39m
+2026-08-11 18:46:43:4643 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 287.377 ms - -[0m[39m
+2026-08-11 18:46:45:4645 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 2008.118 ms - -[0m[39m
+2026-08-11 18:46:46:4646 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 289.574 ms - -[0m[39m
+2026-08-11 18:46:46:4646 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 317.017 ms - -[0m[39m
+2026-08-11 18:46:50:4650 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 291.417 ms - -[0m[39m
+2026-08-11 18:46:50:4650 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 327.626 ms - -[0m[39m
+2026-08-11 18:46:54:4654 [32minfo[39m: [32m[0mPOST /api/v1/auth/logout [32m200[0m 0.874 ms - 52[0m[39m
+2026-08-11 18:46:57:4657 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 711.276 ms - 419[0m[39m
+2026-08-11 18:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 315.855 ms - 394[0m[39m
+2026-08-11 18:46:57:4657 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 315.313 ms - -[0m[39m
+2026-08-11 18:47:02:472 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 317.158 ms - -[0m[39m
+2026-08-11 18:47:03:473 [32minfo[39m: [32m[0mPOST /api/v1/auth/logout [32m200[0m 0.293 ms - 52[0m[39m
+2026-08-11 18:47:33:4733 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 703.997 ms - 520[0m[39m
+2026-08-11 18:47:34:4734 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 646.050 ms - 507[0m[39m
+2026-08-11 18:47:35:4735 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 633.272 ms - -[0m[39m
+2026-08-11 18:47:41:4741 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 640.323 ms - -[0m[39m
+2026-08-11 18:47:44:4744 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [33m403[0m 0.692 ms - 65[0m[39m
+2026-08-11 18:47:45:4745 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [33m403[0m 0.425 ms - 65[0m[39m
+2026-08-11 18:47:47:4747 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [33m403[0m 0.481 ms - 65[0m[39m
+2026-08-11 18:47:51:4751 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [33m403[0m 0.429 ms - 65[0m[39m
+2026-08-11 18:48:07:487 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m403[0m 0.727 ms - 65[0m[39m
+2026-08-11 18:48:08:488 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m403[0m 0.402 ms - 65[0m[39m
+2026-08-11 18:48:10:4810 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m403[0m 0.391 ms - 65[0m[39m
+2026-08-11 18:48:14:4814 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m403[0m 0.517 ms - 65[0m[39m
+2026-08-11 18:48:16:4816 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m403[0m 1.381 ms - 65[0m[39m
+2026-08-11 18:48:17:4817 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 659.993 ms - -[0m[39m
+2026-08-11 18:48:17:4817 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m403[0m 0.529 ms - 65[0m[39m
+2026-08-11 18:48:17:4817 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/tests [33m403[0m 0.542 ms - 65[0m[39m
+2026-08-11 18:48:18:4818 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/tests [33m403[0m 0.407 ms - 65[0m[39m
+2026-08-11 18:48:20:4820 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/tests [33m403[0m 0.369 ms - 65[0m[39m
+2026-08-11 18:48:24:4824 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/tests [33m403[0m 0.383 ms - 65[0m[39m
+2026-08-11 18:48:26:4826 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/packages [33m403[0m 0.653 ms - 65[0m[39m
+2026-08-11 18:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/packages [33m403[0m 0.379 ms - 65[0m[39m
+2026-08-11 18:48:29:4829 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/packages [33m403[0m 0.426 ms - 65[0m[39m
+2026-08-11 18:48:32:4832 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [33m403[0m 1.167 ms - 65[0m[39m
+2026-08-11 18:48:33:4833 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [33m403[0m 0.368 ms - 65[0m[39m
+2026-08-11 18:48:34:4834 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [33m403[0m 0.591 ms - 65[0m[39m
+2026-08-11 18:48:34:4834 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [33m403[0m 1.183 ms - 65[0m[39m
+2026-08-11 18:48:35:4835 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [33m403[0m 0.370 ms - 65[0m[39m
+2026-08-11 18:48:37:4837 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [33m403[0m 0.386 ms - 65[0m[39m
+2026-08-11 18:48:41:4841 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [33m403[0m 0.420 ms - 65[0m[39m
+2026-08-11 18:48:45:4845 [32minfo[39m: [32m[0mPOST /api/v1/auth/logout [32m200[0m 0.349 ms - 52[0m[39m
+2026-08-11 18:48:48:4848 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 707.315 ms - 419[0m[39m
+2026-08-11 18:48:49:4849 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 321.020 ms - 394[0m[39m
+2026-08-11 18:48:49:4849 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 317.163 ms - -[0m[39m
+2026-08-11 18:48:51:4851 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/tests [32m200[0m 836.319 ms - 1461[0m[39m
+2026-08-11 18:48:55:4855 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [32m200[0m 2990.544 ms - 4290[0m[39m
+2026-08-11 18:48:57:4857 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 618.904 ms - 450[0m[39m
+2026-08-11 18:49:40:4940 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 317.078 ms - -[0m[39m
+2026-08-11 18:49:40:4940 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 582.396 ms - -[0m[39m
+2026-08-11 18:49:51:4951 [32minfo[39m: [32mEmployee welcome email sent: <564ce304-0818-d79d-e632-beb599f62b8d@gmail.com>[39m
+2026-08-11 18:49:51:4951 [32minfo[39m: [32m[0mPOST /api/v1/lab-employees [32m201[0m 32232.828 ms - 291[0m[39m
+2026-08-11 18:49:51:4951 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [32m200[0m 592.782 ms - 875[0m[39m
+2026-08-11 18:50:28:5028 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 294.725 ms - -[0m[39m
+2026-08-11 18:50:30:5030 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 2095.886 ms - -[0m[39m
+2026-08-11 18:50:48:5048 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 287.734 ms - -[0m[39m
+2026-08-11 18:50:49:5049 [32minfo[39m: [32m[0mGET /api/v1/lab-employees [36m304[0m 595.213 ms - -[0m[39m
+2026-08-11 18:50:50:5050 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [32m200[0m 298.361 ms - 2712[0m[39m
+2026-08-11 18:52:33:5233 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 290.505 ms - -[0m[39m
+2026-08-11 18:52:33:5233 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 296.722 ms - -[0m[39m
+2026-08-11 18:52:38:5238 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/profile [36m304[0m 300.930 ms - -[0m[39m
+2026-08-11 18:52:38:5238 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 305.004 ms - -[0m[39m

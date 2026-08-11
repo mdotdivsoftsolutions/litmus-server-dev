@@ -31,3 +31,5 @@
 2026-08-10 16:55:11:5511 [31merror[39m: [31mLogin Error: Invalid credentials[39m
 2026-08-10 16:55:28:5528 [31merror[39m: [31mLogin Error: Invalid credentials[39m
 2026-08-10 16:55:30:5530 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-08-11 18:22:48:2248 [31merror[39m: [31mCreate Lab Employee Error: User validation failed: phone: Phone number is required[39m
+2026-08-11 18:22:55:2255 [31merror[39m: [31mCreate Lab Employee Error: User validation failed: phone: Phone number is required[39m

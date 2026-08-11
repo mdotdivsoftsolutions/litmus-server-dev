@@ -127,7 +127,7 @@ export class AuthController {
 
   static async getMe(req: Request, res: Response): Promise<void> {
     try {
-      const user = await User.findById(req.user?.id).select('-password');
+      const user = await User.findById(req.user?.id).select('-password').populate('labId', 'labName');
       if (!user) {
         res.status(404).json({ success: false, message: 'User not found' });
         return;
