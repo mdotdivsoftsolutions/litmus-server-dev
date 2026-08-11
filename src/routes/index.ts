@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import authRoutes from './auth.routes';
 import employeeRoutes from './employee.routes';
+import labEmployeeRoutes from './lab-employee.routes';
 import adminRoutes from './admin.routes';
 import categoryRoutes from './category.routes';
 import productRoutes from './product.routes';
@@ -27,6 +28,7 @@ const router = Router();
 
 router.use('/auth', authRoutes);
 router.use('/employees', employeeRoutes);
+router.use('/lab-employees', labEmployeeRoutes);
 router.use('/admin', adminRoutes);
 router.use('/lab-portal', labPortalRoutes);
 router.use('/categories', categoryRoutes);

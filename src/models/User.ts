@@ -42,6 +42,10 @@ const UserSchema: Schema = new Schema(
       type: String,
       enum: Object.values(Permission),
     }],
+    labId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Laboratory',
+    },
     isActive: {
       type: Boolean,
       default: true,

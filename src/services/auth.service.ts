@@ -7,7 +7,12 @@ import { sendOtpEmail } from '../utils/mailer';
 
 export class AuthService {
   static generateTokens(user: IUser) {
-    const payload: JwtPayload = { id: user._id.toString(), role: user.role, permissions: user.permissions };
+    const payload: JwtPayload = { 
+      id: user._id.toString(), 
+      role: user.role, 
+      permissions: user.permissions,
+      labId: user.labId ? user.labId.toString() : undefined
+    };
     
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET as string, {
       expiresIn: (process.env.JWT_ACCESS_EXPIRES_IN || '15m') as any,
@@ -69,6 +74,7 @@ export class AuthService {
       email: user.email,
       role: user.role,
       permissions: user.permissions,
+      labId: user.labId,
     };
 
     return { user: userResponse, accessToken, refreshToken };
@@ -101,6 +107,7 @@ export class AuthService {
       email: user.email,
       role: user.role,
       permissions: user.permissions,
+      labId: user.labId,
     };
 
     return { user: userResponse, accessToken, refreshToken };

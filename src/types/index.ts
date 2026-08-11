@@ -11,6 +11,7 @@ export enum UserRole {
   ADMIN = 'ADMIN',
   LAB = 'LAB',
   EMPLOYEE = 'EMPLOYEE',
+  LAB_EMPLOYEE = 'LAB_EMPLOYEE',
 }
 
 export enum Permission {
@@ -21,6 +22,12 @@ export enum Permission {
   MANAGE_BOOKINGS = 'MANAGE_BOOKINGS',
   VIEW_PRICING = 'VIEW_PRICING',
   VIEW_LEADS = 'VIEW_LEADS',
+  MANAGE_LAB_PROFILE = 'MANAGE_LAB_PROFILE',
+  MANAGE_LAB_EMPLOYEES = 'MANAGE_LAB_EMPLOYEES',
+  VIEW_LAB_BOOKINGS = 'VIEW_LAB_BOOKINGS',
+  MANAGE_LAB_BOOKINGS = 'MANAGE_LAB_BOOKINGS',
+  MANAGE_LAB_TESTS = 'MANAGE_LAB_TESTS',
+  MANAGE_LAB_PACKAGES = 'MANAGE_LAB_PACKAGES',
 }
 
 export enum BookingStatus {
@@ -55,6 +62,7 @@ export interface IUser extends Document {
   phone: string;
   role: UserRole;
   permissions?: string[];
+  labId?: mongoose.Types.ObjectId;
   isActive: boolean;
   lastLoginAt?: Date;
   profilePic?: string;
@@ -85,6 +93,7 @@ export interface JwtPayload {
   id: string;
   role: UserRole;
   permissions?: string[];
+  labId?: string;
 }
 
 export interface ILaboratory extends Document {

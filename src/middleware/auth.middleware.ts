@@ -72,7 +72,9 @@ export const roleMiddleware = (roles: UserRole[]) => {
 
 // Ready-to-use role middlewares
 export const adminMiddleware = roleMiddleware([UserRole.ADMIN, UserRole.EMPLOYEE]);
-export const labMiddleware = roleMiddleware([UserRole.LAB, UserRole.ADMIN]);
+export const labMiddleware = roleMiddleware([UserRole.LAB, UserRole.LAB_EMPLOYEE, UserRole.ADMIN]);
+
+export const labOwnerMiddleware = roleMiddleware([UserRole.LAB, UserRole.ADMIN]);
 
 export const permissionMiddleware = (requiredPermissions: string[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {
@@ -81,12 +83,13 @@ export const permissionMiddleware = (requiredPermissions: string[]) => {
       return;
     }
 
-    if (req.user.role === UserRole.ADMIN) {
+    if (req.user.role === UserRole.ADMIN || req.user.role === UserRole.LAB) {
+      // Lab owners have all lab permissions, Admins have all permissions
       next();
       return;
     }
 
-    if (req.user.role === UserRole.EMPLOYEE) {
+    if (req.user.role === UserRole.EMPLOYEE || req.user.role === UserRole.LAB_EMPLOYEE) {
       const hasPermission = requiredPermissions.every(p => req.user?.permissions?.includes(p));
       if (hasPermission) {
         next();
