@@ -1,9 +1,12 @@
 import { Request, Response } from 'express';
+import path from 'path';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 import Booking from '../models/Booking';
 import Laboratory from '../models/Laboratory';
 import { BookingStatus, CollectionStatus, UserRole } from '../types';
 import { sendBookingConfirmedEmail } from '../utils/mailer';
 import { getPlatformSettings } from '../models/PlatformSettings';
+import spacesClient from '../config/spaces';
 
 export const createBooking = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -230,6 +233,68 @@ export const updateCourierTracking = async (req: Request, res: Response): Promis
     res.status(500).json({
       success: false,
       message: 'Failed to save tracking details',
+      error: error.message,
+    });
+  }
+};
+
+export const downloadBookingReport = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      res.status(404).json({ success: false, message: 'Booking not found' });
+      return;
+    }
+
+    const ownerId = booking.userId?.toString();
+    if (ownerId !== req.user?.id && req.user?.role === UserRole.USER) {
+      res.status(403).json({ success: false, message: 'Not authorized to download this report' });
+      return;
+    }
+
+    if (!booking.isReportApprovedByAdmin || !booking.reportFiles?.length) {
+      res.status(404).json({ success: false, message: 'Report is not available yet' });
+      return;
+    }
+
+    const fileUrl = booking.reportFiles[0];
+    const parsed = new URL(fileUrl);
+    const key = decodeURIComponent(parsed.pathname.replace(/^\//, ''));
+    const ext = path.extname(key) || path.extname(parsed.pathname) || '.pdf';
+    const filename = `litmus-report-${booking._id.toString().slice(-6)}${ext}`;
+    const encoded = encodeURIComponent(filename);
+
+    const bucketName = process.env.DO_SPACES_NAME;
+    if (bucketName && key.startsWith('litmus_uploads/')) {
+      const obj = await spacesClient.send(new GetObjectCommand({ Bucket: bucketName, Key: key }));
+      if (!obj.Body) {
+        res.status(404).json({ success: false, message: 'Report file not found' });
+        return;
+      }
+      const bytes = await obj.Body.transformToByteArray();
+      res.setHeader('Content-Type', obj.ContentType || 'application/octet-stream');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encoded}`);
+      res.setHeader('Content-Length', String(bytes.byteLength));
+      res.setHeader('Cache-Control', 'no-store');
+      res.send(Buffer.from(bytes));
+      return;
+    }
+
+    const remote = await fetch(fileUrl);
+    if (!remote.ok) {
+      res.status(404).json({ success: false, message: 'Report file not found' });
+      return;
+    }
+    const buffer = Buffer.from(await remote.arrayBuffer());
+    res.setHeader('Content-Type', remote.headers.get('content-type') || 'application/octet-stream');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encoded}`);
+    res.setHeader('Content-Length', String(buffer.byteLength));
+    res.setHeader('Cache-Control', 'no-store');
+    res.send(buffer);
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to download report',
       error: error.message,
     });
   }
