@@ -28,8 +28,18 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use(express.json());
+// ── Raw body for Razorpay webhook (MUST be before express.json) ──────────────
+// Razorpay webhook signature verification requires the raw request body.
+// We apply express.raw() only to the webhook path; all other routes use JSON.
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if (req.path === '/api/v1/payment/webhook') {
+    express.raw({ type: 'application/json' })(req, res, next);
+  } else {
+    express.json()(req, res, next);
+  }
+});
 app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser());
 
 // Request logging with Morgan and Winston
