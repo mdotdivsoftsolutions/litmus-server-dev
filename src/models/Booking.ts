@@ -80,6 +80,16 @@ const BookingSchema: Schema = new Schema(
       enum: Object.values(CollectionStatus),
       default: CollectionStatus.PENDING,
     },
+    collectionMethod: {
+      type: String,
+      enum: ['PICKUP', 'COURIER'],
+    },
+    courierDetails: {
+      trackingId: { type: String },
+      courierName: { type: String },
+      notes: { type: String },
+      submittedAt: { type: Date },
+    },
     assignedCollector: {
       name: { type: String },
       contact: { type: String }

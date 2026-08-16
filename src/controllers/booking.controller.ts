@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import Booking from '../models/Booking';
 import Laboratory from '../models/Laboratory';
-import { BookingStatus, UserRole } from '../types';
+import { BookingStatus, CollectionStatus, UserRole } from '../types';
 import { sendBookingConfirmedEmail } from '../utils/mailer';
+import { getPlatformSettings } from '../models/PlatformSettings';
 
 export const createBooking = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -28,6 +29,26 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       }
     }
 
+    const collectionMethod = metadata?.collectionMethod || metadata?.collectionDetails?.collectionMethod;
+    const collectionCity = metadata?.collectionDetails?.city || '';
+    let collectionStatus = CollectionStatus.PENDING;
+
+    if (collectionMethod === 'PICKUP') {
+      const settings = await getPlatformSettings();
+      const allowed = (settings.pickupCities || []).map((c) => c.trim().toLowerCase());
+      const cityNorm = String(collectionCity).trim().toLowerCase();
+      const isCovered = allowed.some((c) => cityNorm === c || cityNorm.includes(c) || c.includes(cityNorm));
+      if (!isCovered) {
+        res.status(400).json({
+          success: false,
+          message: `Pickup is not available in ${collectionCity || 'this city'}. Use courier, or choose a covered city.`,
+        });
+        return;
+      }
+    } else if (collectionMethod === 'COURIER') {
+      collectionStatus = CollectionStatus.NOT_REQUIRED;
+    }
+
     const booking = await Booking.create({
       userId,
       labId,
@@ -36,6 +57,8 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       totalAmount,
       metadata,
       status,
+      collectionStatus,
+      collectionMethod: collectionMethod === 'PICKUP' || collectionMethod === 'COURIER' ? collectionMethod : undefined,
     });
 
     try {
@@ -157,6 +180,56 @@ export const getBookingById = async (req: Request, res: Response): Promise<void>
     res.status(500).json({
       success: false,
       message: 'Failed to fetch booking',
+      error: error.message,
+    });
+  }
+};
+
+export const updateCourierTracking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    const { trackingId, courierName, notes } = req.body;
+
+    if (!trackingId || !String(trackingId).trim()) {
+      res.status(400).json({ success: false, message: 'Tracking ID is required' });
+      return;
+    }
+
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      res.status(404).json({ success: false, message: 'Booking not found' });
+      return;
+    }
+
+    if (booking.userId.toString() !== userId) {
+      res.status(403).json({ success: false, message: 'Not authorized to update this booking' });
+      return;
+    }
+
+    const method = booking.collectionMethod || booking.metadata?.collectionMethod;
+    if (method !== 'COURIER') {
+      res.status(400).json({ success: false, message: 'Tracking can only be added for courier bookings' });
+      return;
+    }
+
+    booking.courierDetails = {
+      trackingId: String(trackingId).trim(),
+      courierName: courierName ? String(courierName).trim() : '',
+      notes: notes ? String(notes).trim() : '',
+      submittedAt: new Date(),
+    };
+    booking.collectionStatus = CollectionStatus.SHIPPED;
+    await booking.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Courier tracking saved',
+      data: booking,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to save tracking details',
       error: error.message,
     });
   }

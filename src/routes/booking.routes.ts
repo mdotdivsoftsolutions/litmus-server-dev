@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createBooking, getMyBookings, getBookingById } from '../controllers/booking.controller';
+import { createBooking, getMyBookings, getBookingById, updateCourierTracking } from '../controllers/booking.controller';
 import { authMiddleware } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -40,6 +40,8 @@ router.post('/', createBooking);
  *         description: List of my bookings
  */
 router.get('/my', getMyBookings);
+
+router.patch('/:id/courier-tracking', updateCourierTracking);
 
 /**
  * @swagger

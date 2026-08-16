@@ -22,6 +22,7 @@ import cartRoutes from './cart.routes';
 import searchRoutes from './search.routes';
 import consultationRoutes from './consultation.routes';
 import optionRoutes from './systemOption.routes';
+import platformSettingsRoutes from './platformSettings.routes';
 
 const router = Router();
 
@@ -50,5 +51,6 @@ router.use('/cart', cartRoutes);
 router.use('/search', searchRoutes);
 router.use('/consultations', consultationRoutes);
 router.use('/options', optionRoutes);
+router.use('/settings', platformSettingsRoutes);
 
 export default router;

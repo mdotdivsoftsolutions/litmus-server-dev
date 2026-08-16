@@ -45,6 +45,7 @@ export enum CollectionStatus {
   ASSIGNED = 'ASSIGNED',
   REACHED = 'REACHED',
   COLLECTED = 'COLLECTED',
+  SHIPPED = 'SHIPPED',
 }
 
 export enum PaymentStatus {
@@ -196,6 +197,13 @@ export interface IBooking extends Document {
   reportFiles?: string[];
   isReportApprovedByAdmin: boolean;
   collectionStatus?: CollectionStatus;
+  collectionMethod?: 'PICKUP' | 'COURIER';
+  courierDetails?: {
+    trackingId: string;
+    courierName?: string;
+    notes?: string;
+    submittedAt?: Date;
+  };
   assignedCollector?: {
     name: string;
     contact: string;

@@ -17755,3 +17755,549 @@
 2026-08-16 14:30:22:3022 [32minfo[39m: [32m[0mGET /api/v1/labs/6a1c013a3fd8f70bec1804cb [36m304[0m 556.929 ms - -[0m[39m
 2026-08-16 14:30:38:3038 [32minfo[39m: [32m[0mGET /api/v1/labs?search=&page=1&limit=12 [36m304[0m 586.235 ms - -[0m[39m
 2026-08-16 14:30:42:3042 [32minfo[39m: [32m[0mGET /api/v1/labs/6a26aa692fc696a5c15a27d0 [32m200[0m 684.181 ms - 4094[0m[39m
+2026-08-16 14:31:20:3120 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.425 ms - 65[0m[39m
+2026-08-16 14:31:20:3120 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.414 ms - 53[0m[39m
+2026-08-16 14:31:20:3120 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 281.069 ms - -[0m[39m
+2026-08-16 14:31:21:3121 [32minfo[39m: [32m[0mGET /api/v1/labs/6a26aa692fc696a5c15a27d0 [36m304[0m 539.597 ms - -[0m[39m
+2026-08-16 14:31:22:3122 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 262.706 ms - 1371[0m[39m
+2026-08-16 14:31:22:3122 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 290.004 ms - 1367[0m[39m
+2026-08-16 14:31:22:3122 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 556.005 ms - 6046[0m[39m
+2026-08-16 14:31:23:3123 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1474.101 ms - 25645[0m[39m
+2026-08-16 14:31:24:3124 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 279.845 ms - -[0m[39m
+2026-08-16 14:31:28:3128 [32minfo[39m: [32m[0mPOST /api/v1/cart/add [32m200[0m 858.185 ms - 436[0m[39m
+2026-08-16 14:31:29:3129 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 847.509 ms - 1773[0m[39m
+2026-08-16 14:31:43:3143 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 648.104 ms - 420[0m[39m
+2026-08-16 14:31:43:3143 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 280.954 ms - 884[0m[39m
+2026-08-16 14:31:44:3144 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1671.961 ms - 2554[0m[39m
+2026-08-16 14:31:51:3151 [32minfo[39m: [32m[0mDELETE /api/v1/cart/remove/6a7f622d767a345665abf8cf [32m200[0m 568.567 ms - 528[0m[39m
+2026-08-16 14:31:52:3152 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 825.191 ms - 1002[0m[39m
+2026-08-16 14:31:53:3153 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 283.223 ms - -[0m[39m
+2026-08-16 14:31:54:3154 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [32m200[0m 538.924 ms - 8316[0m[39m
+2026-08-16 14:32:07:327 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 898.704 ms - -[0m[39m
+2026-08-16 14:32:09:329 [32minfo[39m: [32m[0mPOST /api/v1/cart/add [32m200[0m 814.426 ms - 745[0m[39m
+2026-08-16 14:32:10:3210 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1148.319 ms - 2556[0m[39m
+2026-08-16 14:32:13:3213 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.641 ms - -[0m[39m
+2026-08-16 14:32:13:3213 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f6e0272930e2b261f [36m304[0m 711.020 ms - -[0m[39m
+2026-08-16 14:32:14:3214 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1093.160 ms - -[0m[39m
+2026-08-16 14:32:16:3216 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.079 ms - -[0m[39m
+2026-08-16 14:32:16:3216 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f6e0272930e2b261f [36m304[0m 529.185 ms - -[0m[39m
+2026-08-16 14:32:16:3216 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 565.785 ms - -[0m[39m
+2026-08-16 14:32:27:3227 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 285.242 ms - -[0m[39m
+2026-08-16 14:32:27:3227 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 545.414 ms - -[0m[39m
+2026-08-16 14:32:27:3227 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 279.534 ms - -[0m[39m
+2026-08-16 14:32:28:3228 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1172.899 ms - -[0m[39m
+2026-08-16 14:32:29:3229 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f6e0272930e2b261f [36m304[0m 2059.522 ms - -[0m[39m
+2026-08-16 14:32:49:3249 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 328.523 ms - -[0m[39m
+2026-08-16 14:32:50:3250 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f6e0272930e2b261f [36m304[0m 588.802 ms - -[0m[39m
+2026-08-16 14:32:50:3250 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 596.058 ms - -[0m[39m
+2026-08-16 14:32:50:3250 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.583 ms - -[0m[39m
+2026-08-16 14:32:50:3250 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1170.959 ms - -[0m[39m
+2026-08-16 14:33:12:3312 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 271.367 ms - 1367[0m[39m
+2026-08-16 14:33:12:3312 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 269.096 ms - 1371[0m[39m
+2026-08-16 14:33:13:3313 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 586.244 ms - 6046[0m[39m
+2026-08-16 14:33:14:3314 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1586.228 ms - 25645[0m[39m
+2026-08-16 14:33:15:3315 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1136.123 ms - -[0m[39m
+2026-08-16 14:33:18:3318 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.698 ms - -[0m[39m
+2026-08-16 14:33:18:3318 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 563.352 ms - -[0m[39m
+2026-08-16 14:33:45:3345 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 294.301 ms - -[0m[39m
+2026-08-16 14:33:45:3345 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 289.065 ms - -[0m[39m
+2026-08-16 14:33:45:3345 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 590.561 ms - -[0m[39m
+2026-08-16 14:33:46:3346 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1404.036 ms - -[0m[39m
+2026-08-16 14:33:48:3348 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.980 ms - -[0m[39m
+2026-08-16 14:33:48:3348 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 542.464 ms - -[0m[39m
+2026-08-16 14:33:48:3348 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.551 ms - -[0m[39m
+2026-08-16 14:33:49:3349 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1230.720 ms - -[0m[39m
+2026-08-16 14:33:57:3357 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 280.226 ms - -[0m[39m
+2026-08-16 14:33:57:3357 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 549.954 ms - -[0m[39m
+2026-08-16 14:33:57:3357 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 291.311 ms - -[0m[39m
+2026-08-16 14:33:58:3358 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1194.548 ms - -[0m[39m
+2026-08-16 14:34:24:3424 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 314.872 ms - -[0m[39m
+2026-08-16 14:34:24:3424 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 587.888 ms - -[0m[39m
+2026-08-16 14:34:24:3424 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 318.958 ms - -[0m[39m
+2026-08-16 14:34:25:3425 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1206.822 ms - -[0m[39m
+2026-08-16 14:34:58:3458 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 340.076 ms - -[0m[39m
+2026-08-16 14:34:58:3458 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 606.495 ms - -[0m[39m
+2026-08-16 14:34:58:3458 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 283.750 ms - -[0m[39m
+2026-08-16 14:34:59:3459 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1153.943 ms - -[0m[39m
+2026-08-16 14:35:00:350 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 288.564 ms - 1367[0m[39m
+2026-08-16 14:35:00:350 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 288.143 ms - 1371[0m[39m
+2026-08-16 14:35:01:351 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 570.693 ms - 6046[0m[39m
+2026-08-16 14:35:01:351 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1425.034 ms - 25645[0m[39m
+2026-08-16 14:35:03:353 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1115.933 ms - -[0m[39m
+2026-08-16 14:35:41:3541 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 348.473 ms - 1367[0m[39m
+2026-08-16 14:35:41:3541 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 348.233 ms - 1371[0m[39m
+2026-08-16 14:35:41:3541 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 669.549 ms - 6046[0m[39m
+2026-08-16 14:35:42:3542 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1586.998 ms - 25645[0m[39m
+2026-08-16 14:36:16:3616 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 286.575 ms - -[0m[39m
+2026-08-16 14:36:16:3616 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 560.556 ms - -[0m[39m
+2026-08-16 14:36:28:3628 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.257 ms - -[0m[39m
+2026-08-16 14:36:28:3628 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 725.376 ms - -[0m[39m
+2026-08-16 14:36:28:3628 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 454.425 ms - -[0m[39m
+2026-08-16 14:36:29:3629 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1417.932 ms - -[0m[39m
+2026-08-16 14:37:20:3720 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 276.907 ms - -[0m[39m
+2026-08-16 14:37:20:3720 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.665 ms - -[0m[39m
+2026-08-16 14:37:20:3720 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 575.279 ms - -[0m[39m
+2026-08-16 14:37:21:3721 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1118.065 ms - -[0m[39m
+2026-08-16 14:37:58:3758 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 287.867 ms - -[0m[39m
+2026-08-16 14:37:58:3758 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 548.385 ms - -[0m[39m
+2026-08-16 14:37:58:3758 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 299.440 ms - -[0m[39m
+2026-08-16 14:37:59:3759 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1100.834 ms - -[0m[39m
+2026-08-16 14:38:45:3845 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.760 ms - -[0m[39m
+2026-08-16 14:38:45:3845 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 540.450 ms - -[0m[39m
+2026-08-16 14:38:45:3845 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.768 ms - -[0m[39m
+2026-08-16 14:38:46:3846 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1125.151 ms - -[0m[39m
+2026-08-16 14:40:50:4050 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 283.348 ms - -[0m[39m
+2026-08-16 14:40:50:4050 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 549.415 ms - -[0m[39m
+2026-08-16 14:40:50:4050 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 301.630 ms - -[0m[39m
+2026-08-16 14:40:51:4051 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1095.997 ms - -[0m[39m
+2026-08-16 14:41:03:413 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 322.257 ms - -[0m[39m
+2026-08-16 14:41:03:413 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 607.065 ms - -[0m[39m
+2026-08-16 14:41:03:413 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 287.868 ms - -[0m[39m
+2026-08-16 14:41:04:414 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1129.055 ms - -[0m[39m
+2026-08-16 14:43:19:4319 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:43:19:4319 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 14:43:19:4319 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 14:43:22:4322 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:43:22:4322 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:43:24:4324 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 3086.305 ms - -[0m[39m
+2026-08-16 14:43:24:4324 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 3179.997 ms - -[0m[39m
+2026-08-16 14:43:25:4325 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 663.938 ms - -[0m[39m
+2026-08-16 14:43:25:4325 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 689.237 ms - -[0m[39m
+2026-08-16 14:43:26:4326 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 4614.715 ms - -[0m[39m
+2026-08-16 14:43:26:4326 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 273.450 ms - -[0m[39m
+2026-08-16 14:43:26:4326 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 333.234 ms - -[0m[39m
+2026-08-16 14:43:27:4327 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=10 [36m304[0m 5680.968 ms - -[0m[39m
+2026-08-16 14:43:27:4327 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1231.619 ms - -[0m[39m
+2026-08-16 14:43:33:4333 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 300.842 ms - -[0m[39m
+2026-08-16 14:43:33:4333 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 565.362 ms - -[0m[39m
+2026-08-16 14:43:34:4334 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1143.809 ms - -[0m[39m
+2026-08-16 14:43:34:4334 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 565.600 ms - -[0m[39m
+2026-08-16 14:43:52:4352 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:43:53:4353 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:43:57:4357 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:43:57:4357 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:43:57:4357 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 3845.726 ms - -[0m[39m
+2026-08-16 14:43:57:4357 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 4075.760 ms - -[0m[39m
+2026-08-16 14:43:58:4358 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.747 ms - -[0m[39m
+2026-08-16 14:43:59:4359 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 5628.770 ms - -[0m[39m
+2026-08-16 14:43:59:4359 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 674.501 ms - -[0m[39m
+2026-08-16 14:44:02:442 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.565 ms - -[0m[39m
+2026-08-16 14:44:02:442 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 352.416 ms - -[0m[39m
+2026-08-16 14:44:02:442 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 620.405 ms - -[0m[39m
+2026-08-16 14:44:02:442 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 623.566 ms - -[0m[39m
+2026-08-16 14:44:03:443 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:44:03:443 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:44:03:443 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:44:04:444 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 2700.769 ms - -[0m[39m
+2026-08-16 14:44:06:446 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:44:06:446 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:44:07:447 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 288.473 ms - -[0m[39m
+2026-08-16 14:44:07:447 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 537.686 ms - -[0m[39m
+2026-08-16 14:44:07:447 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 548.114 ms - -[0m[39m
+2026-08-16 14:44:07:447 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.535 ms - -[0m[39m
+2026-08-16 14:44:07:447 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1083.901 ms - -[0m[39m
+2026-08-16 14:44:27:4427 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 1054.414 ms - -[0m[39m
+2026-08-16 14:44:48:4448 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:44:49:4449 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:44:49:4449 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:44:51:4451 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 25229.781 ms - -[0m[39m
+2026-08-16 14:44:52:4452 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 26956.589 ms - -[0m[39m
+2026-08-16 14:45:14:4514 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:45:14:4514 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:45:16:4516 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 1965.197 ms - -[0m[39m
+2026-08-16 14:45:18:4518 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 598.105 ms - -[0m[39m
+2026-08-16 14:45:18:4518 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 4096.004 ms - -[0m[39m
+2026-08-16 14:45:19:4519 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:45:21:4521 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:45:21:4521 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:45:23:4523 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 8659.773 ms - -[0m[39m
+2026-08-16 14:45:23:4523 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:45:23:4523 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:45:23:4523 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 8947.023 ms - -[0m[39m
+2026-08-16 14:45:23:4523 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 308.768 ms - -[0m[39m
+2026-08-16 14:45:34:4534 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 2084.203 ms - -[0m[39m
+2026-08-16 14:45:36:4536 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 3819.714 ms - -[0m[39m
+2026-08-16 14:45:42:4542 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 544.815 ms - -[0m[39m
+2026-08-16 14:45:42:4542 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1077.334 ms - -[0m[39m
+2026-08-16 14:45:52:4552 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 267.637 ms - 884[0m[39m
+2026-08-16 14:45:58:4558 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:45:59:4559 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:45:59:4559 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:46:01:461 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 29149.051 ms - -[0m[39m
+2026-08-16 14:46:07:467 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 35297.239 ms - -[0m[39m
+2026-08-16 14:46:30:4630 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:46:41:4641 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:46:41:4641 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:46:46:4646 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:46:46:4646 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:46:46:4646 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 1.140 ms - 65[0m[39m
+2026-08-16 14:46:46:4646 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.763 ms - 65[0m[39m
+2026-08-16 14:46:47:4647 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 1223.009 ms - -[0m[39m
+2026-08-16 14:46:48:4648 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 1242.482 ms - 254[0m[39m
+2026-08-16 14:46:48:4648 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 1516.617 ms - 254[0m[39m
+2026-08-16 14:46:48:4648 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 546.874 ms - 884[0m[39m
+2026-08-16 14:46:48:4648 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 2132.878 ms - 36[0m[39m
+2026-08-16 14:46:48:4648 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 327.992 ms - -[0m[39m
+2026-08-16 14:46:48:4648 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 2427.580 ms - -[0m[39m
+2026-08-16 14:47:10:4710 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 552.505 ms - -[0m[39m
+2026-08-16 14:47:12:4712 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 2693.734 ms - 2556[0m[39m
+2026-08-16 14:47:22:4722 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:47:23:4723 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:47:23:4723 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:47:25:4725 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 15435.472 ms - -[0m[39m
+2026-08-16 14:47:25:4725 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:47:25:4725 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:47:25:4725 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.288 ms - -[0m[39m
+2026-08-16 14:47:27:4727 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 17211.001 ms - -[0m[39m
+2026-08-16 14:47:32:4732 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 274.005 ms - -[0m[39m
+2026-08-16 14:47:32:4732 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 527.890 ms - -[0m[39m
+2026-08-16 14:47:32:4732 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.540 ms - -[0m[39m
+2026-08-16 14:47:32:4732 [32minfo[39m: [32m[0mGET /api/v1/tests/6a26a1c22fc696a5c15a27ce [36m304[0m 548.266 ms - -[0m[39m
+2026-08-16 14:47:34:4734 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 2514.549 ms - -[0m[39m
+2026-08-16 14:47:35:4735 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 265.323 ms - -[0m[39m
+2026-08-16 14:47:36:4736 [32minfo[39m: [32m[0mGET /api/v1/packages?search=&page=1&limit=12 [36m304[0m 1346.960 ms - -[0m[39m
+2026-08-16 14:47:37:4737 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1206.441 ms - -[0m[39m
+2026-08-16 14:47:40:4740 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.511 ms - -[0m[39m
+2026-08-16 14:47:40:4740 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [32m200[0m 552.390 ms - 2250[0m[39m
+2026-08-16 14:47:41:4741 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1107.681 ms - -[0m[39m
+2026-08-16 14:47:42:4742 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 290.295 ms - -[0m[39m
+2026-08-16 14:47:42:4742 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 544.761 ms - -[0m[39m
+2026-08-16 14:47:43:4743 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 558.442 ms - -[0m[39m
+2026-08-16 14:47:55:4755 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.855 ms - -[0m[39m
+2026-08-16 14:47:55:4755 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 580.084 ms - -[0m[39m
+2026-08-16 14:47:55:4755 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 311.956 ms - -[0m[39m
+2026-08-16 14:47:55:4755 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1154.436 ms - -[0m[39m
+2026-08-16 14:48:09:489 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 276.714 ms - -[0m[39m
+2026-08-16 14:48:10:4810 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 540.872 ms - -[0m[39m
+2026-08-16 14:48:10:4810 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.416 ms - -[0m[39m
+2026-08-16 14:48:11:4811 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 2202.179 ms - -[0m[39m
+2026-08-16 14:48:21:4821 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:48:21:4821 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:48:21:4821 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:48:22:4822 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:48:22:4822 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:48:23:4823 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 1426.356 ms - -[0m[39m
+2026-08-16 14:48:23:4823 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 29201.321 ms - -[0m[39m
+2026-08-16 14:48:24:4824 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 562.148 ms - -[0m[39m
+2026-08-16 14:48:25:4825 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 3133.906 ms - -[0m[39m
+2026-08-16 14:48:25:4825 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 3640.365 ms - -[0m[39m
+2026-08-16 14:48:52:4852 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 14:49:03:493 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 14:49:03:493 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 14:49:20:4920 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 14:49:20:4920 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 14:49:21:4921 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 340.874 ms - -[0m[39m
+2026-08-16 14:49:21:4921 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 595.337 ms - -[0m[39m
+2026-08-16 14:49:22:4922 [32minfo[39m: [32m[0mGET /api/v1/labs?limit=50 [36m304[0m 1975.871 ms - -[0m[39m
+2026-08-16 14:49:22:4922 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 2118.706 ms - -[0m[39m
+2026-08-16 14:49:23:4923 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 3156.589 ms - -[0m[39m
+2026-08-16 14:50:13:5013 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.223 ms - -[0m[39m
+2026-08-16 14:50:14:5014 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 543.447 ms - -[0m[39m
+2026-08-16 14:50:14:5014 [32minfo[39m: [32m[0mGET /api/v1/labs [32m200[0m 556.803 ms - 8316[0m[39m
+2026-08-16 14:50:22:5022 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 276.070 ms - -[0m[39m
+2026-08-16 14:50:22:5022 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 523.020 ms - -[0m[39m
+2026-08-16 14:50:22:5022 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.930 ms - -[0m[39m
+2026-08-16 14:50:23:5023 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1063.836 ms - -[0m[39m
+2026-08-16 14:50:24:5024 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 1999.248 ms - -[0m[39m
+2026-08-16 14:53:00:530 [32minfo[39m: [32mEmail sent: <3fa0b0f7-8d68-ce1a-9f10-231cc58881cd@gmail.com>[39m
+2026-08-16 14:53:00:530 [32minfo[39m: [32m[0mPOST /api/v1/booking [32m201[0m 4515.175 ms - 1235[0m[39m
+2026-08-16 14:53:01:531 [32minfo[39m: [32mRazorpay order created: order_TQOG1tOzEa7j2l for booking: 6a818170dcced94fc9212da4[39m
+2026-08-16 14:53:01:531 [32minfo[39m: [32m[0mPOST /api/v1/payment/create-order [32m201[0m 879.636 ms - 165[0m[39m
+2026-08-16 14:53:23:5323 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.519 ms - -[0m[39m
+2026-08-16 14:53:24:5324 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.574 ms - -[0m[39m
+2026-08-16 14:53:24:5324 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 545.533 ms - -[0m[39m
+2026-08-16 14:53:25:5325 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 1916.186 ms - -[0m[39m
+2026-08-16 14:53:25:5325 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 2131.555 ms - -[0m[39m
+2026-08-16 14:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.111 ms - -[0m[39m
+2026-08-16 14:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.912 ms - -[0m[39m
+2026-08-16 14:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 539.025 ms - -[0m[39m
+2026-08-16 14:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 545.213 ms - -[0m[39m
+2026-08-16 14:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1090.861 ms - -[0m[39m
+2026-08-16 14:54:05:545 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.585 ms - -[0m[39m
+2026-08-16 14:54:05:545 [32minfo[39m: [32m[0mGET /api/v1/packages/6a72b90f3c772b3ea6d2104a [36m304[0m 524.026 ms - -[0m[39m
+2026-08-16 14:54:05:545 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 524.727 ms - -[0m[39m
+2026-08-16 14:54:05:545 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.365 ms - -[0m[39m
+2026-08-16 14:54:06:546 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1064.619 ms - -[0m[39m
+2026-08-16 14:54:43:5443 [32minfo[39m: [32mPayment verified: pay_TQOHTf7MNpomMK for booking: 6a818170dcced94fc9212da4[39m
+2026-08-16 14:54:43:5443 [32minfo[39m: [32m[0mPOST /api/v1/payment/verify [32m200[0m 547.335 ms - 139[0m[39m
+2026-08-16 14:54:44:5444 [32minfo[39m: [32m[0mDELETE /api/v1/cart/clear [32m200[0m 540.176 ms - 242[0m[39m
+2026-08-16 14:54:44:5444 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 532.048 ms - 242[0m[39m
+2026-08-16 14:54:56:5456 [32minfo[39m: [32m[0mGET /api/v1/booking/my [32m200[0m 562.796 ms - 11954[0m[39m
+2026-08-16 14:55:02:552 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [32m200[0m 551.272 ms - 2700[0m[39m
+2026-08-16 14:55:32:5532 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.725 ms - -[0m[39m
+2026-08-16 14:55:32:5532 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 521.144 ms - -[0m[39m
+2026-08-16 14:55:32:5532 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 531.281 ms - -[0m[39m
+2026-08-16 14:55:41:5541 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.454 ms - -[0m[39m
+2026-08-16 14:55:42:5542 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 521.293 ms - -[0m[39m
+2026-08-16 14:55:42:5542 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 532.748 ms - -[0m[39m
+2026-08-16 14:55:47:5547 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.271 ms - -[0m[39m
+2026-08-16 14:55:47:5547 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 522.537 ms - -[0m[39m
+2026-08-16 14:55:47:5547 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 538.374 ms - -[0m[39m
+2026-08-16 14:58:19:5819 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 543.271 ms - -[0m[39m
+2026-08-16 14:58:24:5824 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 560.942 ms - -[0m[39m
+2026-08-16 14:58:28:5828 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 545.480 ms - -[0m[39m
+2026-08-16 15:01:00:10 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 280.955 ms - -[0m[39m
+2026-08-16 15:01:01:11 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 525.536 ms - -[0m[39m
+2026-08-16 15:01:01:11 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 532.113 ms - -[0m[39m
+2026-08-16 15:01:50:150 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.336 ms - 65[0m[39m
+2026-08-16 15:01:50:150 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [33m401[0m 2.670 ms - 65[0m[39m
+2026-08-16 15:01:50:150 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 292.314 ms - 36[0m[39m
+2026-08-16 15:01:50:150 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 562.062 ms - 254[0m[39m
+2026-08-16 15:01:50:150 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 589.591 ms - 254[0m[39m
+2026-08-16 15:01:50:150 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 262.651 ms - 884[0m[39m
+2026-08-16 15:01:51:151 [32minfo[39m: [32m[0mGET /api/v1/booking/6a818170dcced94fc9212da4 [36m304[0m 524.471 ms - -[0m[39m
+2026-08-16 15:01:54:154 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 265.418 ms - 1367[0m[39m
+2026-08-16 15:01:54:154 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 271.663 ms - 1371[0m[39m
+2026-08-16 15:01:55:155 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 536.762 ms - 6046[0m[39m
+2026-08-16 15:01:55:155 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1350.830 ms - 25645[0m[39m
+2026-08-16 15:01:56:156 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 544.221 ms - 242[0m[39m
+2026-08-16 15:02:37:237 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 263.816 ms - 1367[0m[39m
+2026-08-16 15:02:37:237 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 261.580 ms - 1371[0m[39m
+2026-08-16 15:02:37:237 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 536.027 ms - 6046[0m[39m
+2026-08-16 15:02:38:238 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1360.589 ms - 25645[0m[39m
+2026-08-16 15:02:44:244 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 273.705 ms - -[0m[39m
+2026-08-16 15:02:45:245 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 543.265 ms - -[0m[39m
+2026-08-16 15:02:46:246 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 261.517 ms - 1371[0m[39m
+2026-08-16 15:02:46:246 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 266.941 ms - 1367[0m[39m
+2026-08-16 15:02:46:246 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 521.530 ms - 6046[0m[39m
+2026-08-16 15:02:47:247 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1337.538 ms - 25645[0m[39m
+2026-08-16 15:02:53:253 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.099 ms - -[0m[39m
+2026-08-16 15:02:53:253 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 545.684 ms - -[0m[39m
+2026-08-16 15:02:55:255 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.259 ms - -[0m[39m
+2026-08-16 15:02:55:255 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 532.657 ms - -[0m[39m
+2026-08-16 15:02:59:259 [32minfo[39m: [32m[0mPOST /api/v1/cart/add [32m200[0m 790.514 ms - 458[0m[39m
+2026-08-16 15:03:00:30 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1049.774 ms - 1795[0m[39m
+2026-08-16 15:03:02:32 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.497 ms - -[0m[39m
+2026-08-16 15:03:03:33 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 570.355 ms - -[0m[39m
+2026-08-16 15:03:03:33 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1092.921 ms - -[0m[39m
+2026-08-16 15:03:10:310 [32minfo[39m: [32m[0mDELETE /api/v1/cart/remove/6a8183cbdcced94fc9212e1e [32m200[0m 1052.020 ms - 242[0m[39m
+2026-08-16 15:03:10:310 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 553.599 ms - 242[0m[39m
+2026-08-16 15:03:12:312 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 262.188 ms - 1371[0m[39m
+2026-08-16 15:03:12:312 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 271.412 ms - 1367[0m[39m
+2026-08-16 15:03:13:313 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 563.093 ms - 6046[0m[39m
+2026-08-16 15:03:13:313 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1373.953 ms - 25645[0m[39m
+2026-08-16 15:03:14:314 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 552.045 ms - -[0m[39m
+2026-08-16 15:03:17:317 [32minfo[39m: [32m[0mPOST /api/v1/cart/add [32m200[0m 816.341 ms - 456[0m[39m
+2026-08-16 15:03:19:319 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1091.596 ms - 1349[0m[39m
+2026-08-16 15:03:20:320 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.912 ms - -[0m[39m
+2026-08-16 15:03:20:320 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 535.726 ms - -[0m[39m
+2026-08-16 15:03:21:321 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1096.951 ms - -[0m[39m
+2026-08-16 15:04:22:422 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 273.391 ms - -[0m[39m
+2026-08-16 15:04:23:423 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 529.810 ms - -[0m[39m
+2026-08-16 15:04:23:423 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.501 ms - -[0m[39m
+2026-08-16 15:04:23:423 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1066.685 ms - -[0m[39m
+2026-08-16 15:04:30:430 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.886 ms - -[0m[39m
+2026-08-16 15:04:30:430 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.058 ms - -[0m[39m
+2026-08-16 15:04:30:430 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 545.259 ms - -[0m[39m
+2026-08-16 15:04:31:431 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1050.261 ms - -[0m[39m
+2026-08-16 15:05:15:515 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.152 ms - -[0m[39m
+2026-08-16 15:05:15:515 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.244 ms - -[0m[39m
+2026-08-16 15:05:15:515 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 544.110 ms - -[0m[39m
+2026-08-16 15:05:16:516 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1068.728 ms - -[0m[39m
+2026-08-16 15:05:20:520 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.184 ms - -[0m[39m
+2026-08-16 15:05:20:520 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 531.828 ms - -[0m[39m
+2026-08-16 15:05:20:520 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.267 ms - -[0m[39m
+2026-08-16 15:05:20:520 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1085.029 ms - -[0m[39m
+2026-08-16 15:05:23:523 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.436 ms - -[0m[39m
+2026-08-16 15:05:23:523 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 533.803 ms - -[0m[39m
+2026-08-16 15:05:23:523 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.617 ms - -[0m[39m
+2026-08-16 15:05:24:524 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1039.633 ms - -[0m[39m
+2026-08-16 15:06:40:640 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.942 ms - -[0m[39m
+2026-08-16 15:06:40:640 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.197 ms - -[0m[39m
+2026-08-16 15:06:40:640 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 548.986 ms - -[0m[39m
+2026-08-16 15:06:40:640 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1067.891 ms - -[0m[39m
+2026-08-16 15:06:48:648 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.871 ms - -[0m[39m
+2026-08-16 15:06:48:648 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.629 ms - -[0m[39m
+2026-08-16 15:06:48:648 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 545.702 ms - -[0m[39m
+2026-08-16 15:06:49:649 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1043.257 ms - -[0m[39m
+2026-08-16 15:07:04:74 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.389 ms - -[0m[39m
+2026-08-16 15:07:04:74 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.184 ms - -[0m[39m
+2026-08-16 15:07:04:74 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 543.509 ms - -[0m[39m
+2026-08-16 15:07:05:75 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1063.282 ms - -[0m[39m
+2026-08-16 15:07:15:715 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.328 ms - -[0m[39m
+2026-08-16 15:07:15:715 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.437 ms - -[0m[39m
+2026-08-16 15:07:15:715 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 550.972 ms - -[0m[39m
+2026-08-16 15:07:15:715 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1061.545 ms - -[0m[39m
+2026-08-16 15:07:17:717 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.022 ms - -[0m[39m
+2026-08-16 15:07:17:717 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.101 ms - -[0m[39m
+2026-08-16 15:07:17:717 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 537.643 ms - -[0m[39m
+2026-08-16 15:07:17:717 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1109.937 ms - -[0m[39m
+2026-08-16 15:07:24:724 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 273.829 ms - -[0m[39m
+2026-08-16 15:07:24:724 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 535.502 ms - -[0m[39m
+2026-08-16 15:07:24:724 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.600 ms - -[0m[39m
+2026-08-16 15:07:25:725 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1043.783 ms - -[0m[39m
+2026-08-16 15:08:08:88 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 263.474 ms - -[0m[39m
+2026-08-16 15:08:08:88 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.741 ms - -[0m[39m
+2026-08-16 15:08:08:88 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 550.787 ms - -[0m[39m
+2026-08-16 15:08:09:89 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1086.548 ms - -[0m[39m
+2026-08-16 15:09:45:945 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:09:45:945 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 15:09:45:945 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 15:09:47:947 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 15:09:47:947 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 15:10:06:106 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:10:06:106 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 15:10:06:106 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 15:10:10:1010 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 15:10:10:1010 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 15:10:14:1014 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:10:14:1014 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 15:10:14:1014 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 15:10:17:1017 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 15:10:17:1017 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 15:10:44:1044 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 341.394 ms - 1371[0m[39m
+2026-08-16 15:10:44:1044 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 1.204 ms - 65[0m[39m
+2026-08-16 15:10:44:1044 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 1.355 ms - 53[0m[39m
+2026-08-16 15:10:44:1044 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 281.512 ms - 36[0m[39m
+2026-08-16 15:10:45:1045 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1376.494 ms - 25645[0m[39m
+2026-08-16 15:11:05:115 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 15:11:06:116 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 15:11:06:116 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 15:11:08:118 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 24733.588 ms - 6046[0m[39m
+2026-08-16 15:11:11:1111 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 27854.438 ms - 1367[0m[39m
+2026-08-16 15:11:52:1152 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:11:52:1152 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 15:11:52:1152 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 544.723 ms - -[0m[39m
+2026-08-16 15:11:54:1154 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 1656.342 ms - -[0m[39m
+2026-08-16 15:11:54:1154 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.827 ms - -[0m[39m
+2026-08-16 15:11:54:1154 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 2401.315 ms - -[0m[39m
+2026-08-16 15:12:06:126 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.170 ms - -[0m[39m
+2026-08-16 15:12:07:127 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 265.548 ms - -[0m[39m
+2026-08-16 15:12:07:127 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 538.988 ms - -[0m[39m
+2026-08-16 15:12:07:127 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1070.785 ms - -[0m[39m
+2026-08-16 15:12:34:1234 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.195 ms - -[0m[39m
+2026-08-16 15:12:34:1234 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 526.183 ms - -[0m[39m
+2026-08-16 15:12:35:1235 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1042.422 ms - -[0m[39m
+2026-08-16 15:12:52:1252 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.304 ms - -[0m[39m
+2026-08-16 15:12:53:1253 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 532.799 ms - -[0m[39m
+2026-08-16 15:12:53:1253 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.590 ms - -[0m[39m
+2026-08-16 15:12:53:1253 [32minfo[39m: [32m[0mGET /api/v1/settings/public [32m200[0m 554.681 ms - 52[0m[39m
+2026-08-16 15:12:55:1255 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 2503.060 ms - -[0m[39m
+2026-08-16 15:12:57:1257 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 261.055 ms - -[0m[39m
+2026-08-16 15:12:57:1257 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.174 ms - -[0m[39m
+2026-08-16 15:12:57:1257 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 527.220 ms - -[0m[39m
+2026-08-16 15:12:58:1258 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1077.912 ms - -[0m[39m
+2026-08-16 15:13:00:130 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 276.242 ms - -[0m[39m
+2026-08-16 15:13:00:130 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 284.895 ms - -[0m[39m
+2026-08-16 15:13:00:130 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 557.953 ms - -[0m[39m
+2026-08-16 15:13:01:131 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1067.467 ms - -[0m[39m
+2026-08-16 15:13:04:134 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 261.947 ms - -[0m[39m
+2026-08-16 15:13:04:134 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.376 ms - -[0m[39m
+2026-08-16 15:13:04:134 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 527.884 ms - -[0m[39m
+2026-08-16 15:13:04:134 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1045.959 ms - -[0m[39m
+2026-08-16 15:13:07:137 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 263.566 ms - -[0m[39m
+2026-08-16 15:13:08:138 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.014 ms - -[0m[39m
+2026-08-16 15:13:08:138 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 528.329 ms - -[0m[39m
+2026-08-16 15:13:08:138 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1047.949 ms - -[0m[39m
+2026-08-16 15:13:40:1340 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 273.415 ms - -[0m[39m
+2026-08-16 15:13:55:1355 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 261.339 ms - -[0m[39m
+2026-08-16 15:13:55:1355 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.002 ms - -[0m[39m
+2026-08-16 15:13:56:1356 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.419 ms - -[0m[39m
+2026-08-16 15:13:56:1356 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 539.003 ms - -[0m[39m
+2026-08-16 15:13:56:1356 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1037.211 ms - -[0m[39m
+2026-08-16 15:14:00:140 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 264.920 ms - -[0m[39m
+2026-08-16 15:14:00:140 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.415 ms - -[0m[39m
+2026-08-16 15:14:00:140 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 525.698 ms - -[0m[39m
+2026-08-16 15:14:00:140 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.581 ms - -[0m[39m
+2026-08-16 15:14:00:140 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1090.984 ms - -[0m[39m
+2026-08-16 15:14:04:144 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.774 ms - -[0m[39m
+2026-08-16 15:14:04:144 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 271.673 ms - -[0m[39m
+2026-08-16 15:14:05:145 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 527.026 ms - -[0m[39m
+2026-08-16 15:14:05:145 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.529 ms - -[0m[39m
+2026-08-16 15:14:05:145 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1044.094 ms - -[0m[39m
+2026-08-16 15:14:09:149 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 261.519 ms - -[0m[39m
+2026-08-16 15:14:09:149 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.114 ms - -[0m[39m
+2026-08-16 15:14:09:149 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.654 ms - -[0m[39m
+2026-08-16 15:14:09:149 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 528.559 ms - -[0m[39m
+2026-08-16 15:14:09:149 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1110.302 ms - -[0m[39m
+2026-08-16 15:25:55:2555 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.584 ms - 65[0m[39m
+2026-08-16 15:25:55:2555 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.566 ms - 65[0m[39m
+2026-08-16 15:25:56:2556 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 268.671 ms - -[0m[39m
+2026-08-16 15:25:56:2556 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 262.580 ms - 36[0m[39m
+2026-08-16 15:25:56:2556 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 525.474 ms - -[0m[39m
+2026-08-16 15:25:56:2556 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 549.890 ms - 254[0m[39m
+2026-08-16 15:25:56:2556 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 259.694 ms - 884[0m[39m
+2026-08-16 15:25:57:2557 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 2007.789 ms - 254[0m[39m
+2026-08-16 15:25:58:2558 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 272.704 ms - 884[0m[39m
+2026-08-16 15:26:09:269 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 272.878 ms - -[0m[39m
+2026-08-16 15:26:09:269 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 289.865 ms - -[0m[39m
+2026-08-16 15:26:09:269 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 541.355 ms - -[0m[39m
+2026-08-16 15:26:09:269 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 276.512 ms - -[0m[39m
+2026-08-16 15:26:10:2610 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1053.497 ms - 1349[0m[39m
+2026-08-16 15:26:23:2623 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 263.389 ms - 884[0m[39m
+2026-08-16 15:26:23:2623 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 274.024 ms - -[0m[39m
+2026-08-16 15:26:23:2623 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.046 ms - -[0m[39m
+2026-08-16 15:26:23:2623 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 530.342 ms - -[0m[39m
+2026-08-16 15:26:23:2623 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1069.421 ms - -[0m[39m
+2026-08-16 15:26:30:2630 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.068 ms - -[0m[39m
+2026-08-16 15:26:30:2630 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 262.144 ms - -[0m[39m
+2026-08-16 15:26:30:2630 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 260.257 ms - -[0m[39m
+2026-08-16 15:26:30:2630 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 526.809 ms - -[0m[39m
+2026-08-16 15:26:31:2631 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1094.646 ms - -[0m[39m
+2026-08-16 15:26:41:2641 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 264.615 ms - -[0m[39m
+2026-08-16 15:26:41:2641 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 280.758 ms - -[0m[39m
+2026-08-16 15:26:41:2641 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 529.177 ms - -[0m[39m
+2026-08-16 15:26:41:2641 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.558 ms - -[0m[39m
+2026-08-16 15:26:41:2641 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1057.784 ms - -[0m[39m
+2026-08-16 15:28:06:286 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 262.846 ms - -[0m[39m
+2026-08-16 15:28:06:286 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 282.017 ms - -[0m[39m
+2026-08-16 15:28:06:286 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 535.072 ms - -[0m[39m
+2026-08-16 15:28:06:286 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 283.335 ms - -[0m[39m
+2026-08-16 15:28:07:287 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1066.612 ms - -[0m[39m
+2026-08-16 15:28:24:2824 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.558 ms - -[0m[39m
+2026-08-16 15:28:24:2824 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 271.671 ms - -[0m[39m
+2026-08-16 15:28:24:2824 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 520.269 ms - -[0m[39m
+2026-08-16 15:28:24:2824 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 263.811 ms - -[0m[39m
+2026-08-16 15:28:25:2825 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1051.176 ms - -[0m[39m
+2026-08-16 15:28:46:2846 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.288 ms - -[0m[39m
+2026-08-16 15:28:46:2846 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 262.487 ms - -[0m[39m
+2026-08-16 15:28:46:2846 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 531.744 ms - -[0m[39m
+2026-08-16 15:28:46:2846 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 276.772 ms - -[0m[39m
+2026-08-16 15:28:46:2846 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1106.508 ms - -[0m[39m
+2026-08-16 15:28:49:2849 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 258.689 ms - -[0m[39m
+2026-08-16 15:28:49:2849 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 278.309 ms - -[0m[39m
+2026-08-16 15:28:49:2849 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 526.228 ms - -[0m[39m
+2026-08-16 15:28:49:2849 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 298.058 ms - -[0m[39m
+2026-08-16 15:28:50:2850 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1044.896 ms - -[0m[39m
+2026-08-16 15:28:55:2855 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.988 ms - -[0m[39m
+2026-08-16 15:28:55:2855 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 271.805 ms - -[0m[39m
+2026-08-16 15:28:56:2856 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.361 ms - -[0m[39m
+2026-08-16 15:28:56:2856 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 524.661 ms - -[0m[39m
+2026-08-16 15:28:56:2856 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1038.869 ms - -[0m[39m
+2026-08-16 15:28:59:2859 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 260.459 ms - -[0m[39m
+2026-08-16 15:28:59:2859 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 261.436 ms - -[0m[39m
+2026-08-16 15:28:59:2859 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 260.491 ms - -[0m[39m
+2026-08-16 15:28:59:2859 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 551.286 ms - -[0m[39m
+2026-08-16 15:29:00:290 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1045.958 ms - -[0m[39m
+2026-08-16 15:29:09:299 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.687 ms - -[0m[39m
+2026-08-16 15:29:09:299 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 274.867 ms - -[0m[39m
+2026-08-16 15:29:09:299 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.468 ms - -[0m[39m
+2026-08-16 15:29:09:299 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 530.765 ms - -[0m[39m
+2026-08-16 15:29:10:2910 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1054.544 ms - -[0m[39m
+2026-08-16 15:31:03:313 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.293 ms - -[0m[39m
+2026-08-16 15:31:03:313 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 261.190 ms - -[0m[39m
+2026-08-16 15:31:03:313 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.023 ms - -[0m[39m
+2026-08-16 15:31:03:313 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 524.736 ms - -[0m[39m
+2026-08-16 15:31:04:314 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1091.602 ms - -[0m[39m
+2026-08-16 15:31:24:3124 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 264.117 ms - -[0m[39m
+2026-08-16 15:31:24:3124 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 273.771 ms - -[0m[39m
+2026-08-16 15:31:25:3125 [32minfo[39m: [32m[0mGET /api/v1/labs [36m304[0m 525.623 ms - -[0m[39m
+2026-08-16 15:31:25:3125 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.183 ms - -[0m[39m
+2026-08-16 15:31:25:3125 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1084.921 ms - -[0m[39m
+2026-08-16 15:32:51:3251 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:32:51:3251 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 15:32:51:3251 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 15:32:54:3254 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:32:54:3254 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 15:32:54:3254 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 15:32:57:3257 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:32:57:3257 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 15:32:57:3257 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 15:33:03:333 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 15:33:04:334 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 15:33:04:334 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 15:33:06:336 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 15:33:06:336 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 15:33:08:338 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 4682.614 ms - -[0m[39m
+2026-08-16 15:33:09:339 [32minfo[39m: [32m[0mGET /api/v1/settings/public [36m304[0m 1601.624 ms - -[0m[39m
+2026-08-16 15:33:11:3311 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 7360.547 ms - -[0m[39m
