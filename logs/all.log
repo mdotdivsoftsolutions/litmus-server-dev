@@ -19978,3 +19978,54 @@
 2026-08-16 17:04:06:46 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
 2026-08-16 17:04:17:417 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-08-16 17:04:17:417 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 18:53:44:5344 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 18:53:44:5344 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 18:53:45:5345 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 803.750 ms - 1371[0m[39m
+2026-08-16 18:53:46:5346 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 2036.125 ms - 1367[0m[39m
+2026-08-16 18:53:46:5346 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 1398.793 ms - 1371[0m[39m
+2026-08-16 18:53:47:5347 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 2661.336 ms - 6046[0m[39m
+2026-08-16 18:53:47:5347 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 2935.357 ms - 25645[0m[39m
+2026-08-16 18:53:48:5348 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 2675.924 ms - 25645[0m[39m
+2026-08-16 18:53:48:5348 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 3087.052 ms - 1367[0m[39m
+2026-08-16 18:53:49:5349 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 3520.335 ms - 6046[0m[39m
+2026-08-16 18:53:50:5350 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 280.155 ms - 1367[0m[39m
+2026-08-16 18:53:51:5351 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 275.640 ms - 1371[0m[39m
+2026-08-16 18:53:51:5351 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 610.590 ms - 6046[0m[39m
+2026-08-16 18:53:52:5352 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1491.710 ms - 25645[0m[39m
+2026-08-16 18:53:52:5352 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 269.054 ms - 1371[0m[39m
+2026-08-16 18:53:52:5352 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 289.989 ms - 1367[0m[39m
+2026-08-16 18:53:52:5352 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 536.617 ms - 6046[0m[39m
+2026-08-16 18:53:53:5353 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1394.822 ms - 25645[0m[39m
+2026-08-16 18:54:01:541 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.867 ms - 65[0m[39m
+2026-08-16 18:54:01:541 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [33m401[0m 0.612 ms - 65[0m[39m
+2026-08-16 18:54:01:541 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 4.526 ms - 53[0m[39m
+2026-08-16 18:54:01:541 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.529 ms - 53[0m[39m
+2026-08-16 18:54:01:541 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 332.669 ms - 36[0m[39m
+2026-08-16 18:54:01:541 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 18.142 ms - 65[0m[39m
+2026-08-16 18:54:01:541 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.497 ms - 53[0m[39m
+2026-08-16 18:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 301.481 ms - 36[0m[39m
+2026-08-16 18:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.402 ms - 65[0m[39m
+2026-08-16 18:54:02:542 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 276.250 ms - 36[0m[39m
+2026-08-16 18:54:02:542 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.400 ms - 53[0m[39m
+2026-08-16 18:54:03:543 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.395 ms - 65[0m[39m
+2026-08-16 18:54:03:543 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.517 ms - 53[0m[39m
+2026-08-16 18:54:03:543 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 285.327 ms - 36[0m[39m
+2026-08-16 18:54:04:544 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 279.907 ms - -[0m[39m
+2026-08-16 18:54:05:545 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.476 ms - 65[0m[39m
+2026-08-16 18:54:05:545 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.486 ms - 53[0m[39m
+2026-08-16 18:54:05:545 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 294.927 ms - 1367[0m[39m
+2026-08-16 18:54:06:546 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=10 [32m200[0m 942.472 ms - 5480[0m[39m
+2026-08-16 18:54:08:548 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 321.038 ms - -[0m[39m
+2026-08-16 18:54:09:549 [32minfo[39m: [32m[0mGET /api/v1/packages?search=&page=1&limit=12 [32m200[0m 1276.892 ms - 20948[0m[39m
+2026-08-16 18:54:09:549 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 268.645 ms - -[0m[39m
+2026-08-16 18:54:10:5410 [32minfo[39m: [32m[0mGET /api/v1/labs?search=&page=1&limit=12 [0m-[0m - ms - -[0m[39m
+2026-08-16 19:02:05:25 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 19:02:05:25 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 19:02:05:25 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 19:02:07:27 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 19:02:07:27 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 19:02:23:223 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 19:02:23:223 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 19:02:23:223 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 19:02:25:225 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 19:02:25:225 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m

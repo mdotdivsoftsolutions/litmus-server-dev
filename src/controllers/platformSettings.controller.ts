@@ -29,10 +29,10 @@ export const getAdminSettings = async (_req: Request, res: Response) => {
 
 export const updateAdminSettings = async (req: Request, res: Response) => {
   try {
-    const pickupCities = Array.isArray(req.body.pickupCities)
+    const pickupCities: string[] = Array.isArray(req.body.pickupCities)
       ? req.body.pickupCities
-          .map((city: string) => String(city).trim())
-          .filter(Boolean)
+          .map((city: unknown) => String(city).trim())
+          .filter((city) => city.length > 0)
       : [];
 
     if (pickupCities.length === 0) {
@@ -43,7 +43,7 @@ export const updateAdminSettings = async (req: Request, res: Response) => {
       return;
     }
 
-    const uniqueCities = [...new Set(pickupCities)];
+    const uniqueCities: string[] = [...new Set(pickupCities)];
     const settings = await getPlatformSettings();
     settings.pickupCities = uniqueCities;
     await settings.save();

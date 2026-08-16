@@ -286,7 +286,11 @@ export const downloadBookingReport = async (req: Request, res: Response): Promis
     }
     if (!booking) return;
 
-    const fileUrl = booking.reportFiles[0];
+    const fileUrl = booking.reportFiles?.[0];
+    if (!fileUrl) {
+      res.status(404).json({ success: false, message: 'Report file not found' });
+      return;
+    }
     const parsed = new URL(fileUrl);
     const key = decodeURIComponent(parsed.pathname.replace(/^\//, ''));
     const ext = path.extname(key) || path.extname(parsed.pathname) || '.pdf';
