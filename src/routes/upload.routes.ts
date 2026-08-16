@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { uploadFile } from '../controllers/upload.controller';
+import { uploadFile, downloadFile } from '../controllers/upload.controller';
 import { authMiddleware } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -39,5 +39,6 @@ router.use(authMiddleware);
  *         description: File uploaded successfully
  */
 router.post('/', upload.single('file'), uploadFile);
+router.get('/download', downloadFile);
 
 export default router;
