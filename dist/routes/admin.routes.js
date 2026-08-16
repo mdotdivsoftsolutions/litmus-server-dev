@@ -48,6 +48,38 @@ router.get('/users', admin_controller_1.getUsers);
 router.get('/user/:id', admin_controller_1.getUserById);
 /**
  * @swagger
+ * /api/v1/admin/user:
+ *   post:
+ *     summary: Create a new user (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ */
+router.post('/user', admin_controller_1.createUser);
+/**
+ * @swagger
+ * /api/v1/admin/user/{id}/detailed:
+ *   get:
+ *     summary: Get detailed user profile including bookings, payments, and cart (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Detailed user profile retrieved successfully
+ */
+router.get('/user/:id/detailed', admin_controller_1.getUserDetailedProfile);
+/**
+ * @swagger
  * /api/v1/admin/user/status:
  *   patch:
  *     summary: Update user status (Admin only)
@@ -234,6 +266,36 @@ router.get('/bookings', admin_controller_1.getAdminBookings);
 router.patch('/booking/:id/assign-lab', admin_controller_1.assignLabToBooking);
 /**
  * @swagger
+ * /api/v1/admin/booking/{id}/collection:
+ *   patch:
+ *     summary: Update collection details (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *               collector:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Collection details updated
+ */
+router.patch('/booking/:id/collection', admin_controller_1.updateCollectionDetails);
+/**
+ * @swagger
  * /api/v1/admin/booking/{id}/reject:
  *   patch:
  *     summary: Reject a booking entirely (Admin only)
@@ -347,4 +409,10 @@ router.get('/payments', admin_controller_1.getAdminPayments);
  *         description: Admin analytics data
  */
 router.get('/analytics', admin_controller_1.getAdminAnalytics);
+// Approvals (Tests & Packages)
+router.get('/pending-approvals', admin_controller_1.getPendingApprovals);
+router.patch('/test/:id/approve', admin_controller_1.approveTest);
+router.patch('/test/:id/reject', admin_controller_1.rejectTest);
+router.patch('/package/:id/approve', admin_controller_1.approvePackage);
+router.patch('/package/:id/reject', admin_controller_1.rejectPackage);
 exports.default = router;

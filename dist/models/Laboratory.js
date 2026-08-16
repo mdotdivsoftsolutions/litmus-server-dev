@@ -79,6 +79,12 @@ const LaboratorySchema = new mongoose_1.Schema({
             ref: 'Test',
         },
     ],
+    packages: [
+        {
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: 'Package',
+        },
+    ],
     pricing: {
         type: mongoose_1.Schema.Types.Mixed,
     },

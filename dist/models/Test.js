@@ -93,6 +93,14 @@ const TestSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Laboratory',
     },
+    approvalStatus: {
+        type: String,
+        enum: ['PENDING', 'APPROVED', 'REJECTED'],
+        default: 'APPROVED',
+    },
+    rejectionReason: {
+        type: String,
+    },
 }, {
     timestamps: true,
 });

@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const auth_routes_1 = __importDefault(require("./auth.routes"));
+const employee_routes_1 = __importDefault(require("./employee.routes"));
+const lab_employee_routes_1 = __importDefault(require("./lab-employee.routes"));
 const admin_routes_1 = __importDefault(require("./admin.routes"));
 const category_routes_1 = __importDefault(require("./category.routes"));
 const product_routes_1 = __importDefault(require("./product.routes"));
@@ -24,8 +26,11 @@ const activityStatus_routes_1 = __importDefault(require("./activityStatus.routes
 const cart_routes_1 = __importDefault(require("./cart.routes"));
 const search_routes_1 = __importDefault(require("./search.routes"));
 const consultation_routes_1 = __importDefault(require("./consultation.routes"));
+const systemOption_routes_1 = __importDefault(require("./systemOption.routes"));
 const router = (0, express_1.Router)();
 router.use('/auth', auth_routes_1.default);
+router.use('/employees', employee_routes_1.default);
+router.use('/lab-employees', lab_employee_routes_1.default);
 router.use('/admin', admin_routes_1.default);
 router.use('/lab-portal', lab_portal_routes_1.default);
 router.use('/categories', category_routes_1.default);
@@ -46,4 +51,5 @@ router.use('/activity-status', activityStatus_routes_1.default);
 router.use('/cart', cart_routes_1.default);
 router.use('/search', search_routes_1.default);
 router.use('/consultations', consultation_routes_1.default);
+router.use('/options', systemOption_routes_1.default);
 exports.default = router;

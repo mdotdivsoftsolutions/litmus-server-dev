@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBookingById = exports.getMyBookings = exports.createBooking = void 0;
 const Booking_1 = __importDefault(require("../models/Booking"));
+const Laboratory_1 = __importDefault(require("../models/Laboratory"));
 const types_1 = require("../types");
+const mailer_1 = require("../utils/mailer");
 const createBooking = async (req, res) => {
     try {
         let { labId, items, bookingDate, totalAmount, metadata } = req.body;
@@ -17,8 +19,15 @@ const createBooking = async (req, res) => {
             });
             return;
         }
+        let status = types_1.BookingStatus.PENDING;
         if (labId === 'admin') {
             labId = undefined; // Litmus Smart Allocation
+        }
+        else if (labId) {
+            const lab = await Laboratory_1.default.findById(labId);
+            if (lab && lab.isAutoBooking) {
+                status = types_1.BookingStatus.IN_PROGRESS; // Auto-approved and moved to lab side
+            }
         }
         const booking = await Booking_1.default.create({
             userId,
@@ -27,8 +36,42 @@ const createBooking = async (req, res) => {
             bookingDate,
             totalAmount,
             metadata,
-            status: types_1.BookingStatus.PENDING,
+            status,
         });
+        try {
+            const populatedBooking = await Booking_1.default.findById(booking._id)
+                .populate('userId', 'firstName lastName email')
+                .populate('items.testId', 'testName')
+                .populate('items.packageId', 'name');
+            if (populatedBooking && populatedBooking.userId.email) {
+                const user = populatedBooking.userId;
+                const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+                const testNames = populatedBooking.items.map(item => {
+                    if (item.testId)
+                        return item.testId.testName;
+                    if (item.packageId)
+                        return item.packageId.name;
+                    return 'Unknown Test';
+                }).filter(Boolean).join(', ');
+                const productNames = populatedBooking.items.map(item => {
+                    return item.samples?.map(s => s.productName).filter(Boolean).join(', ');
+                }).filter(Boolean).join(', ');
+                const totalSamples = populatedBooking.items.reduce((total, item) => {
+                    return total + (item.samples?.reduce((sum, s) => sum + (Number(s.quantity) || 1), 0) || 0);
+                }, 0);
+                await (0, mailer_1.sendBookingConfirmedEmail)(user.email, {
+                    customerName,
+                    bookingId: booking._id.toString(),
+                    productName: productNames || 'N/A',
+                    testList: testNames || 'N/A',
+                    sampleQty: totalSamples.toString(),
+                    bookingDate: new Date(bookingDate).toLocaleDateString(),
+                });
+            }
+        }
+        catch (emailErr) {
+            console.error('Error sending booking confirmation email:', emailErr);
+        }
         res.status(201).json({
             success: true,
             data: booking,

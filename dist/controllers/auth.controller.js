@@ -28,6 +28,16 @@ class AuthController {
             res.status(400).json({ success: false, message: error.message });
         }
     }
+    static async verifyOtp(req, res) {
+        try {
+            const result = await auth_service_1.AuthService.verifyOtp(req.body);
+            res.status(200).json(result);
+        }
+        catch (error) {
+            logger_1.default.error(`VerifyOtp Error: ${error.message}`);
+            res.status(400).json({ success: false, message: error.message });
+        }
+    }
     static async resetPassword(req, res) {
         try {
             const result = await auth_service_1.AuthService.resetPassword(req.body);
@@ -111,7 +121,7 @@ class AuthController {
     }
     static async getMe(req, res) {
         try {
-            const user = await User_1.default.findById(req.user?.id).select('-password');
+            const user = await User_1.default.findById(req.user?.id).select('-password').populate('labId', 'labName');
             if (!user) {
                 res.status(404).json({ success: false, message: 'User not found' });
                 return;

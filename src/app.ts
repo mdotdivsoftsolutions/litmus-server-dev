@@ -6,6 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import apiRoutes from './routes';
 import logger from './utils/logger';
+import { connectDB } from './config/db';
 
 const app: Application = express();
 
@@ -21,10 +22,12 @@ app.use(cors({
     'https://litmus-frontend-dev.vercel.app',
     'https://litmus-user-frontend-dev-beta.vercel.app',
     'https://litmus-lab-frontend-dev.vercel.app',
-    process.env.FRONTEND_URL || '' // Adds your production domain from .env
-  ],
+    'https://litmus-user-frontend.vercel.app',
+    process.env.FRONTEND_URL || ''
+  ].filter(Boolean),
   credentials: true,
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -39,6 +42,24 @@ app.use(
   })
 );
 
+// Database connection assurance middleware (vital for Serverless cold-starts & connection drops)
+app.use(async (req: Request, res: Response, next: NextFunction) => {
+  // Skip DB connection check for docs and health check root
+  if (req.path === '/' || req.path.startsWith('/api-docs')) {
+    return next();
+  }
+  try {
+    await connectDB();
+    next();
+  } catch (error: any) {
+    logger.error(`Database connection middleware error: ${error.message}`);
+    res.status(503).json({
+      success: false,
+      message: 'Database temporarily unavailable. Please try again shortly.',
+    });
+  }
+});
+
 // Swagger API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -47,7 +68,7 @@ app.use('/api/v1', apiRoutes);
 
 // Base route for testing
 app.get('/', (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Welcome to Litmus API' });
+  res.status(200).json({ message: 'Welcome to Litmus API', status: 'operational' });
 });
 
 // Global Error Handler

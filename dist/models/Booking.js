@@ -77,6 +77,7 @@ const BookingSchema = new mongoose_1.Schema({
                     sku: { type: String },
                     specifics: { type: String },
                     selectedParameters: [{ type: String }],
+                    selectedTests: [{ type: String }],
                 }
             ]
         }
@@ -106,6 +107,15 @@ const BookingSchema = new mongoose_1.Schema({
     isReportApprovedByAdmin: {
         type: Boolean,
         default: false,
+    },
+    collectionStatus: {
+        type: String,
+        enum: Object.values(types_1.CollectionStatus),
+        default: types_1.CollectionStatus.PENDING,
+    },
+    assignedCollector: {
+        name: { type: String },
+        contact: { type: String }
     },
     metadata: {
         type: mongoose_1.Schema.Types.Mixed,

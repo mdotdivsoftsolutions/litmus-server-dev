@@ -12,7 +12,7 @@ const router = (0, express_1.Router)();
 const upload = (0, multer_1.default)({
     storage: multer_1.default.memoryStorage(),
     limits: {
-        fileSize: 5 * 1024 * 1024, // Limit file size to 5MB
+        fileSize: 50 * 1024 * 1024, // Limit file size to 50MB
     },
 });
 // Protect the upload route

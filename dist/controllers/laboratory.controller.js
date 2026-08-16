@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.submitBookingResult = exports.deleteLab = exports.updateLab = exports.getLabByIdPublic = exports.getLabsPublic = exports.getLabById = exports.getLabs = exports.createLab = void 0;
+exports.getLabAvailability = exports.submitBookingResult = exports.deleteLab = exports.updateLab = exports.getLabByIdPublic = exports.getLabsPublic = exports.getLabById = exports.getLabs = exports.createLab = void 0;
 const Laboratory_1 = __importDefault(require("../models/Laboratory"));
 const User_1 = __importDefault(require("../models/User"));
 const types_1 = require("../types");
@@ -195,9 +195,19 @@ const getLabsPublic = async (req, res) => {
                 return locString.includes(locationStr.toLowerCase());
             });
         }
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = req.query.limit ? parseInt(req.query.limit, 10) : 0;
+        const total = labs.length;
+        if (limit > 0) {
+            const skip = (page - 1) * limit;
+            labs = labs.slice(skip, skip + limit);
+        }
         res.status(200).json({
             success: true,
             count: labs.length,
+            total,
+            page,
+            pages: limit > 0 ? Math.ceil(total / limit) : 1,
             data: labs,
         });
     }
@@ -296,7 +306,8 @@ const submitBookingResult = async (req, res) => {
             return;
         }
         Promise.resolve().then(() => __importStar(require('../models/Booking'))).then(async ({ default: Booking }) => {
-            const booking = await Booking.findById(req.params.bookingId).populate('labId');
+            const { sendTestReportReadyEmail } = await Promise.resolve().then(() => __importStar(require('../utils/mailer')));
+            const booking = await Booking.findById(req.params.bookingId).populate('labId').populate('userId', 'firstName lastName email');
             if (!booking) {
                 res.status(404).json({
                     success: false,
@@ -327,7 +338,22 @@ const submitBookingResult = async (req, res) => {
                 booking.isReportApprovedByAdmin = true;
                 Promise.resolve().then(() => __importStar(require('../types'))).then(({ BookingStatus }) => {
                     booking.status = BookingStatus.COMPLETED;
-                    booking.save().then((updatedBooking) => {
+                    booking.save().then(async (updatedBooking) => {
+                        if (updatedBooking.userId) {
+                            try {
+                                const user = updatedBooking.userId;
+                                if (user.email) {
+                                    const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+                                    await sendTestReportReadyEmail(user.email, {
+                                        customerName,
+                                        bookingId: updatedBooking._id.toString(),
+                                    });
+                                }
+                            }
+                            catch (e) {
+                                console.error('Failed to send report ready email:', e);
+                            }
+                        }
                         res.status(200).json({
                             success: true,
                             message: 'Result submitted and approved automatically',
@@ -347,3 +373,61 @@ const submitBookingResult = async (req, res) => {
     }
 };
 exports.submitBookingResult = submitBookingResult;
+const getLabAvailability = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { date } = req.query;
+        if (!date) {
+            res.status(400).json({
+                success: false,
+                message: 'Please provide a date query parameter (YYYY-MM-DD)',
+            });
+            return;
+        }
+        const lab = await Laboratory_1.default.findById(id);
+        if (!lab || lab.isDeleted || !lab.isActive) {
+            res.status(404).json({
+                success: false,
+                message: 'Laboratory not found',
+            });
+            return;
+        }
+        // Count bookings for this lab on the given date
+        const targetDate = new Date(date);
+        const nextDate = new Date(targetDate);
+        nextDate.setDate(nextDate.getDate() + 1);
+        Promise.resolve().then(() => __importStar(require('../models/Booking'))).then(async ({ default: Booking }) => {
+            Promise.resolve().then(() => __importStar(require('../types'))).then(async ({ BookingStatus }) => {
+                // Find active bookings (not cancelled/rejected)
+                const bookingCount = await Booking.countDocuments({
+                    labId: id,
+                    bookingDate: {
+                        $gte: targetDate,
+                        $lt: nextDate,
+                    },
+                    status: { $nin: [BookingStatus.CANCELLED, BookingStatus.REJECTED] },
+                });
+                const dailyLimit = lab.dailyLimit || 0;
+                const isAvailable = dailyLimit === 0 || bookingCount < dailyLimit;
+                res.status(200).json({
+                    success: true,
+                    data: {
+                        labId: id,
+                        date,
+                        bookingCount,
+                        dailyLimit,
+                        isAvailable,
+                    },
+                });
+            });
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to check lab availability',
+            error: error.message,
+        });
+    }
+};
+exports.getLabAvailability = getLabAvailability;

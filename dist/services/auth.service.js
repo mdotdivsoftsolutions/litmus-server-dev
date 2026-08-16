@@ -10,7 +10,12 @@ const OTP_1 = __importDefault(require("../models/OTP"));
 const mailer_1 = require("../utils/mailer");
 class AuthService {
     static generateTokens(user) {
-        const payload = { id: user._id.toString(), role: user.role };
+        const payload = {
+            id: user._id.toString(),
+            role: user.role,
+            permissions: user.permissions,
+            labId: user.labId ? user.labId.toString() : undefined
+        };
         const accessToken = jsonwebtoken_1.default.sign(payload, process.env.JWT_ACCESS_SECRET, {
             expiresIn: (process.env.JWT_ACCESS_EXPIRES_IN || '15m'),
         });
@@ -34,9 +39,14 @@ class AuthService {
         return { success: true, message: 'OTP sent successfully' };
     }
     static async register(data) {
-        const existingUser = await User_1.default.findOne({ email: data.email });
+        const existingUser = await User_1.default.findOne({ $or: [{ email: data.email }, { phone: data.phone }] });
         if (existingUser) {
-            throw new Error('Email already registered');
+            if (existingUser.email === data.email) {
+                throw new Error('Email already registered');
+            }
+            if (existingUser.phone === data.phone) {
+                throw new Error('Mobile number is already registered');
+            }
         }
         const otpRecord = await OTP_1.default.findOne({ email: data.email, otp: data.otp });
         if (!otpRecord) {
@@ -52,6 +62,8 @@ class AuthService {
             lastName: user.lastName,
             email: user.email,
             role: user.role,
+            permissions: user.permissions,
+            labId: user.labId,
         };
         return { user: userResponse, accessToken, refreshToken };
     }
@@ -67,6 +79,8 @@ class AuthService {
         if (!isMatch) {
             throw new Error('Invalid credentials');
         }
+        user.lastLoginAt = new Date();
+        await user.save();
         const { accessToken, refreshToken } = this.generateTokens(user);
         const userResponse = {
             id: user._id,
@@ -74,6 +88,8 @@ class AuthService {
             lastName: user.lastName,
             email: user.email,
             role: user.role,
+            permissions: user.permissions,
+            labId: user.labId,
         };
         return { user: userResponse, accessToken, refreshToken };
     }
@@ -84,6 +100,8 @@ class AuthService {
             if (!user || !user.isActive) {
                 throw new Error('User not found or inactive');
             }
+            user.lastLoginAt = new Date();
+            await user.save();
             const { accessToken, refreshToken } = this.generateTokens(user);
             return { accessToken, refreshToken };
         }
@@ -104,6 +122,17 @@ class AuthService {
         // Send email
         await (0, mailer_1.sendOtpEmail)(email, otp);
         return { success: true, message: 'Password reset OTP sent successfully' };
+    }
+    static async verifyOtp(data) {
+        const user = await User_1.default.findOne({ email: data.email });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const otpRecord = await OTP_1.default.findOne({ email: data.email, otp: data.otp });
+        if (!otpRecord) {
+            throw new Error('Invalid or expired OTP');
+        }
+        return { success: true, message: 'OTP verified successfully' };
     }
     static async resetPassword(data) {
         const user = await User_1.default.findOne({ email: data.email });

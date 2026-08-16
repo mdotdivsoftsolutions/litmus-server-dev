@@ -66,6 +66,7 @@ const UserSchema = new mongoose_1.Schema({
     phone: {
         type: String,
         required: [true, 'Phone number is required'],
+        unique: true,
         trim: true,
     },
     role: {
@@ -73,9 +74,21 @@ const UserSchema = new mongoose_1.Schema({
         enum: Object.values(types_1.UserRole),
         default: types_1.UserRole.USER,
     },
+    permissions: [{
+            type: String,
+            enum: Object.values(types_1.Permission),
+        }],
+    labId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'Laboratory',
+    },
     isActive: {
         type: Boolean,
         default: true,
+    },
+    lastLoginAt: {
+        type: Date,
+        default: Date.now,
     },
     documents: [{
             name: String,
@@ -87,7 +100,23 @@ const UserSchema = new mongoose_1.Schema({
     address: {
         type: mongoose_1.Schema.Types.Mixed,
     },
+    profilePic: {
+        type: String,
+        trim: true,
+    },
+    designation: {
+        type: String,
+        trim: true,
+    },
+    department: {
+        type: String,
+        trim: true,
+    },
     fssaiNumber: {
+        type: String,
+        trim: true,
+    },
+    companyName: {
         type: String,
         trim: true,
     },

@@ -46,6 +46,29 @@ router.get('/', laboratory_controller_1.getLabsPublic);
  *         description: Laboratory not found or inactive
  */
 router.get('/:id', laboratory_controller_1.getLabByIdPublic);
+/**
+ * @swagger
+ * /api/v1/laboratory/{id}/availability:
+ *   get:
+ *     summary: Check laboratory availability for a given date (public)
+ *     tags: [Laboratory]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: date
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: Laboratory availability status
+ */
+router.get('/:id/availability', require('../controllers/laboratory.controller').getLabAvailability);
 const laboratory_controller_2 = require("../controllers/laboratory.controller");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const types_1 = require("../types");

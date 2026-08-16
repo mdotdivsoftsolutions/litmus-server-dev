@@ -57,6 +57,34 @@ router.post('/send-otp', (0, validate_middleware_1.validate)(auth_validator_1.se
 router.post('/forgot-password', (0, validate_middleware_1.validate)(auth_validator_1.forgotPasswordSchema), auth_controller_1.AuthController.forgotPassword);
 /**
  * @swagger
+ * /api/v1/auth/verify-otp:
+ *   post:
+ *     summary: Verify OTP for password reset
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - otp
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               otp:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: OTP verified successfully
+ *       400:
+ *         description: Validation error or invalid OTP
+ */
+router.post('/verify-otp', (0, validate_middleware_1.validate)(auth_validator_1.verifyOtpSchema), auth_controller_1.AuthController.verifyOtp);
+/**
+ * @swagger
  * /api/v1/auth/reset-password:
  *   post:
  *     summary: Reset password using OTP
