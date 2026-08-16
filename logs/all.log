@@ -18845,3 +18845,129 @@
 2026-08-16 16:06:35:635 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 550.506 ms - -[0m[39m
 2026-08-16 16:06:36:636 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1100.185 ms - 1796[0m[39m
 2026-08-16 16:06:37:637 [32minfo[39m: [32m[0mGET /api/v1/booking/6a36602bb4d6d6986738bd77/report [32m200[0m 10583.890 ms - 23529133[0m[39m
+2026-08-16 16:06:45:645 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.004 ms - -[0m[39m
+2026-08-16 16:06:45:645 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 548.672 ms - -[0m[39m
+2026-08-16 16:06:45:645 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1061.481 ms - -[0m[39m
+2026-08-16 16:07:06:76 [32minfo[39m: [32m[0mGET /api/v1/booking/6a36602bb4d6d6986738bd77/report [32m200[0m 4376.181 ms - 23529133[0m[39m
+2026-08-16 16:07:17:717 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 281.251 ms - -[0m[39m
+2026-08-16 16:07:17:717 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 587.468 ms - -[0m[39m
+2026-08-16 16:07:17:717 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1113.972 ms - -[0m[39m
+2026-08-16 16:08:09:89 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.936 ms - -[0m[39m
+2026-08-16 16:08:09:89 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 557.178 ms - -[0m[39m
+2026-08-16 16:08:09:89 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1050.931 ms - -[0m[39m
+2026-08-16 16:08:38:838 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 260.493 ms - -[0m[39m
+2026-08-16 16:08:38:838 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 540.858 ms - -[0m[39m
+2026-08-16 16:08:39:839 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1084.360 ms - -[0m[39m
+2026-08-16 16:08:48:848 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.375 ms - -[0m[39m
+2026-08-16 16:08:48:848 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 579.603 ms - -[0m[39m
+2026-08-16 16:08:49:849 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1116.019 ms - -[0m[39m
+2026-08-16 16:08:54:854 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 587.622 ms - -[0m[39m
+2026-08-16 16:09:05:95 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 286.795 ms - -[0m[39m
+2026-08-16 16:09:05:95 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 566.747 ms - -[0m[39m
+2026-08-16 16:09:06:96 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1088.119 ms - -[0m[39m
+2026-08-16 16:09:07:97 [32minfo[39m: [32m[0mGET /api/v1/booking/6a81902c7df76f48a1596212 [36m304[0m 536.859 ms - -[0m[39m
+2026-08-16 16:09:38:938 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.477 ms - -[0m[39m
+2026-08-16 16:09:38:938 [32minfo[39m: [32m[0mGET /api/v1/booking/6a81902c7df76f48a1596212 [36m304[0m 534.672 ms - -[0m[39m
+2026-08-16 16:09:38:938 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1076.200 ms - -[0m[39m
+2026-08-16 16:09:44:944 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.685 ms - -[0m[39m
+2026-08-16 16:09:45:945 [32minfo[39m: [32m[0mGET /api/v1/booking/6a81902c7df76f48a1596212 [36m304[0m 543.374 ms - -[0m[39m
+2026-08-16 16:09:45:945 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1067.872 ms - -[0m[39m
+2026-08-16 16:09:46:946 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.963 ms - -[0m[39m
+2026-08-16 16:09:46:946 [32minfo[39m: [32m[0mGET /api/v1/booking/6a81902c7df76f48a1596212 [36m304[0m 540.068 ms - -[0m[39m
+2026-08-16 16:09:47:947 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1070.003 ms - -[0m[39m
+2026-08-16 16:10:05:105 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 260.404 ms - 1371[0m[39m
+2026-08-16 16:10:05:105 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 272.599 ms - 1367[0m[39m
+2026-08-16 16:10:05:105 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 534.808 ms - 6046[0m[39m
+2026-08-16 16:10:06:106 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1356.575 ms - 25645[0m[39m
+2026-08-16 16:10:08:108 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1076.322 ms - -[0m[39m
+2026-08-16 16:10:11:1011 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.033 ms - -[0m[39m
+2026-08-16 16:10:12:1012 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1078.250 ms - -[0m[39m
+2026-08-16 16:10:31:1031 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 16:10:31:1031 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 16:10:31:1031 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 16:10:35:1035 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 16:10:35:1035 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-16 16:10:35:1035 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-16 16:10:37:1037 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 16:10:37:1037 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 16:10:42:1042 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 298.706 ms - -[0m[39m
+2026-08-16 16:10:43:1043 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1085.799 ms - -[0m[39m
+2026-08-16 16:10:45:1045 [32minfo[39m: [32m[0mGET /api/v1/booking/my [32m200[0m 818.000 ms - 13759[0m[39m
+2026-08-16 16:10:49:1049 [32minfo[39m: [32m[0mGET /api/v1/booking/my [36m304[0m 1260.595 ms - -[0m[39m
+2026-08-16 16:10:53:1053 [32minfo[39m: [32m[0mGET /api/v1/booking/my?client=%5Bobject+Object%5D&queryKey%5B%5D=myBookings&signal=%5Bobject+AbortSignal%5D [32m200[0m 821.617 ms - 13759[0m[39m
+2026-08-16 16:10:54:1054 [32minfo[39m: [32m[0mGET /api/v1/booking/my?client=%5Bobject+Object%5D&queryKey%5B%5D=myBookings&signal=%5Bobject+AbortSignal%5D [36m304[0m 822.052 ms - -[0m[39m
+2026-08-16 16:10:56:1056 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 16:10:59:1059 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 16:11:02:112 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 16:11:02:112 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 16:11:02:112 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 2564.098 ms - -[0m[39m
+2026-08-16 16:11:03:113 [32minfo[39m: [32m[0mGET /api/v1/cart [0m-[0m - ms - -[0m[39m
+2026-08-16 16:11:03:113 [32minfo[39m: [32m[0mGET /api/v1/booking/my?client=%5Bobject+Object%5D&queryKey%5B%5D=myBookings&signal=%5Bobject+AbortSignal%5D [0m-[0m - ms - -[0m[39m
+2026-08-16 16:11:04:114 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.123 ms - -[0m[39m
+2026-08-16 16:11:04:114 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1098.177 ms - 1796[0m[39m
+2026-08-16 16:11:06:116 [32minfo[39m: [32m[0mGET /api/v1/booking/my?client=%5Bobject+Object%5D&queryKey%5B%5D=myBookings&signal=%5Bobject+AbortSignal%5D [32m200[0m 2164.178 ms - 13759[0m[39m
+2026-08-16 16:11:07:117 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 16:11:07:117 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 16:11:07:117 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 16:11:11:1111 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 16:11:12:1112 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 16:11:12:1112 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [32m200[0m 833.183 ms - 13759[0m[39m
+2026-08-16 16:11:15:1115 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=reports [32m200[0m 821.665 ms - 2508[0m[39m
+2026-08-16 16:11:29:1129 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 288.028 ms - -[0m[39m
+2026-08-16 16:11:29:1129 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1053.548 ms - -[0m[39m
+2026-08-16 16:11:41:1141 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.218 ms - -[0m[39m
+2026-08-16 16:11:42:1142 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1446.184 ms - -[0m[39m
+2026-08-16 16:11:43:1143 [32minfo[39m: [32m[0mGET /api/v1/booking/6a36602bb4d6d6986738bd77 [0m-[0m - ms - -[0m[39m
+2026-08-16 16:11:44:1144 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.078 ms - -[0m[39m
+2026-08-16 16:11:45:1145 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1096.741 ms - -[0m[39m
+2026-08-16 16:11:47:1147 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 16:11:48:1148 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 16:11:48:1148 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 16:11:49:1149 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 16:11:49:1149 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 16:11:50:1150 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 1714.256 ms - -[0m[39m
+2026-08-16 16:11:51:1151 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 2808.811 ms - -[0m[39m
+2026-08-16 16:11:52:1152 [32minfo[39m: [32m[0mGET /api/v1/booking/6a36602bb4d6d6986738bd77 [0m-[0m - ms - -[0m[39m
+2026-08-16 16:11:52:1152 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [0m-[0m - ms - -[0m[39m
+2026-08-16 16:11:52:1152 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.773 ms - -[0m[39m
+2026-08-16 16:11:53:1153 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [32m200[0m 845.329 ms - 13759[0m[39m
+2026-08-16 16:11:53:1153 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1037.943 ms - -[0m[39m
+2026-08-16 16:12:10:1210 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 259.535 ms - -[0m[39m
+2026-08-16 16:12:20:1220 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 276.821 ms - -[0m[39m
+2026-08-16 16:12:25:1225 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.376 ms - -[0m[39m
+2026-08-16 16:12:29:1229 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-16 16:12:30:1230 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-16 16:12:30:1230 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-16 16:12:32:1232 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [36m304[0m 22731.719 ms - -[0m[39m
+2026-08-16 16:12:32:1232 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 22736.201 ms - -[0m[39m
+2026-08-16 16:12:48:1248 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-16 16:12:48:1248 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-16 16:12:49:1249 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 282.900 ms - 887[0m[39m
+2026-08-16 16:12:50:1250 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [32m200[0m 2167.454 ms - 13759[0m[39m
+2026-08-16 16:12:51:1251 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 2459.081 ms - 1796[0m[39m
+2026-08-16 16:13:05:135 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.792 ms - -[0m[39m
+2026-08-16 16:13:06:136 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [36m304[0m 794.613 ms - -[0m[39m
+2026-08-16 16:13:06:136 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1081.468 ms - -[0m[39m
+2026-08-16 16:13:09:139 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.785 ms - -[0m[39m
+2026-08-16 16:13:09:139 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [36m304[0m 808.805 ms - -[0m[39m
+2026-08-16 16:13:09:139 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1053.130 ms - -[0m[39m
+2026-08-16 16:13:12:1312 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.472 ms - -[0m[39m
+2026-08-16 16:13:13:1313 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [36m304[0m 823.080 ms - -[0m[39m
+2026-08-16 16:13:13:1313 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1050.411 ms - -[0m[39m
+2026-08-16 16:13:16:1316 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 265.102 ms - -[0m[39m
+2026-08-16 16:13:17:1317 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [36m304[0m 825.300 ms - -[0m[39m
+2026-08-16 16:13:17:1317 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1106.248 ms - -[0m[39m
+2026-08-16 16:13:27:1327 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.765 ms - -[0m[39m
+2026-08-16 16:13:27:1327 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1052.249 ms - -[0m[39m
+2026-08-16 16:13:28:1328 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [36m304[0m 1159.102 ms - -[0m[39m
+2026-08-16 16:13:45:1345 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 271.536 ms - -[0m[39m
+2026-08-16 16:13:45:1345 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [36m304[0m 812.858 ms - -[0m[39m
+2026-08-16 16:13:45:1345 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1067.242 ms - -[0m[39m
+2026-08-16 16:13:49:1349 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=active [32m200[0m 798.275 ms - 11326[0m[39m
+2026-08-16 16:13:51:1351 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=completed [32m200[0m 830.921 ms - 2508[0m[39m
+2026-08-16 16:13:52:1352 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=active [36m304[0m 1317.700 ms - -[0m[39m
+2026-08-16 16:13:56:1356 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=reports [36m304[0m 811.127 ms - -[0m[39m
+2026-08-16 16:13:59:1359 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=completed [36m304[0m 809.553 ms - -[0m[39m
+2026-08-16 16:14:18:1418 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 281.139 ms - -[0m[39m
+2026-08-16 16:14:19:1419 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=completed [36m304[0m 801.153 ms - -[0m[39m
+2026-08-16 16:14:19:1419 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1061.588 ms - -[0m[39m

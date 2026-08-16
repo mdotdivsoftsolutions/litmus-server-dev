@@ -3,6 +3,8 @@ import path from 'path';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import Booking from '../models/Booking';
 import Laboratory from '../models/Laboratory';
+import Test from '../models/Test';
+import Package from '../models/Package';
 import { BookingStatus, CollectionStatus, UserRole } from '../types';
 import { sendBookingConfirmedEmail } from '../utils/mailer';
 import { getPlatformSettings } from '../models/PlatformSettings';
@@ -117,13 +119,61 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
 export const getMyBookings = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user?.id;
-    const bookings = await Booking.find({ userId })
+    const page = Math.max(1, parseInt(String(req.query.page || '1'), 10) || 1);
+    const requestedLimit = parseInt(String(req.query.limit ?? '10'), 10);
+    const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 50) : 10;
+    const search = String(req.query.search || '').trim();
+    const status = String(req.query.status || 'all').toLowerCase();
+    const reportsOnly = String(req.query.reportsOnly || '') === 'true' || status === 'reports';
+
+    const filter: Record<string, any> = { userId };
+
+    if (status === 'active') {
+      filter.status = { $in: [BookingStatus.PENDING, BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] };
+    } else if (status === 'completed') {
+      filter.status = BookingStatus.COMPLETED;
+    } else if (reportsOnly) {
+      filter.isReportApprovedByAdmin = true;
+      filter.reportFiles = { $exists: true, $not: { $size: 0 } };
+    }
+
+    if (search) {
+      const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const rx = new RegExp(escaped, 'i');
+      const [tests, packages] = await Promise.all([
+        Test.find({ testName: rx }).select('_id'),
+        Package.find({ name: rx }).select('_id'),
+      ]);
+      const or: Record<string, any>[] = [
+        { 'items.samples.productName': rx },
+      ];
+      if (tests.length) or.push({ 'items.testId': { $in: tests.map((t) => t._id) } });
+      if (packages.length) or.push({ 'items.packageId': { $in: packages.map((p) => p._id) } });
+      const hex = search.replace(/[^a-f0-9]/gi, '');
+      if (hex.length >= 6) {
+        or.push({
+          $expr: {
+            $regexMatch: { input: { $toString: '$_id' }, regex: hex, options: 'i' },
+          },
+        });
+      }
+      filter.$or = or;
+    }
+
+    const total = await Booking.countDocuments(filter);
+    const pages = Math.max(1, Math.ceil(total / limit));
+    const safePage = Math.min(page, pages);
+    const skip = (safePage - 1) * limit;
+
+    const bookings = await Booking.find(filter)
       .populate('labId', 'labName location')
       .populate('items.testId', 'testName price metadata')
       .populate('items.packageId', 'name tests')
-      .sort('-createdAt');
+      .sort('-createdAt')
+      .skip(skip)
+      .limit(limit);
 
-    const sanitizedBookings = bookings.map(b => {
+    const sanitizedBookings = bookings.map((b) => {
       const obj = b.toObject();
       if (!obj.isReportApprovedByAdmin) {
         delete obj.reportFiles;
@@ -134,6 +184,10 @@ export const getMyBookings = async (req: Request, res: Response): Promise<void> 
     res.status(200).json({
       success: true,
       count: sanitizedBookings.length,
+      total,
+      page: safePage,
+      pages,
+      limit,
       data: sanitizedBookings,
     });
   } catch (error: any) {
