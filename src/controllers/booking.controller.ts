@@ -9,6 +9,16 @@ import { BookingStatus, CollectionStatus, UserRole } from '../types';
 import { sendBookingConfirmedEmail } from '../utils/mailer';
 import { getPlatformSettings } from '../models/PlatformSettings';
 import spacesClient from '../config/spaces';
+import {
+  parseBookingListParams,
+  bookingListStatusFilter,
+  escapeRegex,
+  isPickupCityCovered,
+  canAddCourierTracking,
+  canDownloadBookingReport,
+  sanitizeBookingReports,
+  collectionStatusForMethod,
+} from '../utils/bookingRules';
 
 export const createBooking = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -36,22 +46,17 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
 
     const collectionMethod = metadata?.collectionMethod || metadata?.collectionDetails?.collectionMethod;
     const collectionCity = metadata?.collectionDetails?.city || '';
-    let collectionStatus = CollectionStatus.PENDING;
+    let collectionStatus = collectionStatusForMethod(collectionMethod);
 
     if (collectionMethod === 'PICKUP') {
       const settings = await getPlatformSettings();
-      const allowed = (settings.pickupCities || []).map((c) => c.trim().toLowerCase());
-      const cityNorm = String(collectionCity).trim().toLowerCase();
-      const isCovered = allowed.some((c) => cityNorm === c || cityNorm.includes(c) || c.includes(cityNorm));
-      if (!isCovered) {
+      if (!isPickupCityCovered(collectionCity, settings.pickupCities || [])) {
         res.status(400).json({
           success: false,
           message: `Pickup is not available in ${collectionCity || 'this city'}. Use courier, or choose a covered city.`,
         });
         return;
       }
-    } else if (collectionMethod === 'COURIER') {
-      collectionStatus = CollectionStatus.NOT_REQUIRED;
     }
 
     const booking = await Booking.create({
@@ -119,26 +124,12 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
 export const getMyBookings = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user?.id;
-    const page = Math.max(1, parseInt(String(req.query.page || '1'), 10) || 1);
-    const requestedLimit = parseInt(String(req.query.limit ?? '10'), 10);
-    const limit = Number.isFinite(requestedLimit) ? Math.min(Math.max(requestedLimit, 1), 50) : 10;
-    const search = String(req.query.search || '').trim();
-    const status = String(req.query.status || 'all').toLowerCase();
-    const reportsOnly = String(req.query.reportsOnly || '') === 'true' || status === 'reports';
+    const { page, limit, search, status, reportsOnly } = parseBookingListParams(req.query as Record<string, unknown>);
 
-    const filter: Record<string, any> = { userId };
-
-    if (status === 'active') {
-      filter.status = { $in: [BookingStatus.PENDING, BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] };
-    } else if (status === 'completed') {
-      filter.status = BookingStatus.COMPLETED;
-    } else if (reportsOnly) {
-      filter.isReportApprovedByAdmin = true;
-      filter.reportFiles = { $exists: true, $not: { $size: 0 } };
-    }
+    const filter: Record<string, any> = { userId, ...bookingListStatusFilter(status, reportsOnly) };
 
     if (search) {
-      const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const escaped = escapeRegex(search);
       const rx = new RegExp(escaped, 'i');
       const [tests, packages] = await Promise.all([
         Test.find({ testName: rx }).select('_id'),
@@ -173,13 +164,7 @@ export const getMyBookings = async (req: Request, res: Response): Promise<void> 
       .skip(skip)
       .limit(limit);
 
-    const sanitizedBookings = bookings.map((b) => {
-      const obj = b.toObject();
-      if (!obj.isReportApprovedByAdmin) {
-        delete obj.reportFiles;
-      }
-      return obj;
-    });
+    const sanitizedBookings = bookings.map((b) => sanitizeBookingReports(b.toObject()));
 
     res.status(200).json({
       success: true,
@@ -247,27 +232,19 @@ export const updateCourierTracking = async (req: Request, res: Response): Promis
     const userId = req.user?.id;
     const { trackingId, courierName, notes } = req.body;
 
-    if (!trackingId || !String(trackingId).trim()) {
-      res.status(400).json({ success: false, message: 'Tracking ID is required' });
-      return;
-    }
-
     const booking = await Booking.findById(req.params.id);
-    if (!booking) {
-      res.status(404).json({ success: false, message: 'Booking not found' });
+    const access = canAddCourierTracking({
+      trackingId,
+      userId,
+      bookingUserId: booking?.userId?.toString(),
+      collectionMethod: booking?.collectionMethod,
+      metadataCollectionMethod: booking?.metadata?.collectionMethod,
+    });
+    if (!access.ok) {
+      res.status(access.status).json({ success: false, message: access.message });
       return;
     }
-
-    if (booking.userId.toString() !== userId) {
-      res.status(403).json({ success: false, message: 'Not authorized to update this booking' });
-      return;
-    }
-
-    const method = booking.collectionMethod || booking.metadata?.collectionMethod;
-    if (method !== 'COURIER') {
-      res.status(400).json({ success: false, message: 'Tracking can only be added for courier bookings' });
-      return;
-    }
+    if (!booking) return;
 
     booking.courierDetails = {
       trackingId: String(trackingId).trim(),
@@ -295,21 +272,19 @@ export const updateCourierTracking = async (req: Request, res: Response): Promis
 export const downloadBookingReport = async (req: Request, res: Response): Promise<void> => {
   try {
     const booking = await Booking.findById(req.params.id);
-    if (!booking) {
-      res.status(404).json({ success: false, message: 'Booking not found' });
+    const access = canDownloadBookingReport({
+      bookingExists: Boolean(booking),
+      ownerId: booking?.userId?.toString(),
+      requesterId: req.user?.id,
+      requesterRole: req.user?.role,
+      isReportApprovedByAdmin: booking?.isReportApprovedByAdmin,
+      reportFiles: booking?.reportFiles,
+    });
+    if (!access.ok) {
+      res.status(access.status).json({ success: false, message: access.message });
       return;
     }
-
-    const ownerId = booking.userId?.toString();
-    if (ownerId !== req.user?.id && req.user?.role === UserRole.USER) {
-      res.status(403).json({ success: false, message: 'Not authorized to download this report' });
-      return;
-    }
-
-    if (!booking.isReportApprovedByAdmin || !booking.reportFiles?.length) {
-      res.status(404).json({ success: false, message: 'Report is not available yet' });
-      return;
-    }
+    if (!booking) return;
 
     const fileUrl = booking.reportFiles[0];
     const parsed = new URL(fileUrl);
