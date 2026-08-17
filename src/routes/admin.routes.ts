@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, getAdminBookings, assignLabToBooking, rejectBooking, approveBookingResult, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, getAdminBookings, updateAdminBookingStatus, assignLabToBooking, rejectBooking, approveBookingResult, updateBookingReport, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
 import { getAdminSettings, updateAdminSettings } from '../controllers/platformSettings.controller';
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
@@ -251,6 +251,39 @@ router.get('/bookings', getAdminBookings);
 
 /**
  * @swagger
+ * /api/v1/admin/booking/{id}/status:
+ *   patch:
+ *     summary: Update booking status, paymentStatus, or labId (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *               paymentStatus:
+ *                 type: string
+ *               labId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Booking updated successfully
+ */
+router.patch('/booking/:id/status', updateAdminBookingStatus);
+
+/**
+ * @swagger
  * /api/v1/admin/booking/{id}/assign-lab:
  *   patch:
  *     summary: Assign a lab to a booking (Admin only)
@@ -357,6 +390,32 @@ router.patch('/booking/:id/reject', rejectBooking);
  *         description: Result approved
  */
 router.patch('/booking/:id/approve-result', approveBookingResult);
+
+/**
+ * @swagger
+ * /api/v1/admin/booking/{id}/report:
+ *   patch:
+ *     summary: Update booking report file and summary/recommendations/tips/notes (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Report updated successfully
+ */
+router.patch('/booking/:id/report', updateBookingReport);
 
 /**
  * @swagger

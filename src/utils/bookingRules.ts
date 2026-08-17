@@ -80,10 +80,11 @@ export function canDownloadBookingReport(input: {
   return { ok: true };
 }
 
-export function sanitizeBookingReports<T extends { isReportApprovedByAdmin?: boolean; reportFiles?: unknown }>(obj: T): T {
+export function sanitizeBookingReports<T extends { isReportApprovedByAdmin?: boolean; reportFiles?: unknown; reportSummary?: unknown }>(obj: T): T {
   if (!obj.isReportApprovedByAdmin) {
     const clone = { ...obj };
     delete clone.reportFiles;
+    delete clone.reportSummary;
     return clone;
   }
   return obj;

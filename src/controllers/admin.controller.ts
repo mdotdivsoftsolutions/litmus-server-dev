@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import { UserRole } from '../types';
+import { UserRole, BookingStatus, PaymentStatus } from '../types';
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -196,26 +196,94 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
 
 export const getAdminBookings = async (req: Request, res: Response): Promise<void> => {
   try {
-    import('../models/Booking').then(async ({ default: Booking }) => {
-      const bookings = await Booking.find()
-        .populate('userId', 'firstName lastName email phone')
-        .populate('labId', 'labName location')
-        .populate('items.testId', 'name testName metadata')
-        .populate({
-          path: 'items.packageId',
-          select: 'name tests features',
-          populate: {
-            path: 'tests',
-            select: 'testName metadata'
-          }
-        })
-        .sort('-createdAt');
-        
-      res.status(200).json({
-        success: true,
-        count: bookings.length,
-        data: bookings,
+    const { default: Booking } = await import('../models/Booking');
+
+    // Auto-heal any bookings whose payment was verified or are already active in testing
+    await Booking.updateMany(
+      { 
+        status: { $in: [BookingStatus.APPROVED, BookingStatus.IN_PROGRESS, BookingStatus.COMPLETED] },
+        paymentStatus: { $ne: PaymentStatus.SUCCESS }
+      },
+      { paymentStatus: PaymentStatus.SUCCESS }
+    ).catch(() => {});
+
+    const { status, paymentStatus, search, startDate, endDate, page, limit } = req.query;
+
+    const filter: any = {};
+
+    if (status && status !== 'all') {
+      const normalizedStatus = String(status).trim().toUpperCase().replace(/\s+/g, '_');
+      if (normalizedStatus in BookingStatus || Object.values(BookingStatus).includes(normalizedStatus as BookingStatus)) {
+        filter.status = normalizedStatus;
+      }
+    }
+
+    if (paymentStatus && paymentStatus !== 'all') {
+      const normalizedPay = String(paymentStatus).trim().toUpperCase().replace(/\s+/g, '_');
+      if (normalizedPay === 'PAID') {
+        filter.paymentStatus = { $in: [PaymentStatus.SUCCESS, 'PAID'] };
+      } else if (normalizedPay in PaymentStatus || Object.values(PaymentStatus).includes(normalizedPay as PaymentStatus)) {
+        filter.paymentStatus = normalizedPay;
+      }
+    }
+
+    if (startDate || endDate) {
+      filter.createdAt = {};
+      if (startDate) {
+        filter.createdAt.$gte = new Date(String(startDate));
+      }
+      if (endDate) {
+        const end = new Date(String(endDate));
+        end.setHours(23, 59, 59, 999);
+        filter.createdAt.$lte = end;
+      }
+    }
+
+    const pageNum = page ? parseInt(String(page), 10) || 1 : 1;
+    const limitNum = limit ? parseInt(String(limit), 10) || 0 : 0;
+    const skip = limitNum > 0 ? (pageNum - 1) * limitNum : 0;
+
+    let query = Booking.find(filter)
+      .populate('userId', 'firstName lastName email phone')
+      .populate('labId', 'labName location')
+      .populate('items.testId', 'name testName metadata')
+      .populate({
+        path: 'items.packageId',
+        select: 'name tests features',
+        populate: {
+          path: 'tests',
+          select: 'testName metadata'
+        }
+      })
+      .sort('-createdAt');
+
+    if (limitNum > 0) {
+      query = query.skip(skip).limit(limitNum);
+    }
+
+    let bookings = await query;
+
+    // Optional in-memory search for populated nested fields
+    if (search && String(search).trim()) {
+      const q = String(search).trim().toLowerCase();
+      bookings = bookings.filter((b: any) => {
+        const idMatch = b._id?.toString().toLowerCase().includes(q) || `bkg-${b._id?.toString().slice(-6).toLowerCase()}`.includes(q);
+        const nameMatch = `${b.userId?.firstName || ''} ${b.userId?.lastName || ''}`.toLowerCase().includes(q);
+        const emailMatch = (b.userId?.email || '').toLowerCase().includes(q);
+        const phoneMatch = (b.userId?.phone || '').toLowerCase().includes(q);
+        return idMatch || nameMatch || emailMatch || phoneMatch;
       });
+    }
+
+    const total = await Booking.countDocuments(filter);
+
+    res.status(200).json({
+      success: true,
+      count: bookings.length,
+      total,
+      page: pageNum,
+      totalPages: limitNum > 0 ? Math.ceil(total / limitNum) : 1,
+      data: bookings,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -227,39 +295,84 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
 };
 
 // -----------------------------------------
-// NEW: Booking Assignment & Rejection
+// NEW: Booking Assignment & Rejection & Status
 // -----------------------------------------
+
+export const updateAdminBookingStatus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { default: Booking } = await import('../models/Booking');
+    const { id } = req.params;
+    const { status, paymentStatus, labId } = req.body;
+
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      res.status(404).json({ success: false, message: 'Booking not found' });
+      return;
+    }
+
+    if (status && Object.values(BookingStatus).includes(status as BookingStatus)) {
+      booking.status = status as BookingStatus;
+    }
+    if (paymentStatus && Object.values(PaymentStatus).includes(paymentStatus as PaymentStatus)) {
+      booking.paymentStatus = paymentStatus as PaymentStatus;
+    }
+    if (labId !== undefined) {
+      if (!booking.metadata) booking.metadata = {};
+      if (labId === 'litmus_direct') {
+        booking.labId = undefined as any;
+        booking.metadata.isLitmusDirect = true;
+      } else if (labId === 'smart_allocation' || labId === '') {
+        booking.labId = undefined as any;
+        booking.metadata.isLitmusDirect = false;
+      } else {
+        booking.labId = labId;
+        booking.metadata.isLitmusDirect = false;
+      }
+      booking.markModified('metadata');
+    }
+
+    await booking.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Booking updated successfully',
+      data: booking,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update booking status',
+      error: error.message,
+    });
+  }
+};
 
 export const assignLabToBooking = async (req: Request, res: Response): Promise<void> => {
   try {
-    import('../models/Booking').then(async ({ default: Booking }) => {
-      const { labId } = req.body;
-      const { id } = req.params;
+    const { default: Booking } = await import('../models/Booking');
+    const { labId } = req.body;
+    const { id } = req.params;
 
-      if (!labId) {
-        res.status(400).json({ success: false, message: 'Lab ID is required' });
-        return;
-      }
+    const isLitmusDirect = !labId || labId === 'litmus_direct' || labId === 'litmus' || labId === 'litmus_internal';
+    const updatedLabId = isLitmusDirect ? undefined : labId;
 
-      const booking = await Booking.findByIdAndUpdate(
-        id,
-        { 
-          labId, 
-          status: 'IN_PROGRESS' 
-        },
-        { new: true }
-      );
+    const booking = await Booking.findByIdAndUpdate(
+      id,
+      { 
+        labId: updatedLabId, 
+        status: BookingStatus.IN_PROGRESS 
+      },
+      { new: true }
+    );
+    if (!booking) {
+      res.status(404).json({ success: false, message: 'Booking not found' });
+      return;
+    }
 
-      if (!booking) {
-        res.status(404).json({ success: false, message: 'Booking not found' });
-        return;
-      }
-
-      res.status(200).json({
-        success: true,
-        message: 'Lab assigned successfully',
-        data: booking,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Lab assigned successfully',
+      data: booking,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -312,6 +425,8 @@ export const rejectBooking = async (req: Request, res: Response): Promise<void> 
 
 export const approveBookingResult = async (req: Request, res: Response): Promise<void> => {
   try {
+    const { reportUrl, reportFiles, summary, recommendations, tips, additionalNotes, reportSummary } = req.body || {};
+
     import('../models/Booking').then(async ({ default: Booking }) => {
       import('../types').then(async ({ BookingStatus }) => {
         const { sendTestReportReadyEmail } = await import('../utils/mailer');
@@ -323,6 +438,29 @@ export const approveBookingResult = async (req: Request, res: Response): Promise
             message: 'Booking not found',
           });
           return;
+        }
+
+        if (Array.isArray(reportFiles) && reportFiles.length > 0) {
+          booking.reportFiles = reportFiles;
+        } else if (reportUrl && (!booking.reportFiles || !booking.reportFiles.includes(reportUrl))) {
+          if (!booking.reportFiles) booking.reportFiles = [];
+          booking.reportFiles.push(reportUrl);
+        }
+
+        const mergedSummary = summary !== undefined ? summary : reportSummary?.summary;
+        const mergedRecs = recommendations !== undefined ? recommendations : reportSummary?.recommendations;
+        const mergedTips = tips !== undefined ? tips : reportSummary?.tips;
+        const mergedNotes = additionalNotes !== undefined ? additionalNotes : reportSummary?.additionalNotes;
+
+        if (mergedSummary !== undefined || mergedRecs !== undefined || mergedTips !== undefined || mergedNotes !== undefined) {
+          booking.reportSummary = {
+            summary: mergedSummary !== undefined ? String(mergedSummary) : (booking.reportSummary?.summary || ''),
+            recommendations: mergedRecs !== undefined ? String(mergedRecs) : (booking.reportSummary?.recommendations || ''),
+            tips: mergedTips !== undefined ? String(mergedTips) : (booking.reportSummary?.tips || ''),
+            additionalNotes: mergedNotes !== undefined ? String(mergedNotes) : (booking.reportSummary?.additionalNotes || ''),
+            updatedAt: new Date(),
+            updatedByRole: 'ADMIN',
+          };
         }
 
         booking.isReportApprovedByAdmin = true;
@@ -355,6 +493,87 @@ export const approveBookingResult = async (req: Request, res: Response): Promise
     res.status(500).json({
       success: false,
       message: 'Failed to approve booking result',
+      error: error.message,
+    });
+  }
+};
+
+export const updateBookingReport = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { reportUrl, reportFiles, summary, recommendations, tips, additionalNotes, reportSummary, isReportApprovedByAdmin } = req.body;
+
+    import('../models/Booking').then(async ({ default: Booking }) => {
+      import('../types').then(async ({ BookingStatus }) => {
+        const { sendTestReportReadyEmail } = await import('../utils/mailer');
+        const booking = await Booking.findById(req.params.id).populate('userId', 'firstName lastName email');
+
+        if (!booking) {
+          res.status(404).json({
+            success: false,
+            message: 'Booking not found',
+          });
+          return;
+        }
+
+        if (Array.isArray(reportFiles)) {
+          booking.reportFiles = reportFiles;
+        } else if (reportUrl) {
+          if (!booking.reportFiles) booking.reportFiles = [];
+          if (!booking.reportFiles.includes(reportUrl)) {
+            booking.reportFiles.push(reportUrl);
+          }
+        }
+
+        const mergedSummary = summary !== undefined ? summary : reportSummary?.summary;
+        const mergedRecs = recommendations !== undefined ? recommendations : reportSummary?.recommendations;
+        const mergedTips = tips !== undefined ? tips : reportSummary?.tips;
+        const mergedNotes = additionalNotes !== undefined ? additionalNotes : reportSummary?.additionalNotes;
+
+        booking.reportSummary = {
+          summary: mergedSummary !== undefined ? String(mergedSummary) : (booking.reportSummary?.summary || ''),
+          recommendations: mergedRecs !== undefined ? String(mergedRecs) : (booking.reportSummary?.recommendations || ''),
+          tips: mergedTips !== undefined ? String(mergedTips) : (booking.reportSummary?.tips || ''),
+          additionalNotes: mergedNotes !== undefined ? String(mergedNotes) : (booking.reportSummary?.additionalNotes || ''),
+          updatedAt: new Date(),
+          updatedByRole: 'ADMIN',
+        };
+
+        const wasApproved = booking.isReportApprovedByAdmin;
+        if (isReportApprovedByAdmin !== undefined) {
+          booking.isReportApprovedByAdmin = Boolean(isReportApprovedByAdmin);
+          if (booking.isReportApprovedByAdmin) {
+            booking.status = BookingStatus.COMPLETED;
+          }
+        }
+
+        await booking.save();
+
+        if (!wasApproved && booking.isReportApprovedByAdmin && booking.userId) {
+          try {
+            const user = booking.userId as any;
+            if (user.email) {
+              const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+              await sendTestReportReadyEmail(user.email, {
+                customerName,
+                bookingId: booking._id.toString(),
+              });
+            }
+          } catch (e) {
+            console.error('Failed to send report ready email:', e);
+          }
+        }
+
+        res.status(200).json({
+          success: true,
+          message: 'Report and summary updated successfully',
+          data: booking,
+        });
+      });
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update report',
       error: error.message,
     });
   }
@@ -602,25 +821,58 @@ export const getAdminAnalytics = async (req: Request, res: Response): Promise<vo
 
 export const updateCollectionDetails = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { status, collectorName, collectorContact, notifyDelay } = req.body;
+    const { status, collectorName, collectorContact, notifyDelay, courierDetails, trackingId, courierName, notes, collectionMethod } = req.body;
     const { id } = req.params;
 
-    import('../models/Booking').then(async ({ default: Booking }) => {
-      const { sendSampleCollectedEmail, sendCollectionDelayedEmail } = await import('../utils/mailer');
-      const updateData: any = {};
-      if (status) updateData.collectionStatus = status;
-      if (collectorName !== undefined || collectorContact !== undefined) {
-        updateData.assignedCollector = {
-          name: collectorName,
-          contact: collectorContact
-        };
+    const { default: Booking } = await import('../models/Booking');
+    const { sendSampleCollectedEmail, sendCollectionDelayedEmail } = await import('../utils/mailer');
+
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      res.status(404).json({ success: false, message: 'Booking not found' });
+      return;
+    }
+
+    if (status) booking.collectionStatus = status;
+    if (collectionMethod) booking.collectionMethod = collectionMethod;
+
+    if (collectorName !== undefined || collectorContact !== undefined) {
+      booking.assignedCollector = {
+        name: collectorName || '',
+        contact: collectorContact || ''
+      };
+    }
+
+    const newTrackingId = courierDetails?.trackingId || trackingId;
+    if (newTrackingId !== undefined) {
+      const cName = courierDetails?.courierName || courierName || '';
+      const cNotes = courierDetails?.notes || notes || '';
+
+      if (!booking.metadata) booking.metadata = {};
+      if (!Array.isArray(booking.metadata.trackingHistory)) {
+        booking.metadata.trackingHistory = [];
       }
 
-      const booking = await Booking.findByIdAndUpdate(
-        id,
-        { $set: updateData },
-        { new: true }
-      ).populate('userId', 'firstName lastName email');
+      booking.metadata.trackingHistory.unshift({
+        trackingId: String(newTrackingId).trim(),
+        previousTrackingId: booking.courierDetails?.trackingId || null,
+        courierName: String(cName).trim(),
+        notes: String(cNotes).trim(),
+        updatedAt: new Date(),
+        updatedBy: 'ADMIN',
+      });
+
+      booking.courierDetails = {
+        trackingId: String(newTrackingId).trim(),
+        courierName: String(cName).trim(),
+        notes: String(cNotes).trim(),
+        submittedAt: booking.courierDetails?.submittedAt || new Date(),
+      };
+      booking.markModified('metadata');
+    }
+
+    await booking.save();
+    await booking.populate('userId', 'firstName lastName email');
 
       if (status === 'COLLECTED' && booking && booking.userId) {
         try {
@@ -652,16 +904,10 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
         }
       }
 
-      if (!booking) {
-        res.status(404).json({ success: false, message: 'Booking not found' });
-        return;
-      }
-
-      res.status(200).json({
-        success: true,
-        message: 'Collection details updated successfully',
-        data: booking,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Collection details updated successfully',
+      data: booking,
     });
   } catch (error: any) {
     res.status(500).json({

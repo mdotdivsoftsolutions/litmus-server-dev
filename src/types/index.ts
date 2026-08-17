@@ -52,6 +52,7 @@ export enum PaymentStatus {
   PENDING = 'PENDING',
   SUCCESS = 'SUCCESS',
   FAILED = 'FAILED',
+  REFUND_INITIATED = 'REFUND_INITIATED',
   REFUNDED = 'REFUNDED',
 }
 
@@ -186,6 +187,15 @@ export interface IBookingItem {
   mrp: number;
 }
 
+export interface IReportSummary {
+  summary?: string;
+  recommendations?: string;
+  tips?: string;
+  additionalNotes?: string;
+  updatedAt?: Date;
+  updatedByRole?: 'LAB' | 'ADMIN';
+}
+
 export interface IBooking extends Document {
   userId: mongoose.Types.ObjectId;
   labId: mongoose.Types.ObjectId;
@@ -195,6 +205,7 @@ export interface IBooking extends Document {
   paymentStatus: PaymentStatus;
   bookingDate: Date;
   reportFiles?: string[];
+  reportSummary?: IReportSummary;
   isReportApprovedByAdmin: boolean;
   collectionStatus?: CollectionStatus;
   collectionMethod?: 'PICKUP' | 'COURIER';

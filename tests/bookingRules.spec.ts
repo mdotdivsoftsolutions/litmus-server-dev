@@ -146,14 +146,25 @@ describe('canDownloadBookingReport', () => {
 });
 
 describe('sanitizeBookingReports', () => {
-  it('strips report files until admin approval', () => {
-    const out = sanitizeBookingReports({ isReportApprovedByAdmin: false, reportFiles: ['secret.pdf'] });
+  it('strips report files and reportSummary until admin approval', () => {
+    const out = sanitizeBookingReports({
+      isReportApprovedByAdmin: false,
+      reportFiles: ['secret.pdf'],
+      reportSummary: { summary: 'Secret summary', recommendations: 'Recs', tips: 'Tips', additionalNotes: 'Notes' },
+    });
     expect(out.reportFiles).toBeUndefined();
+    expect(out.reportSummary).toBeUndefined();
   });
 
-  it('keeps files after approval', () => {
-    const out = sanitizeBookingReports({ isReportApprovedByAdmin: true, reportFiles: ['ok.pdf'] });
+  it('keeps files and reportSummary after approval', () => {
+    const summaryData = { summary: 'Approved summary', recommendations: 'Safe', tips: 'Keep cold', additionalNotes: 'Done' };
+    const out = sanitizeBookingReports({
+      isReportApprovedByAdmin: true,
+      reportFiles: ['ok.pdf'],
+      reportSummary: summaryData,
+    });
     expect(out.reportFiles).toEqual(['ok.pdf']);
+    expect(out.reportSummary).toEqual(summaryData);
   });
 });
 

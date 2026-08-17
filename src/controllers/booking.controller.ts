@@ -212,6 +212,7 @@ export const getBookingById = async (req: Request, res: Response): Promise<void>
     const obj = booking.toObject();
     if (!obj.isReportApprovedByAdmin && req.user?.role === UserRole.USER) {
       delete obj.reportFiles;
+      delete obj.reportSummary;
     }
 
     res.status(200).json({
@@ -246,13 +247,29 @@ export const updateCourierTracking = async (req: Request, res: Response): Promis
     }
     if (!booking) return;
 
+    if (!booking.metadata) booking.metadata = {};
+    if (!Array.isArray(booking.metadata.trackingHistory)) {
+      booking.metadata.trackingHistory = [];
+    }
+
+    const previousTracking = booking.courierDetails?.trackingId;
+    booking.metadata.trackingHistory.unshift({
+      trackingId: String(trackingId).trim(),
+      previousTrackingId: previousTracking || null,
+      courierName: courierName ? String(courierName).trim() : '',
+      notes: notes ? String(notes).trim() : '',
+      updatedAt: new Date(),
+      updatedBy: 'USER',
+    });
+
     booking.courierDetails = {
       trackingId: String(trackingId).trim(),
       courierName: courierName ? String(courierName).trim() : '',
       notes: notes ? String(notes).trim() : '',
-      submittedAt: new Date(),
+      submittedAt: booking.courierDetails?.submittedAt || new Date(),
     };
     booking.collectionStatus = CollectionStatus.SHIPPED;
+    booking.markModified('metadata');
     await booking.save();
 
     res.status(200).json({

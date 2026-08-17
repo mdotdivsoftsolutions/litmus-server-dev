@@ -71,6 +71,14 @@ const BookingSchema: Schema = new Schema(
         type: String, // URLs to report files
       },
     ],
+    reportSummary: {
+      summary: { type: String, default: '' },
+      recommendations: { type: String, default: '' },
+      tips: { type: String, default: '' },
+      additionalNotes: { type: String, default: '' },
+      updatedAt: { type: Date },
+      updatedByRole: { type: String, enum: ['LAB', 'ADMIN'] },
+    },
     isReportApprovedByAdmin: {
       type: Boolean,
       default: false,

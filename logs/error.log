@@ -34,3 +34,4 @@
 2026-08-11 18:22:48:2248 [31merror[39m: [31mCreate Lab Employee Error: User validation failed: phone: Phone number is required[39m
 2026-08-11 18:22:55:2255 [31merror[39m: [31mCreate Lab Employee Error: User validation failed: phone: Phone number is required[39m
 2026-08-16 19:04:19:419 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-08-17 15:50:56:5056 [31merror[39m: [31mSendOTP Error: Mobile number is already registered. Please use a different number.[39m

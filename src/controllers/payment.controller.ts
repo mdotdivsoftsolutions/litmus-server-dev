@@ -131,11 +131,14 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
     }
     // ────────────────────────────────────────────────────────────────────────
 
-    // Mark Payment as SUCCESS
+    // Mark Payment as SUCCESS (upsert ensures record is always present)
     const payment = await Payment.findOneAndUpdate(
-      { transactionId: razorpay_order_id },
+      { $or: [{ transactionId: razorpay_order_id }, { bookingId }] },
       {
+        bookingId,
+        transactionId: razorpay_order_id,
         status: PaymentStatus.SUCCESS,
+        method: 'RAZORPAY',
         metadata: {
           razorpay_order_id,
           razorpay_payment_id,
@@ -143,13 +146,8 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
           verifiedAt: new Date().toISOString(),
         },
       },
-      { new: true }
+      { upsert: true, new: true }
     );
-
-    if (!payment) {
-      res.status(404).json({ success: false, message: 'Payment record not found' });
-      return;
-    }
 
     // Update Booking paymentStatus + booking status to APPROVED
     await Booking.findByIdAndUpdate(bookingId, {
@@ -182,98 +180,128 @@ export const webhookHandler = async (req: Request, res: Response): Promise<void>
     const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || '';
     const razorpaySignature = req.headers['x-razorpay-signature'] as string;
 
-    if (!razorpaySignature) {
-      logger.warn('Webhook received without signature header');
-      res.status(400).json({ success: false, message: 'Missing webhook signature' });
-      return;
-    }
-
     // ── Webhook Signature Verification ──────────────────────────────────────
-    // req.body here is the RAW Buffer (express.raw middleware applied to this route)
     const rawBody = req.body as Buffer;
-    const expectedSignature = crypto
-      .createHmac('sha256', webhookSecret)
-      .update(rawBody)
-      .digest('hex');
-
-    const expectedBuffer = Buffer.from(expectedSignature, 'hex');
-    const receivedBuffer = Buffer.from(razorpaySignature, 'hex');
-
-    const isValid =
-      expectedBuffer.length === receivedBuffer.length &&
-      crypto.timingSafeEqual(expectedBuffer, receivedBuffer);
-
-    if (!isValid) {
-      logger.warn('Invalid webhook signature — possible fake webhook attempt');
-      res.status(400).json({ success: false, message: 'Invalid webhook signature' });
-      return;
-    }
-    // ────────────────────────────────────────────────────────────────────────
-
-    const event = JSON.parse(rawBody.toString('utf8'));
-    const eventType: string = event.event;
-
-    logger.info(`Razorpay webhook received: ${eventType}`);
-
-    // Handle payment captured (order paid)
-    if (eventType === 'payment.captured' || eventType === 'order.paid') {
-      const paymentEntity =
-        eventType === 'order.paid'
-          ? event.payload?.payment?.entity
-          : event.payload?.payment?.entity;
-
-      if (!paymentEntity) {
-        res.status(200).json({ success: true, message: 'Webhook received (no payment entity)' });
+    if (webhookSecret) {
+      if (!razorpaySignature) {
+        logger.warn('Webhook received without signature header');
+        res.status(400).json({ success: false, message: 'Missing webhook signature' });
         return;
       }
 
-      const razorpay_order_id: string = paymentEntity.order_id;
-      const razorpay_payment_id: string = paymentEntity.id;
+      const expectedSignature = crypto
+        .createHmac('sha256', webhookSecret)
+        .update(rawBody)
+        .digest('hex');
+
+      const expectedBuffer = Buffer.from(expectedSignature, 'hex');
+      const receivedBuffer = Buffer.from(razorpaySignature, 'hex');
+
+      const isValid =
+        expectedBuffer.length === receivedBuffer.length &&
+        crypto.timingSafeEqual(expectedBuffer, receivedBuffer);
+
+      if (!isValid) {
+        logger.warn('Invalid webhook signature — possible fake webhook attempt');
+        res.status(400).json({ success: false, message: 'Invalid webhook signature' });
+        return;
+      }
+    } else {
+      logger.warn('RAZORPAY_WEBHOOK_SECRET is not configured in .env. Skipping signature verification.');
+    }
+    // ────────────────────────────────────────────────────────────────────────
+
+    let event: any;
+    try {
+      event = typeof req.body === 'string' 
+        ? JSON.parse(req.body) 
+        : Buffer.isBuffer(req.body) 
+          ? JSON.parse(req.body.toString('utf8')) 
+          : req.body;
+    } catch (e) {
+      event = req.body;
+    }
+
+    const eventType: string = event?.event || '';
+
+    logger.info(`Razorpay webhook received: ${eventType}`);
+
+    // Handle payment captured / order paid
+    if (eventType === 'payment.captured' || eventType === 'order.paid') {
+      const paymentEntity = event.payload?.payment?.entity;
+      const orderEntity = event.payload?.order?.entity;
+
+      const razorpay_order_id: string = paymentEntity?.order_id || orderEntity?.id || '';
+      const razorpay_payment_id: string = paymentEntity?.id || '';
+      const bookingId: string = paymentEntity?.notes?.bookingId || orderEntity?.notes?.bookingId || '';
 
       // Idempotent update — safe to call multiple times
-      const payment = await Payment.findOneAndUpdate(
-        { transactionId: razorpay_order_id },
-        {
-          status: PaymentStatus.SUCCESS,
-          metadata: {
-            razorpay_order_id,
-            razorpay_payment_id,
-            webhookEvent: eventType,
-            webhookAt: new Date().toISOString(),
-          },
-        },
-        { new: true }
-      );
+      const query = razorpay_order_id 
+        ? (bookingId ? { $or: [{ transactionId: razorpay_order_id }, { bookingId }] } : { transactionId: razorpay_order_id })
+        : (bookingId ? { bookingId } : null);
 
-      if (payment) {
-        await Booking.findByIdAndUpdate(payment.bookingId, {
+      let targetBookingId = bookingId;
+
+      if (query) {
+        const payment = await Payment.findOneAndUpdate(
+          query,
+          {
+            ...(bookingId ? { bookingId } : {}),
+            ...(razorpay_order_id ? { transactionId: razorpay_order_id } : {}),
+            status: PaymentStatus.SUCCESS,
+            method: 'RAZORPAY',
+            metadata: {
+              razorpay_order_id,
+              razorpay_payment_id,
+              webhookEvent: eventType,
+              webhookAt: new Date().toISOString(),
+            },
+          },
+          { new: true, upsert: Boolean(bookingId) }
+        );
+
+        if (payment?.bookingId) {
+          targetBookingId = payment.bookingId.toString();
+        }
+      }
+
+      if (targetBookingId) {
+        await Booking.findByIdAndUpdate(targetBookingId, {
           paymentStatus: PaymentStatus.SUCCESS,
           status: BookingStatus.APPROVED,
         });
-        logger.info(`Webhook: booking ${payment.bookingId} marked as PAID via ${eventType}`);
+        logger.info(`Webhook: booking ${targetBookingId} marked as PAID via ${eventType}`);
       } else {
-        logger.warn(`Webhook: no payment record found for order ${razorpay_order_id}`);
+        logger.warn(`Webhook: no booking found for order ${razorpay_order_id}`);
       }
     }
 
     // Handle payment failed
     if (eventType === 'payment.failed') {
       const paymentEntity = event.payload?.payment?.entity;
-      if (paymentEntity?.order_id) {
+      const orderId = paymentEntity?.order_id;
+      const bookingId = paymentEntity?.notes?.bookingId;
+
+      if (orderId || bookingId) {
         await Payment.findOneAndUpdate(
-          { transactionId: paymentEntity.order_id },
+          orderId ? { transactionId: orderId } : { bookingId },
           {
             status: PaymentStatus.FAILED,
             metadata: {
-              razorpay_order_id: paymentEntity.order_id,
-              razorpay_payment_id: paymentEntity.id,
-              failureReason: paymentEntity.error_description,
+              razorpay_order_id: orderId,
+              razorpay_payment_id: paymentEntity?.id,
+              failureReason: paymentEntity?.error_description,
               webhookEvent: eventType,
               webhookAt: new Date().toISOString(),
             },
           }
         );
-        logger.info(`Webhook: payment failed for order ${paymentEntity.order_id}`);
+        if (bookingId) {
+          await Booking.findByIdAndUpdate(bookingId, {
+            paymentStatus: PaymentStatus.FAILED,
+          });
+        }
+        logger.info(`Webhook: payment failed for order ${orderId}`);
       }
     }
 
