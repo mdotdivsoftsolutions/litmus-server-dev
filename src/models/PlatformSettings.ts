@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IPlatformSettings extends Document {
   pickupCities: string[];
+  enablePickupSlotSelection: boolean;
 }
 
 const platformSettingsSchema = new Schema(
@@ -9,6 +10,10 @@ const platformSettingsSchema = new Schema(
     pickupCities: {
       type: [String],
       default: ['Chennai'],
+    },
+    enablePickupSlotSelection: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
