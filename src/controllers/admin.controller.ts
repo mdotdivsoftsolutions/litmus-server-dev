@@ -4,7 +4,40 @@ import { UserRole, BookingStatus, PaymentStatus } from '../types';
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const users = await User.find({ role: UserRole.USER });
+    const { status, search, startDate, endDate } = req.query;
+    const filter: any = { role: UserRole.USER };
+
+    if (status === 'active') {
+      filter.isActive = true;
+    } else if (status === 'inactive') {
+      filter.isActive = false;
+    }
+
+    if (search) {
+      const searchRegex = new RegExp(String(search).trim(), 'i');
+      filter.$or = [
+        { firstName: searchRegex },
+        { lastName: searchRegex },
+        { email: searchRegex },
+        { phone: searchRegex },
+      ];
+    }
+
+    if (startDate || endDate) {
+      filter.createdAt = {};
+      if (startDate) {
+        const start = new Date(String(startDate));
+        start.setHours(0, 0, 0, 0);
+        filter.createdAt.$gte = start;
+      }
+      if (endDate) {
+        const end = new Date(String(endDate));
+        end.setHours(23, 59, 59, 999);
+        filter.createdAt.$lte = end;
+      }
+    }
+
+    const users = await User.find(filter).sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
       count: users.length,
