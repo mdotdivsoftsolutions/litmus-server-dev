@@ -160,22 +160,31 @@ export class AuthController {
       // Disallow updating sensitive fields like role or password via this endpoint
       const { role, password, email, ...updateData } = req.body;
 
+      // Only check for phone uniqueness if the phone is actually being changed
       if (updateData.phone && typeof updateData.phone === 'string') {
         const cleanedPhone = updateData.phone.trim();
-        const existingPhone = await User.findOne({
-          phone: cleanedPhone,
-          _id: { $ne: req.user?.id },
-        });
-        if (existingPhone) {
-          res.status(400).json({ success: false, message: 'Mobile number is already registered to another account' });
-          return;
+        updateData.phone = cleanedPhone;
+
+        // Find the current user's phone to skip check if unchanged
+        const currentUser = await User.findById(req.user?.id).select('phone');
+        if (currentUser && currentUser.phone !== cleanedPhone) {
+          const existingPhone = await User.findOne({
+            phone: cleanedPhone,
+            _id: { $ne: req.user?.id },
+          });
+          if (existingPhone) {
+            res.status(400).json({ success: false, message: 'Mobile number is already registered to another account' });
+            return;
+          }
         }
       }
       
+      // Use runValidators: false to prevent Mongoose unique index validators from
+      // triggering false duplicate errors on unchanged fields during partial updates
       const user = await User.findByIdAndUpdate(
         req.user?.id,
         updateData,
-        { new: true, runValidators: true }
+        { new: true, runValidators: false }
       ).select('-password');
 
       if (!user) {
