@@ -102,6 +102,14 @@ const BookingSchema: Schema = new Schema(
       name: { type: String },
       contact: { type: String }
     },
+    invoiceNumber: {
+      type: String,
+      sparse: true,
+      index: true,
+    },
+    invoiceDate: {
+      type: Date,
+    },
     metadata: {
       type: Schema.Types.Mixed,
     },

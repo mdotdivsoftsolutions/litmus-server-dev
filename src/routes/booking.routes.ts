@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import { createBooking, getMyBookings, getBookingById, updateCourierTracking, downloadBookingReport } from '../controllers/booking.controller';
+import { getBookingInvoice, renderBookingInvoiceHtml } from '../controllers/invoice.controller';
 import { authMiddleware } from '../middleware/auth.middleware';
 
 const router = Router();
 
 // Protect all user booking routes
 router.use(authMiddleware);
+
+router.get('/:id/invoice/html', renderBookingInvoiceHtml);
+router.get('/:id/invoice', getBookingInvoice);
 
 /**
  * @swagger

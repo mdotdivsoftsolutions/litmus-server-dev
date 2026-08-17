@@ -219,6 +219,8 @@ export interface IBooking extends Document {
     name: string;
     contact: string;
   };
+  invoiceNumber?: string;
+  invoiceDate?: Date;
   metadata?: any;
   createdAt: Date;
   updatedAt: Date;

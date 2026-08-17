@@ -4,6 +4,7 @@ import { razorpay } from '../config/razorpay';
 import Booking from '../models/Booking';
 import Payment from '../models/Payment';
 import { PaymentStatus, BookingStatus } from '../types';
+import { generateInvoiceNumber } from '../services/invoice.service';
 import logger from '../utils/logger';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -149,13 +150,18 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
       { upsert: true, new: true }
     );
 
-    // Update Booking paymentStatus + booking status to APPROVED
+    // Update Booking paymentStatus + booking status to APPROVED and ensure invoiceNumber is assigned
+    const existingBooking = await Booking.findById(bookingId);
+    const invoiceNum = existingBooking?.invoiceNumber || generateInvoiceNumber(bookingId, existingBooking?.bookingDate || new Date());
+    
     await Booking.findByIdAndUpdate(bookingId, {
       paymentStatus: PaymentStatus.SUCCESS,
       status: BookingStatus.APPROVED,
+      invoiceNumber: invoiceNum,
+      invoiceDate: existingBooking?.invoiceDate || new Date(),
     });
 
-    logger.info(`Payment verified: ${razorpay_payment_id} for booking: ${bookingId}`);
+    logger.info(`Payment verified: ${razorpay_payment_id} for booking: ${bookingId}, Invoice: ${invoiceNum}`);
 
     res.status(200).json({
       success: true,
@@ -266,11 +272,16 @@ export const webhookHandler = async (req: Request, res: Response): Promise<void>
       }
 
       if (targetBookingId) {
+        const existingBooking = await Booking.findById(targetBookingId);
+        const invoiceNum = existingBooking?.invoiceNumber || generateInvoiceNumber(targetBookingId, existingBooking?.bookingDate || new Date());
+
         await Booking.findByIdAndUpdate(targetBookingId, {
           paymentStatus: PaymentStatus.SUCCESS,
           status: BookingStatus.APPROVED,
+          invoiceNumber: invoiceNum,
+          invoiceDate: existingBooking?.invoiceDate || new Date(),
         });
-        logger.info(`Webhook: booking ${targetBookingId} marked as PAID via ${eventType}`);
+        logger.info(`Webhook: booking ${targetBookingId} marked as PAID via ${eventType}, Invoice: ${invoiceNum}`);
       } else {
         logger.warn(`Webhook: no booking found for order ${razorpay_order_id}`);
       }
