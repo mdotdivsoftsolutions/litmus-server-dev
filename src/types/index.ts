@@ -152,6 +152,8 @@ export interface IProduct extends Document {
 export interface ITest extends Document {
   testName: string;
   description?: string;
+  imageUrl?: string;
+  icon?: string;
   price: number;
   offerPrice?: number;
   turnAroundTime?: string;
