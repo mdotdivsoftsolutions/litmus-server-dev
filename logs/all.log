@@ -22998,3 +22998,33 @@
 2026-08-18 03:05:59:559 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 258.172 ms - -[0m[39m
 2026-08-18 03:05:59:559 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 270.760 ms - -[0m[39m
 2026-08-18 03:06:01:61 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [31m500[0m 0.829 ms - 130[0m[39m
+2026-08-18 03:06:03:63 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 03:06:03:63 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 03:06:03:63 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 03:06:05:65 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 03:06:05:65 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 03:06:07:67 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 4320.556 ms - -[0m[39m
+2026-08-18 03:06:07:67 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 4589.729 ms - -[0m[39m
+2026-08-18 03:06:07:67 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 4591.809 ms - -[0m[39m
+2026-08-18 03:06:07:67 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 4599.060 ms - -[0m[39m
+2026-08-18 03:06:10:610 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 4281.149 ms - 369[0m[39m
+2026-08-18 03:06:13:613 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 893.469 ms - -[0m[39m
+2026-08-18 03:06:14:614 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 1293.829 ms - -[0m[39m
+2026-08-18 03:06:14:614 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 1298.243 ms - -[0m[39m
+2026-08-18 03:06:14:614 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 1319.894 ms - -[0m[39m
+2026-08-18 03:06:15:615 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 2756.773 ms - -[0m[39m
+2026-08-18 03:06:16:616 [32minfo[39m: [32m[0mGET /api/v1/consultations?page=1&limit=10 [36m304[0m 807.327 ms - -[0m[39m
+2026-08-18 03:06:17:617 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 282.252 ms - -[0m[39m
+2026-08-18 03:06:18:618 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 565.062 ms - -[0m[39m
+2026-08-18 03:06:19:619 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings?page=1&limit=10 [36m304[0m 1677.985 ms - -[0m[39m
+2026-08-18 03:06:21:621 [32minfo[39m: [32m[0mGET /api/v1/reviews?page=1&limit=10 [36m304[0m 557.991 ms - -[0m[39m
+2026-08-18 03:06:23:623 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 270.045 ms - -[0m[39m
+2026-08-18 03:06:23:623 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 269.669 ms - -[0m[39m
+2026-08-18 03:06:23:623 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 269.221 ms - -[0m[39m
+2026-08-18 03:06:23:623 [32minfo[39m: [32m[0mGET /api/v1/tests?client=%5Bobject+Object%5D&queryKey%5B%5D=adminTests&signal=%5Bobject+AbortSignal%5D [36m304[0m 1898.598 ms - -[0m[39m
+2026-08-18 03:06:27:627 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 532.701 ms - -[0m[39m
+2026-08-18 03:06:29:629 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1756.753 ms - -[0m[39m
+2026-08-18 03:06:29:629 [32minfo[39m: [32m[0mGET /api/v1/reviews?page=1&limit=10 [36m304[0m 536.260 ms - -[0m[39m
+2026-08-18 03:06:39:639 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 273.748 ms - -[0m[39m
+2026-08-18 03:06:39:639 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 543.430 ms - -[0m[39m
+2026-08-18 03:06:40:640 [32minfo[39m: [32m[0mGET /api/v1/reviews?page=1&limit=10 [36m304[0m 1036.591 ms - -[0m[39m
