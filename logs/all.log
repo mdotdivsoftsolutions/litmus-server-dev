@@ -22479,3 +22479,54 @@
 2026-08-18 02:38:51:3851 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [32m200[0m 1638.150 ms - 35666[0m[39m
 2026-08-18 02:38:52:3852 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 263.281 ms - -[0m[39m
 2026-08-18 02:38:55:3855 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a7edadc38cc023d3bc867af/detailed [36m304[0m 1870.074 ms - -[0m[39m
+2026-08-18 02:39:23:3923 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.722 ms - -[0m[39m
+2026-08-18 02:39:25:3925 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a7edadc38cc023d3bc867af/detailed [36m304[0m 1915.673 ms - -[0m[39m
+2026-08-18 02:39:28:3928 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 317.656 ms - -[0m[39m
+2026-08-18 02:39:30:3930 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a7edadc38cc023d3bc867af/detailed [36m304[0m 1918.069 ms - -[0m[39m
+2026-08-18 02:39:49:3949 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.836 ms - -[0m[39m
+2026-08-18 02:39:50:3950 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 346.767 ms - -[0m[39m
+2026-08-18 02:39:50:3950 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a7edadc38cc023d3bc867af/detailed [36m304[0m 1878.214 ms - -[0m[39m
+2026-08-18 02:39:53:3953 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 315.005 ms - -[0m[39m
+2026-08-18 02:39:55:3955 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a7edadc38cc023d3bc867af/detailed [36m304[0m 2026.981 ms - -[0m[39m
+2026-08-18 02:39:58:3958 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.937 ms - -[0m[39m
+2026-08-18 02:40:00:400 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a7edadc38cc023d3bc867af/detailed [36m304[0m 1907.218 ms - -[0m[39m
+2026-08-18 02:40:08:408 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 02:40:08:408 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 02:40:08:408 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 02:40:11:4011 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 02:40:11:4011 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 02:40:16:4016 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 7522.254 ms - -[0m[39m
+2026-08-18 02:40:17:4017 [32minfo[39m: [32m[0mGET /api/v1/admin/user/6a7edadc38cc023d3bc867af/detailed [36m304[0m 8977.210 ms - -[0m[39m
+2026-08-18 02:40:18:4018 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 9241.281 ms - -[0m[39m
+2026-08-18 02:40:18:4018 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 3847.508 ms - 424[0m[39m
+2026-08-18 02:40:18:4018 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 266.313 ms - 397[0m[39m
+2026-08-18 02:40:24:4024 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 610.444 ms - 424[0m[39m
+2026-08-18 02:40:24:4024 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 266.719 ms - 397[0m[39m
+2026-08-18 02:40:24:4024 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 534.708 ms - -[0m[39m
+2026-08-18 02:40:25:4025 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [32m200[0m 829.153 ms - 5888[0m[39m
+2026-08-18 02:40:25:4025 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1064.571 ms - -[0m[39m
+2026-08-18 02:40:26:4026 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1643.932 ms - -[0m[39m
+2026-08-18 02:40:28:4028 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 267.266 ms - -[0m[39m
+2026-08-18 02:40:29:4029 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 569.481 ms - -[0m[39m
+2026-08-18 02:40:30:4030 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.453 ms - -[0m[39m
+2026-08-18 02:40:30:4030 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 550.427 ms - -[0m[39m
+2026-08-18 02:40:31:4031 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1653.528 ms - -[0m[39m
+2026-08-18 02:41:14:4114 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.771 ms - -[0m[39m
+2026-08-18 02:41:14:4114 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 536.261 ms - -[0m[39m
+2026-08-18 02:41:15:4115 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1680.546 ms - -[0m[39m
+2026-08-18 02:41:32:4132 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 272.771 ms - -[0m[39m
+2026-08-18 02:41:32:4132 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 691.162 ms - -[0m[39m
+2026-08-18 02:41:33:4133 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1777.146 ms - -[0m[39m
+2026-08-18 02:41:49:4149 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.440 ms - -[0m[39m
+2026-08-18 02:41:49:4149 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 536.837 ms - -[0m[39m
+2026-08-18 02:41:50:4150 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1647.732 ms - -[0m[39m
+2026-08-18 02:41:55:4155 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.031 ms - -[0m[39m
+2026-08-18 02:41:55:4155 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 533.738 ms - -[0m[39m
+2026-08-18 02:41:56:4156 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1639.920 ms - -[0m[39m
+2026-08-18 02:42:11:4211 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 263.452 ms - -[0m[39m
+2026-08-18 02:42:11:4211 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 533.046 ms - -[0m[39m
+2026-08-18 02:42:12:4212 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1649.975 ms - -[0m[39m
+2026-08-18 02:43:32:4332 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 265.208 ms - -[0m[39m
+2026-08-18 02:43:33:4333 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 337.676 ms - -[0m[39m
+2026-08-18 02:43:33:4333 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 599.628 ms - -[0m[39m
+2026-08-18 02:43:34:4334 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings?page=1&limit=10 [32m200[0m 1408.536 ms - 29606[0m[39m

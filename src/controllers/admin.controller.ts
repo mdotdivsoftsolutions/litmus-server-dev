@@ -324,9 +324,42 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
       }
     }
 
+    if (search && String(search).trim()) {
+      const q = String(search).trim();
+      const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      
+      const { default: User } = await import('../models/User');
+      const matchingUsers = await User.find({
+        $or: [
+          { firstName: { $regex: escaped, $options: 'i' } },
+          { lastName: { $regex: escaped, $options: 'i' } },
+          { email: { $regex: escaped, $options: 'i' } },
+          { phone: { $regex: escaped, $options: 'i' } },
+        ]
+      }).select('_id');
+
+      const userIds = matchingUsers.map(u => u._id);
+
+      const orConditions: any[] = [
+        { userId: { $in: userIds } },
+        { invoiceNumber: { $regex: escaped, $options: 'i' } },
+        { 'items.samples.productName': { $regex: escaped, $options: 'i' } }
+      ];
+
+      const cleanHex = q.replace(/^BKG-/i, '').trim();
+      if (cleanHex.length === 24 && /^[0-9a-fA-F]{24}$/.test(cleanHex)) {
+        const { default: mongoose } = await import('mongoose');
+        orConditions.push({ _id: new mongoose.Types.ObjectId(cleanHex) });
+      }
+
+      filter.$or = orConditions;
+    }
+
     const pageNum = page ? parseInt(String(page), 10) || 1 : 1;
     const limitNum = limit ? parseInt(String(limit), 10) || 0 : 0;
     const skip = limitNum > 0 ? (pageNum - 1) * limitNum : 0;
+
+    const total = await Booking.countDocuments(filter);
 
     let query = Booking.find(filter)
       .populate('userId', 'firstName lastName email phone')
@@ -346,28 +379,14 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
       query = query.skip(skip).limit(limitNum);
     }
 
-    let bookings = await query;
-
-    // Optional in-memory search for populated nested fields
-    if (search && String(search).trim()) {
-      const q = String(search).trim().toLowerCase();
-      bookings = bookings.filter((b: any) => {
-        const idMatch = b._id?.toString().toLowerCase().includes(q) || `bkg-${b._id?.toString().slice(-6).toLowerCase()}`.includes(q);
-        const nameMatch = `${b.userId?.firstName || ''} ${b.userId?.lastName || ''}`.toLowerCase().includes(q);
-        const emailMatch = (b.userId?.email || '').toLowerCase().includes(q);
-        const phoneMatch = (b.userId?.phone || '').toLowerCase().includes(q);
-        return idMatch || nameMatch || emailMatch || phoneMatch;
-      });
-    }
-
-    const total = await Booking.countDocuments(filter);
+    const bookings = await query;
 
     res.status(200).json({
       success: true,
       count: bookings.length,
       total,
       page: pageNum,
-      totalPages: limitNum > 0 ? Math.ceil(total / limitNum) : 1,
+      totalPages: limitNum > 0 ? Math.max(1, Math.ceil(total / limitNum)) : 1,
       data: bookings,
     });
   } catch (error: any) {
