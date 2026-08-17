@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import User from '../models/User';
 import { UserRole, BookingStatus, PaymentStatus } from '../types';
 
@@ -178,30 +179,79 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
     const { default: Booking } = await import('../models/Booking');
     const { default: Payment } = await import('../models/Payment');
     const { default: Cart } = await import('../models/Cart');
+    const { Consultation } = await import('../models/Consultation');
+
+    // Robust multi-key booking lookup
+    const filterConditions: any[] = [
+      { userId: user._id }
+    ];
+    if (typeof userId === 'string' && mongoose.Types.ObjectId.isValid(userId)) {
+      filterConditions.push({ userId: new mongoose.Types.ObjectId(userId) });
+    }
+    if (user.email) {
+      filterConditions.push({ 'collectionDetails.email': user.email });
+      filterConditions.push({ 'userEmail': user.email });
+    }
+    if (user.phone) {
+      filterConditions.push({ 'collectionDetails.phone': user.phone });
+    }
 
     // Get bookings
-    const bookings = await Booking.find({ userId })
-      .populate('labId', 'labName location')
-      .populate('items.testId', 'name testName metadata')
-      .populate('items.packageId', 'name')
+    const bookings = await Booking.find({ $or: filterConditions })
+      .populate('labId', 'labName location contactPhone contactEmail')
+      .populate('items.testId', 'name testName metadata price')
+      .populate('items.packageId', 'name price')
       .sort('-createdAt');
 
-    // Get payments
-    const payments = await Payment.find({ bookingId: { $in: bookings.map(b => b._id) } })
+    // Get payments linked to bookings
+    const bookingIds = bookings.map(b => b._id);
+    const dbPayments = await Payment.find({ bookingId: { $in: bookingIds } })
+      .populate({
+        path: 'bookingId',
+        select: 'totalAmount status createdAt labId',
+        populate: { path: 'labId', select: 'labName' }
+      })
       .sort('-createdAt');
+
+    // If separate Payment records don't exist yet for some bookings, synthesize them so admin can see full history
+    const synthesizedPayments = bookings
+      .filter(b => !dbPayments.some(p => String(p.bookingId?._id || p.bookingId) === String(b._id)))
+      .map(b => ({
+        _id: `PAY-${b._id}`,
+        bookingId: b,
+        amount: b.totalAmount || 0,
+        status: ['SUCCESS', 'PAID', 'Approved', 'Completed'].includes(String(b.paymentStatus || b.status)) ? 'SUCCESS' : b.paymentStatus === 'FAILED' ? 'FAILED' : 'PENDING',
+        method: b.metadata?.paymentMethod || 'Online Gateway',
+        transactionId: b.metadata?.transactionId || b.metadata?.razorpay_payment_id || `TXN-${String(b._id).slice(-6).toUpperCase()}`,
+        razorpayOrderId: b.metadata?.razorpay_order_id || `ORD-${String(b._id).slice(-6).toUpperCase()}`,
+        createdAt: b.createdAt
+      }));
+
+    const allPayments = [...dbPayments, ...synthesizedPayments].sort((a: any, b: any) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
 
     // Get abandoned cart
-    const cart = await Cart.findOne({ userId })
-      .populate('items.testId', 'name testName')
-      .populate('items.packageId', 'name');
+    const cart = await Cart.findOne({ $or: [{ userId: user._id }, { userId }] })
+      .populate('items.testId', 'name testName price')
+      .populate('items.packageId', 'name price');
 
-    // Calculate stats
+    // Get any consultations requested by this user
+    const consultationFilters: any[] = [];
+    if (user.email) consultationFilters.push({ email: user.email.toLowerCase() });
+    if (user.phone) consultationFilters.push({ phone: user.phone });
+    
+    let consultations: any[] = [];
+    if (consultationFilters.length > 0) {
+      consultations = await Consultation.find({ $or: consultationFilters }).sort('-createdAt');
+    }
+
+    // Calculate comprehensive stats
     const totalBookings = bookings.length;
-    const completedBookings = bookings.filter(b => b.status === 'COMPLETED').length;
-    const pendingBookings = bookings.filter(b => b.status !== 'COMPLETED' && b.status !== 'REJECTED').length;
-    const totalAmountPaid = payments
-      .filter(p => p.status === 'SUCCESS')
-      .reduce((sum, p) => sum + (p.amount || 0), 0);
+    const completedBookings = bookings.filter(b => String(b.status).toUpperCase() === 'COMPLETED').length;
+    const pendingBookings = bookings.filter(b => !['COMPLETED', 'REJECTED', 'CANCELLED'].includes(String(b.status).toUpperCase())).length;
+    const totalAmountPaid = bookings
+      .filter(b => ['SUCCESS', 'PAID'].includes(String(b.paymentStatus || '').toUpperCase()) || String(b.status).toUpperCase() === 'COMPLETED')
+      .reduce((sum, b) => sum + (b.totalAmount || 0), 0)
+      || allPayments.filter(p => p.status === 'SUCCESS').reduce((sum, p) => sum + (p.amount || 0), 0);
 
     res.status(200).json({
       success: true,
@@ -211,11 +261,13 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
           totalBookings,
           completedBookings,
           pendingBookings,
-          totalAmountPaid
+          totalAmountPaid,
+          totalConsultations: consultations.length
         },
         bookings,
-        payments,
-        cart: cart || { items: [] }
+        payments: allPayments,
+        cart: cart || { items: [] },
+        consultations
       }
     });
   } catch (error: any) {
