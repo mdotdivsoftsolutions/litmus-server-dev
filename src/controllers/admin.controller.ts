@@ -726,35 +726,87 @@ export const rejectBookingResult = async (req: Request, res: Response): Promise<
 
 export const getAdminStats = async (req: Request, res: Response): Promise<void> => {
   try {
-    const totalUsers = await User.countDocuments();
-    
-    let totalLabs = 0;
-    let totalBookings = 0;
-    let totalRevenue = 0;
+    const { default: User } = await import('../models/User');
+    const { default: Laboratory } = await import('../models/Laboratory');
+    const { default: Booking } = await import('../models/Booking');
+    const { default: Payment } = await import('../models/Payment');
+    const { Consultation } = await import('../models/Consultation');
+    const { default: Test } = await import('../models/Test');
+    const { default: Package } = await import('../models/Package');
+    const { default: Category } = await import('../models/Category');
+    const { default: Review } = await import('../models/Review');
+    const { UserRole, BookingStatus, PaymentStatus, ApprovalStatus } = await import('../types');
 
-    await import('../models/Laboratory').then(async ({ default: Laboratory }) => {
-      totalLabs = await Laboratory.countDocuments();
-    });
+    const [
+      totalUsers,
+      activeUsers,
+      totalEmployees,
+      activeEmployees,
+      totalLabs,
+      activeLabs,
+      totalBookings,
+      pendingBookings,
+      inProgressBookings,
+      totalConsultations,
+      pendingConsultations,
+      pendingTests,
+      pendingPackages,
+      pendingReports,
+      totalCategories,
+      totalTests,
+      totalPackages,
+      totalReviews,
+      successfulPayments,
+    ] = await Promise.all([
+      User.countDocuments({ role: UserRole.USER }),
+      User.countDocuments({ role: UserRole.USER, isActive: true }),
+      User.countDocuments({ role: UserRole.EMPLOYEE }),
+      User.countDocuments({ role: UserRole.EMPLOYEE, isActive: true }),
+      Laboratory.countDocuments(),
+      Laboratory.countDocuments({ isActive: true }),
+      Booking.countDocuments(),
+      Booking.countDocuments({ status: BookingStatus.PENDING }),
+      Booking.countDocuments({ status: { $in: [BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] } }),
+      Consultation.countDocuments().catch(() => 0),
+      Consultation.countDocuments({ status: 'Pending' }).catch(() => 0),
+      Test.countDocuments({ approvalStatus: ApprovalStatus.PENDING }).catch(() => 0),
+      Package.countDocuments({ approvalStatus: ApprovalStatus.PENDING }).catch(() => 0),
+      Booking.countDocuments({
+        reportFiles: { $exists: true, $ne: [] },
+        isReportApprovedByAdmin: false
+      }).catch(() => 0),
+      Category.countDocuments().catch(() => 0),
+      Test.countDocuments().catch(() => 0),
+      Package.countDocuments().catch(() => 0),
+      Review.countDocuments().catch(() => 0),
+      Payment.find({ status: PaymentStatus.SUCCESS }).select('amount').catch(() => []),
+    ]);
 
-    await import('../models/Booking').then(async ({ default: Booking }) => {
-      totalBookings = await Booking.countDocuments();
-    });
+    const totalRevenue = (successfulPayments as any[]).reduce((sum: number, p: any) => sum + (p.amount || 0), 0);
+    const pendingApprovals = (Number(pendingTests) || 0) + (Number(pendingPackages) || 0);
 
-    await import('../models/Payment').then(async ({ default: Payment }) => {
-      import('../types').then(async ({ PaymentStatus }) => {
-        const payments = await Payment.find({ status: PaymentStatus.SUCCESS });
-        totalRevenue = payments.reduce((sum, payment) => sum + (payment.amount || 0), 0);
-        
-        res.status(200).json({
-          success: true,
-          data: {
-            totalUsers,
-            totalLabs,
-            totalBookings,
-            totalRevenue,
-          }
-        });
-      });
+    res.status(200).json({
+      success: true,
+      data: {
+        totalUsers,
+        activeUsers,
+        totalEmployees,
+        activeEmployees,
+        totalLabs,
+        activeLabs,
+        totalBookings,
+        pendingBookings,
+        inProgressBookings,
+        totalConsultations,
+        pendingConsultations,
+        pendingApprovals,
+        pendingReports,
+        totalCategories,
+        totalTests,
+        totalPackages,
+        totalReviews,
+        totalRevenue,
+      }
     });
   } catch (error: any) {
     res.status(500).json({
