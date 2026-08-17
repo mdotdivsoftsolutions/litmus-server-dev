@@ -26,6 +26,14 @@ export const loginSchema = z.object({
 export const sendOtpSchema = z.object({
   body: z.object({
     email: z.string().email('Invalid email format'),
+    phone: z.string().optional(),
+  }),
+});
+
+export const checkAvailabilitySchema = z.object({
+  body: z.object({
+    email: z.string().email('Invalid email format').optional(),
+    phone: z.string().optional(),
   }),
 });
 

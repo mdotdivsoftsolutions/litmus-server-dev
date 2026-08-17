@@ -2,9 +2,11 @@ import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { validate } from '../middleware/validate.middleware';
 import { authMiddleware } from '../middleware/auth.middleware';
-import { registerSchema, loginSchema, sendOtpSchema, forgotPasswordSchema, verifyOtpSchema, resetPasswordSchema } from '../validators/auth.validator';
+import { registerSchema, loginSchema, sendOtpSchema, checkAvailabilitySchema, forgotPasswordSchema, verifyOtpSchema, resetPasswordSchema } from '../validators/auth.validator';
 
 const router = Router();
+
+router.post('/check-availability', validate(checkAvailabilitySchema), AuthController.checkAvailability);
 
 /**
  * @swagger

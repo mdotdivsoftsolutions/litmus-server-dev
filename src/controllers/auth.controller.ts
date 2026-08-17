@@ -6,11 +6,27 @@ import logger from '../utils/logger';
 export class AuthController {
   static async sendOtp(req: Request, res: Response): Promise<void> {
     try {
-      const result = await AuthService.sendOtp(req.body.email);
+      const { email, phone } = req.body;
+      const result = await AuthService.sendOtp(email, phone);
       res.status(200).json(result);
     } catch (error: any) {
       logger.error(`SendOTP Error: ${error.message}`);
       res.status(400).json({ success: false, message: error.message });
+    }
+  }
+
+  static async checkAvailability(req: Request, res: Response): Promise<void> {
+    try {
+      const { email, phone } = req.body;
+      const result = await AuthService.checkAvailability(email, phone);
+      if (!result.available) {
+        res.status(400).json({ success: false, message: result.message, field: result.field });
+        return;
+      }
+      res.status(200).json({ success: true, message: 'Available' });
+    } catch (error: any) {
+      logger.error(`CheckAvailability Error: ${error.message}`);
+      res.status(500).json({ success: false, message: error.message });
     }
   }
 
@@ -143,6 +159,18 @@ export class AuthController {
     try {
       // Disallow updating sensitive fields like role or password via this endpoint
       const { role, password, email, ...updateData } = req.body;
+
+      if (updateData.phone && typeof updateData.phone === 'string') {
+        const cleanedPhone = updateData.phone.trim();
+        const existingPhone = await User.findOne({
+          phone: cleanedPhone,
+          _id: { $ne: req.user?.id },
+        });
+        if (existingPhone) {
+          res.status(400).json({ success: false, message: 'Mobile number is already registered to another account' });
+          return;
+        }
+      }
       
       const user = await User.findByIdAndUpdate(
         req.user?.id,

@@ -20187,3 +20187,12 @@
 2026-08-17 13:45:51:4551 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.008 ms - -[0m[39m
 2026-08-17 13:45:52:4552 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1502.085 ms - 25645[0m[39m
 2026-08-17 13:45:52:4552 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1085.740 ms - -[0m[39m
+2026-08-17 15:11:52:1152 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.662 ms - 65[0m[39m
+2026-08-17 15:11:52:1152 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 357.796 ms - 36[0m[39m
+2026-08-17 15:11:53:1153 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 1168.258 ms - 254[0m[39m
+2026-08-17 15:11:54:1154 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 280.987 ms - 888[0m[39m
+2026-08-17 15:16:32:1632 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-17 15:16:32:1632 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-17 15:16:32:1632 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-17 15:16:35:1635 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-17 15:16:35:1635 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m

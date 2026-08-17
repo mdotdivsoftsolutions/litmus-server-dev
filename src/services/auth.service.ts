@@ -25,22 +25,47 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  static async sendOtp(email: string) {
-    const existingUser = await User.findOne({ email });
+  static async checkAvailability(email?: string, phone?: string) {
+    if (email && email.trim()) {
+      const existingEmail = await User.findOne({ email: email.toLowerCase().trim() });
+      if (existingEmail) {
+        return { available: false, field: 'email', message: 'Email is already registered. Please login instead.' };
+      }
+    }
+
+    if (phone && phone.trim()) {
+      const existingPhone = await User.findOne({ phone: phone.trim() });
+      if (existingPhone) {
+        return { available: false, field: 'phone', message: 'Mobile number is already registered. Please use a different number.' };
+      }
+    }
+
+    return { available: true, message: 'Available' };
+  }
+
+  static async sendOtp(email: string, phone?: string) {
+    const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
     if (existingUser) {
-      throw new Error('Email already registered');
+      throw new Error('Email is already registered. Please login instead.');
+    }
+
+    if (phone && phone.trim()) {
+      const existingPhone = await User.findOne({ phone: phone.trim() });
+      if (existingPhone) {
+        throw new Error('Mobile number is already registered. Please use a different number.');
+      }
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit OTP
     
     // Clear old OTPs for this email
-    await OTP.deleteMany({ email });
+    await OTP.deleteMany({ email: email.toLowerCase().trim() });
     
     // Save new OTP
-    await OTP.create({ email, otp });
+    await OTP.create({ email: email.toLowerCase().trim(), otp });
     
     // Send email
-    await sendOtpEmail(email, otp);
+    await sendOtpEmail(email.toLowerCase().trim(), otp);
     
     return { success: true, message: 'OTP sent successfully' };
   }
