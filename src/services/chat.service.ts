@@ -229,7 +229,9 @@ export class ChatService {
     if (session) {
       session.lastMessageAt = new Date();
       if (params.senderType === MessageSenderType.USER) {
-        session.unreadAgentCount = (session.unreadAgentCount || 0) + 1;
+        if (session.status === ChatSessionStatus.ACTIVE || session.status === ChatSessionStatus.QUEUED) {
+          session.unreadAgentCount = (session.unreadAgentCount || 0) + 1;
+        }
       } else if (params.senderType === MessageSenderType.AGENT) {
         session.unreadUserCount = (session.unreadUserCount || 0) + 1;
       }

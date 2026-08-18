@@ -26702,3 +26702,225 @@
 2026-08-18 23:29:04:294 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [36m304[0m 817.715 ms - -[0m[39m
 2026-08-18 23:29:07:297 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20 [32m200[0m 544.110 ms - 1367[0m[39m
 2026-08-18 23:29:08:298 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 279.880 ms - -[0m[39m
+2026-08-18 23:29:31:2931 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 278.474 ms - -[0m[39m
+2026-08-18 23:29:31:2931 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 797.960 ms - -[0m[39m
+2026-08-18 23:29:31:2931 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 814.935 ms - -[0m[39m
+2026-08-18 23:29:31:2931 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 819.095 ms - -[0m[39m
+2026-08-18 23:29:31:2931 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1095.731 ms - -[0m[39m
+2026-08-18 23:29:32:2932 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.391 ms - 65[0m[39m
+2026-08-18 23:29:33:2933 [32minfo[39m: [32m[Socket Connected] id=aNlebF-Ocnyso_MhAAAD isAgent=false userId=Guest[39m
+2026-08-18 23:29:33:2933 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 272.618 ms - 36[0m[39m
+2026-08-18 23:29:33:2933 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 557.112 ms - 254[0m[39m
+2026-08-18 23:29:33:2933 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 265.820 ms - 1038[0m[39m
+2026-08-18 23:29:33:2933 [32minfo[39m: [32m[Socket Connected] id=p46yFzbzJhHJuBxfAAAF isAgent=false userId=Guest[39m
+2026-08-18 23:30:01:301 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m
+2026-08-18 23:30:20:3020 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 334.332 ms - -[0m[39m
+2026-08-18 23:30:20:3020 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 949.766 ms - -[0m[39m
+2026-08-18 23:30:20:3020 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 987.715 ms - -[0m[39m
+2026-08-18 23:30:20:3020 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 1033.625 ms - -[0m[39m
+2026-08-18 23:30:21:3021 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1490.220 ms - 1310[0m[39m
+2026-08-18 23:33:17:3317 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.959 ms - -[0m[39m
+2026-08-18 23:33:18:3318 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 794.354 ms - -[0m[39m
+2026-08-18 23:33:18:3318 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 792.620 ms - -[0m[39m
+2026-08-18 23:33:18:3318 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 792.861 ms - -[0m[39m
+2026-08-18 23:33:18:3318 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1064.782 ms - -[0m[39m
+2026-08-18 23:36:26:3626 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.033 ms - -[0m[39m
+2026-08-18 23:36:26:3626 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 529.812 ms - 243[0m[39m
+2026-08-18 23:36:45:3645 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.421 ms - 65[0m[39m
+2026-08-18 23:36:45:3645 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [33m401[0m 0.388 ms - 65[0m[39m
+2026-08-18 23:36:45:3645 [32minfo[39m: [32m[0mGET /api/v1/employees [33m401[0m 0.354 ms - 65[0m[39m
+2026-08-18 23:36:45:3645 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [33m401[0m 0.254 ms - 65[0m[39m
+2026-08-18 23:36:45:3645 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [33m401[0m 2.298 ms - 65[0m[39m
+2026-08-18 23:36:46:3646 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 582.114 ms - 255[0m[39m
+2026-08-18 23:36:46:3646 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 583.913 ms - 255[0m[39m
+2026-08-18 23:36:46:3646 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 590.457 ms - 255[0m[39m
+2026-08-18 23:36:46:3646 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 606.985 ms - 255[0m[39m
+2026-08-18 23:36:46:3646 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 604.988 ms - 255[0m[39m
+2026-08-18 23:36:46:3646 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 264.767 ms - 397[0m[39m
+2026-08-18 23:36:47:3647 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 785.504 ms - -[0m[39m
+2026-08-18 23:36:47:3647 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 770.863 ms - -[0m[39m
+2026-08-18 23:36:47:3647 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 796.028 ms - -[0m[39m
+2026-08-18 23:36:47:3647 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1049.650 ms - -[0m[39m
+2026-08-18 23:36:58:3658 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 265.659 ms - -[0m[39m
+2026-08-18 23:36:59:3659 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 789.853 ms - -[0m[39m
+2026-08-18 23:36:59:3659 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 788.909 ms - -[0m[39m
+2026-08-18 23:36:59:3659 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1056.544 ms - -[0m[39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32m[Socket Connected] id=q56VdtkR8k8XHv-dAAAB isAgent=false userId=Guest[39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32m[Socket Connected] id=pBgJbIL1NC-fqarWAAAD isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=pBgJbIL1NC-fqarWAAAD][39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=pBgJbIL1NC-fqarWAAAD][39m
+2026-08-18 23:38:10:3810 [32minfo[39m: [32m[Socket] Agent Litmus Staff [pBgJbIL1NC-fqarWAAAD] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 23:38:13:3813 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 23:38:13:3813 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32m[Socket Connected] id=hTNwSe-2ONyhDa0_AAAB isAgent=false userId=Guest[39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32m[Socket Connected] id=x5pEgteWTZZCwfxAAAAD isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=x5pEgteWTZZCwfxAAAAD][39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=x5pEgteWTZZCwfxAAAAD][39m
+2026-08-18 23:38:22:3822 [32minfo[39m: [32m[Socket] Agent Litmus Staff [x5pEgteWTZZCwfxAAAAD] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 23:38:24:3824 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 23:38:24:3824 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 23:38:45:3845 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 269.630 ms - 1367[0m[39m
+2026-08-18 23:38:45:3845 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 268.953 ms - 1371[0m[39m
+2026-08-18 23:38:45:3845 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 550.280 ms - 6046[0m[39m
+2026-08-18 23:38:46:3846 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1357.372 ms - 25645[0m[39m
+2026-08-18 23:38:50:3850 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 273.922 ms - 1367[0m[39m
+2026-08-18 23:38:50:3850 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 265.056 ms - 1371[0m[39m
+2026-08-18 23:38:51:3851 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 565.551 ms - 6046[0m[39m
+2026-08-18 23:38:51:3851 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1361.805 ms - 25645[0m[39m
+2026-08-18 23:39:15:3915 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 266.648 ms - 1367[0m[39m
+2026-08-18 23:39:15:3915 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 272.518 ms - 1371[0m[39m
+2026-08-18 23:39:16:3916 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 541.116 ms - 6046[0m[39m
+2026-08-18 23:39:16:3916 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1357.445 ms - 25645[0m[39m
+2026-08-18 23:39:34:3934 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 294.120 ms - 1367[0m[39m
+2026-08-18 23:39:34:3934 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 295.462 ms - 1371[0m[39m
+2026-08-18 23:39:34:3934 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 566.761 ms - 6046[0m[39m
+2026-08-18 23:39:35:3935 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1382.602 ms - 25645[0m[39m
+2026-08-18 23:40:00:400 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 264.719 ms - 1371[0m[39m
+2026-08-18 23:40:00:400 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 285.672 ms - 1367[0m[39m
+2026-08-18 23:40:00:400 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 559.199 ms - 6046[0m[39m
+2026-08-18 23:40:01:401 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1372.452 ms - 25645[0m[39m
+2026-08-18 23:53:44:5344 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 2.852 ms - 65[0m[39m
+2026-08-18 23:53:44:5344 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [33m401[0m 0.915 ms - 65[0m[39m
+2026-08-18 23:53:44:5344 [32minfo[39m: [32m[0mGET /api/v1/employees [33m401[0m 0.373 ms - 65[0m[39m
+2026-08-18 23:53:44:5344 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [33m401[0m 1.275 ms - 65[0m[39m
+2026-08-18 23:53:44:5344 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [33m401[0m 2.267 ms - 65[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 582.347 ms - 255[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 613.371 ms - 255[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 623.546 ms - 255[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 633.029 ms - 255[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 631.259 ms - 255[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 266.779 ms - -[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 792.577 ms - 397[0m[39m
+2026-08-18 23:53:45:5345 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 794.061 ms - -[0m[39m
+2026-08-18 23:53:46:5346 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1061.682 ms - 1310[0m[39m
+2026-08-18 23:53:46:5346 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.262 ms - 65[0m[39m
+2026-08-18 23:53:46:5346 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 267.115 ms - 36[0m[39m
+2026-08-18 23:53:46:5346 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1705.916 ms - -[0m[39m
+2026-08-18 23:53:47:5347 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 539.776 ms - 254[0m[39m
+2026-08-18 23:53:47:5347 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 295.370 ms - 1038[0m[39m
+2026-08-18 23:53:47:5347 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.512 ms - -[0m[39m
+2026-08-18 23:53:48:5348 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 793.484 ms - -[0m[39m
+2026-08-18 23:53:48:5348 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 791.108 ms - -[0m[39m
+2026-08-18 23:53:48:5348 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1061.284 ms - -[0m[39m
+2026-08-18 23:53:50:5350 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [32m200[0m 532.300 ms - 1367[0m[39m
+2026-08-18 23:53:51:5351 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20 [32m200[0m 530.429 ms - 1367[0m[39m
+2026-08-18 23:53:57:5357 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 265.869 ms - -[0m[39m
+2026-08-18 23:53:57:5357 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 531.122 ms - 243[0m[39m
+2026-08-18 23:54:21:5421 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m
+2026-08-18 23:55:32:5532 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 293.436 ms - -[0m[39m
+2026-08-18 23:55:32:5532 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 535.364 ms - -[0m[39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32m[Socket Connected] id=8CUDaBkUQPUgzrCeAAAC isAgent=false userId=Guest[39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32m[Socket Connected] id=6xxN_d7msMnKluSdAAAD isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=6xxN_d7msMnKluSdAAAD][39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=6xxN_d7msMnKluSdAAAD][39m
+2026-08-18 23:56:22:5622 [32minfo[39m: [32m[Socket] Agent Litmus Staff [6xxN_d7msMnKluSdAAAD] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 23:56:24:5624 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 23:56:24:5624 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 23:56:30:5630 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 283.183 ms - -[0m[39m
+2026-08-18 23:56:30:5630 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 534.188 ms - -[0m[39m
+2026-08-18 23:56:40:5640 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.431 ms - -[0m[39m
+2026-08-18 23:56:40:5640 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 1102.947 ms - -[0m[39m
+2026-08-18 23:56:41:5641 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1425.678 ms - 1175[0m[39m
+2026-08-18 23:56:42:5642 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 2434.730 ms - -[0m[39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32m[Socket Connected] id=F1_GiX_1oGIKx2AlAAAB isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=F1_GiX_1oGIKx2AlAAAB][39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=F1_GiX_1oGIKx2AlAAAB][39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32m[Socket] Agent Litmus Staff [F1_GiX_1oGIKx2AlAAAB] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 23:56:48:5648 [32minfo[39m: [32m[Socket Connected] id=fnzG07bhi4sF_XJgAAAD isAgent=false userId=Guest[39m
+2026-08-18 23:56:50:5650 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 23:56:50:5650 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 23:56:55:5655 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [32m200[0m 2777.543 ms - 1232[0m[39m
+2026-08-18 23:56:57:5657 [32minfo[39m: [32m[Socket] Agent Litmus Staff [F1_GiX_1oGIKx2AlAAAB] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 23:56:57:5657 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [32m200[0m 532.555 ms - 1365[0m[39m
+2026-08-18 23:57:03:573 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 274.989 ms - -[0m[39m
+2026-08-18 23:57:03:573 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 550.520 ms - -[0m[39m
+2026-08-18 23:57:23:5723 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 331.307 ms - -[0m[39m
+2026-08-18 23:57:23:5723 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 842.757 ms - -[0m[39m
+2026-08-18 23:57:23:5723 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1120.932 ms - 1308[0m[39m
+2026-08-18 23:57:23:5723 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [32m200[0m 1144.224 ms - 1365[0m[39m
+2026-08-18 23:57:24:5724 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1779.332 ms - -[0m[39m
+2026-08-18 23:57:30:5730 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 274.318 ms - -[0m[39m
+2026-08-18 23:57:30:5730 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 538.041 ms - -[0m[39m
+2026-08-18 23:57:35:5735 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.084 ms - -[0m[39m
+2026-08-18 23:57:35:5735 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 795.829 ms - -[0m[39m
+2026-08-18 23:57:36:5736 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [32m200[0m 1055.551 ms - 1365[0m[39m
+2026-08-18 23:57:36:5736 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1067.720 ms - 1308[0m[39m
+2026-08-18 23:57:39:5739 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [32m200[0m 531.612 ms - 1367[0m[39m
+2026-08-18 23:57:39:5739 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 531.458 ms - 1310[0m[39m
+2026-08-18 23:57:40:5740 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 534.433 ms - -[0m[39m
+2026-08-18 23:57:40:5740 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 539.498 ms - -[0m[39m
+2026-08-18 23:57:40:5740 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 265.943 ms - -[0m[39m
+2026-08-18 23:57:40:5740 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 537.135 ms - -[0m[39m
+2026-08-18 23:57:52:5752 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.018 ms - -[0m[39m
+2026-08-18 23:57:53:5753 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 793.645 ms - -[0m[39m
+2026-08-18 23:57:53:5753 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1100.723 ms - 1310[0m[39m
+2026-08-18 23:57:53:5753 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [32m200[0m 1101.216 ms - 1367[0m[39m
+2026-08-18 23:57:55:5755 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [32m200[0m 268.321 ms - 81[0m[39m
+2026-08-18 23:57:57:5757 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 535.304 ms - -[0m[39m
+2026-08-18 23:57:58:5758 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20 [32m200[0m 531.339 ms - 1367[0m[39m
+2026-08-18 23:57:59:5759 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 296.391 ms - 1367[0m[39m
+2026-08-18 23:57:59:5759 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 304.429 ms - 1371[0m[39m
+2026-08-18 23:57:59:5759 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 554.460 ms - 6046[0m[39m
+2026-08-18 23:57:59:5759 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 266.671 ms - -[0m[39m
+2026-08-18 23:58:00:580 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1390.576 ms - 25645[0m[39m
+2026-08-18 23:58:00:580 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.495 ms - -[0m[39m
+2026-08-18 23:58:01:581 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 540.460 ms - -[0m[39m
+2026-08-18 23:58:03:583 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 275.876 ms - -[0m[39m
+2026-08-18 23:58:03:583 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 797.931 ms - -[0m[39m
+2026-08-18 23:58:03:583 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 794.481 ms - -[0m[39m
+2026-08-18 23:58:03:583 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 794.836 ms - -[0m[39m
+2026-08-18 23:58:03:583 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1060.880 ms - -[0m[39m
+2026-08-18 23:58:05:585 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.998 ms - -[0m[39m
+2026-08-18 23:58:05:585 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 788.506 ms - -[0m[39m
+2026-08-18 23:58:05:585 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 791.160 ms - -[0m[39m
+2026-08-18 23:58:06:586 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1053.611 ms - -[0m[39m
+2026-08-18 23:58:07:587 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 264.578 ms - -[0m[39m
+2026-08-18 23:58:07:587 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 528.730 ms - -[0m[39m
+2026-08-18 23:58:11:5811 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 267.565 ms - 1367[0m[39m
+2026-08-18 23:58:11:5811 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 268.189 ms - 1371[0m[39m
+2026-08-18 23:58:12:5812 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 539.977 ms - 6046[0m[39m
+2026-08-18 23:58:12:5812 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1373.190 ms - 25645[0m[39m
+2026-08-18 23:58:33:5833 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 270.927 ms - 1371[0m[39m
+2026-08-18 23:58:33:5833 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 274.864 ms - 1367[0m[39m
+2026-08-18 23:58:34:5834 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 536.502 ms - 6046[0m[39m
+2026-08-18 23:58:35:5835 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1347.685 ms - 25645[0m[39m
+2026-08-18 23:58:45:5845 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 267.587 ms - 1367[0m[39m
+2026-08-18 23:58:45:5845 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 269.115 ms - 1371[0m[39m
+2026-08-18 23:58:45:5845 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 538.473 ms - 6046[0m[39m
+2026-08-18 23:58:46:5846 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1507.343 ms - 25645[0m[39m
+2026-08-18 23:58:57:5857 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 270.047 ms - 1367[0m[39m
+2026-08-18 23:58:57:5857 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 269.345 ms - 1371[0m[39m
+2026-08-18 23:58:57:5857 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 532.991 ms - 6046[0m[39m
+2026-08-18 23:58:58:5858 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1381.877 ms - 25645[0m[39m
+2026-08-18 23:59:28:5928 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.332 ms - -[0m[39m
+2026-08-18 23:59:29:5929 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 841.779 ms - -[0m[39m
+2026-08-18 23:59:29:5929 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 842.074 ms - -[0m[39m
+2026-08-18 23:59:29:5929 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1146.173 ms - 1172[0m[39m
+2026-08-18 23:59:43:5943 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 268.532 ms - 1367[0m[39m
+2026-08-18 23:59:43:5943 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 270.077 ms - 1371[0m[39m
+2026-08-18 23:59:44:5944 [32minfo[39m: [32m[0mGET /api/v1/labs?isTrusted=true [32m200[0m 538.082 ms - 6046[0m[39m
+2026-08-18 23:59:44:5944 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=20&status=QUEUED [36m304[0m 267.161 ms - -[0m[39m
+2026-08-18 23:59:44:5944 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 1338.900 ms - 25645[0m[39m
+2026-08-18 23:59:48:5948 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-18 23:59:49:5949 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 23:59:49:5949 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-18 23:59:50:5950 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 22493.144 ms - -[0m[39m
+2026-08-18 23:59:53:5953 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 23:59:53:5953 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 23:59:53:5953 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.893 ms - -[0m[39m

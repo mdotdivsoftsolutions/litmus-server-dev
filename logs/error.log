@@ -142,3 +142,5 @@
 2026-08-18 19:06:18:618 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m
 2026-08-18 19:06:51:651 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m
 2026-08-18 20:36:44:3644 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-08-18 23:30:01:301 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m
+2026-08-18 23:54:21:5421 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m

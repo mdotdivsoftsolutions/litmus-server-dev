@@ -219,6 +219,12 @@ export function registerChatHandlers(io: Server, socket: Socket) {
         const { sessionId, text, clientMessageId } = data;
         if (!sessionId || !text?.trim()) return;
 
+        // If session was previously resolved, missed, or closed, reset to BOT status and detach previous agent
+        await ChatSession.updateOne(
+          { sessionId, status: { $in: [ChatSessionStatus.RESOLVED, ChatSessionStatus.CLOSED, ChatSessionStatus.MISSED] } },
+          { $set: { status: ChatSessionStatus.BOT, assignedAgent: null, unreadAgentCount: 0 } }
+        );
+
         // 1. Record User Message in Chat transcript
         const { message: userMsg } = await ChatService.addMessage({
           sessionId,
@@ -242,7 +248,7 @@ export function registerChatHandlers(io: Server, socket: Socket) {
         });
 
         const botReplyPayload = {
-          ...botMsg.toObject(),
+          ...botMsg,
           intent: botResult.intent,
           actionSuggestions: botResult.actionSuggestions,
         };
