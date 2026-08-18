@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ChatSession from '../models/ChatSession';
+import User from '../models/User';
 import { ChatService } from '../services/chat.service';
 import { BotKnowledgeService } from '../services/botKnowledge.service';
 import { presenceService } from '../services/presence.service';
@@ -44,7 +45,7 @@ export class ChatController {
    */
   public static async getSessions(req: Request, res: Response): Promise<void> {
     try {
-      const { status, agentId, userType, search, page = '1', limit = '30' } = req.query;
+      const { status, agentId, userType, search, page = '1', limit = '50' } = req.query;
 
       const query: any = {};
       if (status && status !== 'ALL') {
@@ -56,20 +57,33 @@ export class ChatController {
       if (userType) {
         query.userType = userType;
       }
-      if (search) {
+      if (search && typeof search === 'string' && search.trim()) {
+        const searchStr = search.trim();
+        const matchingUsers = await User.find({
+          $or: [
+            { firstName: { $regex: searchStr, $options: 'i' } },
+            { lastName: { $regex: searchStr, $options: 'i' } },
+            { phone: { $regex: searchStr, $options: 'i' } },
+            { email: { $regex: searchStr, $options: 'i' } },
+            { companyName: { $regex: searchStr, $options: 'i' } },
+          ],
+        }).distinct('_id');
+
         query.$or = [
-          { 'guestInfo.name': { $regex: search, $options: 'i' } },
-          { 'guestInfo.phone': { $regex: search, $options: 'i' } },
-          { 'guestInfo.email': { $regex: search, $options: 'i' } },
-          { sessionId: { $regex: search, $options: 'i' } },
+          { 'guestInfo.name': { $regex: searchStr, $options: 'i' } },
+          { 'guestInfo.phone': { $regex: searchStr, $options: 'i' } },
+          { 'guestInfo.email': { $regex: searchStr, $options: 'i' } },
+          { sessionId: { $regex: searchStr, $options: 'i' } },
+          { initialQuery: { $regex: searchStr, $options: 'i' } },
+          ...(matchingUsers.length > 0 ? [{ userId: { $in: matchingUsers } }] : []),
         ];
       }
 
       const pageNum = parseInt(page as string, 10) || 1;
-      const limitNum = parseInt(limit as string, 10) || 30;
+      const limitNum = parseInt(limit as string, 10) || 50;
       const skip = (pageNum - 1) * limitNum;
 
-      const [sessions, total] = await Promise.all([
+      const [rawSessions, total] = await Promise.all([
         ChatSession.find(query)
           .populate('assignedAgent', 'firstName lastName profilePic designation department role email phone')
           .populate('userId', 'firstName lastName email phone companyName')
@@ -79,6 +93,8 @@ export class ChatController {
           .lean(),
         ChatSession.countDocuments(query),
       ]);
+
+      const sessions = rawSessions.map((s) => ChatService.decryptSession(s));
 
       res.status(200).json({
         success: true,
@@ -112,20 +128,62 @@ export class ChatController {
         return;
       }
 
-      res.status(200).json({ success: true, data: session });
+      res.status(200).json({ success: true, data: ChatService.decryptSession(session) });
     } catch (err: any) {
       res.status(500).json({ success: false, message: err.message });
     }
   }
 
   /**
-   * Get messages transcript for a session
+   * Get messages transcript for a session with strict access control
    */
   public static async getMessages(req: Request, res: Response): Promise<void> {
     try {
       const sessionId = String(req.params.sessionId);
-      const includeInternalNotes = Boolean(req.query.includeInternalNotes === 'true');
-      const messages = await ChatService.getTranscript(sessionId, includeInternalNotes);
+      const session = await ChatSession.findOne({ sessionId }).lean();
+
+      if (!session) {
+        res.status(404).json({ success: false, message: 'Session not found' });
+        return;
+      }
+
+      const user = (req as any).user;
+      const guestTokenHeader = req.headers['x-guest-token'] as string;
+      const guestIdHeader = (req.headers['x-guest-id'] || req.query.guestId) as string;
+
+      let isAuthorized = false;
+
+      if (user) {
+        // Staff and Admins can view conversation transcripts
+        if (['ADMIN', 'EMPLOYEE', 'SUPER_ADMIN'].includes(user.role)) {
+          isAuthorized = true;
+        } else if (session.userId && String(session.userId) === String(user._id || user.id)) {
+          // Registered patient/customer who owns this session
+          isAuthorized = true;
+        }
+      } else if (guestTokenHeader) {
+        const verified = ChatService.verifyGuestToken(guestTokenHeader);
+        if (verified && verified.sessionId === sessionId) {
+          isAuthorized = true;
+        }
+      } else if (guestIdHeader && session.guestInfo?.guestId === guestIdHeader) {
+        isAuthorized = true;
+      }
+
+      if (!isAuthorized) {
+        res.status(403).json({
+          success: false,
+          message: 'Access Denied: You are not authorized to view this diagnostic conversation.',
+        });
+        return;
+      }
+
+      // Only staff can view internal whispered notes
+      const canIncludeNotes =
+        Boolean(user && ['ADMIN', 'EMPLOYEE', 'SUPER_ADMIN'].includes(user.role)) &&
+        req.query.includeInternalNotes === 'true';
+
+      const messages = await ChatService.getTranscript(sessionId, canIncludeNotes);
       res.status(200).json({ success: true, data: messages });
     } catch (err: any) {
       res.status(500).json({ success: false, message: err.message });

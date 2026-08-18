@@ -10,6 +10,7 @@ import {
   MessageSenderType,
   IChatAttachment,
 } from '../types';
+import { encryptText, decryptText } from '../utils/encryption';
 import logger from '../utils/logger';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'litmus_chat_jwt_secret_key_2026';
@@ -193,6 +194,9 @@ export class ChatService {
     const session = await ChatSession.findOne({ sessionId: params.sessionId });
     const sessionObjectId = session ? session._id : undefined;
 
+    // Encrypt message text before storing at rest in database
+    const encryptedText = encryptText(params.text);
+
     const message = new ChatMessage({
       sessionId: params.sessionId,
       sessionObjectId,
@@ -200,7 +204,7 @@ export class ChatService {
       senderType: params.senderType,
       senderId: params.senderId ? new mongoose.Types.ObjectId(params.senderId) : undefined,
       senderName: params.senderName,
-      text: params.text,
+      text: encryptedText,
       attachments: params.attachments,
       isInternalNote: params.isInternalNote || false,
     });
@@ -218,7 +222,10 @@ export class ChatService {
       await session.save();
     }
 
-    return { message, isDuplicate: false };
+    const returnedMessage: any = message.toObject();
+    returnedMessage.text = params.text;
+
+    return { message: returnedMessage, isDuplicate: false };
   }
 
   /**
@@ -239,13 +246,18 @@ export class ChatService {
 
   /**
    * Fetch full conversation transcript for a session (used for handoff and history)
+   * Transparently decrypts messages at read-time
    */
   public static async getTranscript(sessionId: string, includeInternalNotes = false): Promise<IChatMessage[]> {
     const filter: any = { sessionId };
     if (!includeInternalNotes) {
       filter.isInternalNote = { $ne: true };
     }
-    return await ChatMessage.find(filter).sort({ createdAt: 1 }).lean();
+    const rawMessages = await ChatMessage.find(filter).sort({ createdAt: 1 }).lean();
+    return rawMessages.map((msg: any) => ({
+      ...msg,
+      text: decryptText(msg.text),
+    }));
   }
 
   /**
@@ -265,7 +277,7 @@ export class ChatService {
       update.$push = {
         internalNotes: {
           authorId: new mongoose.Types.ObjectId(params.closedByAgentId),
-          note: `Resolution summary: ${params.resolutionNotes}`,
+          note: encryptText(`Resolution summary: ${params.resolutionNotes}`),
           createdAt: new Date(),
         },
       };
@@ -340,7 +352,7 @@ export class ChatService {
           internalNotes: {
             authorId: new mongoose.Types.ObjectId(params.authorId),
             authorName: params.authorName,
-            note: params.note,
+            note: encryptText(params.note),
             createdAt: new Date(),
           },
         },
@@ -348,6 +360,21 @@ export class ChatService {
       { new: true }
     );
     return session;
+  }
+
+  /**
+   * Helper to decrypt sensitive fields on a session object before sending to authorized callers
+   */
+  public static decryptSession(session: any): any {
+    if (!session) return session;
+    const s = typeof session.toObject === 'function' ? session.toObject() : { ...session };
+    if (Array.isArray(s.internalNotes)) {
+      s.internalNotes = s.internalNotes.map((n: any) => ({
+        ...n,
+        note: decryptText(n.note),
+      }));
+    }
+    return s;
   }
 
   /**
