@@ -2,10 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const booking_controller_1 = require("../controllers/booking.controller");
+const invoice_controller_1 = require("../controllers/invoice.controller");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const router = (0, express_1.Router)();
 // Protect all user booking routes
 router.use(auth_middleware_1.authMiddleware);
+router.get('/:id/invoice/html', invoice_controller_1.renderBookingInvoiceHtml);
+router.get('/:id/invoice', invoice_controller_1.getBookingInvoice);
 /**
  * @swagger
  * /api/v1/booking:
@@ -38,6 +41,8 @@ router.post('/', booking_controller_1.createBooking);
  *         description: List of my bookings
  */
 router.get('/my', booking_controller_1.getMyBookings);
+router.patch('/:id/courier-tracking', booking_controller_1.updateCourierTracking);
+router.get('/:id/report', booking_controller_1.downloadBookingReport);
 /**
  * @swagger
  * /api/v1/booking/{id}:

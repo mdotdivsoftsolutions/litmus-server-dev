@@ -40,4 +40,5 @@ router.use(auth_middleware_1.authMiddleware);
  *         description: File uploaded successfully
  */
 router.post('/', upload.single('file'), upload_controller_1.uploadFile);
+router.get('/download', upload_controller_1.downloadFile);
 exports.default = router;

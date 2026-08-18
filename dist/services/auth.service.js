@@ -24,18 +24,39 @@ class AuthService {
         });
         return { accessToken, refreshToken };
     }
-    static async sendOtp(email) {
-        const existingUser = await User_1.default.findOne({ email });
+    static async checkAvailability(email, phone) {
+        if (email && email.trim()) {
+            const existingEmail = await User_1.default.findOne({ email: email.toLowerCase().trim() });
+            if (existingEmail) {
+                return { available: false, field: 'email', message: 'Email is already registered. Please login instead.' };
+            }
+        }
+        if (phone && phone.trim()) {
+            const existingPhone = await User_1.default.findOne({ phone: phone.trim() });
+            if (existingPhone) {
+                return { available: false, field: 'phone', message: 'Mobile number is already registered. Please use a different number.' };
+            }
+        }
+        return { available: true, message: 'Available' };
+    }
+    static async sendOtp(email, phone) {
+        const existingUser = await User_1.default.findOne({ email: email.toLowerCase().trim() });
         if (existingUser) {
-            throw new Error('Email already registered');
+            throw new Error('Email is already registered. Please login instead.');
+        }
+        if (phone && phone.trim()) {
+            const existingPhone = await User_1.default.findOne({ phone: phone.trim() });
+            if (existingPhone) {
+                throw new Error('Mobile number is already registered. Please use a different number.');
+            }
         }
         const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit OTP
         // Clear old OTPs for this email
-        await OTP_1.default.deleteMany({ email });
+        await OTP_1.default.deleteMany({ email: email.toLowerCase().trim() });
         // Save new OTP
-        await OTP_1.default.create({ email, otp });
+        await OTP_1.default.create({ email: email.toLowerCase().trim(), otp });
         // Send email
-        await (0, mailer_1.sendOtpEmail)(email, otp);
+        await (0, mailer_1.sendOtpEmail)(email.toLowerCase().trim(), otp);
         return { success: true, message: 'OTP sent successfully' };
     }
     static async register(data) {

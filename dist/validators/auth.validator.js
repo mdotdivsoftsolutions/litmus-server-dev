@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resetPasswordSchema = exports.verifyOtpSchema = exports.forgotPasswordSchema = exports.sendOtpSchema = exports.loginSchema = exports.registerSchema = void 0;
+exports.resetPasswordSchema = exports.verifyOtpSchema = exports.forgotPasswordSchema = exports.checkAvailabilitySchema = exports.sendOtpSchema = exports.loginSchema = exports.registerSchema = void 0;
 const zod_1 = require("zod");
 const types_1 = require("../types");
 // Regex for basic phone number validation (e.g., 10 digits)
@@ -25,6 +25,13 @@ exports.loginSchema = zod_1.z.object({
 exports.sendOtpSchema = zod_1.z.object({
     body: zod_1.z.object({
         email: zod_1.z.string().email('Invalid email format'),
+        phone: zod_1.z.string().optional(),
+    }),
+});
+exports.checkAvailabilitySchema = zod_1.z.object({
+    body: zod_1.z.object({
+        email: zod_1.z.string().email('Invalid email format').optional(),
+        phone: zod_1.z.string().optional(),
     }),
 });
 exports.forgotPasswordSchema = zod_1.z.object({

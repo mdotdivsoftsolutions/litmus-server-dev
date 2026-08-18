@@ -6,6 +6,7 @@ const validate_middleware_1 = require("../middleware/validate.middleware");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const auth_validator_1 = require("../validators/auth.validator");
 const router = (0, express_1.Router)();
+router.post('/check-availability', (0, validate_middleware_1.validate)(auth_validator_1.checkAvailabilitySchema), auth_controller_1.AuthController.checkAvailability);
 /**
  * @swagger
  * /api/v1/auth/send-otp:

@@ -44,6 +44,14 @@ const TestSchema = new mongoose_1.Schema({
         type: String,
         trim: true,
     },
+    imageUrl: {
+        type: String,
+        trim: true,
+    },
+    icon: {
+        type: String,
+        trim: true,
+    },
     price: {
         type: Number,
         required: [true, 'Test price is required'],

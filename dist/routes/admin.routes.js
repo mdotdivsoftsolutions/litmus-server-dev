@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const admin_controller_1 = require("../controllers/admin.controller");
+const platformSettings_controller_1 = require("../controllers/platformSettings.controller");
 const laboratory_controller_1 = require("../controllers/laboratory.controller");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const router = (0, express_1.Router)();
@@ -238,6 +239,38 @@ router.delete('/lab/:id', laboratory_controller_1.deleteLab);
 router.get('/bookings', admin_controller_1.getAdminBookings);
 /**
  * @swagger
+ * /api/v1/admin/booking/{id}/status:
+ *   patch:
+ *     summary: Update booking status, paymentStatus, or labId (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *               paymentStatus:
+ *                 type: string
+ *               labId:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Booking updated successfully
+ */
+router.patch('/booking/:id/status', admin_controller_1.updateAdminBookingStatus);
+/**
+ * @swagger
  * /api/v1/admin/booking/{id}/assign-lab:
  *   patch:
  *     summary: Assign a lab to a booking (Admin only)
@@ -343,6 +376,31 @@ router.patch('/booking/:id/reject', admin_controller_1.rejectBooking);
 router.patch('/booking/:id/approve-result', admin_controller_1.approveBookingResult);
 /**
  * @swagger
+ * /api/v1/admin/booking/{id}/report:
+ *   patch:
+ *     summary: Update booking report file and summary/recommendations/tips/notes (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Report updated successfully
+ */
+router.patch('/booking/:id/report', admin_controller_1.updateBookingReport);
+/**
+ * @swagger
  * /api/v1/admin/booking/{id}/reject-result:
  *   patch:
  *     summary: Reject a booking result (Admin only)
@@ -415,4 +473,6 @@ router.patch('/test/:id/approve', admin_controller_1.approveTest);
 router.patch('/test/:id/reject', admin_controller_1.rejectTest);
 router.patch('/package/:id/approve', admin_controller_1.approvePackage);
 router.patch('/package/:id/reject', admin_controller_1.rejectPackage);
+router.get('/settings', platformSettings_controller_1.getAdminSettings);
+router.put('/settings', platformSettings_controller_1.updateAdminSettings);
 exports.default = router;

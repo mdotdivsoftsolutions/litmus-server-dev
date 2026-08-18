@@ -297,14 +297,7 @@ const deleteLab = async (req, res) => {
 exports.deleteLab = deleteLab;
 const submitBookingResult = async (req, res) => {
     try {
-        const { reportUrl } = req.body;
-        if (!reportUrl) {
-            res.status(400).json({
-                success: false,
-                message: 'Please provide a reportUrl',
-            });
-            return;
-        }
+        const { reportUrl, reportFiles, summary, recommendations, tips, additionalNotes, reportSummary } = req.body;
         Promise.resolve().then(() => __importStar(require('../models/Booking'))).then(async ({ default: Booking }) => {
             const { sendTestReportReadyEmail } = await Promise.resolve().then(() => __importStar(require('../utils/mailer')));
             const booking = await Booking.findById(req.params.bookingId).populate('labId').populate('userId', 'firstName lastName email');
@@ -315,12 +308,36 @@ const submitBookingResult = async (req, res) => {
                 });
                 return;
             }
+            if (!reportUrl && (!reportFiles || reportFiles.length === 0) && (!booking.reportFiles || booking.reportFiles.length === 0)) {
+                res.status(400).json({
+                    success: false,
+                    message: 'Please provide a reportUrl or upload a report document',
+                });
+                return;
+            }
             const lab = booking.labId;
             if (!booking.reportFiles) {
                 booking.reportFiles = [];
             }
-            booking.reportFiles.push(reportUrl);
-            const requiresAdminApproval = lab.requiresAdminApprovalForReport !== undefined ? lab.requiresAdminApprovalForReport : true;
+            if (Array.isArray(reportFiles) && reportFiles.length > 0) {
+                booking.reportFiles = reportFiles;
+            }
+            else if (reportUrl && !booking.reportFiles.includes(reportUrl)) {
+                booking.reportFiles.push(reportUrl);
+            }
+            const mergedSummary = summary !== undefined ? summary : reportSummary?.summary;
+            const mergedRecs = recommendations !== undefined ? recommendations : reportSummary?.recommendations;
+            const mergedTips = tips !== undefined ? tips : reportSummary?.tips;
+            const mergedNotes = additionalNotes !== undefined ? additionalNotes : reportSummary?.additionalNotes;
+            booking.reportSummary = {
+                summary: mergedSummary !== undefined ? String(mergedSummary) : (booking.reportSummary?.summary || ''),
+                recommendations: mergedRecs !== undefined ? String(mergedRecs) : (booking.reportSummary?.recommendations || ''),
+                tips: mergedTips !== undefined ? String(mergedTips) : (booking.reportSummary?.tips || ''),
+                additionalNotes: mergedNotes !== undefined ? String(mergedNotes) : (booking.reportSummary?.additionalNotes || ''),
+                updatedAt: new Date(),
+                updatedByRole: req.user?.role === 'ADMIN' ? 'ADMIN' : 'LAB',
+            };
+            const requiresAdminApproval = lab?.requiresAdminApprovalForReport !== undefined ? lab.requiresAdminApprovalForReport : true;
             if (requiresAdminApproval) {
                 booking.isReportApprovedByAdmin = false;
                 Promise.resolve().then(() => __importStar(require('../types'))).then(({ BookingStatus }) => {

@@ -104,6 +104,14 @@ const BookingSchema = new mongoose_1.Schema({
             type: String, // URLs to report files
         },
     ],
+    reportSummary: {
+        summary: { type: String, default: '' },
+        recommendations: { type: String, default: '' },
+        tips: { type: String, default: '' },
+        additionalNotes: { type: String, default: '' },
+        updatedAt: { type: Date },
+        updatedByRole: { type: String, enum: ['LAB', 'ADMIN'] },
+    },
     isReportApprovedByAdmin: {
         type: Boolean,
         default: false,
@@ -113,9 +121,27 @@ const BookingSchema = new mongoose_1.Schema({
         enum: Object.values(types_1.CollectionStatus),
         default: types_1.CollectionStatus.PENDING,
     },
+    collectionMethod: {
+        type: String,
+        enum: ['PICKUP', 'COURIER'],
+    },
+    courierDetails: {
+        trackingId: { type: String },
+        courierName: { type: String },
+        notes: { type: String },
+        submittedAt: { type: Date },
+    },
     assignedCollector: {
         name: { type: String },
         contact: { type: String }
+    },
+    invoiceNumber: {
+        type: String,
+        sparse: true,
+        index: true,
+    },
+    invoiceDate: {
+        type: Date,
     },
     metadata: {
         type: mongoose_1.Schema.Types.Mixed,

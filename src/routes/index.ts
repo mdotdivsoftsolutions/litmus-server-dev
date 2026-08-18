@@ -23,6 +23,7 @@ import searchRoutes from './search.routes';
 import consultationRoutes from './consultation.routes';
 import optionRoutes from './systemOption.routes';
 import platformSettingsRoutes from './platformSettings.routes';
+import chatRoutes from './chat.routes';
 
 const router = Router();
 
@@ -52,5 +53,6 @@ router.use('/search', searchRoutes);
 router.use('/consultations', consultationRoutes);
 router.use('/options', optionRoutes);
 router.use('/settings', platformSettingsRoutes);
+router.use('/chat', chatRoutes);
 
 export default router;

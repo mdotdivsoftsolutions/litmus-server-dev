@@ -1,16 +1,43 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const express_2 = __importDefault(require("express"));
 const payment_controller_1 = require("../controllers/payment.controller");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const router = (0, express_1.Router)();
-// Protect payment routes
+// ─────────────────────────────────────────────────────────────────────────────
+// WEBHOOK ROUTE — must be declared BEFORE express.json() is applied
+// Uses express.raw() to preserve the raw body needed for signature verification.
+// This route is PUBLIC (no auth) — security is enforced via HMAC signature check.
+// ─────────────────────────────────────────────────────────────────────────────
+/**
+ * @swagger
+ * /api/v1/payment/webhook:
+ *   post:
+ *     summary: Razorpay webhook endpoint (server-to-server)
+ *     tags: [Payment]
+ *     description: >
+ *       Receives payment events from Razorpay (payment.captured, payment.failed, order.paid).
+ *       Secured via HMAC-SHA256 signature verification using RAZORPAY_WEBHOOK_SECRET.
+ *       Do NOT add auth middleware to this route.
+ *     responses:
+ *       200:
+ *         description: Webhook acknowledged
+ */
+router.post('/webhook', express_2.default.raw({ type: 'application/json' }), // Preserve raw body for signature verification
+payment_controller_1.webhookHandler);
+// ─────────────────────────────────────────────────────────────────────────────
+// PROTECTED ROUTES — require JWT authentication
+// ─────────────────────────────────────────────────────────────────────────────
 router.use(auth_middleware_1.authMiddleware);
 /**
  * @swagger
  * /api/v1/payment/create-order:
  *   post:
- *     summary: Create a new payment order
+ *     summary: Create a Razorpay payment order
  *     tags: [Payment]
  *     security:
  *       - bearerAuth: []
@@ -20,28 +47,40 @@ router.use(auth_middleware_1.authMiddleware);
  *         application/json:
  *           schema:
  *             type: object
+ *             required: [bookingId]
  *             properties:
  *               bookingId:
  *                 type: string
+ *                 description: MongoDB ObjectId of the booking to pay for
  *     responses:
- *       200:
- *         description: Payment order created
+ *       201:
+ *         description: Razorpay order created. Returns orderId, amount, currency, keyId.
+ *       400:
+ *         description: Invalid booking or already paid
+ *       403:
+ *         description: Access denied
+ *       404:
+ *         description: Booking not found
  */
 router.post('/create-order', payment_controller_1.createOrder);
 /**
  * @swagger
  * /api/v1/payment/verify:
  *   post:
- *     summary: Verify a payment
+ *     summary: Verify Razorpay payment signature
  *     tags: [Payment]
  *     security:
  *       - bearerAuth: []
+ *     description: >
+ *       Called after the Razorpay checkout modal completes. Verifies the HMAC-SHA256
+ *       signature on the server. On success, marks booking as PAID + APPROVED.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required: [razorpay_order_id, razorpay_payment_id, razorpay_signature, bookingId]
  *             properties:
  *               razorpay_order_id:
  *                 type: string
@@ -53,7 +92,32 @@ router.post('/create-order', payment_controller_1.createOrder);
  *                 type: string
  *     responses:
  *       200:
- *         description: Payment verified successfully
+ *         description: Payment verified and booking updated
+ *       400:
+ *         description: Invalid signature or missing fields
  */
 router.post('/verify', payment_controller_1.verifyPayment);
+/**
+ * @swagger
+ * /api/v1/payment/status/{bookingId}:
+ *   get:
+ *     summary: Get payment status for a booking
+ *     tags: [Payment]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: bookingId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Payment and booking status
+ *       403:
+ *         description: Access denied
+ *       404:
+ *         description: Booking not found
+ */
+router.get('/status/:bookingId', payment_controller_1.getPaymentStatus);
 exports.default = router;

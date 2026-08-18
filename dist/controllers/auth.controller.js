@@ -10,12 +10,28 @@ const logger_1 = __importDefault(require("../utils/logger"));
 class AuthController {
     static async sendOtp(req, res) {
         try {
-            const result = await auth_service_1.AuthService.sendOtp(req.body.email);
+            const { email, phone } = req.body;
+            const result = await auth_service_1.AuthService.sendOtp(email, phone);
             res.status(200).json(result);
         }
         catch (error) {
             logger_1.default.error(`SendOTP Error: ${error.message}`);
             res.status(400).json({ success: false, message: error.message });
+        }
+    }
+    static async checkAvailability(req, res) {
+        try {
+            const { email, phone } = req.body;
+            const result = await auth_service_1.AuthService.checkAvailability(email, phone);
+            if (!result.available) {
+                res.status(400).json({ success: false, message: result.message, field: result.field });
+                return;
+            }
+            res.status(200).json({ success: true, message: 'Available' });
+        }
+        catch (error) {
+            logger_1.default.error(`CheckAvailability Error: ${error.message}`);
+            res.status(500).json({ success: false, message: error.message });
         }
     }
     static async forgotPassword(req, res) {
@@ -137,7 +153,26 @@ class AuthController {
         try {
             // Disallow updating sensitive fields like role or password via this endpoint
             const { role, password, email, ...updateData } = req.body;
-            const user = await User_1.default.findByIdAndUpdate(req.user?.id, updateData, { new: true, runValidators: true }).select('-password');
+            // Only check for phone uniqueness if the phone is actually being changed
+            if (updateData.phone && typeof updateData.phone === 'string') {
+                const cleanedPhone = updateData.phone.trim();
+                updateData.phone = cleanedPhone;
+                // Find the current user's phone to skip check if unchanged
+                const currentUser = await User_1.default.findById(req.user?.id).select('phone');
+                if (currentUser && currentUser.phone !== cleanedPhone) {
+                    const existingPhone = await User_1.default.findOne({
+                        phone: cleanedPhone,
+                        _id: { $ne: req.user?.id },
+                    });
+                    if (existingPhone) {
+                        res.status(400).json({ success: false, message: 'Mobile number is already registered to another account' });
+                        return;
+                    }
+                }
+            }
+            // Use runValidators: false to prevent Mongoose unique index validators from
+            // triggering false duplicate errors on unchanged fields during partial updates
+            const user = await User_1.default.findByIdAndUpdate(req.user?.id, updateData, { new: true, runValidators: false }).select('-password');
             if (!user) {
                 res.status(404).json({ success: false, message: 'User not found' });
                 return;

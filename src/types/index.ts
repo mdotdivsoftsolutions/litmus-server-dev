@@ -28,6 +28,7 @@ export enum Permission {
   MANAGE_LAB_BOOKINGS = 'MANAGE_LAB_BOOKINGS',
   MANAGE_LAB_TESTS = 'MANAGE_LAB_TESTS',
   MANAGE_LAB_PACKAGES = 'MANAGE_LAB_PACKAGES',
+  MANAGE_SUPPORT_CHAT = 'MANAGE_SUPPORT_CHAT',
 }
 
 export enum BookingStatus {
@@ -289,3 +290,85 @@ export interface ICart extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export enum ChatSessionStatus {
+  BOT = 'BOT',
+  QUEUED = 'QUEUED',
+  ACTIVE = 'ACTIVE',
+  RESOLVED = 'RESOLVED',
+  MISSED = 'MISSED',
+  CLOSED = 'CLOSED',
+}
+
+export enum ChatUserType {
+  REGISTERED = 'REGISTERED',
+  GUEST = 'GUEST',
+}
+
+export enum MessageSenderType {
+  USER = 'USER',
+  AGENT = 'AGENT',
+  BOT = 'BOT',
+  SYSTEM = 'SYSTEM',
+}
+
+export interface IChatSession extends Document {
+  sessionId: string;
+  userType: ChatUserType;
+  userId?: mongoose.Types.ObjectId;
+  guestInfo?: {
+    guestId: string;
+    name?: string;
+    phone?: string;
+    email?: string;
+    ipAddress?: string;
+    userAgent?: string;
+  };
+  status: ChatSessionStatus;
+  assignedAgent?: mongoose.Types.ObjectId;
+  claimedAt?: Date;
+  startedAt?: Date;
+  endedAt?: Date;
+  queuedAt?: Date;
+  lastMessageAt?: Date;
+  unreadAgentCount: number;
+  unreadUserCount: number;
+  internalNotes?: {
+    _id?: mongoose.Types.ObjectId;
+    authorId: mongoose.Types.ObjectId;
+    authorName: string;
+    note: string;
+    createdAt: Date;
+  }[];
+  rating?: {
+    score: number;
+    feedback?: string;
+    submittedAt: Date;
+  };
+  metadata?: any;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IChatAttachment {
+  url: string;
+  name: string;
+  type: string;
+  size?: number;
+}
+
+export interface IChatMessage extends Document {
+  sessionId: string;
+  sessionObjectId?: mongoose.Types.ObjectId;
+  clientMessageId?: string;
+  senderType: MessageSenderType;
+  senderId?: mongoose.Types.ObjectId;
+  senderName?: string;
+  text: string;
+  attachments?: IChatAttachment[];
+  isInternalNote?: boolean;
+  readAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
