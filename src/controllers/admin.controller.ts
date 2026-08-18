@@ -752,6 +752,7 @@ export const getAdminStats = async (req: Request, res: Response): Promise<void> 
       pendingTests,
       pendingPackages,
       pendingReports,
+      totalReports,
       totalCategories,
       totalTests,
       totalPackages,
@@ -774,6 +775,9 @@ export const getAdminStats = async (req: Request, res: Response): Promise<void> 
       Booking.countDocuments({
         reportFiles: { $exists: true, $ne: [] },
         isReportApprovedByAdmin: false
+      }).catch(() => 0),
+      Booking.countDocuments({
+        reportFiles: { $exists: true, $ne: [] },
       }).catch(() => 0),
       Category.countDocuments().catch(() => 0),
       Test.countDocuments().catch(() => 0),
@@ -801,6 +805,7 @@ export const getAdminStats = async (req: Request, res: Response): Promise<void> 
         pendingConsultations,
         pendingApprovals,
         pendingReports,
+        totalReports,
         totalCategories,
         totalTests,
         totalPackages,

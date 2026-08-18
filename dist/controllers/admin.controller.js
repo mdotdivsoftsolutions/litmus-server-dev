@@ -707,7 +707,7 @@ const getAdminStats = async (req, res) => {
         const { default: Category } = await Promise.resolve().then(() => __importStar(require('../models/Category')));
         const { default: Review } = await Promise.resolve().then(() => __importStar(require('../models/Review')));
         const { UserRole, BookingStatus, PaymentStatus, ApprovalStatus } = await Promise.resolve().then(() => __importStar(require('../types')));
-        const [totalUsers, activeUsers, totalEmployees, activeEmployees, totalLabs, activeLabs, totalBookings, pendingBookings, inProgressBookings, totalConsultations, pendingConsultations, pendingTests, pendingPackages, pendingReports, totalCategories, totalTests, totalPackages, totalReviews, successfulPayments,] = await Promise.all([
+        const [totalUsers, activeUsers, totalEmployees, activeEmployees, totalLabs, activeLabs, totalBookings, pendingBookings, inProgressBookings, totalConsultations, pendingConsultations, pendingTests, pendingPackages, pendingReports, totalReports, totalCategories, totalTests, totalPackages, totalReviews, successfulPayments,] = await Promise.all([
             User.countDocuments({ role: UserRole.USER }),
             User.countDocuments({ role: UserRole.USER, isActive: true }),
             User.countDocuments({ role: UserRole.EMPLOYEE }),
@@ -724,6 +724,9 @@ const getAdminStats = async (req, res) => {
             Booking.countDocuments({
                 reportFiles: { $exists: true, $ne: [] },
                 isReportApprovedByAdmin: false
+            }).catch(() => 0),
+            Booking.countDocuments({
+                reportFiles: { $exists: true, $ne: [] },
             }).catch(() => 0),
             Category.countDocuments().catch(() => 0),
             Test.countDocuments().catch(() => 0),
@@ -749,6 +752,7 @@ const getAdminStats = async (req, res) => {
                 pendingConsultations,
                 pendingApprovals,
                 pendingReports,
+                totalReports,
                 totalCategories,
                 totalTests,
                 totalPackages,

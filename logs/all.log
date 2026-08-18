@@ -24931,3 +24931,314 @@
 2026-08-18 14:10:13:1013 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 262.910 ms - -[0m[39m
 2026-08-18 14:10:13:1013 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 644.065 ms - 1232[0m[39m
 2026-08-18 14:10:17:1017 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 596.012 ms - -[0m[39m
+2026-08-18 14:10:59:1059 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 301.116 ms - -[0m[39m
+2026-08-18 14:11:00:110 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 678.692 ms - -[0m[39m
+2026-08-18 14:11:00:110 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 840.809 ms - -[0m[39m
+2026-08-18 14:11:00:110 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1248.896 ms - -[0m[39m
+2026-08-18 14:11:02:112 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 281.735 ms - -[0m[39m
+2026-08-18 14:11:03:113 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 616.470 ms - -[0m[39m
+2026-08-18 14:11:03:113 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1099.436 ms - -[0m[39m
+2026-08-18 14:11:04:114 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 278.197 ms - -[0m[39m
+2026-08-18 14:11:06:116 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 529.221 ms - -[0m[39m
+2026-08-18 14:11:06:116 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 280.691 ms - -[0m[39m
+2026-08-18 14:11:07:117 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 529.228 ms - -[0m[39m
+2026-08-18 14:11:08:118 [32minfo[39m: [32m[Socket] Agent Litmus Staff [mleMfzJ9GK6Gsej6AAAD] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:11:09:119 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 608.830 ms - 1175[0m[39m
+2026-08-18 14:11:09:119 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [32m200[0m 940.386 ms - 21739[0m[39m
+2026-08-18 14:11:21:1121 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 541.228 ms - 1232[0m[39m
+2026-08-18 14:11:23:1123 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 297.728 ms - -[0m[39m
+2026-08-18 14:11:25:1125 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 545.968 ms - -[0m[39m
+2026-08-18 14:11:27:1127 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 594.634 ms - -[0m[39m
+2026-08-18 14:11:33:1133 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 611.881 ms - -[0m[39m
+2026-08-18 14:11:43:1143 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 595.128 ms - -[0m[39m
+2026-08-18 14:11:58:1158 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 601.251 ms - -[0m[39m
+2026-08-18 14:12:04:124 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 592.758 ms - -[0m[39m
+2026-08-18 14:12:09:129 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 584.512 ms - -[0m[39m
+2026-08-18 14:12:11:1211 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 367.527 ms - -[0m[39m
+2026-08-18 14:12:12:1212 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 584.816 ms - -[0m[39m
+2026-08-18 14:12:19:1219 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 297.239 ms - -[0m[39m
+2026-08-18 14:12:20:1220 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 608.212 ms - -[0m[39m
+2026-08-18 14:12:20:1220 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 795.975 ms - -[0m[39m
+2026-08-18 14:12:20:1220 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1127.781 ms - -[0m[39m
+2026-08-18 14:12:20:1220 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1144.567 ms - 1175[0m[39m
+2026-08-18 14:12:21:1221 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 294.550 ms - -[0m[39m
+2026-08-18 14:12:21:1221 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 606.989 ms - -[0m[39m
+2026-08-18 14:12:22:1222 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1117.830 ms - -[0m[39m
+2026-08-18 14:12:22:1222 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1150.148 ms - -[0m[39m
+2026-08-18 14:20:13:2013 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.506 ms - 65[0m[39m
+2026-08-18 14:20:13:2013 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [33m401[0m 0.412 ms - 65[0m[39m
+2026-08-18 14:20:13:2013 [32minfo[39m: [32m[0mGET /api/v1/employees [33m401[0m 2.130 ms - 65[0m[39m
+2026-08-18 14:20:13:2013 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [33m401[0m 1.892 ms - 65[0m[39m
+2026-08-18 14:20:13:2013 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [33m401[0m 0.957 ms - 65[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 585.551 ms - 255[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 602.520 ms - 255[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 617.886 ms - 255[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 644.845 ms - 255[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 646.995 ms - 255[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 267.821 ms - -[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 635.985 ms - -[0m[39m
+2026-08-18 14:20:14:2014 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 800.005 ms - 397[0m[39m
+2026-08-18 14:20:15:2015 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1093.089 ms - -[0m[39m
+2026-08-18 14:20:15:2015 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 1095.397 ms - -[0m[39m
+2026-08-18 14:20:18:2018 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 304.296 ms - -[0m[39m
+2026-08-18 14:20:19:2019 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 570.936 ms - -[0m[39m
+2026-08-18 14:20:49:2049 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-18 14:20:57:2057 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [31m500[0m 12704.181 ms - 132[0m[39m
+2026-08-18 14:20:57:2057 [31merror[39m: [31m[ChatController.getSessions] Error: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:20:57:2057 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [31m500[0m 21724.386 ms - 59[0m[39m
+2026-08-18 14:21:04:214 [31merror[39m: [31m[Queue SLA Worker Error]: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:21:57:2157 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 14:22:04:224 [31merror[39m: [31m[Queue SLA Worker Error]: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:22:05:225 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mMongoDB connection attempt failed: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mDatabase connection middleware error: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mDatabase connection middleware error: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mDatabase connection middleware error: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/[39m
+2026-08-18 14:22:05:225 [31merror[39m: [31mMongoDB connection error: Server selection timed out after 8000 ms[39m
+2026-08-18 14:22:05:225 [32minfo[39m: [32m[0mGET /api/v1/auth/me [31m503[0m 8039.723 ms - 89[0m[39m
+2026-08-18 14:22:05:225 [32minfo[39m: [32m[0mGET /api/v1/employees [31m503[0m 8033.471 ms - 89[0m[39m
+2026-08-18 14:22:05:225 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [31m503[0m 8033.729 ms - 89[0m[39m
+2026-08-18 14:23:04:234 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 14:23:04:234 [31merror[39m: [31m[Queue SLA Worker Error]: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:23:08:238 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:23:08:238 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 14:23:09:239 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 4908.187 ms - 424[0m[39m
+2026-08-18 14:23:09:239 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 292.888 ms - 397[0m[39m
+2026-08-18 14:24:07:247 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 735.340 ms - 424[0m[39m
+2026-08-18 14:24:08:248 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 269.383 ms - 397[0m[39m
+2026-08-18 14:24:10:2410 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 2582.860 ms - -[0m[39m
+2026-08-18 14:24:10:2410 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [36m304[0m 2735.319 ms - -[0m[39m
+2026-08-18 14:24:10:2410 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 3157.336 ms - 369[0m[39m
+2026-08-18 14:24:11:2411 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 3548.157 ms - -[0m[39m
+2026-08-18 14:24:42:2442 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1769.646 ms - -[0m[39m
+2026-08-18 14:25:02:252 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 270.835 ms - -[0m[39m
+2026-08-18 14:25:02:252 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 270.377 ms - -[0m[39m
+2026-08-18 14:25:02:252 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 267.789 ms - -[0m[39m
+2026-08-18 14:25:02:252 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 285.638 ms - -[0m[39m
+2026-08-18 14:25:02:252 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 274.135 ms - -[0m[39m
+2026-08-18 14:25:02:252 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 279.811 ms - -[0m[39m
+2026-08-18 14:25:03:253 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 305.071 ms - -[0m[39m
+2026-08-18 14:25:06:256 [32minfo[39m: [32m[0mGET /api/v1/chat/canned-responses [36m304[0m 0.455 ms - -[0m[39m
+2026-08-18 14:25:06:256 [32minfo[39m: [32m[0mGET /api/v1/employees [32m200[0m 274.683 ms - 582[0m[39m
+2026-08-18 14:25:06:256 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 543.656 ms - 1232[0m[39m
+2026-08-18 14:25:08:258 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 533.840 ms - -[0m[39m
+2026-08-18 14:25:10:2510 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 531.999 ms - -[0m[39m
+2026-08-18 14:25:10:2510 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 292.045 ms - -[0m[39m
+2026-08-18 14:25:11:2511 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 543.271 ms - -[0m[39m
+2026-08-18 14:25:14:2514 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1848.823 ms - -[0m[39m
+2026-08-18 14:25:14:2514 [32minfo[39m: [32m[Socket] Agent Litmus Staff [mleMfzJ9GK6Gsej6AAAD] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:25:15:2515 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 528.494 ms - 1175[0m[39m
+2026-08-18 14:25:15:2515 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [36m304[0m 822.827 ms - -[0m[39m
+2026-08-18 14:25:22:2522 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1646.440 ms - -[0m[39m
+2026-08-18 14:25:33:2533 [32minfo[39m: [32m[0mGET /api/v1/reviews?page=1&limit=10 [36m304[0m 628.974 ms - -[0m[39m
+2026-08-18 14:25:35:2535 [32minfo[39m: [32m[0mGET /api/v1/packages?client=%5Bobject+Object%5D&queryKey%5B%5D=adminPackages&signal=%5Bobject+AbortSignal%5D [32m200[0m 1453.327 ms - 25645[0m[39m
+2026-08-18 14:25:38:2538 [32minfo[39m: [32m[0mGET /api/v1/tests?client=%5Bobject+Object%5D&queryKey%5B%5D=adminTests&signal=%5Bobject+AbortSignal%5D [32m200[0m 1902.490 ms - 64546[0m[39m
+2026-08-18 14:25:44:2544 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1665.728 ms - -[0m[39m
+2026-08-18 14:25:45:2545 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 553.259 ms - -[0m[39m
+2026-08-18 14:25:48:2548 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.946 ms - 65[0m[39m
+2026-08-18 14:25:48:2548 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.260 ms - 65[0m[39m
+2026-08-18 14:25:48:2548 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.385 ms - 53[0m[39m
+2026-08-18 14:25:48:2548 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.852 ms - 53[0m[39m
+2026-08-18 14:25:48:2548 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 275.563 ms - -[0m[39m
+2026-08-18 14:26:07:267 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 279.075 ms - -[0m[39m
+2026-08-18 14:26:08:268 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 559.323 ms - -[0m[39m
+2026-08-18 14:26:09:269 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 2163.937 ms - -[0m[39m
+2026-08-18 14:26:16:2616 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 285.988 ms - -[0m[39m
+2026-08-18 14:26:16:2616 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 564.344 ms - -[0m[39m
+2026-08-18 14:26:17:2617 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 265.094 ms - -[0m[39m
+2026-08-18 14:26:17:2617 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 265.409 ms - -[0m[39m
+2026-08-18 14:26:17:2617 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 272.441 ms - -[0m[39m
+2026-08-18 14:26:17:2617 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 271.894 ms - -[0m[39m
+2026-08-18 14:26:17:2617 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 271.482 ms - -[0m[39m
+2026-08-18 14:26:18:2618 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 2338.283 ms - -[0m[39m
+2026-08-18 14:26:18:2618 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 266.268 ms - -[0m[39m
+2026-08-18 14:26:18:2618 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 269.109 ms - -[0m[39m
+2026-08-18 14:26:21:2621 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1697.274 ms - -[0m[39m
+2026-08-18 14:26:27:2627 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.109 ms - -[0m[39m
+2026-08-18 14:26:28:2628 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 648.487 ms - -[0m[39m
+2026-08-18 14:26:29:2629 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 2240.080 ms - -[0m[39m
+2026-08-18 14:26:32:2632 [32minfo[39m: [32m[0mGET /api/v1/chat/canned-responses [36m304[0m 0.498 ms - -[0m[39m
+2026-08-18 14:26:32:2632 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 274.717 ms - -[0m[39m
+2026-08-18 14:26:32:2632 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 557.350 ms - 1232[0m[39m
+2026-08-18 14:26:42:2642 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 562.723 ms - -[0m[39m
+2026-08-18 14:26:42:2642 [32minfo[39m: [32m[Socket] Agent Litmus Staff [mleMfzJ9GK6Gsej6AAAD] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:26:43:2643 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 550.330 ms - 1175[0m[39m
+2026-08-18 14:26:43:2643 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [36m304[0m 840.159 ms - -[0m[39m
+2026-08-18 14:26:56:2656 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.395 ms - 65[0m[39m
+2026-08-18 14:26:56:2656 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.710 ms - 65[0m[39m
+2026-08-18 14:26:56:2656 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.385 ms - 53[0m[39m
+2026-08-18 14:26:56:2656 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.432 ms - 53[0m[39m
+2026-08-18 14:26:56:2656 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 273.001 ms - -[0m[39m
+2026-08-18 14:26:58:2658 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 591.979 ms - 1232[0m[39m
+2026-08-18 14:26:58:2658 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 553.004 ms - 369[0m[39m
+2026-08-18 14:27:08:278 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 275.449 ms - 397[0m[39m
+2026-08-18 14:27:08:278 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 555.105 ms - 369[0m[39m
+2026-08-18 14:27:08:278 [32minfo[39m: [32m[0mGET /api/v1/employees [32m200[0m 830.799 ms - 582[0m[39m
+2026-08-18 14:27:09:279 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1103.551 ms - 1175[0m[39m
+2026-08-18 14:27:09:279 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 1104.085 ms - 1232[0m[39m
+2026-08-18 14:27:11:2711 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 537.776 ms - 1232[0m[39m
+2026-08-18 14:27:15:2715 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32m[Socket Connected] id=ahURNSPwFUc5jC5TAAAB isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=ahURNSPwFUc5jC5TAAAB][39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=ahURNSPwFUc5jC5TAAAB][39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32m[Socket] Agent Litmus Staff [ahURNSPwFUc5jC5TAAAB] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:27:16:2716 [32minfo[39m: [32m[Socket Connected] id=S-AFMDvbrY3uwRouAAAD isAgent=false userId=Guest[39m
+2026-08-18 14:27:19:2719 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:27:19:2719 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 14:27:19:2719 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 3340.399 ms - 65[0m[39m
+2026-08-18 14:27:19:2719 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.501 ms - 65[0m[39m
+2026-08-18 14:27:19:2719 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.358 ms - 53[0m[39m
+2026-08-18 14:27:19:2719 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.480 ms - 53[0m[39m
+2026-08-18 14:27:21:2721 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 5599.294 ms - -[0m[39m
+2026-08-18 14:27:22:2722 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 719.862 ms - 397[0m[39m
+2026-08-18 14:27:23:2723 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 1574.834 ms - 386[0m[39m
+2026-08-18 14:27:24:2724 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 1971.537 ms - 1232[0m[39m
+2026-08-18 14:27:25:2725 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 3683.639 ms - 1175[0m[39m
+2026-08-18 14:27:28:2728 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 415.623 ms - 397[0m[39m
+2026-08-18 14:27:28:2728 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 937.533 ms - 386[0m[39m
+2026-08-18 14:27:29:2729 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 1220.434 ms - 1232[0m[39m
+2026-08-18 14:27:29:2729 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1231.940 ms - 1175[0m[39m
+2026-08-18 14:27:37:2737 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 558.359 ms - 386[0m[39m
+2026-08-18 14:27:58:2758 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-18 14:28:24:2824 [31merror[39m: [31m[Queue SLA Worker Error]: Socket 'secureConnect' timed out after 10005ms (connectTimeoutMS: 10000)[39m
+2026-08-18 14:28:59:2859 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.557 ms - 65[0m[39m
+2026-08-18 14:28:59:2859 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.560 ms - 65[0m[39m
+2026-08-18 14:28:59:2859 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.355 ms - 53[0m[39m
+2026-08-18 14:28:59:2859 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.340 ms - 53[0m[39m
+2026-08-18 14:29:07:297 [31merror[39m: [31mError in getCart: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:29:07:297 [32minfo[39m: [32m[0mGET /api/v1/cart [31m500[0m 8009.797 ms - 64[0m[39m
+2026-08-18 14:29:07:297 [31merror[39m: [31mGetMe Error: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:29:07:297 [32minfo[39m: [32m[0mGET /api/v1/auth/me [31m500[0m 8004.970 ms - 51[0m[39m
+2026-08-18 14:29:07:297 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [31m500[0m 8005.529 ms - 132[0m[39m
+2026-08-18 14:29:07:297 [31merror[39m: [31mGet Employees Error: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:29:07:297 [32minfo[39m: [32m[0mGET /api/v1/employees [31m500[0m 8002.399 ms - 51[0m[39m
+2026-08-18 14:29:07:297 [31merror[39m: [31m[ChatController.getSessions] Error: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:29:07:297 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [31m500[0m 8002.727 ms - 59[0m[39m
+2026-08-18 14:29:07:297 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [31m500[0m 8002.487 ms - 94[0m[39m
+2026-08-18 14:29:24:2924 [31merror[39m: [31m[Queue SLA Worker Error]: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:30:24:3024 [31merror[39m: [31m[Queue SLA Worker Error]: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:31:24:3124 [31merror[39m: [31m[Queue SLA Worker Error]: getaddrinfo ENOTFOUND ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:31:40:3140 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.296 ms - 65[0m[39m
+2026-08-18 14:31:40:3140 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.413 ms - 65[0m[39m
+2026-08-18 14:31:40:3140 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.334 ms - 53[0m[39m
+2026-08-18 14:31:40:3140 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.341 ms - 53[0m[39m
+2026-08-18 14:31:45:3145 [33mwarn[39m: [33mMongoDB disconnected. Attempting reconnection when next request arrives.[39m
+2026-08-18 14:31:45:3145 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:31:45:3145 [32minfo[39m: [32mMongoDB reconnected.[39m
+2026-08-18 14:34:35:3435 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 14:34:35:3435 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 14:34:35:3435 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 295.167 ms - 397[0m[39m
+2026-08-18 14:34:39:3439 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 668.049 ms - 424[0m[39m
+2026-08-18 14:34:39:3439 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 304.458 ms - 397[0m[39m
+2026-08-18 14:34:42:3442 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 3447.811 ms - 386[0m[39m
+2026-08-18 14:34:43:3443 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [32m200[0m 3490.990 ms - 8287[0m[39m
+2026-08-18 14:34:43:3443 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [32m200[0m 3750.999 ms - 7562[0m[39m
+2026-08-18 14:34:44:3444 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [32m200[0m 4666.486 ms - 37323[0m[39m
+2026-08-18 14:34:45:3445 [32minfo[39m: [32m[0mGET /api/v1/chat/canned-responses [36m304[0m 0.582 ms - -[0m[39m
+2026-08-18 14:34:45:3445 [32minfo[39m: [32m[0mGET /api/v1/employees [32m200[0m 297.696 ms - 582[0m[39m
+2026-08-18 14:34:46:3446 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 596.580 ms - 1232[0m[39m
+2026-08-18 14:34:49:3449 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 592.232 ms - -[0m[39m
+2026-08-18 14:34:50:3450 [32minfo[39m: [32m[Socket] Agent Litmus Staff [ahURNSPwFUc5jC5TAAAB] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:34:51:3451 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 578.060 ms - 1175[0m[39m
+2026-08-18 14:34:51:3451 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [36m304[0m 891.844 ms - -[0m[39m
+2026-08-18 14:34:55:3455 [32minfo[39m: [32m[Socket] Agent Litmus Staff [ahURNSPwFUc5jC5TAAAB] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:34:55:3455 [32minfo[39m: [32m[0mGET /api/v1/chat/canned-responses [36m304[0m 0.565 ms - -[0m[39m
+2026-08-18 14:34:55:3455 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 586.729 ms - 1175[0m[39m
+2026-08-18 14:34:55:3455 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 594.001 ms - 1232[0m[39m
+2026-08-18 14:34:56:3456 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [36m304[0m 850.075 ms - -[0m[39m
+2026-08-18 14:35:11:3511 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 584.537 ms - 1232[0m[39m
+2026-08-18 14:35:14:3514 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1763.750 ms - -[0m[39m
+2026-08-18 14:35:15:3515 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 296.223 ms - -[0m[39m
+2026-08-18 14:35:30:3530 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50&status=ACTIVE&agentId=6a1bea183328e67cbc6e6265 [36m304[0m 287.943 ms - -[0m[39m
+2026-08-18 14:35:40:3540 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 554.922 ms - -[0m[39m
+2026-08-18 14:35:51:3551 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.376 ms - 65[0m[39m
+2026-08-18 14:35:51:3551 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.454 ms - 65[0m[39m
+2026-08-18 14:35:51:3551 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.418 ms - 53[0m[39m
+2026-08-18 14:35:51:3551 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.287 ms - 53[0m[39m
+2026-08-18 14:35:52:3552 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 278.304 ms - 36[0m[39m
+2026-08-18 14:36:05:365 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m
+2026-08-18 14:36:11:3611 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.432 ms - 65[0m[39m
+2026-08-18 14:36:11:3611 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 1.779 ms - 65[0m[39m
+2026-08-18 14:36:11:3611 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.424 ms - 53[0m[39m
+2026-08-18 14:36:11:3611 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.421 ms - 53[0m[39m
+2026-08-18 14:36:11:3611 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 281.613 ms - -[0m[39m
+2026-08-18 14:36:11:3611 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 299.851 ms - -[0m[39m
+2026-08-18 14:36:12:3612 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 902.795 ms - -[0m[39m
+2026-08-18 14:36:13:3613 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 1399.176 ms - 1232[0m[39m
+2026-08-18 14:36:13:3613 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1395.229 ms - 1175[0m[39m
+2026-08-18 14:36:13:3613 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1990.071 ms - -[0m[39m
+2026-08-18 14:36:23:3623 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 578.938 ms - 1175[0m[39m
+2026-08-18 14:36:23:3623 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 582.852 ms - 1232[0m[39m
+2026-08-18 14:36:23:3623 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [36m304[0m 577.834 ms - -[0m[39m
+2026-08-18 14:36:23:3623 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 595.029 ms - -[0m[39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[0mGET /api/v1/chat/presence [32m200[0m 0.372 ms - 157[0m[39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) last socket disconnected. Starting 45s grace check.[39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[Socket Connected] id=nrFwu3a6YS-XkreNAAAF isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=nrFwu3a6YS-XkreNAAAF][39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=nrFwu3a6YS-XkreNAAAF][39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[Socket] Agent Litmus Staff [nrFwu3a6YS-XkreNAAAF] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?status=QUEUED&limit=20 [36m304[0m 297.452 ms - -[0m[39m
+2026-08-18 14:36:28:3628 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [32m200[0m 856.562 ms - 22991[0m[39m
+2026-08-18 14:36:29:3629 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.861 ms - 65[0m[39m
+2026-08-18 14:36:29:3629 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.817 ms - 65[0m[39m
+2026-08-18 14:36:29:3629 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.548 ms - 53[0m[39m
+2026-08-18 14:36:29:3629 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.248 ms - 53[0m[39m
+2026-08-18 14:36:29:3629 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 303.271 ms - -[0m[39m
+2026-08-18 14:36:39:3639 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 571.907 ms - 1232[0m[39m
+2026-08-18 14:36:45:3645 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1810.928 ms - -[0m[39m
+2026-08-18 14:36:48:3648 [31merror[39m: [31m[Socket] bot_query error: botMsg.toObject is not a function[39m
+2026-08-18 14:36:54:3654 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.385 ms - 65[0m[39m
+2026-08-18 14:36:54:3654 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.309 ms - 65[0m[39m
+2026-08-18 14:36:54:3654 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.217 ms - 53[0m[39m
+2026-08-18 14:36:54:3654 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.214 ms - 53[0m[39m
+2026-08-18 14:36:54:3654 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 297.833 ms - -[0m[39m
+2026-08-18 14:36:54:3654 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 564.938 ms - 1232[0m[39m
+2026-08-18 14:37:03:373 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 641.099 ms - -[0m[39m
+2026-08-18 14:37:43:3743 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.387 ms - 65[0m[39m
+2026-08-18 14:37:43:3743 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.439 ms - 65[0m[39m
+2026-08-18 14:37:43:3743 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.366 ms - 53[0m[39m
+2026-08-18 14:37:43:3743 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.394 ms - 53[0m[39m
+2026-08-18 14:37:43:3743 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 297.750 ms - -[0m[39m
+2026-08-18 14:37:43:3743 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 283.092 ms - -[0m[39m
+2026-08-18 14:37:44:3744 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 899.153 ms - -[0m[39m
+2026-08-18 14:37:44:3744 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 906.233 ms - -[0m[39m
+2026-08-18 14:37:44:3744 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1182.329 ms - -[0m[39m
+2026-08-18 14:37:44:3744 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 1180.957 ms - 1175[0m[39m
+2026-08-18 14:37:47:3747 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) last socket disconnected. Starting 45s grace check.[39m
+2026-08-18 14:37:48:3748 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 289.440 ms - -[0m[39m
+2026-08-18 14:37:48:3748 [32minfo[39m: [32m[0mGET /api/v1/chat/canned-responses [36m304[0m 0.458 ms - -[0m[39m
+2026-08-18 14:37:48:3748 [32minfo[39m: [32m[0mGET /api/v1/chat/presence [32m200[0m 0.374 ms - 65[0m[39m
+2026-08-18 14:37:48:3748 [32minfo[39m: [32m[Socket Connected] id=rlynJrOIBLFpMY3NAAAH isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 14:37:48:3748 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=rlynJrOIBLFpMY3NAAAH][39m
+2026-08-18 14:37:48:3748 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=rlynJrOIBLFpMY3NAAAH][39m
+2026-08-18 14:37:49:3749 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 619.966 ms - -[0m[39m
+2026-08-18 14:37:49:3749 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 858.238 ms - -[0m[39m
+2026-08-18 14:37:49:3749 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 892.303 ms - -[0m[39m
+2026-08-18 14:37:49:3749 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?status=QUEUED&limit=20 [36m304[0m 894.142 ms - -[0m[39m
+2026-08-18 14:37:49:3749 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1173.698 ms - -[0m[39m
+2026-08-18 14:37:54:3754 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.419 ms - 65[0m[39m
+2026-08-18 14:37:54:3754 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.330 ms - 65[0m[39m
+2026-08-18 14:37:54:3754 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.413 ms - 53[0m[39m
+2026-08-18 14:37:54:3754 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.383 ms - 53[0m[39m
+2026-08-18 14:37:55:3755 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 281.918 ms - -[0m[39m
+2026-08-18 14:37:55:3755 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 290.748 ms - -[0m[39m
+2026-08-18 14:37:55:3755 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 839.407 ms - -[0m[39m
+2026-08-18 14:37:56:3756 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1178.912 ms - -[0m[39m
+2026-08-18 14:37:56:3756 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.463 ms - 65[0m[39m
+2026-08-18 14:37:56:3756 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.323 ms - 65[0m[39m
+2026-08-18 14:37:56:3756 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.414 ms - 53[0m[39m
+2026-08-18 14:37:56:3756 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [33m401[0m 0.386 ms - 53[0m[39m
+2026-08-18 14:37:56:3756 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 316.485 ms - -[0m[39m
+2026-08-18 14:37:56:3756 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 321.563 ms - -[0m[39m
+2026-08-18 14:37:57:3757 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 926.500 ms - -[0m[39m
+2026-08-18 14:37:57:3757 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 1206.095 ms - -[0m[39m
+2026-08-18 14:38:01:381 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 600.786 ms - -[0m[39m
+2026-08-18 14:38:02:382 [32minfo[39m: [32m[Socket] Agent Litmus Staff [rlynJrOIBLFpMY3NAAAH] joined room: chat_session_session_guest_1787037910041_w9bhad9[39m
+2026-08-18 14:38:03:383 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9 [32m200[0m 553.809 ms - 1175[0m[39m
+2026-08-18 14:38:03:383 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions/session_guest_1787037910041_w9bhad9/messages?includeInternalNotes=true [32m200[0m 854.413 ms - 23927[0m[39m
