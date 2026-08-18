@@ -89,10 +89,24 @@ export class ChatService {
         lastMessageAt: new Date(),
       });
       await session.save();
-    } else if (params.guestInfo && !session.guestInfo?.name && params.guestInfo.name) {
-      // Update guest info if provided later
-      session.guestInfo = { ...session.guestInfo, ...params.guestInfo };
-      await session.save();
+    } else {
+      let isUpdated = false;
+      if (params.guestInfo && !session.guestInfo?.name && params.guestInfo.name) {
+        // Update guest info if provided later
+        session.guestInfo = { ...session.guestInfo, ...params.guestInfo };
+        isUpdated = true;
+      }
+
+      // Upgrade session to REGISTERED if user logged in
+      if (session.userType === ChatUserType.GUEST && params.userType === ChatUserType.REGISTERED && params.userId) {
+        session.userType = ChatUserType.REGISTERED;
+        session.userId = new mongoose.Types.ObjectId(params.userId);
+        isUpdated = true;
+      }
+
+      if (isUpdated) {
+        await session.save();
+      }
     }
 
     return session;
