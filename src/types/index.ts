@@ -79,8 +79,35 @@ export interface IUser extends Document {
     size?: string;
   }[];
   address?: any;
+  billingAddress?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
+    country?: string;
+  };
+  shippingAddress?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
+    country?: string;
+  };
   fssaiNumber?: string;
+  gstNumber?: string;
   companyName?: string;
+  industryCategory?: string;
+  customerSegment?: 'INDIVIDUAL' | 'FOOD_BUSINESS' | 'ENTERPRISE' | 'LAB_PARTNER';
+  alternatePhone?: string;
+  kycStatus?: 'PENDING' | 'VERIFIED' | 'REJECTED';
+  kycVerifiedAt?: Date;
+  adminNotes?: Array<{
+    _id?: string;
+    note: string;
+    authorId?: string;
+    authorName?: string;
+    createdAt?: Date;
+  }>;
   notifications?: {
     email: boolean;
     whatsapp: boolean;

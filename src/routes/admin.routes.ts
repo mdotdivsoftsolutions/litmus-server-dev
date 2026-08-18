@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, getAdminBookings, updateAdminBookingStatus, assignLabToBooking, rejectBooking, approveBookingResult, updateBookingReport, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, updateAdminUserProfile, addUserAdminNote, getAdminBookings, updateAdminBookingStatus, assignLabToBooking, rejectBooking, approveBookingResult, updateBookingReport, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
 import { getAdminSettings, updateAdminSettings } from '../controllers/platformSettings.controller';
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
@@ -83,6 +83,8 @@ router.post('/user', createUser);
  *         description: Detailed user profile retrieved successfully
  */
 router.get('/user/:id/detailed', getUserDetailedProfile);
+router.put('/user/:id', updateAdminUserProfile);
+router.post('/user/:id/notes', addUserAdminNote);
 
 /**
  * @swagger

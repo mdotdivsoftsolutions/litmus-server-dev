@@ -180,6 +180,7 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
     const { default: Payment } = await import('../models/Payment');
     const { default: Cart } = await import('../models/Cart');
     const { Consultation } = await import('../models/Consultation');
+    const { default: ChatSession } = await import('../models/ChatSession');
 
     // Robust multi-key booking lookup
     const filterConditions: any[] = [
@@ -199,8 +200,8 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
     // Get bookings
     const bookings = await Booking.find({ $or: filterConditions })
       .populate('labId', 'labName location contactPhone contactEmail')
-      .populate('items.testId', 'name testName metadata price')
-      .populate('items.packageId', 'name price')
+      .populate('items.testId', 'name testName metadata price tat sampleRequirement')
+      .populate('items.packageId', 'name price tat sampleRequirement')
       .sort('-createdAt');
 
     // Get payments linked to bookings
@@ -208,7 +209,7 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
     const dbPayments = await Payment.find({ bookingId: { $in: bookingIds } })
       .populate({
         path: 'bookingId',
-        select: 'totalAmount status createdAt labId',
+        select: 'totalAmount status createdAt labId bookingId',
         populate: { path: 'labId', select: 'labName' }
       })
       .sort('-createdAt');
@@ -244,14 +245,122 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
       consultations = await Consultation.find({ $or: consultationFilters }).sort('-createdAt');
     }
 
+    // Get Chat / Support Sessions
+    const chatFilters: any[] = [{ userId: user._id }];
+    if (user.email) chatFilters.push({ 'guestInfo.email': user.email.toLowerCase() });
+    if (user.phone) chatFilters.push({ 'guestInfo.phone': user.phone });
+    const chatSessions = await ChatSession.find({ $or: chatFilters })
+      .populate('assignedAgent', 'firstName lastName')
+      .sort('-createdAt')
+      .limit(10);
+
     // Calculate comprehensive stats
     const totalBookings = bookings.length;
     const completedBookings = bookings.filter(b => String(b.status).toUpperCase() === 'COMPLETED').length;
     const pendingBookings = bookings.filter(b => !['COMPLETED', 'REJECTED', 'CANCELLED'].includes(String(b.status).toUpperCase())).length;
+    const unpaidBookings = bookings.filter(b => !['SUCCESS', 'PAID'].includes(String(b.paymentStatus || '').toUpperCase()) && !['CANCELLED', 'REJECTED'].includes(String(b.status).toUpperCase())).length;
+    const cancelledBookings = bookings.filter(b => ['CANCELLED', 'REJECTED'].includes(String(b.status).toUpperCase())).length;
+
     const totalAmountPaid = bookings
       .filter(b => ['SUCCESS', 'PAID'].includes(String(b.paymentStatus || '').toUpperCase()) || String(b.status).toUpperCase() === 'COMPLETED')
       .reduce((sum, b) => sum + (b.totalAmount || 0), 0)
       || allPayments.filter(p => p.status === 'SUCCESS').reduce((sum, p) => sum + (p.amount || 0), 0);
+
+    const totalUnpaidAmount = bookings
+      .filter(b => !['SUCCESS', 'PAID'].includes(String(b.paymentStatus || '').toUpperCase()) && !['CANCELLED', 'REJECTED'].includes(String(b.status).toUpperCase()))
+      .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
+
+    const averageOrderValue = totalBookings > 0 ? Math.round(totalAmountPaid / (completedBookings || totalBookings || 1)) : 0;
+    const firstBookingDate = bookings.length > 0 ? bookings[bookings.length - 1].createdAt : null;
+    const lastBookingDate = bookings.length > 0 ? bookings[0].createdAt : null;
+
+    // Synthesize chronological activity timeline
+    const activities: Array<{
+      id: string;
+      type: 'REGISTRATION' | 'LOGIN' | 'BOOKING' | 'PAYMENT' | 'CONSULTATION' | 'SUPPORT_CHAT';
+      title: string;
+      description: string;
+      date: Date;
+      status?: string;
+      metadata?: any;
+    }> = [];
+
+    // 1. Account Created
+    if (user.createdAt) {
+      activities.push({
+        id: `ACT-REG-${user._id}`,
+        type: 'REGISTRATION',
+        title: 'Account Registered',
+        description: `Client account created on Litmus platform via ${user.phone ? 'Phone verification' : 'Email registration'}.`,
+        date: user.createdAt,
+        status: user.isActive ? 'Active' : 'Suspended',
+      });
+    }
+
+    // 2. Last Login
+    if (user.lastLoginAt) {
+      activities.push({
+        id: `ACT-LOG-${user._id}`,
+        type: 'LOGIN',
+        title: 'Last Portal Session',
+        description: 'Client logged into the Litmus portal.',
+        date: user.lastLoginAt,
+      });
+    }
+
+    // 3. Bookings
+    bookings.forEach((b: any) => {
+      const bkgCode = `BKG-${String(b._id).slice(-6).toUpperCase()}`;
+      activities.push({
+        id: `ACT-BKG-${b._id}`,
+        type: 'BOOKING',
+        title: `Placed Order ${bkgCode}`,
+        description: `Diagnostic booking created for ₹${b.totalAmount?.toLocaleString() || 0} (${b.status || 'Pending'}).`,
+        date: b.createdAt,
+        status: b.status,
+        metadata: { bookingId: b._id, amount: b.totalAmount },
+      });
+    });
+
+    // 4. Payments
+    allPayments.forEach((p: any) => {
+      if (p.status === 'SUCCESS') {
+        activities.push({
+          id: `ACT-PAY-${p._id}`,
+          type: 'PAYMENT',
+          title: `Payment Received (₹${p.amount?.toLocaleString() || 0})`,
+          description: `Processed via ${p.method || 'Online Gateway'} (${p.transactionId || 'Success'}).`,
+          date: p.createdAt,
+          status: 'SUCCESS',
+        });
+      }
+    });
+
+    // 5. Consultations
+    consultations.forEach((c: any) => {
+      activities.push({
+        id: `ACT-CNS-${c._id}`,
+        type: 'CONSULTATION',
+        title: `Requested Consultation: ${c.topic || c.serviceName || 'Diagnostic Inquiries'}`,
+        description: `Status: ${c.status || 'Pending'}. Scheduled with Litmus technical team.`,
+        date: c.createdAt,
+        status: c.status,
+      });
+    });
+
+    // 6. Support Sessions
+    chatSessions.forEach((s: any) => {
+      activities.push({
+        id: `ACT-CHT-${s._id}`,
+        type: 'SUPPORT_CHAT',
+        title: `Support Inquiry (${s.sessionId})`,
+        description: `Live chat session with ${s.assignedAgent?.firstName || 'Litmus Support'}. Status: ${s.status}.`,
+        date: s.createdAt,
+        status: s.status,
+      });
+    });
+
+    activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     res.status(200).json({
       success: true,
@@ -261,19 +370,114 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
           totalBookings,
           completedBookings,
           pendingBookings,
+          unpaidBookings,
+          cancelledBookings,
           totalAmountPaid,
-          totalConsultations: consultations.length
+          totalUnpaidAmount,
+          averageOrderValue,
+          firstBookingDate,
+          lastBookingDate,
+          totalConsultations: consultations.length,
+          totalSupportChats: chatSessions.length,
         },
         bookings,
         payments: allPayments,
         cart: cart || { items: [] },
-        consultations
-      }
+        consultations,
+        chatSessions,
+        activities,
+      },
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch detailed user profile',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Update user profile from Admin (Business details, KYC, addresses)
+ */
+export const updateAdminUserProfile = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body;
+
+    // Disallow password mutation via this route
+    delete updates.password;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      res.status(404).json({ success: false, message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User profile updated successfully',
+      data: user,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update user profile',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Add internal staff note to user profile
+ */
+export const addUserAdminNote = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.params.id;
+    const { note } = req.body;
+
+    if (!note || !note.trim()) {
+      res.status(400).json({ success: false, message: 'Note text is required' });
+      return;
+    }
+
+    const authUser = (req as any).user;
+    const authorName = authUser ? `${authUser.firstName || ''} ${authUser.lastName || ''}`.trim() || 'Admin Specialist' : 'Staff Member';
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          adminNotes: {
+            note: note.trim(),
+            authorId: authUser?._id,
+            authorName,
+            createdAt: new Date(),
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      res.status(404).json({ success: false, message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Staff note added to user profile',
+      data: user.adminNotes,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to add staff note',
       error: error.message,
     });
   }
