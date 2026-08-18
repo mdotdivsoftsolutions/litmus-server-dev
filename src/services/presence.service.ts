@@ -81,6 +81,15 @@ class PresenceService {
   }
 
   /**
+   * Check if a specific agent is currently active/online
+   */
+  public isAgentOnline(agentId: string): boolean {
+    this.pruneStaleAgents();
+    const agent = this.agents.get(agentId);
+    return !!agent && agent.status === 'ONLINE' && agent.socketIds.size > 0;
+  }
+
+  /**
    * Check if any agent is currently active/online
    */
   public hasOnlineAgents(): boolean {

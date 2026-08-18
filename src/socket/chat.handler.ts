@@ -3,6 +3,7 @@ import { ChatService } from '../services/chat.service';
 import { presenceService } from '../services/presence.service';
 import { BotKnowledgeService } from '../services/botKnowledge.service';
 import { ChatSessionStatus, ChatUserType, MessageSenderType } from '../types';
+import ChatSession from '../models/ChatSession';
 import logger from '../utils/logger';
 
 // In-memory rate limiting map: socketId -> { count: number, resetAt: number }
@@ -305,7 +306,35 @@ export function registerChatHandlers(io: Server, socket: Socket) {
           transcriptPreview: recentTranscript.slice(-4),
         };
 
-        io.to('admin_support_channel').emit('new_chat_request', dispatchPayload);
+        // Sticky Routing Logic
+        const previousAgentId = session.assignedAgent ? session.assignedAgent.toString() : null;
+        
+        if (previousAgentId && presenceService.isAgentOnline(previousAgentId)) {
+          // Direct dispatch to previous agent
+          io.to('admin_support_channel').emit('new_chat_request', {
+            ...dispatchPayload,
+            isDirectRoute: true,
+            targetAgentId: previousAgentId
+          });
+
+          // Fallback to all agents if not claimed in 30s
+          setTimeout(async () => {
+            try {
+              const checkSession = await ChatSession.findOne({ sessionId });
+              if (checkSession && checkSession.status === ChatSessionStatus.QUEUED) {
+                io.to('admin_support_channel').emit('new_chat_request', {
+                  ...dispatchPayload,
+                  isDirectRoute: false
+                });
+              }
+            } catch (error) {
+              logger.error(`Sticky routing fallback error: ${error}`);
+            }
+          }, 30000);
+        } else {
+          // Standard broadcast
+          io.to('admin_support_channel').emit('new_chat_request', dispatchPayload);
+        }
 
         const successRes = {
           success: true,
