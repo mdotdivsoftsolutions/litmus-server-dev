@@ -105,6 +105,14 @@ export function registerChatHandlers(io: Server, socket: Socket) {
     }
   });
 
+  // ── 2.1 JOIN CHAT SESSION ROOM ───────────────────────────────────────────
+  socket.on('join_session', (data: { sessionId: string }, callback?: (res: any) => void) => {
+    if (!data?.sessionId) return;
+    socket.join(`chat_session_${data.sessionId}`);
+    logger.info(`[Socket] ${isAgent ? `Agent ${agentName}` : 'User'} [${socket.id}] joined room: chat_session_${data.sessionId}`);
+    if (typeof callback === 'function') callback({ success: true, sessionId: data.sessionId });
+  });
+
   // ── 3. INITIALIZE / RESTORE CHAT SESSION ─────────────────────────────────
   socket.on(
     'init_session',
@@ -266,20 +274,6 @@ export function registerChatHandlers(io: Server, socket: Socket) {
         const { sessionId, guestInfo, initialQuery } = data;
         if (!sessionId) return;
 
-        // Check if any agent is online
-        const hasAgents = presenceService.hasOnlineAgents();
-        if (!hasAgents) {
-          const offlineRes = {
-            success: false,
-            code: 'NO_AGENTS_ONLINE',
-            message:
-              'All of our diagnostic specialists are currently offline or in consultation. You can continue with our automated assistant or leave your contact details for an immediate callback.',
-          };
-          if (typeof callback === 'function') callback(offlineRes);
-          socket.emit('agents_unavailable', offlineRes);
-          return;
-        }
-
         // Transition session to QUEUED status
         const session = await ChatService.queueSession({ sessionId, guestInfo });
         if (!session) {
@@ -432,6 +426,8 @@ export function registerChatHandlers(io: Server, socket: Socket) {
           return;
         }
 
+        socket.join(`chat_session_${sessionId}`);
+
         const senderType = isAgent ? MessageSenderType.AGENT : MessageSenderType.USER;
         const senderName = isAgent ? agentName : undefined;
         const senderId = isAgent ? agentId : authData.userId;
@@ -475,6 +471,7 @@ export function registerChatHandlers(io: Server, socket: Socket) {
   // ── 8. TYPING INDICATORS (Transient Broadcast) ───────────────────────────
   socket.on('typing_indicator', (data: { sessionId: string; isTyping: boolean }) => {
     if (!data.sessionId) return;
+    socket.join(`chat_session_${data.sessionId}`);
     socket.to(`chat_session_${data.sessionId}`).emit('user_typing', {
       sessionId: data.sessionId,
       senderType: isAgent ? MessageSenderType.AGENT : MessageSenderType.USER,
@@ -485,6 +482,7 @@ export function registerChatHandlers(io: Server, socket: Socket) {
   // ── 9. MARK READ ─────────────────────────────────────────────────────────
   socket.on('mark_read', async (data: { sessionId: string }) => {
     if (!data.sessionId) return;
+    socket.join(`chat_session_${data.sessionId}`);
     await ChatService.markMessagesRead(data.sessionId, isAgent ? 'AGENT' : 'USER');
     socket.to(`chat_session_${data.sessionId}`).emit('messages_marked_read', {
       sessionId: data.sessionId,
