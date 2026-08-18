@@ -573,6 +573,71 @@ export function registerChatHandlers(io: Server, socket: Socket) {
     }
   );
 
+  // ── 12.1 TRANSFER / FORWARD CHAT SESSION ─────────────────────────────────
+  socket.on(
+    'transfer_chat',
+    async (
+      data: { sessionId: string; targetAgentId: string; targetAgentName?: string; note?: string },
+      callback?: (res: any) => void
+    ) => {
+      try {
+        const { sessionId, targetAgentId, targetAgentName, note } = data;
+        if (!sessionId || !targetAgentId) {
+          if (typeof callback === 'function') callback({ success: false, message: 'Session and target employee are required' });
+          return;
+        }
+
+        const session = await ChatService.transferSession({
+          sessionId,
+          targetAgentId,
+          transferredByAgentId: agentId,
+          transferredByAgentName: agentName,
+        });
+
+        if (!session) {
+          if (typeof callback === 'function') callback({ success: false, message: 'Session not found' });
+          return;
+        }
+
+        // Add internal transfer note if provided
+        if (note && note.trim() && agentId) {
+          await ChatService.addInternalNote({
+            sessionId,
+            authorId: agentId,
+            authorName: agentName,
+            note: `Transferred to ${targetAgentName || 'Specialist'}: ${note.trim()}`,
+          });
+        }
+
+        // Add system message to the chat
+        const { message: transferMsg } = await ChatService.addMessage({
+          sessionId,
+          senderType: MessageSenderType.SYSTEM,
+          text: `Conversation forwarded to specialist ${targetAgentName || 'team member'}.`,
+        });
+
+        io.to(`chat_session_${sessionId}`).emit('receive_message', transferMsg);
+        io.to(`chat_session_${sessionId}`).emit('chat_connected', {
+          sessionId,
+          agentName: targetAgentName || 'Litmus Specialist',
+          agentRole: 'Diagnostic Specialist',
+        });
+
+        // Broadcast update to all staff channels
+        io.to('admin_support_channel').emit('chat_session_updated', {
+          sessionId,
+          status: ChatSessionStatus.ACTIVE,
+          assignedAgent: session.assignedAgent,
+        });
+
+        if (typeof callback === 'function') callback({ success: true, session });
+      } catch (err: any) {
+        logger.error(`[Socket] transfer_chat error: ${err.message}`);
+        if (typeof callback === 'function') callback({ success: false, message: err.message });
+      }
+    }
+  );
+
   // ── 13. DISCONNECT & 45-SECOND GRACE PERIOD ──────────────────────────────
   socket.on('disconnect', () => {
     rateLimitMap.delete(socket.id);

@@ -281,6 +281,32 @@ export class ChatService {
   }
 
   /**
+   * Transfer an active session to another agent or reassign
+   */
+  public static async transferSession(params: {
+    sessionId: string;
+    targetAgentId: string;
+    transferredByAgentId?: string;
+    transferredByAgentName?: string;
+  }): Promise<IChatSession | null> {
+    const session = await ChatSession.findOneAndUpdate(
+      { sessionId: params.sessionId },
+      {
+        $set: {
+          assignedAgent: new mongoose.Types.ObjectId(params.targetAgentId),
+          status: ChatSessionStatus.ACTIVE,
+          claimedAt: new Date(),
+        },
+      },
+      { new: true }
+    )
+      .populate('assignedAgent', 'firstName lastName profilePic designation department role email phone')
+      .populate('userId', 'firstName lastName email phone companyName');
+
+    return session;
+  }
+
+  /**
    * Re-queue a session if agent disconnected or transfer requested
    */
   public static async reQueueSession(sessionId: string): Promise<IChatSession | null> {
