@@ -24886,3 +24886,48 @@
 2026-08-18 14:07:17:717 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=mLzeMut3N2uNs4lXAAAD][39m
 2026-08-18 14:07:19:719 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-08-18 14:07:19:719 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 14:07:56:756 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-18 14:07:56:756 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-18 14:07:56:756 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-18 14:07:56:756 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-18 14:07:56:756 [32minfo[39m: [32m[Socket Connected] id=lcyKyZDgMW2RKcoOAAAB isAgent=false userId=Guest[39m
+2026-08-18 14:07:57:757 [32minfo[39m: [32m[Socket Connected] id=mleMfzJ9GK6Gsej6AAAD isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-18 14:07:57:757 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=mleMfzJ9GK6Gsej6AAAD][39m
+2026-08-18 14:07:57:757 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=mleMfzJ9GK6Gsej6AAAD][39m
+2026-08-18 14:07:59:759 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-18 14:07:59:759 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-18 14:08:50:850 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 359.718 ms - -[0m[39m
+2026-08-18 14:08:51:851 [32minfo[39m: [32m[0mGET /api/v1/consultations?page=1&limit=10 [36m304[0m 1549.635 ms - -[0m[39m
+2026-08-18 14:08:51:851 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1851.029 ms - -[0m[39m
+2026-08-18 14:09:04:94 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 303.755 ms - -[0m[39m
+2026-08-18 14:09:05:95 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 597.994 ms - -[0m[39m
+2026-08-18 14:09:05:95 [32minfo[39m: [32m[0mGET /api/v1/consultations?page=1&limit=10 [36m304[0m 1339.853 ms - -[0m[39m
+2026-08-18 14:09:08:98 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1705.749 ms - -[0m[39m
+2026-08-18 14:09:12:912 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 577.217 ms - -[0m[39m
+2026-08-18 14:09:15:915 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1879.476 ms - -[0m[39m
+2026-08-18 14:09:16:916 [32minfo[39m: [32m[0mGET /api/v1/reviews?page=1&limit=10 [32m200[0m 522.385 ms - 1381[0m[39m
+2026-08-18 14:09:21:921 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 387.889 ms - -[0m[39m
+2026-08-18 14:09:21:921 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 446.287 ms - -[0m[39m
+2026-08-18 14:09:21:921 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 452.314 ms - -[0m[39m
+2026-08-18 14:09:21:921 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 462.730 ms - -[0m[39m
+2026-08-18 14:09:21:921 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 467.882 ms - -[0m[39m
+2026-08-18 14:09:21:921 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 477.121 ms - -[0m[39m
+2026-08-18 14:09:21:921 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 262.697 ms - -[0m[39m
+2026-08-18 14:09:30:930 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 541.115 ms - -[0m[39m
+2026-08-18 14:09:32:932 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 261.679 ms - -[0m[39m
+2026-08-18 14:09:32:932 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 296.171 ms - -[0m[39m
+2026-08-18 14:09:32:932 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 300.119 ms - -[0m[39m
+2026-08-18 14:09:35:935 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 599.724 ms - -[0m[39m
+2026-08-18 14:09:35:935 [32minfo[39m: [32m[0mGET /api/v1/consultations?page=1&limit=10 [36m304[0m 1222.785 ms - -[0m[39m
+2026-08-18 14:09:46:946 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 298.555 ms - -[0m[39m
+2026-08-18 14:09:51:951 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 624.841 ms - -[0m[39m
+2026-08-18 14:09:52:952 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 371.797 ms - -[0m[39m
+2026-08-18 14:09:52:952 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 2474.656 ms - -[0m[39m
+2026-08-18 14:10:06:106 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 589.800 ms - -[0m[39m
+2026-08-18 14:10:10:1010 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 359.643 ms - -[0m[39m
+2026-08-18 14:10:11:1011 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 648.933 ms - -[0m[39m
+2026-08-18 14:10:11:1011 [32minfo[39m: [32m[0mGET /api/v1/admin/users [36m304[0m 808.072 ms - -[0m[39m
+2026-08-18 14:10:13:1013 [32minfo[39m: [32m[0mGET /api/v1/chat/canned-responses [36m304[0m 0.951 ms - -[0m[39m
+2026-08-18 14:10:13:1013 [32minfo[39m: [32m[0mGET /api/v1/employees [36m304[0m 262.910 ms - -[0m[39m
+2026-08-18 14:10:13:1013 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [32m200[0m 644.065 ms - 1232[0m[39m
+2026-08-18 14:10:17:1017 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?page=1&limit=50 [36m304[0m 596.012 ms - -[0m[39m
