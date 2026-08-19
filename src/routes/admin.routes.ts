@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, updateAdminUserProfile, addUserAdminNote, getAdminBookings, updateAdminBookingStatus, assignLabToBooking, rejectBooking, approveBookingResult, updateBookingReport, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
-import { getAdminSettings, updateAdminSettings } from '../controllers/platformSettings.controller';
+import { getAdminSettings, updateAdminSettings, testWhatsAppNotification, triggerAbandonedCartScan } from '../controllers/platformSettings.controller';
+
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
@@ -500,5 +501,8 @@ router.patch('/package/:id/reject', rejectPackage);
 
 router.get('/settings', getAdminSettings);
 router.put('/settings', updateAdminSettings);
+router.post('/notifications/test-whatsapp', testWhatsAppNotification);
+router.post('/notifications/trigger-abandoned-carts', triggerAbandonedCartScan);
 
 export default router;
+

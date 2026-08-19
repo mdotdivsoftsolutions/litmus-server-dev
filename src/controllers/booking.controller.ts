@@ -7,7 +7,9 @@ import Test from '../models/Test';
 import Package from '../models/Package';
 import { BookingStatus, CollectionStatus, UserRole } from '../types';
 import { sendBookingConfirmedEmail } from '../utils/mailer';
+import NotificationService from '../services/notification.service';
 import { getPlatformSettings } from '../models/PlatformSettings';
+
 import spacesClient from '../config/spaces';
 import {
   parseBookingListParams,
@@ -73,18 +75,19 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
 
     try {
       const populatedBooking = await Booking.findById(booking._id)
-        .populate('userId', 'firstName lastName email')
+
+        .populate('userId', 'firstName lastName email phone')
         .populate('items.testId', 'testName')
         .populate('items.packageId', 'name');
 
-      if (populatedBooking && (populatedBooking.userId as any).email) {
+      if (populatedBooking && populatedBooking.userId) {
         const user = populatedBooking.userId as any;
-        const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+        const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
         
         const testNames = populatedBooking.items.map(item => {
           if (item.testId) return (item.testId as any).testName;
           if (item.packageId) return (item.packageId as any).name;
-          return 'Unknown Test';
+          return 'Diagnostic Test';
         }).filter(Boolean).join(', ');
 
         const productNames = populatedBooking.items.map(item => {
@@ -95,18 +98,22 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
           return total + (item.samples?.reduce((sum, s) => sum + (Number(s.quantity) || 1), 0) || 0);
         }, 0);
 
-        await sendBookingConfirmedEmail(user.email, {
+        NotificationService.notifyOrderConfirmation({
+          customerEmail: user.email,
+          customerPhone: user.phone,
           customerName,
           bookingId: booking._id.toString(),
-          productName: productNames || 'N/A',
-          testList: testNames || 'N/A',
+          productName: productNames || 'Diagnostic Sample',
+          testNames: testNames || 'Food Quality & Safety Diagnostics',
           sampleQty: totalSamples.toString(),
-          bookingDate: new Date(bookingDate).toLocaleDateString(),
-        });
+          amount: booking.totalAmount,
+          bookingDate: new Date(bookingDate).toLocaleDateString('en-IN'),
+        }).catch(() => {});
       }
-    } catch (emailErr) {
-      console.error('Error sending booking confirmation email:', emailErr);
+    } catch (notifErr) {
+      console.error('Error dispatching booking confirmation notification:', notifErr);
     }
+
 
     res.status(201).json({
       success: true,

@@ -778,17 +778,19 @@ export const approveBookingResult = async (req: Request, res: Response): Promise
         if (booking.userId) {
           try {
             const user = booking.userId as any;
-            if (user.email) {
-              const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-              await sendTestReportReadyEmail(user.email, {
-                customerName,
-                bookingId: booking._id.toString(),
-              });
-            }
+            const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
+            const { default: NotificationService } = await import('../services/notification.service');
+            await NotificationService.notifyDeliveryUpdate({
+              customerEmail: user.email,
+              customerPhone: user.phone,
+              customerName,
+              bookingId: booking._id.toString(),
+            });
           } catch (e) {
-            console.error('Failed to send report ready email:', e);
+            console.error('Failed to send report ready notification:', e);
           }
         }
+
 
         res.status(200).json({
           success: true,
