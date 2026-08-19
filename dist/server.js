@@ -11,12 +11,14 @@ const app_1 = __importDefault(require("./app"));
 const db_1 = require("./config/db");
 const logger_1 = __importDefault(require("./utils/logger"));
 const userStatus_job_1 = require("./jobs/userStatus.job");
+const abandonedCart_job_1 = require("./jobs/abandonedCart.job");
 const socket_1 = require("./socket");
 const PORT = process.env.PORT || 5000;
 // Initialize Database connection
 (0, db_1.connectDB)();
 // Initialize cron jobs
 (0, userStatus_job_1.startUserStatusJob)();
+(0, abandonedCart_job_1.startAbandonedCartJob)();
 // Create HTTP server for Express and Socket.IO
 const server = http_1.default.createServer(app_1.default);
 // Initialize Socket.IO engine

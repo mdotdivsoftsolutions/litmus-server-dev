@@ -11,7 +11,7 @@ const Laboratory_1 = __importDefault(require("../models/Laboratory"));
 const Test_1 = __importDefault(require("../models/Test"));
 const Package_1 = __importDefault(require("../models/Package"));
 const types_1 = require("../types");
-const mailer_1 = require("../utils/mailer");
+const notification_service_1 = __importDefault(require("../services/notification.service"));
 const PlatformSettings_1 = require("../models/PlatformSettings");
 const spaces_1 = __importDefault(require("../config/spaces"));
 const bookingRules_1 = require("../utils/bookingRules");
@@ -62,18 +62,18 @@ const createBooking = async (req, res) => {
         });
         try {
             const populatedBooking = await Booking_1.default.findById(booking._id)
-                .populate('userId', 'firstName lastName email')
+                .populate('userId', 'firstName lastName email phone')
                 .populate('items.testId', 'testName')
                 .populate('items.packageId', 'name');
-            if (populatedBooking && populatedBooking.userId.email) {
+            if (populatedBooking && populatedBooking.userId) {
                 const user = populatedBooking.userId;
-                const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+                const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
                 const testNames = populatedBooking.items.map(item => {
                     if (item.testId)
                         return item.testId.testName;
                     if (item.packageId)
                         return item.packageId.name;
-                    return 'Unknown Test';
+                    return 'Diagnostic Test';
                 }).filter(Boolean).join(', ');
                 const productNames = populatedBooking.items.map(item => {
                     return item.samples?.map(s => s.productName).filter(Boolean).join(', ');
@@ -81,18 +81,21 @@ const createBooking = async (req, res) => {
                 const totalSamples = populatedBooking.items.reduce((total, item) => {
                     return total + (item.samples?.reduce((sum, s) => sum + (Number(s.quantity) || 1), 0) || 0);
                 }, 0);
-                await (0, mailer_1.sendBookingConfirmedEmail)(user.email, {
+                notification_service_1.default.notifyOrderConfirmation({
+                    customerEmail: user.email,
+                    customerPhone: user.phone,
                     customerName,
                     bookingId: booking._id.toString(),
-                    productName: productNames || 'N/A',
-                    testList: testNames || 'N/A',
+                    productName: productNames || 'Diagnostic Sample',
+                    testNames: testNames || 'Food Quality & Safety Diagnostics',
                     sampleQty: totalSamples.toString(),
-                    bookingDate: new Date(bookingDate).toLocaleDateString(),
-                });
+                    amount: booking.totalAmount,
+                    bookingDate: new Date(bookingDate).toLocaleDateString('en-IN'),
+                }).catch(() => { });
             }
         }
-        catch (emailErr) {
-            console.error('Error sending booking confirmation email:', emailErr);
+        catch (notifErr) {
+            console.error('Error dispatching booking confirmation notification:', notifErr);
         }
         res.status(201).json({
             success: true,

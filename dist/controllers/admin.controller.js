@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rejectPackage = exports.approvePackage = exports.rejectTest = exports.approveTest = exports.getPendingApprovals = exports.updateCollectionDetails = exports.getAdminAnalytics = exports.getAdminPayments = exports.getAdminStats = exports.rejectBookingResult = exports.updateBookingReport = exports.approveBookingResult = exports.rejectBooking = exports.assignLabToBooking = exports.updateAdminBookingStatus = exports.getAdminBookings = exports.getUserDetailedProfile = exports.createUser = exports.updateUserStatus = exports.getUserById = exports.getUsers = void 0;
+exports.rejectPackage = exports.approvePackage = exports.rejectTest = exports.approveTest = exports.getPendingApprovals = exports.updateCollectionDetails = exports.getAdminAnalytics = exports.getAdminPayments = exports.getAdminStats = exports.rejectBookingResult = exports.updateBookingReport = exports.approveBookingResult = exports.rejectBooking = exports.assignLabToBooking = exports.updateAdminBookingStatus = exports.getAdminBookings = exports.addUserAdminNote = exports.updateAdminUserProfile = exports.getUserDetailedProfile = exports.createUser = exports.updateUserStatus = exports.getUserById = exports.getUsers = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const User_1 = __importDefault(require("../models/User"));
 const types_1 = require("../types");
@@ -203,6 +203,7 @@ const getUserDetailedProfile = async (req, res) => {
         const { default: Payment } = await Promise.resolve().then(() => __importStar(require('../models/Payment')));
         const { default: Cart } = await Promise.resolve().then(() => __importStar(require('../models/Cart')));
         const { Consultation } = await Promise.resolve().then(() => __importStar(require('../models/Consultation')));
+        const { default: ChatSession } = await Promise.resolve().then(() => __importStar(require('../models/ChatSession')));
         // Robust multi-key booking lookup
         const filterConditions = [
             { userId: user._id }
@@ -220,15 +221,15 @@ const getUserDetailedProfile = async (req, res) => {
         // Get bookings
         const bookings = await Booking.find({ $or: filterConditions })
             .populate('labId', 'labName location contactPhone contactEmail')
-            .populate('items.testId', 'name testName metadata price')
-            .populate('items.packageId', 'name price')
+            .populate('items.testId', 'name testName metadata price tat sampleRequirement')
+            .populate('items.packageId', 'name price tat sampleRequirement')
             .sort('-createdAt');
         // Get payments linked to bookings
         const bookingIds = bookings.map(b => b._id);
         const dbPayments = await Payment.find({ bookingId: { $in: bookingIds } })
             .populate({
             path: 'bookingId',
-            select: 'totalAmount status createdAt labId',
+            select: 'totalAmount status createdAt labId bookingId',
             populate: { path: 'labId', select: 'labName' }
         })
             .sort('-createdAt');
@@ -260,14 +261,104 @@ const getUserDetailedProfile = async (req, res) => {
         if (consultationFilters.length > 0) {
             consultations = await Consultation.find({ $or: consultationFilters }).sort('-createdAt');
         }
+        // Get Chat / Support Sessions
+        const chatFilters = [{ userId: user._id }];
+        if (user.email)
+            chatFilters.push({ 'guestInfo.email': user.email.toLowerCase() });
+        if (user.phone)
+            chatFilters.push({ 'guestInfo.phone': user.phone });
+        const chatSessions = await ChatSession.find({ $or: chatFilters })
+            .populate('assignedAgent', 'firstName lastName')
+            .sort('-createdAt')
+            .limit(10);
         // Calculate comprehensive stats
         const totalBookings = bookings.length;
         const completedBookings = bookings.filter(b => String(b.status).toUpperCase() === 'COMPLETED').length;
         const pendingBookings = bookings.filter(b => !['COMPLETED', 'REJECTED', 'CANCELLED'].includes(String(b.status).toUpperCase())).length;
+        const unpaidBookings = bookings.filter(b => !['SUCCESS', 'PAID'].includes(String(b.paymentStatus || '').toUpperCase()) && !['CANCELLED', 'REJECTED'].includes(String(b.status).toUpperCase())).length;
+        const cancelledBookings = bookings.filter(b => ['CANCELLED', 'REJECTED'].includes(String(b.status).toUpperCase())).length;
         const totalAmountPaid = bookings
             .filter(b => ['SUCCESS', 'PAID'].includes(String(b.paymentStatus || '').toUpperCase()) || String(b.status).toUpperCase() === 'COMPLETED')
             .reduce((sum, b) => sum + (b.totalAmount || 0), 0)
             || allPayments.filter(p => p.status === 'SUCCESS').reduce((sum, p) => sum + (p.amount || 0), 0);
+        const totalUnpaidAmount = bookings
+            .filter(b => !['SUCCESS', 'PAID'].includes(String(b.paymentStatus || '').toUpperCase()) && !['CANCELLED', 'REJECTED'].includes(String(b.status).toUpperCase()))
+            .reduce((sum, b) => sum + (b.totalAmount || 0), 0);
+        const averageOrderValue = totalBookings > 0 ? Math.round(totalAmountPaid / (completedBookings || totalBookings || 1)) : 0;
+        const firstBookingDate = bookings.length > 0 ? bookings[bookings.length - 1].createdAt : null;
+        const lastBookingDate = bookings.length > 0 ? bookings[0].createdAt : null;
+        // Synthesize chronological activity timeline
+        const activities = [];
+        // 1. Account Created
+        if (user.createdAt) {
+            activities.push({
+                id: `ACT-REG-${user._id}`,
+                type: 'REGISTRATION',
+                title: 'Account Registered',
+                description: `Client account created on Litmus platform via ${user.phone ? 'Phone verification' : 'Email registration'}.`,
+                date: user.createdAt,
+                status: user.isActive ? 'Active' : 'Suspended',
+            });
+        }
+        // 2. Last Login
+        if (user.lastLoginAt) {
+            activities.push({
+                id: `ACT-LOG-${user._id}`,
+                type: 'LOGIN',
+                title: 'Last Portal Session',
+                description: 'Client logged into the Litmus portal.',
+                date: user.lastLoginAt,
+            });
+        }
+        // 3. Bookings
+        bookings.forEach((b) => {
+            const bkgCode = `BKG-${String(b._id).slice(-6).toUpperCase()}`;
+            activities.push({
+                id: `ACT-BKG-${b._id}`,
+                type: 'BOOKING',
+                title: `Placed Order ${bkgCode}`,
+                description: `Diagnostic booking created for ₹${b.totalAmount?.toLocaleString() || 0} (${b.status || 'Pending'}).`,
+                date: b.createdAt,
+                status: b.status,
+                metadata: { bookingId: b._id, amount: b.totalAmount },
+            });
+        });
+        // 4. Payments
+        allPayments.forEach((p) => {
+            if (p.status === 'SUCCESS') {
+                activities.push({
+                    id: `ACT-PAY-${p._id}`,
+                    type: 'PAYMENT',
+                    title: `Payment Received (₹${p.amount?.toLocaleString() || 0})`,
+                    description: `Processed via ${p.method || 'Online Gateway'} (${p.transactionId || 'Success'}).`,
+                    date: p.createdAt,
+                    status: 'SUCCESS',
+                });
+            }
+        });
+        // 5. Consultations
+        consultations.forEach((c) => {
+            activities.push({
+                id: `ACT-CNS-${c._id}`,
+                type: 'CONSULTATION',
+                title: `Requested Consultation: ${c.topic || c.serviceName || 'Diagnostic Inquiries'}`,
+                description: `Status: ${c.status || 'Pending'}. Scheduled with Litmus technical team.`,
+                date: c.createdAt,
+                status: c.status,
+            });
+        });
+        // 6. Support Sessions
+        chatSessions.forEach((s) => {
+            activities.push({
+                id: `ACT-CHT-${s._id}`,
+                type: 'SUPPORT_CHAT',
+                title: `Support Inquiry (${s.sessionId})`,
+                description: `Live chat session with ${s.assignedAgent?.firstName || 'Litmus Support'}. Status: ${s.status}.`,
+                date: s.createdAt,
+                status: s.status,
+            });
+        });
+        activities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         res.status(200).json({
             success: true,
             data: {
@@ -276,14 +367,23 @@ const getUserDetailedProfile = async (req, res) => {
                     totalBookings,
                     completedBookings,
                     pendingBookings,
+                    unpaidBookings,
+                    cancelledBookings,
                     totalAmountPaid,
-                    totalConsultations: consultations.length
+                    totalUnpaidAmount,
+                    averageOrderValue,
+                    firstBookingDate,
+                    lastBookingDate,
+                    totalConsultations: consultations.length,
+                    totalSupportChats: chatSessions.length,
                 },
                 bookings,
                 payments: allPayments,
                 cart: cart || { items: [] },
-                consultations
-            }
+                consultations,
+                chatSessions,
+                activities,
+            },
         });
     }
     catch (error) {
@@ -295,6 +395,77 @@ const getUserDetailedProfile = async (req, res) => {
     }
 };
 exports.getUserDetailedProfile = getUserDetailedProfile;
+/**
+ * Update user profile from Admin (Business details, KYC, addresses)
+ */
+const updateAdminUserProfile = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const updates = req.body;
+        // Disallow password mutation via this route
+        delete updates.password;
+        const user = await User_1.default.findByIdAndUpdate(userId, { $set: updates }, { new: true, runValidators: true });
+        if (!user) {
+            res.status(404).json({ success: false, message: 'User not found' });
+            return;
+        }
+        res.status(200).json({
+            success: true,
+            message: 'User profile updated successfully',
+            data: user,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to update user profile',
+            error: error.message,
+        });
+    }
+};
+exports.updateAdminUserProfile = updateAdminUserProfile;
+/**
+ * Add internal staff note to user profile
+ */
+const addUserAdminNote = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const { note } = req.body;
+        if (!note || !note.trim()) {
+            res.status(400).json({ success: false, message: 'Note text is required' });
+            return;
+        }
+        const authUser = req.user;
+        const authorName = authUser ? `${authUser.firstName || ''} ${authUser.lastName || ''}`.trim() || 'Admin Specialist' : 'Staff Member';
+        const user = await User_1.default.findByIdAndUpdate(userId, {
+            $push: {
+                adminNotes: {
+                    note: note.trim(),
+                    authorId: authUser?._id,
+                    authorName,
+                    createdAt: new Date(),
+                },
+            },
+        }, { new: true });
+        if (!user) {
+            res.status(404).json({ success: false, message: 'User not found' });
+            return;
+        }
+        res.status(200).json({
+            success: true,
+            message: 'Staff note added to user profile',
+            data: user.adminNotes,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to add staff note',
+            error: error.message,
+        });
+    }
+};
+exports.addUserAdminNote = addUserAdminNote;
 const getAdminBookings = async (req, res) => {
     try {
         const { default: Booking } = await Promise.resolve().then(() => __importStar(require('../models/Booking')));
@@ -552,16 +723,17 @@ const approveBookingResult = async (req, res) => {
                 if (booking.userId) {
                     try {
                         const user = booking.userId;
-                        if (user.email) {
-                            const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-                            await sendTestReportReadyEmail(user.email, {
-                                customerName,
-                                bookingId: booking._id.toString(),
-                            });
-                        }
+                        const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
+                        const { default: NotificationService } = await Promise.resolve().then(() => __importStar(require('../services/notification.service')));
+                        await NotificationService.notifyDeliveryUpdate({
+                            customerEmail: user.email,
+                            customerPhone: user.phone,
+                            customerName,
+                            bookingId: booking._id.toString(),
+                        });
                     }
                     catch (e) {
-                        console.error('Failed to send report ready email:', e);
+                        console.error('Failed to send report ready notification:', e);
                     }
                 }
                 res.status(200).json({

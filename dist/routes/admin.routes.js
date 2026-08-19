@@ -79,6 +79,8 @@ router.post('/user', admin_controller_1.createUser);
  *         description: Detailed user profile retrieved successfully
  */
 router.get('/user/:id/detailed', admin_controller_1.getUserDetailedProfile);
+router.put('/user/:id', admin_controller_1.updateAdminUserProfile);
+router.post('/user/:id/notes', admin_controller_1.addUserAdminNote);
 /**
  * @swagger
  * /api/v1/admin/user/status:
@@ -475,4 +477,6 @@ router.patch('/package/:id/approve', admin_controller_1.approvePackage);
 router.patch('/package/:id/reject', admin_controller_1.rejectPackage);
 router.get('/settings', platformSettings_controller_1.getAdminSettings);
 router.put('/settings', platformSettings_controller_1.updateAdminSettings);
+router.post('/notifications/test-whatsapp', platformSettings_controller_1.testWhatsAppNotification);
+router.post('/notifications/trigger-abandoned-carts', platformSettings_controller_1.triggerAbandonedCartScan);
 exports.default = router;
