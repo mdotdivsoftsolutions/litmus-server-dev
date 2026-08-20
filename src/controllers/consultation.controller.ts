@@ -1,10 +1,24 @@
 import { Request, Response } from 'express';
 import { Consultation } from '../models/Consultation';
+import NotificationService from '../services/notification.service';
 
 export const createConsultation = async (req: Request, res: Response) => {
   try {
     const consultation = new Consultation(req.body);
     await consultation.save();
+
+    // Requirement #14: Send instant alert to configured Admin WhatsApp number
+    NotificationService.notifySupportRequest({
+      name: consultation.name,
+      phone: consultation.phone,
+      email: consultation.email,
+      business: consultation.business,
+      serviceName: consultation.serviceName,
+      message: consultation.message,
+      source: consultation.source,
+      date: consultation.createdAt ? new Date(consultation.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) : undefined,
+    }).catch(() => {});
+
     res.status(201).json({
       success: true,
       data: consultation,
@@ -16,6 +30,7 @@ export const createConsultation = async (req: Request, res: Response) => {
     });
   }
 };
+
 
 export const getConsultations = async (req: Request, res: Response) => {
   try {

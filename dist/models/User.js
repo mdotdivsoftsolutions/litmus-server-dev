@@ -100,6 +100,20 @@ const UserSchema = new mongoose_1.Schema({
     address: {
         type: mongoose_1.Schema.Types.Mixed,
     },
+    billingAddress: {
+        street: String,
+        city: String,
+        state: String,
+        pincode: String,
+        country: { type: String, default: 'India' },
+    },
+    shippingAddress: {
+        street: String,
+        city: String,
+        state: String,
+        pincode: String,
+        country: { type: String, default: 'India' },
+    },
     profilePic: {
         type: String,
         trim: true,
@@ -116,10 +130,42 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         trim: true,
     },
+    gstNumber: {
+        type: String,
+        trim: true,
+    },
     companyName: {
         type: String,
         trim: true,
     },
+    industryCategory: {
+        type: String,
+        trim: true,
+        default: 'General Food & Beverage',
+    },
+    customerSegment: {
+        type: String,
+        enum: ['INDIVIDUAL', 'FOOD_BUSINESS', 'ENTERPRISE', 'LAB_PARTNER'],
+        default: 'INDIVIDUAL',
+    },
+    alternatePhone: {
+        type: String,
+        trim: true,
+    },
+    kycStatus: {
+        type: String,
+        enum: ['PENDING', 'VERIFIED', 'REJECTED'],
+        default: 'PENDING',
+    },
+    kycVerifiedAt: {
+        type: Date,
+    },
+    adminNotes: [{
+            note: { type: String, required: true },
+            authorId: { type: String },
+            authorName: { type: String },
+            createdAt: { type: Date, default: Date.now },
+        }],
     notifications: {
         email: {
             type: Boolean,
