@@ -24,6 +24,7 @@ import consultationRoutes from './consultation.routes';
 import optionRoutes from './systemOption.routes';
 import platformSettingsRoutes from './platformSettings.routes';
 import chatRoutes from './chat.routes';
+import bulkImportRoutes from './bulkImport.routes';
 
 const router = Router();
 
@@ -31,6 +32,7 @@ const router = Router();
 router.use('/auth', authRoutes);
 router.use('/employees', employeeRoutes);
 router.use('/lab-employees', labEmployeeRoutes);
+router.use('/admin/bulk-import', bulkImportRoutes);
 router.use('/admin', adminRoutes);
 router.use('/lab-portal', labPortalRoutes);
 router.use('/categories', categoryRoutes);
