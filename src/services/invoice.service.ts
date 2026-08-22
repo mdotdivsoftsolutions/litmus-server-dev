@@ -659,25 +659,25 @@ export function generateInvoiceHtml(data: InvoiceData): string {
     <table class="items-table">
       <thead>
         <tr>
-          <th class="center" style="width: 25px;">#</th>
+          <th class="center" style="width: 30px;">#</th>
           <th>Item name</th>
           <th class="center" style="width: 80px;">HSN/ SAC</th>
-          <th class="center" style="width: 60px;">Quantity</th>
-          <th class="right" style="width: 90px;">Price/ unit</th>
-          <th class="right" style="width: 110px;">GST</th>
-          <th class="right" style="width: 90px;">Amount</th>
+          <th class="center" style="width: 65px;">Quantity</th>
+          <th class="right" style="width: 95px;">Price/ unit</th>
+          <th class="right" style="width: 125px;">GST</th>
+          <th class="right" style="width: 95px;">Amount</th>
         </tr>
       </thead>
       <tbody>
         ${itemRowsHtml}
         <tr class="items-total-row">
-          <td></td>
-          <td>Total</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td style="text-align: right;">₹ ${data.totals.totalGstAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-          <td style="text-align: right;">₹ ${data.totals.grandTotal.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 7px 6px;"></td>
+          <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 7px 6px; font-weight: bold; font-size: 13px;">Total</td>
+          <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 7px 6px;"></td>
+          <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 7px 6px;"></td>
+          <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 7px 6px;"></td>
+          <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 7px 6px; text-align: right; font-weight: bold; font-size: 13px;">₹ ${data.totals.totalGstAmount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 7px 6px; text-align: right; font-weight: bold; font-size: 13px;">₹ ${data.totals.grandTotal.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
         </tr>
       </tbody>
     </table>
