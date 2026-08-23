@@ -185,11 +185,28 @@ export function buildInvoiceData(booking: any, payment?: any): InvoiceData {
     : "KRA-149, Chittilappilly House, Krishna puram, P.O.Ollukkara, Thrissur - 680 655";
 
   // Calculate items with standard 18% GST (9% CGST + 9% SGST)
+  const itemsSum = (booking.items || []).reduce((sum: number, it: any) => sum + (Number(it.price) || 0), 0);
+  const bookingTotal = Number(booking.totalAmount) || (itemsSum > 0 ? Math.round(itemsSum * 1.18 * 100) / 100 : 0);
+
+  // If items sum already equals totalAmount, then items were stored inclusive of GST.
+  // In the standard booking flow, package price is Base Price (e.g. ₹3,000) and booking total is ₹3,540 (with 18% GST).
+  const isInclusiveInItems = itemsSum > 0 && Math.abs(itemsSum - bookingTotal) < 1;
+
   const items: InvoiceItem[] = (booking.items || []).map((item: any, index: number) => {
-    const gross = Number(item.price) || 0;
-    // Base price before 18% GST
-    const basePrice = Math.round((gross / 1.18) * 100) / 100;
-    const gstAmt = Math.round((gross - basePrice) * 100) / 100;
+    const rawPrice = Number(item.price) || 0;
+    let basePrice = 0;
+    let gstAmt = 0;
+    let totalAmt = 0;
+
+    if (isInclusiveInItems) {
+      basePrice = Math.round((rawPrice / 1.18) * 100) / 100;
+      gstAmt = Math.round((rawPrice - basePrice) * 100) / 100;
+      totalAmt = rawPrice;
+    } else {
+      basePrice = rawPrice;
+      gstAmt = Math.round((rawPrice * 0.18) * 100) / 100;
+      totalAmt = Math.round((basePrice + gstAmt) * 100) / 100;
+    }
 
     let mainTitle = "Food Testing";
     let subTitle = "";
@@ -212,23 +229,23 @@ export function buildInvoiceData(booking: any, payment?: any): InvoiceData {
       itemSubtitle: subTitle || undefined,
       sacCode: "998346",
       quantity: 1,
-      pricePerUnit: basePrice > 0 ? basePrice : gross,
+      pricePerUnit: basePrice,
       gstRate: 18.0,
-      gstAmount: gstAmt > 0 ? gstAmt : Math.round(gross * 0.18 * 100) / 100,
-      totalAmount: gross > 0 ? gross : Math.round((basePrice + gstAmt) * 100) / 100,
+      gstAmount: gstAmt,
+      totalAmount: totalAmt,
     };
   });
 
-  // If no items, generate sample placeholder item
+  // If no items, generate fallback item from totalAmount
   if (items.length === 0) {
-    const gross = Number(booking.totalAmount) || 4130;
+    const gross = Number(booking.totalAmount) || 3540;
     const basePrice = Math.round((gross / 1.18) * 100) / 100;
     const gstAmt = Math.round((gross - basePrice) * 100) / 100;
 
     items.push({
       slNo: 1,
       itemName: "Food Testing",
-      itemSubtitle: "(Nutritional Testing- Protein Bar)",
+      itemSubtitle: "(Food Testing & Nutritional Analysis)",
       sacCode: "998346",
       quantity: 1,
       pricePerUnit: basePrice,

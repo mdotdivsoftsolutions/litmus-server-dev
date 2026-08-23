@@ -162,3 +162,10 @@
 2026-08-22 12:00:16:016 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +917904592472: Authentication Error[39m
 2026-08-22 12:00:21:021 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +919994066774: Authentication Error[39m
 2026-08-22 12:00:25:025 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +09677268682: Authentication Error[39m
+2026-08-23 10:35:31:3531 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +917356924029: Authentication Error[39m
+2026-08-23 11:07:49:749 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
+2026-08-23 11:07:53:753 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
+2026-08-23 11:08:54:854 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
+2026-08-23 11:08:58:858 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
+2026-08-23 11:10:21:1021 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-08-23 11:58:36:5836 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
