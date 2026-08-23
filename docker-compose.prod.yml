@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: litmus_backend
     restart: always
+    env_file:
+      - .env
     environment:
       - NODE_ENV=production
       - PORT=5000
@@ -15,6 +17,11 @@ services:
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
       - JWT_ACCESS_EXPIRES_IN=15m
       - JWT_REFRESH_EXPIRES_IN=7d
+      - DO_SPACES_ENDPOINT=${DO_SPACES_ENDPOINT}
+      - DO_SPACES_KEY=${DO_SPACES_KEY}
+      - DO_SPACES_SECRET=${DO_SPACES_SECRET}
+      - DO_SPACES_NAME=${DO_SPACES_NAME}
+      - DO_SPACES_REGION=${DO_SPACES_REGION}
       - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
       - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
       - RAZORPAY_WEBHOOK_SECRET=${RAZORPAY_WEBHOOK_SECRET}
