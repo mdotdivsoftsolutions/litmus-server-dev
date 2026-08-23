@@ -45,6 +45,10 @@ export const createLab = async (req: Request, res: Response): Promise<void> => {
     }
 
     const lab = await Laboratory.create(req.body);
+
+    if (req.body.userId) {
+      await User.findByIdAndUpdate(req.body.userId, { labId: lab._id });
+    }
     
     if (req.body.contactEmail) {
       sendLabWelcomeEmail(

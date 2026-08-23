@@ -121,6 +121,21 @@ export class AuthService {
     }
 
     user.lastLoginAt = new Date();
+
+    if ((user.role === 'LAB' || user.role === 'LAB_EMPLOYEE') && !user.labId) {
+      const Laboratory = (await import('../models/Laboratory')).default;
+      const lab = await Laboratory.findOne({
+        $or: [{ userId: user._id }, { contactEmail: user.email.toLowerCase().trim() }]
+      });
+      if (lab) {
+        user.labId = lab._id as any;
+        if (!lab.userId && user.role === 'LAB') {
+          lab.userId = user._id as any;
+          await lab.save();
+        }
+      }
+    }
+
     await user.save();
 
     const { accessToken, refreshToken } = this.generateTokens(user);

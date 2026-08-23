@@ -6,10 +6,38 @@ import User from '../models/User';
 import Test from '../models/Test';
 import Package from '../models/Package';
 
+export const getLabForRequest = async (req: Request) => {
+  const userLabId = req.user?.labId;
+  const userId = req.user?.id;
+  if (userLabId) {
+    const lab = await Laboratory.findById(userLabId);
+    if (lab) return lab;
+  }
+  if (userId) {
+    let lab = await Laboratory.findOne({ userId });
+    if (lab) return lab;
+    const user = await User.findById(userId);
+    if (user?.email) {
+      lab = await Laboratory.findOne({ contactEmail: user.email.toLowerCase().trim() });
+      if (lab) {
+        if (!lab.userId && user.role === UserRole.LAB) {
+          lab.userId = user._id as any;
+          await lab.save();
+        }
+        if (!user.labId) {
+          user.labId = lab._id as any;
+          await user.save();
+        }
+        return lab;
+      }
+    }
+  }
+  return null;
+};
+
 export const getLabDashboardStats = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
 
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
@@ -40,8 +68,7 @@ export const getLabDashboardStats = async (req: Request, res: Response): Promise
 
 export const getMyLabBookings = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
 
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
@@ -73,11 +100,10 @@ export const getMyLabBookings = async (req: Request, res: Response): Promise<voi
 
 export const updateBookingStatus = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
     const { id } = req.params;
     const { status } = req.body;
 
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
       return;
@@ -109,8 +135,7 @@ export const updateBookingStatus = async (req: Request, res: Response): Promise<
 
 export const getMyLabProfile = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
 
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
@@ -128,8 +153,7 @@ export const getMyLabProfile = async (req: Request, res: Response): Promise<void
 
 export const updateMyLabProfile = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
 
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
@@ -156,8 +180,7 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
   try {
     const { status, collectorName, collectorContact, notifyDelay } = req.body;
     const { id } = req.params;
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
 
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
@@ -232,8 +255,7 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
 
 export const getMyLabTests = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     if (!lab) { res.status(404).json({ success: false, message: 'Laboratory not found' }); return; }
 
     const tests = await Test.find({
@@ -250,8 +272,7 @@ export const getMyLabTests = async (req: Request, res: Response): Promise<void> 
 
 export const createMyLabTest = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     if (!lab) { res.status(404).json({ success: false, message: 'Laboratory not found' }); return; }
 
     const testData = {
@@ -274,8 +295,7 @@ export const createMyLabTest = async (req: Request, res: Response): Promise<void
 
 export const updateMyLabTest = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     if (!lab) { res.status(404).json({ success: false, message: 'Laboratory not found' }); return; }
 
     const test = await Test.findOne({ _id: req.params.id, labId: lab._id });
@@ -294,7 +314,7 @@ export const updateMyLabTest = async (req: Request, res: Response): Promise<void
 export const getMyLabPackages = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found' });
@@ -304,6 +324,7 @@ export const getMyLabPackages = async (req: Request, res: Response): Promise<voi
     const packages = await Package.find({
       $or: [
         { createdBy: userId },
+        { labId: lab._id },
         { _id: { $in: lab.packages || [] } }
       ]
     }).sort('-createdAt');
@@ -317,12 +338,19 @@ export const getMyLabPackages = async (req: Request, res: Response): Promise<voi
 export const createMyLabPackage = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user?.id;
+    const lab = await getLabForRequest(req);
     const packageData = {
       ...req.body,
       createdBy: userId,
+      labId: lab?._id,
       approvalStatus: ApprovalStatus.PENDING
     };
     const newPackage = await Package.create(packageData);
+    if (lab) {
+      if (!lab.packages) lab.packages = [];
+      lab.packages.push(newPackage._id as any);
+      await lab.save();
+    }
     res.status(201).json({ success: true, data: newPackage });
   } catch (error: any) {
     res.status(400).json({ success: false, message: 'Failed to create package', error: error.message });
@@ -332,7 +360,14 @@ export const createMyLabPackage = async (req: Request, res: Response): Promise<v
 export const updateMyLabPackage = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = req.user?.id;
-    const pkg = await Package.findOne({ _id: req.params.id, createdBy: userId });
+    const lab = await getLabForRequest(req);
+    const pkg = await Package.findOne({
+      _id: req.params.id,
+      $or: [
+        { createdBy: userId },
+        ...(lab ? [{ labId: lab._id }] : [])
+      ]
+    });
     if (!pkg) { res.status(404).json({ success: false, message: 'Package not found' }); return; }
 
     Object.assign(pkg, req.body);
@@ -347,8 +382,7 @@ export const updateMyLabPackage = async (req: Request, res: Response): Promise<v
 
 export const getPlatformTests = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found' });
@@ -371,8 +405,7 @@ export const getPlatformTests = async (req: Request, res: Response): Promise<voi
 
 export const getPlatformPackages = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found' });
@@ -404,12 +437,11 @@ export const getPlatformPackages = async (req: Request, res: Response): Promise<
 
 export const addExistingTestToLab = async (req: Request, res: Response): Promise<void> => {
   try {
-    const userId = req.user?.id;
     const { testId } = req.body;
     
     if (!testId) { res.status(400).json({ success: false, message: 'testId is required' }); return; }
 
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     if (!lab) { res.status(404).json({ success: false, message: 'Laboratory not found' }); return; }
 
     const test = await Test.findById(testId);
@@ -429,18 +461,16 @@ export const addExistingTestToLab = async (req: Request, res: Response): Promise
 export const addExistingPackageToLab = async (req: Request, res: Response): Promise<void> => {
   try {
     const { packageId } = req.body;
-    const userId = req.user?.id;
     
     if (!packageId) { res.status(400).json({ success: false, message: 'packageId is required' }); return; }
 
-    const lab = await Laboratory.findOne({ userId });
+    const lab = await getLabForRequest(req);
     
     if (!lab) {
       res.status(404).json({ success: false, message: 'Laboratory not found' });
       return;
     }
 
-    // Initialize packages array if it doesn't exist
     if (!lab.packages) {
       lab.packages = [];
     }
