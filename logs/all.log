@@ -30936,3 +30936,45 @@
 2026-08-23 10:49:53:4953 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 529.938 ms - -[0m[39m
 2026-08-23 10:49:56:4956 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 529.929 ms - -[0m[39m
 2026-08-23 10:50:27:5027 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 530.364 ms - -[0m[39m
+2026-08-23 10:50:58:5058 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 533.871 ms - -[0m[39m
+2026-08-23 10:51:30:5130 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 529.553 ms - -[0m[39m
+2026-08-23 10:51:50:5150 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 268.899 ms - 1227[0m[39m
+2026-08-23 10:51:51:5151 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 518.336 ms - -[0m[39m
+2026-08-23 10:51:54:5154 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 262.714 ms - -[0m[39m
+2026-08-23 10:51:54:5154 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 269.702 ms - -[0m[39m
+2026-08-23 10:51:55:5155 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=10 [36m304[0m 787.141 ms - -[0m[39m
+2026-08-23 10:51:57:5157 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 272.696 ms - -[0m[39m
+2026-08-23 10:51:58:5158 [32minfo[39m: [32m[0mGET /api/v1/packages?search=&page=1&limit=12 [32m200[0m 1069.233 ms - 20948[0m[39m
+2026-08-23 10:51:58:5158 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 541.317 ms - -[0m[39m
+2026-08-23 10:51:58:5158 [32minfo[39m: [32m[0mGET /api/v1/labs?search=&page=1&limit=12 [32m200[0m 530.142 ms - 8316[0m[39m
+2026-08-23 10:52:01:521 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 533.034 ms - -[0m[39m
+2026-08-23 10:52:01:521 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.104 ms - -[0m[39m
+2026-08-23 10:52:01:521 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 292.376 ms - -[0m[39m
+2026-08-23 10:52:02:522 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=10 [36m304[0m 818.394 ms - -[0m[39m
+2026-08-23 10:52:02:522 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 268.334 ms - -[0m[39m
+2026-08-23 10:52:02:522 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 532.793 ms - -[0m[39m
+2026-08-23 10:52:03:523 [32minfo[39m: [32m[0mGET /api/v1/packages?search=&page=1&limit=12 [36m304[0m 1065.627 ms - -[0m[39m
+2026-08-23 10:52:32:5232 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 531.217 ms - -[0m[39m
+2026-08-23 10:52:59:5259 [32minfo[39m: [32m[Socket Connected] id=A-l8w-6v5kwLVhY8AAAH isAgent=false userId=Guest[39m
+2026-08-23 10:53:00:530 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 270.293 ms - -[0m[39m
+2026-08-23 10:53:00:530 [32minfo[39m: [32m[Socket Connected] id=spuP_jRbnP06RTczAAAJ isAgent=false userId=Guest[39m
+2026-08-23 10:53:00:530 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 534.901 ms - -[0m[39m
+2026-08-23 10:53:03:533 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 534.279 ms - -[0m[39m
+2026-08-23 10:53:34:5334 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 531.846 ms - -[0m[39m
+2026-08-23 10:54:04:544 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 535.679 ms - -[0m[39m
+2026-08-23 10:54:35:5435 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 531.898 ms - -[0m[39m
+2026-08-23 10:54:43:5443 [32minfo[39m: [32m[Queue SLA] Expired 1 unattended sessions to MISSED[39m
+2026-08-23 10:55:05:555 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 531.573 ms - -[0m[39m
+2026-08-23 10:55:36:5536 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 528.080 ms - -[0m[39m
+2026-08-23 10:56:07:567 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 529.768 ms - -[0m[39m
+2026-08-23 10:56:17:5617 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 265.430 ms - -[0m[39m
+2026-08-23 10:56:17:5617 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 539.980 ms - -[0m[39m
+2026-08-23 10:56:26:5626 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 267.892 ms - -[0m[39m
+2026-08-23 10:56:27:5627 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 530.220 ms - -[0m[39m
+2026-08-23 10:56:33:5633 [32minfo[39m: [32m[0mGET /api/v1/tests?client=%5Bobject+Object%5D&queryKey%5B%5D=adminTests&signal=%5Bobject+AbortSignal%5D [32m200[0m 1603.094 ms - 67123[0m[39m
+2026-08-23 10:56:37:5637 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 550.204 ms - -[0m[39m
+2026-08-23 10:57:08:578 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 531.774 ms - -[0m[39m
+2026-08-23 10:57:38:5738 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 528.938 ms - -[0m[39m
+2026-08-23 10:58:09:589 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 530.641 ms - -[0m[39m
+2026-08-23 10:58:39:5839 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 536.568 ms - -[0m[39m
+2026-08-23 10:59:10:5910 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 531.947 ms - -[0m[39m
