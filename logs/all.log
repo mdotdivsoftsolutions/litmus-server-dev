@@ -30473,3 +30473,82 @@
 2026-08-22 13:44:48:4448 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=18PkeR-fAlkoOBhxAAAD][39m
 2026-08-22 13:44:50:4450 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-08-22 13:44:50:4450 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-22 13:45:45:4545 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-22 13:45:46:4546 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-22 13:45:46:4546 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-22 13:45:46:4546 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-22 13:45:46:4546 [32minfo[39m: [32m[Socket Connected] id=qYYh1Zd33Uj7zqkEAAAC isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-22 13:45:46:4546 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=qYYh1Zd33Uj7zqkEAAAC][39m
+2026-08-22 13:45:46:4546 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=qYYh1Zd33Uj7zqkEAAAC][39m
+2026-08-22 13:45:46:4546 [32minfo[39m: [32m[Socket Connected] id=WE_H1I4Vt4TVKKZwAAAD isAgent=false userId=Guest[39m
+2026-08-22 13:45:48:4548 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-22 13:45:48:4548 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-22 13:48:26:4826 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.479 ms - -[0m[39m
+2026-08-22 13:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 779.041 ms - -[0m[39m
+2026-08-22 13:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 789.148 ms - -[0m[39m
+2026-08-22 13:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 795.794 ms - -[0m[39m
+2026-08-22 13:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 795.462 ms - -[0m[39m
+2026-08-22 13:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 550.539 ms - -[0m[39m
+2026-08-22 13:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 262.828 ms - -[0m[39m
+2026-08-22 13:48:27:4827 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 262.655 ms - -[0m[39m
+2026-08-22 13:48:28:4828 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [36m304[0m 531.103 ms - -[0m[39m
+2026-08-22 13:48:28:4828 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1713.816 ms - -[0m[39m
+2026-08-22 13:51:49:5149 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [33m401[0m 0.703 ms - 65[0m[39m
+2026-08-22 13:51:50:5150 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 615.879 ms - 255[0m[39m
+2026-08-22 13:51:50:5150 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [36m304[0m 526.991 ms - -[0m[39m
+2026-08-22 13:52:17:5217 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 265.780 ms - 586[0m[39m
+2026-08-22 13:52:17:5217 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 805.103 ms - -[0m[39m
+2026-08-22 13:52:17:5217 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 817.123 ms - -[0m[39m
+2026-08-22 13:52:17:5217 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 811.949 ms - -[0m[39m
+2026-08-22 13:52:17:5217 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 809.918 ms - -[0m[39m
+2026-08-22 13:52:17:5217 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 555.948 ms - -[0m[39m
+2026-08-22 13:52:17:5217 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 814.135 ms - -[0m[39m
+2026-08-22 13:52:18:5218 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 290.441 ms - -[0m[39m
+2026-08-22 13:52:18:5218 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 292.042 ms - -[0m[39m
+2026-08-22 13:52:18:5218 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [36m304[0m 557.507 ms - -[0m[39m
+2026-08-22 13:52:30:5230 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 315.211 ms - -[0m[39m
+2026-08-22 13:52:30:5230 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 820.626 ms - -[0m[39m
+2026-08-22 13:52:30:5230 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 827.310 ms - -[0m[39m
+2026-08-22 13:52:30:5230 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 825.585 ms - -[0m[39m
+2026-08-22 13:52:30:5230 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 518.657 ms - -[0m[39m
+2026-08-22 13:52:30:5230 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 826.055 ms - -[0m[39m
+2026-08-22 13:52:30:5230 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 831.479 ms - -[0m[39m
+2026-08-22 13:52:31:5231 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 279.120 ms - -[0m[39m
+2026-08-22 13:52:31:5231 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 282.681 ms - -[0m[39m
+2026-08-22 13:52:31:5231 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [36m304[0m 535.145 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [36m304[0m 570.130 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 301.363 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 812.697 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 807.242 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 807.116 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 517.642 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 812.003 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 599.395 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 282.106 ms - -[0m[39m
+2026-08-22 13:52:43:5243 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 317.320 ms - -[0m[39m
+2026-08-22 13:53:32:5332 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.649 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 774.166 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 773.354 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 775.780 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 778.950 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 780.339 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 536.021 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 259.280 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 260.344 ms - -[0m[39m
+2026-08-22 13:53:33:5333 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [36m304[0m 519.995 ms - -[0m[39m
+2026-08-22 13:54:03:543 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 531.751 ms - -[0m[39m
+2026-08-22 13:54:34:5434 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 532.235 ms - -[0m[39m
+2026-08-22 13:55:04:554 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 526.979 ms - -[0m[39m
+2026-08-22 13:55:35:5535 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 533.979 ms - -[0m[39m
+2026-08-22 13:56:05:565 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 529.520 ms - -[0m[39m
+2026-08-22 13:56:46:5646 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 263.361 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 782.836 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/tags [36m304[0m 777.178 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/test-types [36m304[0m 777.752 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/logistics [36m304[0m 783.737 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/infrastructure [36m304[0m 784.698 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/activity-status [36m304[0m 544.090 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/options?category=DEPARTMENT [36m304[0m 262.443 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/options?category=DESIGNATION [36m304[0m 260.144 ms - -[0m[39m
+2026-08-22 13:56:47:5647 [32minfo[39m: [32m[0mGET /api/v1/admin/settings [36m304[0m 519.837 ms - -[0m[39m
+2026-08-22 13:57:17:5717 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 539.082 ms - -[0m[39m
