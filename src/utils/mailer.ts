@@ -203,17 +203,40 @@ function renderLitmusEmailLayout({
   `.trim();
 }
 
+function htmlToPlainText(html: string): string {
+  return html
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&bull;/g, '•')
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Generic Email Dispatch Helper
 // ─────────────────────────────────────────────────────────────────────────────
 const sendGenericEmail = async (to: string, subject: string, html: string, attachments: any[] = []) => {
   try {
+    const text = htmlToPlainText(html);
+    const replyToAddress = process.env.SMTP_FROM || 'support@litmuslabs.in';
+
     const info = await transporter.sendMail({
       from: DEFAULT_SENDER,
       to,
+      replyTo: replyToAddress,
       subject,
+      text,
       html,
       attachments,
+      headers: {
+        'X-Entity-Ref-ID': Date.now().toString(),
+        'X-Mailer': 'Litmus Diagnostic Notification Engine',
+      },
     });
     logger.info(`[Mailer] Message sent to ${to} | Subject: "${subject}" | ID: ${info.messageId}`);
     return true;
