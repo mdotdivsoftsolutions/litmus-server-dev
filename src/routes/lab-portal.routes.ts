@@ -133,6 +133,8 @@ router.post('/tests', createMyLabTest);
 router.put('/tests/:id', updateMyLabTest);
 
 // Package management
+router.get('/platform-packages', getPlatformPackages);
+router.post('/packages/add-existing', addExistingPackageToLab);
 router.get('/packages', getMyLabPackages);
 router.post('/packages', createMyLabPackage);
 router.put('/packages/:id', updateMyLabPackage);

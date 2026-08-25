@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -101,6 +134,19 @@ class AuthService {
             throw new Error('Invalid credentials');
         }
         user.lastLoginAt = new Date();
+        if ((user.role === 'LAB' || user.role === 'LAB_EMPLOYEE') && !user.labId) {
+            const Laboratory = (await Promise.resolve().then(() => __importStar(require('../models/Laboratory')))).default;
+            const lab = await Laboratory.findOne({
+                $or: [{ userId: user._id }, { contactEmail: user.email.toLowerCase().trim() }]
+            });
+            if (lab) {
+                user.labId = lab._id;
+                if (!lab.userId && user.role === 'LAB') {
+                    lab.userId = user._id;
+                    await lab.save();
+                }
+            }
+        }
         await user.save();
         const { accessToken, refreshToken } = this.generateTokens(user);
         const userResponse = {

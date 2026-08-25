@@ -169,3 +169,11 @@
 2026-08-23 11:08:58:858 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
 2026-08-23 11:10:21:1021 [31merror[39m: [31mLogin Error: Invalid credentials[39m
 2026-08-23 11:58:36:5836 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
+2026-08-25 09:41:44:4144 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-08-25 09:41:48:4148 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-08-25 09:41:58:4158 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-08-25 09:49:33:4933 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
+2026-08-25 09:49:33:4933 [31merror[39m: [31mRefreshToken Error: Invalid refresh token[39m
+2026-08-25 09:52:39:5239 [31merror[39m: [31mForgotPassword Error: User not found[39m
+2026-08-25 09:52:54:5254 [31merror[39m: [31mForgotPassword Error: User not found[39m
+2026-08-25 10:15:59:1559 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +07356924029: Authentication Error[39m

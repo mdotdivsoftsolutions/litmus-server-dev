@@ -416,19 +416,35 @@ export const getPlatformPackages = async (req: Request, res: Response): Promise<
     const adminUserIds = adminUsers.map(u => u._id);
     const adminUserIdStrings = adminUsers.map(u => u._id.toString());
     
-    if (adminUserIds.length === 0) {
-      res.status(404).json({ success: false, message: 'Admin user not found' });
-      return;
-    }
-
-    const packages = await Package.find({
-      createdBy: { $in: [...adminUserIds, ...adminUserIdStrings] },
+    const query: any = {
       _id: { $nin: lab.packages || [] },
       $or: [
         { approvalStatus: ApprovalStatus.APPROVED },
         { approvalStatus: { $exists: false } }
       ]
-    }).populate('tests', 'testName price offerPrice').sort('-createdAt');
+    };
+
+    if (adminUserIds.length > 0) {
+      query.$and = [
+        {
+          $or: [
+            { createdBy: { $in: [...adminUserIds, ...adminUserIdStrings] } },
+            { createdBy: { $exists: false } },
+            { createdBy: null },
+            { labId: { $exists: false } },
+            { labId: null }
+          ]
+        }
+      ];
+    } else {
+      query.$or = [
+        ...(query.$or || []),
+        { labId: { $exists: false } },
+        { labId: null }
+      ];
+    }
+
+    const packages = await Package.find(query).populate('tests', 'testName price offerPrice').sort('-createdAt');
     res.status(200).json({ success: true, data: packages });
   } catch (error: any) {
     res.status(500).json({ success: false, message: 'Failed to fetch platform packages', error: error.message });

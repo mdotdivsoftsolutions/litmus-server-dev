@@ -76,6 +76,9 @@ const createLab = async (req, res) => {
             return;
         }
         const lab = await Laboratory_1.default.create(req.body);
+        if (req.body.userId) {
+            await User_1.default.findByIdAndUpdate(req.body.userId, { labId: lab._id });
+        }
         if (req.body.contactEmail) {
             (0, mailer_1.sendLabWelcomeEmail)(req.body.contactEmail, req.body.labName, generatedPassword || undefined);
         }

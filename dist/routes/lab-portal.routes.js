@@ -126,6 +126,8 @@ router.get('/tests', lab_portal_controller_1.getMyLabTests);
 router.post('/tests', lab_portal_controller_1.createMyLabTest);
 router.put('/tests/:id', lab_portal_controller_1.updateMyLabTest);
 // Package management
+router.get('/platform-packages', lab_portal_controller_1.getPlatformPackages);
+router.post('/packages/add-existing', lab_portal_controller_1.addExistingPackageToLab);
 router.get('/packages', lab_portal_controller_1.getMyLabPackages);
 router.post('/packages', lab_portal_controller_1.createMyLabPackage);
 router.put('/packages/:id', lab_portal_controller_1.updateMyLabPackage);

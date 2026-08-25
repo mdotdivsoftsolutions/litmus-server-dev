@@ -36,17 +36,47 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addExistingPackageToLab = exports.addExistingTestToLab = exports.getPlatformPackages = exports.getPlatformTests = exports.updateMyLabPackage = exports.createMyLabPackage = exports.getMyLabPackages = exports.updateMyLabTest = exports.createMyLabTest = exports.getMyLabTests = exports.updateCollectionDetails = exports.updateMyLabProfile = exports.getMyLabProfile = exports.updateBookingStatus = exports.getMyLabBookings = exports.getLabDashboardStats = void 0;
+exports.addExistingPackageToLab = exports.addExistingTestToLab = exports.getPlatformPackages = exports.getPlatformTests = exports.updateMyLabPackage = exports.createMyLabPackage = exports.getMyLabPackages = exports.updateMyLabTest = exports.createMyLabTest = exports.getMyLabTests = exports.updateCollectionDetails = exports.updateMyLabProfile = exports.getMyLabProfile = exports.updateBookingStatus = exports.getMyLabBookings = exports.getLabDashboardStats = exports.getLabForRequest = void 0;
 const Laboratory_1 = __importDefault(require("../models/Laboratory"));
 const Booking_1 = __importDefault(require("../models/Booking"));
 const types_1 = require("../types");
 const User_1 = __importDefault(require("../models/User"));
 const Test_1 = __importDefault(require("../models/Test"));
 const Package_1 = __importDefault(require("../models/Package"));
+const getLabForRequest = async (req) => {
+    const userLabId = req.user?.labId;
+    const userId = req.user?.id;
+    if (userLabId) {
+        const lab = await Laboratory_1.default.findById(userLabId);
+        if (lab)
+            return lab;
+    }
+    if (userId) {
+        let lab = await Laboratory_1.default.findOne({ userId });
+        if (lab)
+            return lab;
+        const user = await User_1.default.findById(userId);
+        if (user?.email) {
+            lab = await Laboratory_1.default.findOne({ contactEmail: user.email.toLowerCase().trim() });
+            if (lab) {
+                if (!lab.userId && user.role === types_1.UserRole.LAB) {
+                    lab.userId = user._id;
+                    await lab.save();
+                }
+                if (!user.labId) {
+                    user.labId = lab._id;
+                    await user.save();
+                }
+                return lab;
+            }
+        }
+    }
+    return null;
+};
+exports.getLabForRequest = getLabForRequest;
 const getLabDashboardStats = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
             return;
@@ -74,8 +104,7 @@ const getLabDashboardStats = async (req, res) => {
 exports.getLabDashboardStats = getLabDashboardStats;
 const getMyLabBookings = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
             return;
@@ -105,10 +134,9 @@ const getMyLabBookings = async (req, res) => {
 exports.getMyLabBookings = getMyLabBookings;
 const updateBookingStatus = async (req, res) => {
     try {
-        const userId = req.user?.id;
         const { id } = req.params;
         const { status } = req.body;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
             return;
@@ -137,8 +165,7 @@ const updateBookingStatus = async (req, res) => {
 exports.updateBookingStatus = updateBookingStatus;
 const getMyLabProfile = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
             return;
@@ -155,8 +182,7 @@ const getMyLabProfile = async (req, res) => {
 exports.getMyLabProfile = getMyLabProfile;
 const updateMyLabProfile = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
             return;
@@ -177,8 +203,7 @@ const updateCollectionDetails = async (req, res) => {
     try {
         const { status, collectorName, collectorContact, notifyDelay } = req.body;
         const { id } = req.params;
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found for this user' });
             return;
@@ -249,8 +274,7 @@ const updateCollectionDetails = async (req, res) => {
 exports.updateCollectionDetails = updateCollectionDetails;
 const getMyLabTests = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
@@ -270,8 +294,7 @@ const getMyLabTests = async (req, res) => {
 exports.getMyLabTests = getMyLabTests;
 const createMyLabTest = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
@@ -295,8 +318,7 @@ const createMyLabTest = async (req, res) => {
 exports.createMyLabTest = createMyLabTest;
 const updateMyLabTest = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
@@ -319,7 +341,7 @@ exports.updateMyLabTest = updateMyLabTest;
 const getMyLabPackages = async (req, res) => {
     try {
         const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
@@ -327,6 +349,7 @@ const getMyLabPackages = async (req, res) => {
         const packages = await Package_1.default.find({
             $or: [
                 { createdBy: userId },
+                { labId: lab._id },
                 { _id: { $in: lab.packages || [] } }
             ]
         }).sort('-createdAt');
@@ -340,12 +363,20 @@ exports.getMyLabPackages = getMyLabPackages;
 const createMyLabPackage = async (req, res) => {
     try {
         const userId = req.user?.id;
+        const lab = await (0, exports.getLabForRequest)(req);
         const packageData = {
             ...req.body,
             createdBy: userId,
+            labId: lab?._id,
             approvalStatus: types_1.ApprovalStatus.PENDING
         };
         const newPackage = await Package_1.default.create(packageData);
+        if (lab) {
+            if (!lab.packages)
+                lab.packages = [];
+            lab.packages.push(newPackage._id);
+            await lab.save();
+        }
         res.status(201).json({ success: true, data: newPackage });
     }
     catch (error) {
@@ -356,7 +387,14 @@ exports.createMyLabPackage = createMyLabPackage;
 const updateMyLabPackage = async (req, res) => {
     try {
         const userId = req.user?.id;
-        const pkg = await Package_1.default.findOne({ _id: req.params.id, createdBy: userId });
+        const lab = await (0, exports.getLabForRequest)(req);
+        const pkg = await Package_1.default.findOne({
+            _id: req.params.id,
+            $or: [
+                { createdBy: userId },
+                ...(lab ? [{ labId: lab._id }] : [])
+            ]
+        });
         if (!pkg) {
             res.status(404).json({ success: false, message: 'Package not found' });
             return;
@@ -373,8 +411,7 @@ const updateMyLabPackage = async (req, res) => {
 exports.updateMyLabPackage = updateMyLabPackage;
 const getPlatformTests = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
@@ -396,8 +433,7 @@ const getPlatformTests = async (req, res) => {
 exports.getPlatformTests = getPlatformTests;
 const getPlatformPackages = async (req, res) => {
     try {
-        const userId = req.user?.id;
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
@@ -405,18 +441,34 @@ const getPlatformPackages = async (req, res) => {
         const adminUsers = await User_1.default.find({ role: types_1.UserRole.ADMIN });
         const adminUserIds = adminUsers.map(u => u._id);
         const adminUserIdStrings = adminUsers.map(u => u._id.toString());
-        if (adminUserIds.length === 0) {
-            res.status(404).json({ success: false, message: 'Admin user not found' });
-            return;
-        }
-        const packages = await Package_1.default.find({
-            createdBy: { $in: [...adminUserIds, ...adminUserIdStrings] },
+        const query = {
             _id: { $nin: lab.packages || [] },
             $or: [
                 { approvalStatus: types_1.ApprovalStatus.APPROVED },
                 { approvalStatus: { $exists: false } }
             ]
-        }).populate('tests', 'testName price offerPrice').sort('-createdAt');
+        };
+        if (adminUserIds.length > 0) {
+            query.$and = [
+                {
+                    $or: [
+                        { createdBy: { $in: [...adminUserIds, ...adminUserIdStrings] } },
+                        { createdBy: { $exists: false } },
+                        { createdBy: null },
+                        { labId: { $exists: false } },
+                        { labId: null }
+                    ]
+                }
+            ];
+        }
+        else {
+            query.$or = [
+                ...(query.$or || []),
+                { labId: { $exists: false } },
+                { labId: null }
+            ];
+        }
+        const packages = await Package_1.default.find(query).populate('tests', 'testName price offerPrice').sort('-createdAt');
         res.status(200).json({ success: true, data: packages });
     }
     catch (error) {
@@ -426,13 +478,12 @@ const getPlatformPackages = async (req, res) => {
 exports.getPlatformPackages = getPlatformPackages;
 const addExistingTestToLab = async (req, res) => {
     try {
-        const userId = req.user?.id;
         const { testId } = req.body;
         if (!testId) {
             res.status(400).json({ success: false, message: 'testId is required' });
             return;
         }
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
@@ -456,17 +507,15 @@ exports.addExistingTestToLab = addExistingTestToLab;
 const addExistingPackageToLab = async (req, res) => {
     try {
         const { packageId } = req.body;
-        const userId = req.user?.id;
         if (!packageId) {
             res.status(400).json({ success: false, message: 'packageId is required' });
             return;
         }
-        const lab = await Laboratory_1.default.findOne({ userId });
+        const lab = await (0, exports.getLabForRequest)(req);
         if (!lab) {
             res.status(404).json({ success: false, message: 'Laboratory not found' });
             return;
         }
-        // Initialize packages array if it doesn't exist
         if (!lab.packages) {
             lab.packages = [];
         }
