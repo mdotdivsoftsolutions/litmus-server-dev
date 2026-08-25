@@ -157,6 +157,7 @@ export class NotificationService {
         await sendSampleReceivedEmail(params.customerEmail, {
           customerName: params.customerName,
           bookingId: params.bookingId,
+          labName: params.labName,
           receivedDate: params.receivedDate || new Date().toLocaleDateString('en-IN'),
         });
       }
@@ -199,6 +200,10 @@ export class NotificationService {
         await sendSampleCollectedEmail(params.customerEmail, {
           customerName: params.customerName,
           bookingId: params.bookingId,
+          collectorName: params.collectorName,
+          collectorPhone: params.collectorPhone,
+          trackingId: params.trackingId,
+          courierName: params.courierName,
         });
       }
 

@@ -1,110 +1,31 @@
 import nodemailer from 'nodemailer';
 import logger from './logger';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Brevo (Sendinblue) & Standard SMTP Transporter Configuration
+// ─────────────────────────────────────────────────────────────────────────────
+const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10);
+const isSecure = smtpPort === 465;
+
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_PORT === '465', // true for 465, false for other ports
+  host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
+  port: smtpPort,
+  secure: isSecure,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  pool: true,
+  maxConnections: 5,
+  maxMessages: 100,
 });
 
-export const sendOtpEmail = async (to: string, otp: string) => {
-  try {
-    const info = await transporter.sendMail({
-      from: `"Litmus Support" <${process.env.SMTP_FROM || 'noreply@litmus.example.com'}>`,
-      to,
-      subject: 'Your Litmus Registration OTP',
-      text: `Your OTP for registration is: ${otp}. It is valid for 10 minutes.`,
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px;">
-          <h2>Litmus Registration</h2>
-          <p>Your OTP for registration is: <strong>${otp}</strong></p>
-          <p>This OTP is valid for 10 minutes.</p>
-          <p>If you didn't request this, you can safely ignore this email.</p>
-        </div>
-      `,
-    });
-    logger.info(`Message sent: ${info.messageId}`);
-    return true;
-  } catch (error: any) {
-    logger.error(`Error sending email: ${error.message}`);
-    // If SMTP is not configured properly, log the OTP in dev mode so the developer can proceed
-    if (process.env.NODE_ENV === 'development') {
-        logger.info(`DEV MODE: OTP for ${to} is ${otp}`);
-        return true;
-    }
-    throw new Error('Could not send OTP email. Please try again later.');
-  }
-};
+const DEFAULT_SENDER = `"Litmus Food Analytics" <${process.env.SMTP_FROM || 'noreply@litmustest.in'}>`;
+const SITE_URL = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-export const sendLabWelcomeEmail = async (to: string, labName: string, plainPassword?: string) => {
-  try {
-    const loginUrl = process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/login` : 'http://localhost:5173/login';
-    
-    const htmlContent = `
-      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <div style="text-align: center; margin-bottom: 25px;">
-          <h1 style="color: #0f172a; margin: 0;">Welcome to Litmus!</h1>
-          <p style="color: #64748b; font-size: 16px; margin-top: 5px;">Your Official Diagnostic Partner</p>
-        </div>
-        
-        <div style="background-color: #f8fafc; padding: 20px; border-radius: 6px; margin-bottom: 25px;">
-          <p style="color: #334155; font-size: 16px; margin-top: 0;">Hello <strong>${labName}</strong>,</p>
-          <p style="color: #334155; font-size: 16px; line-height: 1.5;">You have been officially onboarded to the Litmus platform! We are thrilled to have you as a partner in delivering top-tier diagnostic services.</p>
-        </div>
-
-        <h3 style="color: #0f172a; margin-bottom: 15px;">Your Account Credentials</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; background-color: #f1f5f9; width: 120px; font-weight: bold; color: #475569;">Email / Login</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #0f172a;">${to}</td>
-          </tr>
-          ${plainPassword ? `
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; background-color: #f1f5f9; font-weight: bold; color: #475569;">Password</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #0f172a;"><strong>${plainPassword}</strong></td>
-          </tr>
-          ` : `
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; background-color: #f1f5f9; font-weight: bold; color: #475569;">Password</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #0f172a;"><em>Provided separately or set previously</em></td>
-          </tr>
-          `}
-        </table>
-
-        <div style="text-align: center; margin-bottom: 30px;">
-          <a href="${loginUrl}" style="background-color: #059669; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Access Your Account</a>
-        </div>
-
-        <div style="border-top: 1px solid #e2e8f0; padding-top: 20px; color: #64748b; font-size: 13px; text-align: center;">
-          <p style="margin: 0;">If you have any questions or need assistance, please contact our support team.</p>
-          <p style="margin: 5px 0 0 0;">© ${new Date().getFullYear()} Litmus. All rights reserved.</p>
-        </div>
-      </div>
-    `;
-
-    const info = await transporter.sendMail({
-      from: `"Litmus Platform" <${process.env.SMTP_FROM || 'noreply@litmus.example.com'}>`,
-      to,
-      subject: 'Welcome to the Litmus Platform - Your Account Credentials',
-      html: htmlContent,
-    });
-    logger.info(`Welcome email sent: ${info.messageId}`);
-    return true;
-  } catch (error: any) {
-    logger.error(`Error sending welcome email: ${error.message}`);
-    if (process.env.NODE_ENV === 'development') {
-        logger.info(`DEV MODE: Welcome email logic executed for ${to}`);
-        return true;
-    }
-    // Return false instead of throwing so it doesn't break the creation flow
-    return false;
-  }
-};
-
+// ─────────────────────────────────────────────────────────────────────────────
+// Customer Data Interface
+// ─────────────────────────────────────────────────────────────────────────────
 export interface CustomerEmailData {
   customerName: string;
   bookingId?: string;
@@ -113,209 +34,603 @@ export interface CustomerEmailData {
   sampleQty?: string;
   bookingDate?: string;
   receivedDate?: string;
-  amount?: string;
+  amount?: string | number;
   expectedDate?: string;
+  labName?: string;
+  collectorName?: string;
+  collectorPhone?: string;
+  trackingId?: string;
+  courierName?: string;
+  reportUrl?: string;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Master Litmus Email Layout (Netflix-Style Clean Minimalist Structure)
+// ─────────────────────────────────────────────────────────────────────────────
+interface EmailLayoutOptions {
+  title: string;
+  headline: string;
+  recipientName: string;
+  introText: string;
+  calloutHtml?: string;
+  ctaText?: string;
+  ctaUrl?: string;
+  secondaryHtml?: string;
+  recipientEmail: string;
+}
+
+function renderLitmusEmailLayout({
+  title,
+  headline,
+  recipientName,
+  introText,
+  calloutHtml,
+  ctaText,
+  ctaUrl,
+  secondaryHtml,
+  recipientEmail,
+}: EmailLayoutOptions): string {
+  const currentYear = new Date().getFullYear();
+  const helpUrl = `${SITE_URL}/help`;
+  const termsUrl = `${SITE_URL}/terms`;
+  const privacyUrl = `${SITE_URL}/privacy`;
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${title}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f6f8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f6f8; padding: 36px 12px;">
+    <tr>
+      <td align="center">
+        <!-- Main Card Container -->
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 580px; width: 100%; background-color: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);">
+          
+          <!-- Header Bar -->
+          <tr>
+            <td style="padding: 32px 36px 20px 36px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="left">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="vertical-align: middle;">
+                          <div style="background-color: #004B60; color: #ffffff; width: 36px; height: 36px; border-radius: 8px; text-align: center; line-height: 36px; font-weight: 900; font-size: 20px;">L</div>
+                        </td>
+                        <td style="vertical-align: middle; padding-left: 10px;">
+                          <span style="font-size: 22px; font-weight: 800; color: #004B60; letter-spacing: -0.4px;">litmus</span>
+                          <span style="font-size: 9px; font-weight: 700; color: #64748b; display: block; text-transform: uppercase; letter-spacing: 0.8px; margin-top: -2px;">Food Analytics &amp; Diagnostics</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="padding: 0 36px 36px 36px;">
+              <!-- Headline -->
+              <h1 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 16px 0; line-height: 1.3; letter-spacing: -0.3px;">
+                ${headline}
+              </h1>
+
+              <!-- Greeting -->
+              <p style="font-size: 14px; font-weight: 600; color: #334155; margin: 0 0 12px 0;">
+                Hi ${recipientName || 'there'},
+              </p>
+
+              <!-- Intro Message -->
+              <p style="font-size: 14px; line-height: 1.6; color: #475569; margin: 0 0 20px 0;">
+                ${introText}
+              </p>
+
+              <!-- Highlighted Callout Box (If present) -->
+              ${calloutHtml ? `
+              <div style="margin: 0 0 24px 0;">
+                ${calloutHtml}
+              </div>
+              ` : ''}
+
+              <!-- Primary CTA Button (If present) -->
+              ${ctaText && ctaUrl ? `
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0 0 24px 0;">
+                <tr>
+                  <td align="left">
+                    <a href="${ctaUrl}" target="_blank" style="background-color: #004B60; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 13px 28px; border-radius: 8px; display: inline-block; text-align: center; box-shadow: 0 2px 6px rgba(0, 75, 96, 0.25);">
+                      ${ctaText}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              ` : ''}
+
+              <!-- Secondary Details / Security Notice (If present) -->
+              ${secondaryHtml ? `
+              <div style="font-size: 12px; line-height: 1.6; color: #64748b; margin: 0 0 20px 0;">
+                ${secondaryHtml}
+              </div>
+              ` : ''}
+
+              <!-- Sign-off -->
+              <div style="border-top: 1px solid #f1f5f9; padding-top: 20px; font-size: 13px; color: #475569;">
+                <p style="margin: 0 0 2px 0; font-weight: 600;">We&apos;re here to help,</p>
+                <p style="margin: 0; color: #004B60; font-weight: 700;">The Litmus Quality Assurance Team</p>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Footer Area -->
+          <tr>
+            <td style="background-color: #f8fafc; padding: 24px 36px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #94a3b8; line-height: 1.6;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="left" style="padding-bottom: 12px;">
+                    <a href="${helpUrl}" style="color: #64748b; text-decoration: none; font-weight: 600; margin-right: 14px;">Help Center</a>
+                    <a href="${termsUrl}" style="color: #64748b; text-decoration: none; font-weight: 600; margin-right: 14px;">Terms of Service</a>
+                    <a href="${privacyUrl}" style="color: #64748b; text-decoration: none; font-weight: 600;">Privacy Policy</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left">
+                    <p style="margin: 0 0 4px 0;">This transactional message was sent to <strong style="color: #64748b;">${recipientEmail}</strong> as part of your Litmus account activity.</p>
+                    <p style="margin: 0;">&copy; ${currentYear} Litmus Food Analytics. All rights reserved.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Generic Email Dispatch Helper
+// ─────────────────────────────────────────────────────────────────────────────
 const sendGenericEmail = async (to: string, subject: string, html: string) => {
   try {
     const info = await transporter.sendMail({
-      from: `"Litmus Food Analytics" <${process.env.SMTP_FROM || 'noreply@litmus.example.com'}>`,
+      from: DEFAULT_SENDER,
       to,
       subject,
       html,
     });
-    logger.info(`Email sent: ${info.messageId}`);
+    logger.info(`[Mailer] Message sent to ${to} | Subject: "${subject}" | ID: ${info.messageId}`);
     return true;
   } catch (error: any) {
-    logger.error(`Error sending email: ${error.message}`);
+    logger.error(`[Mailer] Error sending email to ${to}: ${error.message}`);
     if (process.env.NODE_ENV === 'development') {
-        logger.info(`DEV MODE: Email logic executed for ${to} | Subject: ${subject}`);
-        return true;
+      logger.info(`[Mailer] DEV MODE: Email logic executed for ${to} | Subject: "${subject}"`);
+      return true;
     }
     return false;
   }
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 1. Registration / Login OTP Email (Netflix-Style Access Code)
+// ─────────────────────────────────────────────────────────────────────────────
+export const sendOtpEmail = async (to: string, otp: string) => {
+  const subject = `Your Litmus verification code: ${otp}`;
+  const html = renderLitmusEmailLayout({
+    title: 'Your Litmus Verification Code',
+    headline: 'Your temporary verification code',
+    recipientName: 'Valued User',
+    introText: 'We received a request to verify your email address on Litmus Food Analytics. Use the temporary access code below to complete your verification.',
+    calloutHtml: `
+      <div style="background-color: #f0f7f9; border: 1.5px dashed #004B60; border-radius: 10px; padding: 22px; text-align: center;">
+        <div style="font-size: 32px; font-weight: 900; letter-spacing: 8px; color: #004B60; font-family: monospace; line-height: 1;">
+          ${otp}
+        </div>
+        <p style="font-size: 11px; font-weight: 700; color: #004B60; text-transform: uppercase; letter-spacing: 0.5px; margin: 10px 0 0 0;">
+          Valid for 10 minutes &bull; Do not share with anyone
+        </p>
+      </div>
+    `,
+    secondaryHtml: `
+      <p style="margin: 0 0 6px 0;"><strong style="color: #334155;">Keep your account secure:</strong> If you did not initiate this request, someone else may have entered your email by mistake. You can safely ignore this email.</p>
+    `,
+    recipientEmail: to,
+  });
+
+  return sendGenericEmail(to, subject, html);
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 2. Booking Confirmed Email (Order Confirmation)
+// ─────────────────────────────────────────────────────────────────────────────
 export const sendBookingConfirmedEmail = async (to: string, data: CustomerEmailData) => {
-  const subject = 'Your Test Booking Has Been Confirmed';
-  const html = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Dear ${data.customerName},</p>
-      <p>Thank you for choosing Litmus Food Analytics.</p>
-      <p>We are pleased to confirm that we have received your test booking.</p>
-      <h3>Booking Details</h3>
-      <ul style="list-style: none; padding: 0;">
-        <li>• <strong>Booking ID:</strong> ${data.bookingId}</li>
-        <li>• <strong>Product Name:</strong> ${data.productName}</li>
-        <li>• <strong>Test(s) Selected:</strong> ${data.testList}</li>
-        <li>• <strong>Sample Quantity:</strong> ${data.sampleQty}</li>
-        <li>• <strong>Booking Date:</strong> ${data.bookingDate}</li>
-      </ul>
-      <p>Our team will coordinate with you regarding sample submission or collection.</p>
-      <p>You can monitor the status of your testing through your customer dashboard at any time.</p>
-      <p>Thank you for your trust in Litmus Food Analytics.</p>
-      <p>Kind Regards,<br/>Litmus Food Analytics</p>
-    </div>
-`;
+  const subject = `Booking Confirmed #${data.bookingId || ''} - Litmus Diagnostics`;
+  const orderUrl = data.bookingId ? `${SITE_URL}/orders/${data.bookingId}` : `${SITE_URL}/orders`;
+
+  const html = renderLitmusEmailLayout({
+    title: 'Booking Confirmed - Litmus Food Analytics',
+    headline: 'Your diagnostic test booking is confirmed',
+    recipientName: data.customerName,
+    introText: 'Thank you for choosing Litmus Food Analytics. We have received and confirmed your test booking. Our operations desk is preparing your sample intake and diagnostic scheduling.',
+    calloutHtml: `
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
+          ${data.bookingId ? `
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600; width: 35%;">Booking ID:</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #004B60; font-family: monospace;">#${data.bookingId}</td>
+          </tr>
+          ` : ''}
+          ${data.productName ? `
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600;">Product / Sample:</td>
+            <td style="padding: 6px 0; font-weight: 700; color: #0f172a;">${data.productName}</td>
+          </tr>
+          ` : ''}
+          ${data.testList ? `
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600; vertical-align: top;">Selected Tests:</td>
+            <td style="padding: 6px 0; font-weight: 600; color: #334155;">${data.testList}</td>
+          </tr>
+          ` : ''}
+          ${data.sampleQty ? `
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600;">Sample Quantity:</td>
+            <td style="padding: 6px 0; font-weight: 600; color: #334155;">${data.sampleQty}</td>
+          </tr>
+          ` : ''}
+          ${data.amount ? `
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600;">Total Paid:</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #0f172a;">₹${Number(data.amount).toLocaleString('en-IN')} (Incl. GST)</td>
+          </tr>
+          ` : ''}
+          ${data.bookingDate ? `
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600;">Date Placed:</td>
+            <td style="padding: 6px 0; font-weight: 600; color: #334155;">${data.bookingDate}</td>
+          </tr>
+          ` : ''}
+        </table>
+      </div>
+    `,
+    ctaText: 'View Booking & Track Progress',
+    ctaUrl: orderUrl,
+    secondaryHtml: `
+      <p style="margin: 0;"><strong style="color: #334155;">Next Steps:</strong> Please ensure your sealed samples are prepared according to standard packaging guidelines. Our assigned logistics partner or courier intake will verify seals upon handover.</p>
+    `,
+    recipientEmail: to,
+  });
+
   return sendGenericEmail(to, subject, html);
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 3. Sample Logistics & Field Collection (Shipping Updates)
+// ─────────────────────────────────────────────────────────────────────────────
+export const sendSampleCollectedEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = `Sample Collected & Testing in Progress #${data.bookingId || ''}`;
+  const orderUrl = data.bookingId ? `${SITE_URL}/orders/${data.bookingId}` : `${SITE_URL}/orders`;
+
+  const html = renderLitmusEmailLayout({
+    title: 'Sample Collected - Litmus',
+    headline: 'Your sample has been collected successfully',
+    recipientName: data.customerName,
+    introText: 'Your diagnostic sample has been safely collected and is now en route to our accredited laboratory facility under regulated transport conditions.',
+    calloutHtml: `
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600; width: 35%;">Booking ID:</td>
+            <td style="padding: 5px 0; font-weight: 800; color: #004B60; font-family: monospace;">#${data.bookingId}</td>
+          </tr>
+          ${data.collectorName ? `
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Collector:</td>
+            <td style="padding: 5px 0; font-weight: 700; color: #0f172a;">${data.collectorName} ${data.collectorPhone ? `(${data.collectorPhone})` : ''}</td>
+          </tr>
+          ` : ''}
+          ${data.trackingId ? `
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Courier AWB:</td>
+            <td style="padding: 5px 0; font-weight: 700; color: #0f172a;">${data.trackingId} ${data.courierName ? `(${data.courierName})` : ''}</td>
+          </tr>
+          ` : ''}
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Status:</td>
+            <td style="padding: 5px 0; font-weight: 700; color: #004B60;">Collected &bull; Moving to Testing Lab</td>
+          </tr>
+        </table>
+      </div>
+    `,
+    ctaText: 'Track Sample Timeline',
+    ctaUrl: orderUrl,
+    recipientEmail: to,
+  });
+
+  return sendGenericEmail(to, subject, html);
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 4. Sample Received by Laboratory (Under Testing / Order Processing)
+// ─────────────────────────────────────────────────────────────────────────────
 export const sendSampleReceivedEmail = async (to: string, data: CustomerEmailData) => {
-  const subject = 'Sample Received & Under Testing Successfully';
-  const html = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Dear ${data.customerName},</p>
-      <p>We are pleased to inform you that your sample has been received by our laboratory.</p>
-      <p><strong>Booking ID:</strong> ${data.bookingId}<br/>
-      <strong>Date Received:</strong> ${data.receivedDate}</p>
-      <p>Your sample has now been registered into our Laboratory Information Management System (LIMS) and will proceed for testing as scheduled.</p>
-      <p>You can continue tracking the progress through your customer dashboard.</p>
-      <p>Regards,<br/>Litmus Food Analytics</p>
-    </div>
-`;
+  const subject = `Sample Received & Under Testing Successfully #${data.bookingId || ''}`;
+  const orderUrl = data.bookingId ? `${SITE_URL}/orders/${data.bookingId}` : `${SITE_URL}/orders`;
+
+  const html = renderLitmusEmailLayout({
+    title: 'Sample Received - Litmus',
+    headline: 'Sample received & registered in LIMS',
+    recipientName: data.customerName,
+    introText: 'Your sample has physically arrived at our laboratory and is registered in the Laboratory Information Management System (LIMS). Certified analysts are now conducting the diagnostic procedures.',
+    calloutHtml: `
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600; width: 35%;">Booking ID:</td>
+            <td style="padding: 5px 0; font-weight: 800; color: #004B60; font-family: monospace;">#${data.bookingId}</td>
+          </tr>
+          ${data.labName ? `
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Testing Lab:</td>
+            <td style="padding: 5px 0; font-weight: 700; color: #0f172a;">${data.labName}</td>
+          </tr>
+          ` : ''}
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Intake Date:</td>
+            <td style="padding: 5px 0; font-weight: 600; color: #334155;">${data.receivedDate || new Date().toLocaleDateString('en-IN')}</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Status:</td>
+            <td style="padding: 5px 0; font-weight: 700; color: #004B60;">Diagnostic Analysis In Progress</td>
+          </tr>
+        </table>
+      </div>
+    `,
+    ctaText: 'View Laboratory Status',
+    ctaUrl: orderUrl,
+    secondaryHtml: `
+      <p style="margin: 0;">You will receive an instant notification with your certified PDF report as soon as all parameter assays and supervisory reviews are completed.</p>
+    `,
+    recipientEmail: to,
+  });
+
   return sendGenericEmail(to, subject, html);
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 5. Test Report Ready & Published (Delivery Updates)
+// ─────────────────────────────────────────────────────────────────────────────
 export const sendTestReportReadyEmail = async (to: string, data: CustomerEmailData) => {
-  const subject = `Your Test Report Is Ready ${data.bookingId}`;
-  const html = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Hello ${data.customerName},</p>
-      <p>Great news!</p>
-      <p>Your laboratory report is now ready.</p>
-      <p><strong>Booking ID:</strong> ${data.bookingId}</p>
-      <p>Please log in to your Litmus Customer Portal to view and download your report.</p>
-      <p>Thank you for choosing,<br/>Litmus Food Analytics.</p>
-    </div>
-`;
+  const subject = `Official Test Report Published #${data.bookingId || ''} - Litmus`;
+  const reportUrl = data.bookingId ? `${SITE_URL}/orders/${data.bookingId}` : `${SITE_URL}/reports`;
+
+  const html = renderLitmusEmailLayout({
+    title: 'Test Report Published - Litmus',
+    headline: 'Your certified test report is ready for download',
+    recipientName: data.customerName,
+    introText: 'Great news! Testing and quality verification for your booking has been completed. Your official, NABL-accredited diagnostic report is now available on your dashboard.',
+    calloutHtml: `
+      <div style="background-color: #f0f7f9; border: 1.5px solid #004B60; border-radius: 10px; padding: 20px; text-align: center;">
+        <div style="font-size: 14px; font-weight: 800; color: #004B60; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+          ✓ Quality Verification Completed
+        </div>
+        <p style="font-size: 13px; color: #004B60; margin: 0; font-weight: 600;">
+          Booking #${data.bookingId || ''} &bull; Certified by Senior Pathologist / Quality Officer
+        </p>
+      </div>
+    `,
+    ctaText: 'View & Download Report PDF',
+    ctaUrl: reportUrl,
+    secondaryHtml: `
+      <p style="margin: 0;">Your digital test report is cryptographically signed and stored securely in your dashboard for permanent record-keeping.</p>
+    `,
+    recipientEmail: to,
+  });
+
   return sendGenericEmail(to, subject, html);
 };
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 6. Abandoned Cart / Payment Pending Notification
+// ─────────────────────────────────────────────────────────────────────────────
 export const sendPaymentPendingEmail = async (to: string, data: CustomerEmailData) => {
   const subject = 'Complete Your Payment to Confirm Your Test Booking';
-  const html = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Dear ${data.customerName},</p>
-      <p>We noticed that you have selected one or more laboratory tests, but your payment is still pending.</p>
-      <p>Your booking will only be confirmed after successful payment.</p>
-      <h3>Cart Summary</h3>
-      <ul style="list-style: none; padding: 0;">
-        <li>• <strong>Tests Selected:</strong> ${data.testList}</li>
-        <li>• <strong>Total Amount:</strong> ₹${data.amount}</li>
-      </ul>
-      <p>Please log in to your customer portal and complete your payment to proceed.</p>
-      <p>If you have already made the payment, please ignore this email.</p>
-      <p>Thank you for choosing,<br/>Litmus Food Analytics</p>
-    </div>
-`;
-  return sendGenericEmail(to, subject, html);
-};
+  const checkoutUrl = `${SITE_URL}/cart`;
 
-export const sendRevisedTimelineEmail = async (to: string, data: CustomerEmailData) => {
-  const subject = 'Revised Timeline for Your Test Report';
-  const html = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Dear ${data.customerName},</p>
-      <p>We would like to update you regarding your laboratory testing.</p>
-      <p><strong>Booking ID:</strong> ${data.bookingId}<br/>
-      <strong>Product:</strong> ${data.productName}</p>
-      <p>Due to additional laboratory processing requirements, your report will be available later than originally anticipated.</p>
-      <p><strong>Revised Expected Report Date:</strong> ${data.expectedDate}</p>
-      <p>Our team is prioritizing your sample and will notify you as soon as the report is ready for download.</p>
-      <p>We appreciate your patience and apologize for any inconvenience caused.</p>
-      <p>Thank you for choosing Litmus Food Analytics.</p>
-      <p>Kind Regards,<br/>Litmus Food Analytics</p>
-    </div>
-`;
-  return sendGenericEmail(to, subject, html);
-};
-
-export const sendSampleCollectedEmail = async (to: string, data: CustomerEmailData) => {
-  const subject = 'Sample Collected & Testing in Progress';
-  const html = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Hello ${data.customerName},</p>
-      <p>Your sample has been successfully collected and received by respective lab.</p>
-      <p><strong>Booking ID:</strong> ${data.bookingId}</p>
-      <p>The sample has now entered our laboratory process and testing will begin shortly.</p>
-      <p>Track your sample status anytime through your customer portal.</p>
-      <p>Thank you for choosing,<br/>Litmus Food Analytics</p>
-    </div>
-`;
-  return sendGenericEmail(to, subject, html);
-};
-
-export const sendCollectionDelayedEmail = async (to: string, data: CustomerEmailData) => {
-  const subject = 'Sample Collection Delayed';
-  const html = `
-    <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-      <p>Hello ${data.customerName},</p>
-      <p>We would like to inform you that there is a slight delay in the scheduled collection of your sample.</p>
-      <p><strong>Booking ID:</strong> ${data.bookingId}</p>
-      <p>Our team is actively coordinating the collection and will update you with the revised schedule as soon as possible.</p>
-      <p>We apologize for the inconvenience and appreciate your patience.</p>
-      <p>Thank you,<br/>Litmus Food Analytics</p>
-    </div>
-`;
-  return sendGenericEmail(to, subject, html);
-};
-
-export const sendEmployeeWelcomeEmail = async (to: string, employeeName: string, plainPassword?: string, portalName: string = 'Litmus Admin') => {
-  try {
-    // If it's not Litmus Admin, it's a lab portal, so we should link to the lab frontend URL (port 8081) if possible
-    let loginUrl = process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/login` : 'http://localhost:5173/login';
-    if (portalName !== 'Litmus Admin') {
-      loginUrl = process.env.LAB_FRONTEND_URL ? `${process.env.LAB_FRONTEND_URL}/login` : 'http://localhost:8081/login';
-    }
-    
-    const htmlContent = `
-      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <div style="text-align: center; margin-bottom: 25px;">
-          <h1 style="color: #0f172a; margin: 0;">Welcome to ${portalName}!</h1>
-          <p style="color: #64748b; font-size: 16px; margin-top: 5px;">Your Employee Account has been created</p>
-        </div>
-        
-        <div style="background-color: #f8fafc; padding: 20px; border-radius: 6px; margin-bottom: 25px;">
-          <p style="color: #334155; font-size: 16px; margin-top: 0;">Hello <strong>${employeeName}</strong>,</p>
-          <p style="color: #334155; font-size: 16px; line-height: 1.5;">You have been added as an employee to ${portalName}.</p>
-        </div>
-
-        <h3 style="color: #0f172a; margin-bottom: 15px;">Your Account Credentials</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+  const html = renderLitmusEmailLayout({
+    title: 'Complete Your Booking - Litmus',
+    headline: 'You have pending diagnostic tests in your cart',
+    recipientName: data.customerName,
+    introText: 'We noticed that you selected diagnostic tests on Litmus, but the checkout process has not been completed. Secure your priority testing slot today.',
+    calloutHtml: `
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
+          ${data.testList ? `
           <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; background-color: #f1f5f9; width: 120px; font-weight: bold; color: #475569;">Email / Login</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #0f172a;">${to}</td>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600; width: 35%;">Pending Tests:</td>
+            <td style="padding: 5px 0; font-weight: 700; color: #0f172a;">${data.testList}</td>
+          </tr>
+          ` : ''}
+          ${data.amount ? `
+          <tr>
+            <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Cart Total:</td>
+            <td style="padding: 5px 0; font-weight: 800; color: #004B60;">₹${Number(data.amount).toLocaleString('en-IN')}</td>
+          </tr>
+          ` : ''}
+        </table>
+      </div>
+    `,
+    ctaText: 'Complete Your Order Now',
+    ctaUrl: checkoutUrl,
+    secondaryHtml: `
+      <p style="margin: 0;">If you have already finalized this booking or completed payment under another session, you may disregard this notice.</p>
+    `,
+    recipientEmail: to,
+  });
+
+  return sendGenericEmail(to, subject, html);
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 7. Timeline SLA Revision Notice
+// ─────────────────────────────────────────────────────────────────────────────
+export const sendRevisedTimelineEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = `Revised Timeline for Your Test Report #${data.bookingId || ''}`;
+  const orderUrl = data.bookingId ? `${SITE_URL}/orders/${data.bookingId}` : `${SITE_URL}/orders`;
+
+  const html = renderLitmusEmailLayout({
+    title: 'Timeline Revision - Litmus',
+    headline: 'Update regarding your testing timeline',
+    recipientName: data.customerName,
+    introText: `We are reaching out with an update on Booking #${data.bookingId || ''}. Due to specialized confirmatory assays and strict quality verification protocols, additional laboratory processing time is required.`,
+    calloutHtml: `
+      <div style="background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 18px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #78350f;">
+          <tr>
+            <td style="padding: 4px 0; font-weight: 600; width: 40%;">Booking ID:</td>
+            <td style="padding: 4px 0; font-weight: 800;">#${data.bookingId}</td>
+          </tr>
+          ${data.expectedDate ? `
+          <tr>
+            <td style="padding: 4px 0; font-weight: 600;">Revised Expected Date:</td>
+            <td style="padding: 4px 0; font-weight: 800; color: #b45309;">${data.expectedDate}</td>
+          </tr>
+          ` : ''}
+        </table>
+      </div>
+    `,
+    ctaText: 'View Updated Timeline',
+    ctaUrl: orderUrl,
+    secondaryHtml: `
+      <p style="margin: 0;">Our laboratory team is actively prioritizing your test assay. We apologize for any inconvenience and appreciate your patience in ensuring clinical accuracy.</p>
+    `,
+    recipientEmail: to,
+  });
+
+  return sendGenericEmail(to, subject, html);
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 8. Sample Collection Delayed Notice
+// ─────────────────────────────────────────────────────────────────────────────
+export const sendCollectionDelayedEmail = async (to: string, data: CustomerEmailData) => {
+  const subject = `Sample Collection Rescheduled #${data.bookingId || ''}`;
+  const orderUrl = data.bookingId ? `${SITE_URL}/orders/${data.bookingId}` : `${SITE_URL}/orders`;
+
+  const html = renderLitmusEmailLayout({
+    title: 'Collection Update - Litmus',
+    headline: 'Update on your sample pickup schedule',
+    recipientName: data.customerName,
+    introText: `We would like to inform you that there is a slight rescheduling in the field collection window for Booking #${data.bookingId || ''}.`,
+    calloutHtml: `
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
+        <p style="font-size: 13px; color: #334155; margin: 0; font-weight: 600;">
+          Our logistics desk is coordinating with the field officer and will confirm your updated pickup slot shortly.
+        </p>
+      </div>
+    `,
+    ctaText: 'Check Collection Details',
+    ctaUrl: orderUrl,
+    recipientEmail: to,
+  });
+
+  return sendGenericEmail(to, subject, html);
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 9. Laboratory Partner Onboarding Email
+// ─────────────────────────────────────────────────────────────────────────────
+export const sendLabWelcomeEmail = async (to: string, labName: string, plainPassword?: string) => {
+  const loginUrl = process.env.LAB_FRONTEND_URL || `${SITE_URL}/login`;
+  const subject = 'Welcome to Litmus Platform - Your Laboratory Partner Account';
+
+  const html = renderLitmusEmailLayout({
+    title: 'Welcome to Litmus - Lab Partner',
+    headline: 'Welcome to the Litmus Laboratory Network',
+    recipientName: labName,
+    introText: 'Your laboratory has been officially onboarded to the Litmus diagnostic network. You can now access your dedicated LIMS portal to receive orders, manage test allocations, and submit verified reports.',
+    calloutHtml: `
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
+        <h4 style="font-size: 12px; font-weight: 800; color: #004B60; text-transform: uppercase; margin: 0 0 10px 0;">Partner Access Credentials</h4>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600; width: 35%;">Login Email:</td>
+            <td style="padding: 6px 0; font-weight: 700; color: #0f172a;">${to}</td>
           </tr>
           ${plainPassword ? `
           <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; background-color: #f1f5f9; font-weight: bold; color: #475569;">Password</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #0f172a;"><strong>${plainPassword}</strong></td>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600;">Initial Password:</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #004B60; font-family: monospace;">${plainPassword}</td>
           </tr>
-          ` : `
-          <tr>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; background-color: #f1f5f9; font-weight: bold; color: #475569;">Password</td>
-            <td style="padding: 12px; border: 1px solid #e2e8f0; color: #0f172a;"><em>Provided separately or set previously</em></td>
-          </tr>
-          `}
+          ` : ''}
         </table>
-
-        <div style="text-align: center; margin-bottom: 30px;">
-          <a href="${loginUrl}" style="background-color: #059669; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Access ${portalName}</a>
-        </div>
       </div>
-    `;
+    `,
+    ctaText: 'Access Laboratory Portal',
+    ctaUrl: loginUrl,
+    secondaryHtml: `
+      <p style="margin: 0;"><strong style="color: #334155;">Security Note:</strong> Please change your temporary password immediately upon your initial login.</p>
+    `,
+    recipientEmail: to,
+  });
 
-    const info = await transporter.sendMail({
-      from: `"Litmus Platform" <${process.env.SMTP_FROM || 'noreply@litmus.example.com'}>`,
-      to,
-      subject: `Welcome to ${portalName} - Your Account Credentials`,
-      html: htmlContent,
-    });
-    logger.info(`Employee welcome email sent: ${info.messageId}`);
-    return true;
-  } catch (error: any) {
-    logger.error(`Error sending employee welcome email: ${error.message}`);
-    return false;
-  }
+  return sendGenericEmail(to, subject, html);
 };
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 10. Employee / Staff Provisioning Email
+// ─────────────────────────────────────────────────────────────────────────────
+export const sendEmployeeWelcomeEmail = async (
+  to: string,
+  employeeName: string,
+  plainPassword?: string,
+  portalName: string = 'Litmus Admin'
+) => {
+  const loginUrl = portalName === 'Litmus Admin'
+    ? (process.env.ADMIN_FRONTEND_URL || `${SITE_URL}/login`)
+    : (process.env.LAB_FRONTEND_URL || `${SITE_URL}/login`);
+
+  const subject = `Your ${portalName} Account has been Provisioned`;
+
+  const html = renderLitmusEmailLayout({
+    title: `Account Provisioned - ${portalName}`,
+    headline: `Welcome to ${portalName}`,
+    recipientName: employeeName,
+    introText: `An employee account has been created for you on the ${portalName} platform. Please find your login credentials below.`,
+    calloutHtml: `
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
+        <h4 style="font-size: 12px; font-weight: 800; color: #004B60; text-transform: uppercase; margin: 0 0 10px 0;">Account Credentials</h4>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600; width: 35%;">Username / Email:</td>
+            <td style="padding: 6px 0; font-weight: 700; color: #0f172a;">${to}</td>
+          </tr>
+          ${plainPassword ? `
+          <tr>
+            <td style="padding: 6px 0; color: #64748b; font-weight: 600;">Temporary Password:</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #004B60; font-family: monospace;">${plainPassword}</td>
+          </tr>
+          ` : ''}
+        </table>
+      </div>
+    `,
+    ctaText: `Access ${portalName}`,
+    ctaUrl: loginUrl,
+    secondaryHtml: `
+      <p style="margin: 0;"><strong style="color: #334155;">Security Notice:</strong> Keep your credentials confidential. For security reasons, update your password after your first sign-in.</p>
+    `,
+    recipientEmail: to,
+  });
+
+  return sendGenericEmail(to, subject, html);
+};
+
