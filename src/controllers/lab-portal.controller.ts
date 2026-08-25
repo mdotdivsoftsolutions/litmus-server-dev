@@ -44,21 +44,149 @@ export const getLabDashboardStats = async (req: Request, res: Response): Promise
       return;
     }
 
-    const bookings = await Booking.find({ labId: lab._id });
-    const pendingTests = bookings.filter(b => b.status === BookingStatus.IN_PROGRESS || b.status === BookingStatus.PENDING).length;
+    const bookings = await Booking.find({ labId: lab._id })
+      .populate('userId', 'firstName lastName email phone')
+      .populate('items.testId', 'testName price')
+      .populate('items.packageId', 'name price')
+      .sort('-createdAt');
+
+    const totalBookings = bookings.length;
+    const newBookings = bookings.filter(b => b.status === BookingStatus.PENDING || b.status === BookingStatus.APPROVED).length;
+    const inProgressTests = bookings.filter(b => b.status === BookingStatus.IN_PROGRESS).length;
     const completedTests = bookings.filter(b => b.status === BookingStatus.COMPLETED).length;
-    
-    let totalEarnings = 0;
-    // Earnings can be approximated by summing up the price of completed tests, assuming we have that data
-    // In this basic version, we will just count it from bookings that have paymentStatus SUCCESS if applicable, or we can just return a placeholder.
+
+    // Completed today
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const completedToday = bookings.filter(b => {
+      if (b.status !== BookingStatus.COMPLETED) return false;
+      const dateToCheck = b.metadata?.completedAt ? new Date(b.metadata.completedAt) : new Date(b.updatedAt || b.createdAt);
+      return dateToCheck >= startOfToday;
+    }).length;
+
+    // Total earnings & revenue this month
+    const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    let totalRevenue = 0;
+    let revenueThisMonth = 0;
+
+    for (const b of bookings) {
+      const isPaid = (b.paymentStatus || '').toUpperCase() === 'SUCCESS' || (b.paymentStatus || '').toUpperCase() === 'PAID' || b.status === BookingStatus.COMPLETED;
+      const amount = b.totalAmount || (b.items || []).reduce((sum: number, item: any) => sum + (item.price || 0), 0) || 0;
+      if (isPaid) {
+        totalRevenue += amount;
+        const bDate = new Date(b.createdAt);
+        if (bDate >= startOfThisMonth) {
+          revenueThisMonth += amount;
+        }
+      }
+    }
+
+    // Associated Tests, Packages, Employees
+    const totalTests = await Test.countDocuments({
+      $or: [
+        { _id: { $in: lab.tests || [] } },
+        { labId: lab._id }
+      ]
+    });
+
+    const totalPackages = await Package.countDocuments({
+      $or: [
+        { labId: lab._id },
+        { _id: { $in: lab.packages || [] } }
+      ]
+    });
+
+    const totalEmployees = await User.countDocuments({
+      labId: lab._id,
+      role: { $in: [UserRole.LAB, UserRole.LAB_EMPLOYEE] }
+    });
+
+    // Schedule / Upcoming active jobs
+    const activeSchedule = bookings.filter(b => [BookingStatus.PENDING, BookingStatus.APPROVED, BookingStatus.IN_PROGRESS].includes(b.status as any)).length;
+
+    // Recent 5-6 bookings formatted
+    const recentBookings = bookings.slice(0, 6).map(b => {
+      const userObj = b.userId as any;
+      const userName = `${userObj?.firstName || ''} ${userObj?.lastName || ''}`.trim() || b.collectionDetails?.name || 'Customer';
+      const productNames = b.items?.map((i: any) => i.samples?.[0]?.productName || i.packageId?.name || i.testId?.testName || i.testId?.name).filter(Boolean);
+      const product = productNames?.length > 0 ? productNames.join(', ') : 'Diagnostic Order';
+      const testsCount = b.items?.reduce((count: number, i: any) => count + (i.samples?.reduce((sc: number, s: any) => sc + (s.selectedParameters?.length || 1), 0) || 1), 0) || 0;
+
+      return {
+        id: b._id,
+        displayId: `BKG-${b._id.toString().substring(b._id.toString().length - 6).toUpperCase()}`,
+        user: userName,
+        tests: `${testsCount} test${testsCount === 1 ? '' : 's'}`,
+        product,
+        status: b.status,
+        createdAt: b.createdAt,
+        totalAmount: b.totalAmount,
+        hasReport: Boolean(b.reportFiles?.length || b.reportUrl || b.metadata?.reportUrl),
+      };
+    });
+
+    // Pending uploads (bookings in APPROVED, IN_PROGRESS, or COMPLETED without report uploaded)
+    const pendingUploads = bookings
+      .filter(b => {
+        const hasReport = Boolean(b.reportFiles?.length || b.reportUrl || b.metadata?.reportUrl);
+        return !hasReport && [BookingStatus.APPROVED, BookingStatus.IN_PROGRESS, BookingStatus.COMPLETED].includes(b.status as any);
+      })
+      .slice(0, 5)
+      .map(b => {
+        const userObj = b.userId as any;
+        const userName = `${userObj?.firstName || ''} ${userObj?.lastName || ''}`.trim() || b.collectionDetails?.name || 'Customer';
+        const productNames = b.items?.map((i: any) => i.samples?.[0]?.productName || i.packageId?.name || i.testId?.testName || i.testId?.name).filter(Boolean);
+        const product = productNames?.length > 0 ? productNames.join(', ') : 'Diagnostic Test';
+        return {
+          id: b._id,
+          displayId: `BKG-${b._id.toString().substring(b._id.toString().length - 6).toUpperCase()}`,
+          user: userName,
+          product,
+          status: b.status,
+          dueDate: b.collectionDetails?.preferredDate || b.createdAt,
+          createdAt: b.createdAt,
+        };
+      });
+
+    // Weekly Load for the last 7 days
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weeklyLoad: { day: string; date: string; bookings: number }[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dayName = daysOfWeek[d.getDay()];
+      const dayStart = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      const dayEnd = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59, 999);
+      
+      const count = bookings.filter(b => {
+        const bDate = new Date(b.createdAt);
+        return bDate >= dayStart && bDate <= dayEnd;
+      }).length;
+
+      weeklyLoad.push({
+        day: dayName,
+        date: d.toISOString().split('T')[0],
+        bookings: count,
+      });
+    }
 
     res.status(200).json({
       success: true,
       data: {
-        totalBookings: bookings.length,
-        pendingTests,
+        totalBookings,
+        newBookings,
+        inProgressTests,
         completedTests,
-        totalEarnings,
+        completedToday,
+        totalRevenue,
+        revenueThisMonth,
+        totalTests,
+        totalPackages,
+        totalEmployees,
+        activeSchedule,
+        recentBookings,
+        pendingUploads,
+        weeklyLoad,
       },
     });
   } catch (error: any) {
