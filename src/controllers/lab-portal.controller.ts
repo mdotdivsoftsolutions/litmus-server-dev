@@ -121,6 +121,14 @@ export const updateBookingStatus = async (req: Request, res: Response): Promise<
     }
 
     booking.status = status;
+    if (!booking.metadata) booking.metadata = {};
+    if (status === BookingStatus.IN_PROGRESS && !booking.metadata.testingStartedAt) {
+      booking.metadata.testingStartedAt = new Date();
+    }
+    if (status === BookingStatus.COMPLETED && !booking.metadata.completedAt) {
+      booking.metadata.completedAt = new Date();
+    }
+    booking.markModified('metadata');
     await booking.save();
 
     res.status(200).json({
@@ -197,14 +205,28 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
         return;
       }
 
-      if (status) booking.collectionStatus = status;
+      if (!booking.metadata) booking.metadata = {};
+
+      if (status) {
+        booking.collectionStatus = status;
+        if ((status === 'COLLECTED' || status === 'REACHED') && !booking.metadata.sampleCollectedAt) {
+          booking.metadata.sampleCollectedAt = new Date();
+        }
+        if (status === 'ASSIGNED' && !booking.metadata.collectorAssignedAt) {
+          booking.metadata.collectorAssignedAt = new Date();
+        }
+      }
       if (collectorName !== undefined || collectorContact !== undefined) {
         booking.assignedCollector = {
           name: collectorName,
           contact: collectorContact
         };
+        if (collectorName && !booking.metadata.collectorAssignedAt) {
+          booking.metadata.collectorAssignedAt = new Date();
+        }
       }
 
+      booking.markModified('metadata');
       await booking.save();
       await booking.populate('userId', 'firstName lastName email');
 

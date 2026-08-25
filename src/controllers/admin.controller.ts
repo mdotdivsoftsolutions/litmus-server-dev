@@ -618,26 +618,42 @@ export const updateAdminBookingStatus = async (req: Request, res: Response): Pro
       return;
     }
 
+    if (!booking.metadata) booking.metadata = {};
+
     if (status && Object.values(BookingStatus).includes(status as BookingStatus)) {
       booking.status = status as BookingStatus;
+      if (status === BookingStatus.APPROVED && !booking.metadata.adminApprovedAt) {
+        booking.metadata.adminApprovedAt = new Date();
+      }
+      if (status === BookingStatus.IN_PROGRESS && !booking.metadata.testingStartedAt) {
+        booking.metadata.testingStartedAt = new Date();
+      }
+      if (status === BookingStatus.COMPLETED) {
+        if (!booking.metadata.completedAt) booking.metadata.completedAt = new Date();
+        if (!booking.metadata.testingStartedAt) booking.metadata.testingStartedAt = booking.metadata.completedAt;
+      }
     }
     if (paymentStatus && Object.values(PaymentStatus).includes(paymentStatus as PaymentStatus)) {
       booking.paymentStatus = paymentStatus as PaymentStatus;
+      if (paymentStatus === PaymentStatus.SUCCESS && !booking.metadata.paymentConfirmedAt) {
+        booking.metadata.paymentConfirmedAt = new Date();
+      }
     }
     if (labId !== undefined) {
-      if (!booking.metadata) booking.metadata = {};
       if (labId === 'litmus_direct') {
         booking.labId = undefined as any;
         booking.metadata.isLitmusDirect = true;
+        if (!booking.metadata.labAssignedAt) booking.metadata.labAssignedAt = new Date();
       } else if (labId === 'smart_allocation' || labId === '') {
         booking.labId = undefined as any;
         booking.metadata.isLitmusDirect = false;
       } else {
         booking.labId = labId;
         booking.metadata.isLitmusDirect = false;
+        booking.metadata.labAssignedAt = new Date();
       }
-      booking.markModified('metadata');
     }
+    booking.markModified('metadata');
 
     await booking.save();
 
@@ -848,13 +864,21 @@ export const updateBookingReport = async (req: Request, res: Response): Promise<
           updatedByRole: 'ADMIN',
         };
 
+        if (!booking.metadata) booking.metadata = {};
+        if (booking.reportFiles?.length || mergedSummary) {
+          if (!booking.metadata.reportUploadedAt) booking.metadata.reportUploadedAt = new Date();
+        }
+
         const wasApproved = booking.isReportApprovedByAdmin;
         if (isReportApprovedByAdmin !== undefined) {
           booking.isReportApprovedByAdmin = Boolean(isReportApprovedByAdmin);
           if (booking.isReportApprovedByAdmin) {
             booking.status = BookingStatus.COMPLETED;
+            if (!booking.metadata.completedAt) booking.metadata.completedAt = new Date();
+            if (!booking.metadata.reportUploadedAt) booking.metadata.reportUploadedAt = booking.metadata.completedAt;
           }
         }
+        booking.markModified('metadata');
 
         await booking.save();
 
@@ -1200,7 +1224,17 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
       return;
     }
 
-    if (status) booking.collectionStatus = status;
+    if (!booking.metadata) booking.metadata = {};
+
+    if (status) {
+      booking.collectionStatus = status;
+      if ((status === 'COLLECTED' || status === 'REACHED') && !booking.metadata.sampleCollectedAt) {
+        booking.metadata.sampleCollectedAt = new Date();
+      }
+      if (status === 'ASSIGNED' && !booking.metadata.collectorAssignedAt) {
+        booking.metadata.collectorAssignedAt = new Date();
+      }
+    }
     if (collectionMethod) booking.collectionMethod = collectionMethod;
 
     if (collectorName !== undefined || collectorContact !== undefined) {
@@ -1208,6 +1242,9 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
         name: collectorName || '',
         contact: collectorContact || ''
       };
+      if (collectorName && !booking.metadata.collectorAssignedAt) {
+        booking.metadata.collectorAssignedAt = new Date();
+      }
     }
 
     const newTrackingId = courierDetails?.trackingId || trackingId;
@@ -1215,9 +1252,12 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
       const cName = courierDetails?.courierName || courierName || '';
       const cNotes = courierDetails?.notes || notes || '';
 
-      if (!booking.metadata) booking.metadata = {};
       if (!Array.isArray(booking.metadata.trackingHistory)) {
         booking.metadata.trackingHistory = [];
+      }
+
+      if (!booking.metadata.collectorAssignedAt) {
+        booking.metadata.collectorAssignedAt = new Date();
       }
 
       booking.metadata.trackingHistory.unshift({

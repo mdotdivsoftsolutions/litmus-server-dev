@@ -276,6 +276,9 @@ export const updateCourierTracking = async (req: Request, res: Response): Promis
       submittedAt: booking.courierDetails?.submittedAt || new Date(),
     };
     booking.collectionStatus = CollectionStatus.SHIPPED;
+    if (!booking.metadata.collectorAssignedAt) {
+      booking.metadata.collectorAssignedAt = booking.courierDetails.submittedAt;
+    }
     booking.markModified('metadata');
     await booking.save();
 
