@@ -79,6 +79,63 @@ export class NotificationService {
   }
 
   /**
+   * Fetches a paid/approved booking by ID, populates details, checks for duplicate sends,
+   * and dispatches the booking confirmation email & WhatsApp.
+   */
+  public static async notifyConfirmedBookingById(bookingId: string): Promise<void> {
+    try {
+      const Booking = (await import('../models/Booking')).default;
+      const booking = await Booking.findById(bookingId)
+        .populate('userId', 'firstName lastName email phone')
+        .populate('items.testId', 'testName')
+        .populate('items.packageId', 'name');
+
+      if (!booking || !booking.userId) return;
+
+      if (!booking.metadata) booking.metadata = {};
+      if (booking.metadata.confirmationEmailSent) {
+        return; // Already sent, avoid duplicate emails
+      }
+
+      const user = booking.userId as any;
+      const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
+
+      const testNames = booking.items.map((item: any) => {
+        if (item.testId) return item.testId.testName;
+        if (item.packageId) return item.packageId.name;
+        return 'Diagnostic Test';
+      }).filter(Boolean).join(', ');
+
+      const productNames = booking.items.map((item: any) => {
+        return item.samples?.map((s: any) => s.productName).filter(Boolean).join(', ');
+      }).filter(Boolean).join(', ');
+
+      const totalSamples = booking.items.reduce((total: number, item: any) => {
+        return total + (item.samples?.reduce((sum: number, s: any) => sum + (Number(s.quantity) || 1), 0) || 0);
+      }, 0);
+
+      booking.metadata.confirmationEmailSent = true;
+      booking.metadata.confirmationEmailSentAt = new Date();
+      booking.markModified('metadata');
+      await booking.save();
+
+      await this.notifyOrderConfirmation({
+        customerEmail: user.email,
+        customerPhone: user.phone,
+        customerName,
+        bookingId: booking._id.toString(),
+        productName: productNames || 'Diagnostic Sample',
+        testNames: testNames || 'Food Quality & Safety Diagnostics',
+        sampleQty: totalSamples.toString(),
+        amount: booking.totalAmount,
+        bookingDate: new Date(booking.bookingDate || Date.now()).toLocaleDateString('en-IN'),
+      });
+    } catch (err: any) {
+      logger.error(`[Notification] Error in notifyConfirmedBookingById for ${bookingId}: ${err.message}`, err);
+    }
+  }
+
+  /**
    * Dispatches Order Processing / Sample In Lab notification.
    * Requirement #4: Order processing workflow.
    */

@@ -73,48 +73,6 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       collectionMethod: collectionMethod === 'PICKUP' || collectionMethod === 'COURIER' ? collectionMethod : undefined,
     });
 
-    try {
-      const populatedBooking = await Booking.findById(booking._id)
-
-        .populate('userId', 'firstName lastName email phone')
-        .populate('items.testId', 'testName')
-        .populate('items.packageId', 'name');
-
-      if (populatedBooking && populatedBooking.userId) {
-        const user = populatedBooking.userId as any;
-        const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
-        
-        const testNames = populatedBooking.items.map(item => {
-          if (item.testId) return (item.testId as any).testName;
-          if (item.packageId) return (item.packageId as any).name;
-          return 'Diagnostic Test';
-        }).filter(Boolean).join(', ');
-
-        const productNames = populatedBooking.items.map(item => {
-          return item.samples?.map(s => s.productName).filter(Boolean).join(', ');
-        }).filter(Boolean).join(', ');
-
-        const totalSamples = populatedBooking.items.reduce((total, item) => {
-          return total + (item.samples?.reduce((sum, s) => sum + (Number(s.quantity) || 1), 0) || 0);
-        }, 0);
-
-        NotificationService.notifyOrderConfirmation({
-          customerEmail: user.email,
-          customerPhone: user.phone,
-          customerName,
-          bookingId: booking._id.toString(),
-          productName: productNames || 'Diagnostic Sample',
-          testNames: testNames || 'Food Quality & Safety Diagnostics',
-          sampleQty: totalSamples.toString(),
-          amount: booking.totalAmount,
-          bookingDate: new Date(bookingDate).toLocaleDateString('en-IN'),
-        }).catch(() => {});
-      }
-    } catch (notifErr) {
-      console.error('Error dispatching booking confirmation notification:', notifErr);
-    }
-
-
     res.status(201).json({
       success: true,
       data: booking,

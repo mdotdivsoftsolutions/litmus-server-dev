@@ -657,6 +657,11 @@ export const updateAdminBookingStatus = async (req: Request, res: Response): Pro
 
     await booking.save();
 
+    if (booking.paymentStatus === PaymentStatus.SUCCESS || booking.status === BookingStatus.APPROVED) {
+      const { default: NotificationService } = await import('../services/notification.service');
+      NotificationService.notifyConfirmedBookingById(booking._id.toString()).catch(() => {});
+    }
+
     res.status(200).json({
       success: true,
       message: 'Booking updated successfully',
