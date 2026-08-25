@@ -33531,3 +33531,100 @@
 2026-08-25 19:55:02:552 [32minfo[39m: [32m[0mGET /api/v1/booking/6a8d48172a359f969ec83106 [32m200[0m 514.679 ms - 4022[0m[39m
 2026-08-25 19:55:05:555 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=all [32m200[0m 772.057 ms - 14260[0m[39m
 2026-08-25 19:55:41:5541 [32minfo[39m: [32m[Socket Connected] id=BvVR6HkglnR39utSAAAd isAgent=false userId=Guest[39m
+2026-08-25 19:56:40:5640 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 255.850 ms - -[0m[39m
+2026-08-25 19:56:41:5641 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 517.838 ms - -[0m[39m
+2026-08-25 19:56:42:5642 [32minfo[39m: [32m[Socket Connected] id=ZgFjBMtk5D4X42ZAAAAf isAgent=false userId=Guest[39m
+2026-08-25 19:56:52:5652 [32minfo[39m: [32m[Socket Connected] id=TMYDxz21KrPIsbanAAAh isAgent=false userId=Guest[39m
+2026-08-25 19:57:24:5724 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 254.990 ms - -[0m[39m
+2026-08-25 19:57:25:5725 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 509.013 ms - -[0m[39m
+2026-08-25 19:57:27:5727 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=completed [32m200[0m 776.051 ms - 4263[0m[39m
+2026-08-25 19:57:27:5727 [32minfo[39m: [32m[0mGET /api/v1/booking/my?page=1&limit=10&status=reports [32m200[0m 806.381 ms - 2442[0m[39m
+2026-08-25 19:57:43:5743 [32minfo[39m: [32m[Socket Connected] id=xozpF3H7TQU_pvKmAAAj isAgent=false userId=Guest[39m
+2026-08-25 19:57:56:5756 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 506.309 ms - -[0m[39m
+2026-08-25 19:57:57:5757 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 507.522 ms - -[0m[39m
+2026-08-25 19:57:57:5757 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [32m200[0m 1016.198 ms - 6431[0m[39m
+2026-08-25 19:58:01:581 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 510.058 ms - -[0m[39m
+2026-08-25 19:58:02:582 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 523.659 ms - -[0m[39m
+2026-08-25 19:58:02:582 [32minfo[39m: [32m[Socket Connected] id=RfzagHYr4kZAgfW7AAAl isAgent=false userId=Guest[39m
+2026-08-25 19:58:03:583 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1035.043 ms - -[0m[39m
+2026-08-25 19:58:19:5819 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 254.150 ms - -[0m[39m
+2026-08-25 19:58:19:5819 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 509.375 ms - -[0m[39m
+2026-08-25 19:58:31:5831 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) last socket disconnected. Starting 45s grace check.[39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 254.768 ms - -[0m[39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[0mGET /api/v1/chat/presence [32m200[0m 0.277 ms - 65[0m[39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[Socket Connected] id=-G1QLulxPQyZF0PGAAAn isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=-G1QLulxPQyZF0PGAAAn][39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=-G1QLulxPQyZF0PGAAAn][39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 509.877 ms - -[0m[39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 588.548 ms - -[0m[39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 762.580 ms - -[0m[39m
+2026-08-25 19:58:32:5832 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?status=QUEUED&limit=20 [36m304[0m 767.248 ms - -[0m[39m
+2026-08-25 19:58:33:5833 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 954.056 ms - -[0m[39m
+2026-08-25 19:58:33:5833 [32minfo[39m: [32m[Socket Connected] id=P7muIHO_WDl4SnifAAAp isAgent=false userId=Guest[39m
+2026-08-25 19:58:33:5833 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1486.067 ms - -[0m[39m
+2026-08-25 19:58:34:5834 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [32m200[0m 2081.998 ms - 30038[0m[39m
+2026-08-25 20:00:00:00 [32minfo[39m: [32m[Cron] Triggering scheduled abandoned cart scan...[39m
+2026-08-25 20:00:01:01 [32minfo[39m: [32m[Abandoned Cart Job] Scanned 1 carts. Sent 0 reminders.[39m
+2026-08-25 20:26:45:2645 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.436 ms - 65[0m[39m
+2026-08-25 20:26:45:2645 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [33m401[0m 0.467 ms - 65[0m[39m
+2026-08-25 20:26:45:2645 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [33m401[0m 0.214 ms - 65[0m[39m
+2026-08-25 20:26:45:2645 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 630.149 ms - 255[0m[39m
+2026-08-25 20:26:45:2645 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 635.079 ms - 255[0m[39m
+2026-08-25 20:26:45:2645 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 655.234 ms - 255[0m[39m
+2026-08-25 20:26:46:2646 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 256.049 ms - 586[0m[39m
+2026-08-25 20:26:46:2646 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 765.072 ms - -[0m[39m
+2026-08-25 20:26:47:2647 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1855.789 ms - -[0m[39m
+2026-08-25 20:26:48:2648 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 266.253 ms - -[0m[39m
+2026-08-25 20:26:48:2648 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 774.422 ms - -[0m[39m
+2026-08-25 20:26:50:2650 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 2082.334 ms - -[0m[39m
+2026-08-25 20:26:50:2650 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.369 ms - 65[0m[39m
+2026-08-25 20:26:51:2651 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [33m401[0m 0.377 ms - 65[0m[39m
+2026-08-25 20:26:51:2651 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 598.087 ms - 299[0m[39m
+2026-08-25 20:26:51:2651 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 609.684 ms - 299[0m[39m
+2026-08-25 20:26:52:2652 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 561.502 ms - 631[0m[39m
+2026-08-25 20:26:52:2652 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 258.635 ms - -[0m[39m
+2026-08-25 20:26:52:2652 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 775.818 ms - -[0m[39m
+2026-08-25 20:26:52:2652 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1352.990 ms - -[0m[39m
+2026-08-25 20:26:54:2654 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 2083.495 ms - -[0m[39m
+2026-08-25 20:26:55:2655 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 524.948 ms - -[0m[39m
+2026-08-25 20:26:57:2657 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 527.605 ms - -[0m[39m
+2026-08-25 20:26:57:2657 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1059.994 ms - -[0m[39m
+2026-08-25 20:26:57:2657 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 295.265 ms - -[0m[39m
+2026-08-25 20:26:58:2658 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 808.859 ms - -[0m[39m
+2026-08-25 20:26:58:2658 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 1087.487 ms - -[0m[39m
+2026-08-25 20:26:59:2659 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 524.896 ms - -[0m[39m
+2026-08-25 20:26:59:2659 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1599.207 ms - -[0m[39m
+2026-08-25 20:27:02:272 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [36m304[0m 1586.956 ms - -[0m[39m
+2026-08-25 20:27:06:276 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 532.022 ms - -[0m[39m
+2026-08-25 20:27:10:2710 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 526.279 ms - -[0m[39m
+2026-08-25 20:27:11:2711 [32minfo[39m: [32m[0mGET /api/v1/lab-portal/bookings [36m304[0m 1052.513 ms - -[0m[39m
+2026-08-25 20:27:12:2712 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 525.933 ms - -[0m[39m
+2026-08-25 20:27:12:2712 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 527.221 ms - -[0m[39m
+2026-08-25 20:27:12:2712 [32minfo[39m: [32m[Socket Connected] id=L19285kxvgtEGRijAAAr isAgent=false userId=Guest[39m
+2026-08-25 20:27:17:2717 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.444 ms - 65[0m[39m
+2026-08-25 20:27:17:2717 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 263.063 ms - 36[0m[39m
+2026-08-25 20:27:17:2717 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 531.576 ms - 254[0m[39m
+2026-08-25 20:27:17:2717 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 262.830 ms - 875[0m[39m
+2026-08-25 20:27:39:2739 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 527.714 ms - -[0m[39m
+2026-08-25 20:27:39:2739 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 529.560 ms - -[0m[39m
+2026-08-25 20:27:42:2742 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 263.374 ms - -[0m[39m
+2026-08-25 20:27:42:2742 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 766.925 ms - -[0m[39m
+2026-08-25 20:27:42:2742 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 1016.298 ms - -[0m[39m
+2026-08-25 20:28:53:2853 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 255.090 ms - -[0m[39m
+2026-08-25 20:28:54:2854 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 780.291 ms - -[0m[39m
+2026-08-25 20:28:54:2854 [32minfo[39m: [32m[0mGET /api/v1/admin/pending-approvals [36m304[0m 1026.336 ms - -[0m[39m
+2026-08-25 20:29:00:290 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 536.737 ms - -[0m[39m
+2026-08-25 20:29:00:290 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 536.239 ms - -[0m[39m
+2026-08-25 20:29:21:2921 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 505.525 ms - -[0m[39m
+2026-08-25 20:29:21:2921 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 509.060 ms - -[0m[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32m[Socket Connected] id=huya6H9d09gJpHiZAAAD isAgent=false userId=Guest[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32m[Socket Connected] id=cU1lQLjd58qK9VmjAAAE isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=cU1lQLjd58qK9VmjAAAE][39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32m[Socket Connected] id=iMsWQrzQESVt66Q7AAAF isAgent=false userId=Guest[39m
+2026-08-25 20:29:26:2926 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=cU1lQLjd58qK9VmjAAAE][39m
+2026-08-25 20:29:28:2928 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-25 20:29:28:2928 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m

@@ -1022,7 +1022,7 @@ export const getAdminStats = async (req: Request, res: Response): Promise<void> 
     ]);
 
     const totalRevenue = (successfulPayments as any[]).reduce((sum: number, p: any) => sum + (p.amount || 0), 0);
-    const pendingApprovals = (Number(pendingTests) || 0) + (Number(pendingPackages) || 0);
+    const pendingApprovals = (Number(pendingTests) || 0) + (Number(pendingPackages) || 0) + (Number(pendingReports) || 0);
 
     res.status(200).json({
       success: true,
@@ -1338,6 +1338,7 @@ export const getPendingApprovals = async (req: Request, res: Response): Promise<
   try {
     const { default: Test } = await import('../models/Test');
     const { default: Package } = await import('../models/Package');
+    const { default: Booking } = await import('../models/Booking');
     const { ApprovalStatus } = await import('../types');
 
     const pendingTests = await Test.find({ approvalStatus: ApprovalStatus.PENDING })
@@ -1348,11 +1349,24 @@ export const getPendingApprovals = async (req: Request, res: Response): Promise<
       .populate('createdBy', 'firstName lastName email')
       .sort('-createdAt');
 
+    const pendingReports = await Booking.find({
+      isReportApprovedByAdmin: false,
+      $or: [
+        { reportFiles: { $exists: true, $not: { $size: 0 } } },
+        { reportUrl: { $exists: true, $ne: '' } },
+        { 'reportSummary.summary': { $exists: true, $ne: '' } },
+      ],
+    })
+      .populate('userId', 'firstName lastName email phone')
+      .populate('labId', 'labName contactEmail')
+      .sort('-updatedAt');
+
     res.status(200).json({
       success: true,
       data: {
         tests: pendingTests,
-        packages: pendingPackages
+        packages: pendingPackages,
+        reports: pendingReports,
       }
     });
   } catch (error: any) {

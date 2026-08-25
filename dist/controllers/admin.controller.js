@@ -940,7 +940,7 @@ const getAdminStats = async (req, res) => {
             Payment.find({ status: PaymentStatus.SUCCESS }).select('amount').catch(() => []),
         ]);
         const totalRevenue = successfulPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
-        const pendingApprovals = (Number(pendingTests) || 0) + (Number(pendingPackages) || 0);
+        const pendingApprovals = (Number(pendingTests) || 0) + (Number(pendingPackages) || 0) + (Number(pendingReports) || 0);
         res.status(200).json({
             success: true,
             data: {
@@ -1235,6 +1235,7 @@ const getPendingApprovals = async (req, res) => {
     try {
         const { default: Test } = await Promise.resolve().then(() => __importStar(require('../models/Test')));
         const { default: Package } = await Promise.resolve().then(() => __importStar(require('../models/Package')));
+        const { default: Booking } = await Promise.resolve().then(() => __importStar(require('../models/Booking')));
         const { ApprovalStatus } = await Promise.resolve().then(() => __importStar(require('../types')));
         const pendingTests = await Test.find({ approvalStatus: ApprovalStatus.PENDING })
             .populate('labId', 'labName')
@@ -1242,11 +1243,23 @@ const getPendingApprovals = async (req, res) => {
         const pendingPackages = await Package.find({ approvalStatus: ApprovalStatus.PENDING })
             .populate('createdBy', 'firstName lastName email')
             .sort('-createdAt');
+        const pendingReports = await Booking.find({
+            isReportApprovedByAdmin: false,
+            $or: [
+                { reportFiles: { $exists: true, $not: { $size: 0 } } },
+                { reportUrl: { $exists: true, $ne: '' } },
+                { 'reportSummary.summary': { $exists: true, $ne: '' } },
+            ],
+        })
+            .populate('userId', 'firstName lastName email phone')
+            .populate('labId', 'labName contactEmail')
+            .sort('-updatedAt');
         res.status(200).json({
             success: true,
             data: {
                 tests: pendingTests,
-                packages: pendingPackages
+                packages: pendingPackages,
+                reports: pendingReports,
             }
         });
     }
