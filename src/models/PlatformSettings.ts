@@ -17,12 +17,25 @@ export interface INotificationWorkflows {
   customerNotifications: INotificationWorkflowChannel;
 }
 
+export interface ICourierAddress {
+  facilityName: string;
+  attention: string;
+  street: string;
+  city: string;
+  state: string;
+  pincode: string;
+  phone: string;
+  email: string;
+  workingHours: string;
+}
+
 export interface IPlatformSettings extends Document {
   pickupCities: string[];
   enablePickupSlotSelection: boolean;
   adminWhatsAppNumber?: string;
   adminEmailRecipient?: string;
   notificationWorkflows: INotificationWorkflows;
+  courierAddress: ICourierAddress;
 }
 
 const defaultWorkflowChannel = (email = true, whatsapp = true, extra = {}) => ({
@@ -30,6 +43,18 @@ const defaultWorkflowChannel = (email = true, whatsapp = true, extra = {}) => ({
   whatsapp,
   ...extra,
 });
+
+const defaultCourierAddress = {
+  facilityName: 'Litmus Sample Central Intake & Diagnostics Hub',
+  attention: 'Sample Logistics & Ingestion Desk',
+  street: 'Tower B, Innovation Corridor, Old Mahabalipuram Road (OMR)',
+  city: 'Chennai',
+  state: 'Tamil Nadu',
+  pincode: '600097',
+  phone: '+91 98765 43210',
+  email: 'samples@litmustest.com',
+  workingHours: 'Mon – Sat · 08:00 AM – 08:00 PM IST',
+};
 
 const platformSettingsSchema = new Schema(
   {
@@ -40,6 +65,17 @@ const platformSettingsSchema = new Schema(
     enablePickupSlotSelection: {
       type: Boolean,
       default: false,
+    },
+    courierAddress: {
+      facilityName: { type: String, default: defaultCourierAddress.facilityName },
+      attention: { type: String, default: defaultCourierAddress.attention },
+      street: { type: String, default: defaultCourierAddress.street },
+      city: { type: String, default: defaultCourierAddress.city },
+      state: { type: String, default: defaultCourierAddress.state },
+      pincode: { type: String, default: defaultCourierAddress.pincode },
+      phone: { type: String, default: defaultCourierAddress.phone },
+      email: { type: String, default: defaultCourierAddress.email },
+      workingHours: { type: String, default: defaultCourierAddress.workingHours },
     },
     adminWhatsAppNumber: {
       type: String,
@@ -119,6 +155,9 @@ export async function getPlatformSettings() {
       supportRequestAdminAlert: defaultWorkflowChannel(true, true),
       customerNotifications: defaultWorkflowChannel(true, true),
     } as any;
+  }
+  if (!settings.courierAddress || !settings.courierAddress.facilityName) {
+    settings.courierAddress = defaultCourierAddress;
   }
   await settings.save();
   return settings;

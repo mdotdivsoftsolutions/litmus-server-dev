@@ -11,6 +11,7 @@ export const getPublicSettings = async (_req: Request, res: Response) => {
       data: {
         pickupCities: settings.pickupCities,
         enablePickupSlotSelection: settings.enablePickupSlotSelection ?? false,
+        courierAddress: settings.courierAddress,
       },
     });
   } catch (error: any) {
@@ -67,6 +68,14 @@ export const updateAdminSettings = async (req: Request, res: Response) => {
 
     if (req.body.adminEmailRecipient !== undefined) {
       settings.adminEmailRecipient = String(req.body.adminEmailRecipient).trim();
+    }
+
+    if (req.body.courierAddress && typeof req.body.courierAddress === 'object') {
+      settings.courierAddress = {
+        ...settings.courierAddress,
+        ...req.body.courierAddress,
+      };
+      settings.markModified('courierAddress');
     }
 
     if (req.body.notificationWorkflows && typeof req.body.notificationWorkflows === 'object') {
