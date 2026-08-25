@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getLabDashboardStats, getMyLabBookings, getMyLabProfile, updateMyLabProfile, updateBookingStatus, updateCollectionDetails, getMyLabTests, createMyLabTest, updateMyLabTest, getMyLabPackages, createMyLabPackage, updateMyLabPackage, getPlatformTests, addExistingTestToLab, getPlatformPackages, addExistingPackageToLab } from '../controllers/lab-portal.controller';
+import { submitBookingResult } from '../controllers/laboratory.controller';
 import { authMiddleware, roleMiddleware } from '../middleware/auth.middleware';
 import { UserRole } from '../types';
 
@@ -124,6 +125,8 @@ router.patch('/profile', updateMyLabProfile);
  *         description: Collection details updated successfully
  */
 router.patch('/bookings/:id/collection', updateCollectionDetails);
+router.patch('/bookings/:id/result', submitBookingResult);
+router.patch('/bookings/:bookingId/result', submitBookingResult);
 
 // Test management
 router.get('/platform-tests', getPlatformTests);

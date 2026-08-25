@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import Laboratory from '../models/Laboratory';
 import User from '../models/User';
-import { UserRole } from '../types';
-import { sendLabWelcomeEmail } from '../utils/mailer';
+import Booking from '../models/Booking';
+import { UserRole, BookingStatus } from '../types';
+import { sendLabWelcomeEmail, sendTestReportReadyEmail } from '../utils/mailer';
 
 export const createLab = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -291,93 +292,93 @@ export const deleteLab = async (req: Request, res: Response): Promise<void> => {
 export const submitBookingResult = async (req: Request, res: Response): Promise<void> => {
   try {
     const { reportUrl, reportFiles, summary, recommendations, tips, additionalNotes, reportSummary } = req.body;
+    const bookingId = req.params.bookingId || req.params.id;
 
-    import('../models/Booking').then(async ({ default: Booking }) => {
-      const { sendTestReportReadyEmail } = await import('../utils/mailer');
-      const booking = await Booking.findById(req.params.bookingId).populate('labId').populate('userId', 'firstName lastName email');
-      
-      if (!booking) {
-        res.status(404).json({
-          success: false,
-          message: 'Booking not found',
-        });
-        return;
-      }
+    const booking = await Booking.findById(bookingId).populate('labId').populate('userId', 'firstName lastName email phone');
+    
+    if (!booking) {
+      res.status(404).json({
+        success: false,
+        message: 'Booking not found',
+      });
+      return;
+    }
 
-      if (!reportUrl && (!reportFiles || reportFiles.length === 0) && (!booking.reportFiles || booking.reportFiles.length === 0)) {
-        res.status(400).json({
-          success: false,
-          message: 'Please provide a reportUrl or upload a report document',
-        });
-        return;
-      }
+    if (!reportUrl && (!reportFiles || reportFiles.length === 0) && (!booking.reportFiles || booking.reportFiles.length === 0)) {
+      res.status(400).json({
+        success: false,
+        message: 'Please provide a reportUrl or upload a report document',
+      });
+      return;
+    }
 
-      const lab = booking.labId as any;
+    const lab = booking.labId as any;
 
-      if (!booking.reportFiles) {
-        booking.reportFiles = [];
-      }
-      if (Array.isArray(reportFiles) && reportFiles.length > 0) {
-        booking.reportFiles = reportFiles;
-      } else if (reportUrl && !booking.reportFiles.includes(reportUrl)) {
-        booking.reportFiles.push(reportUrl);
-      }
+    if (!booking.reportFiles) {
+      booking.reportFiles = [];
+    }
+    if (Array.isArray(reportFiles) && reportFiles.length > 0) {
+      booking.reportFiles = reportFiles;
+    } else if (reportUrl && !booking.reportFiles.includes(reportUrl)) {
+      booking.reportFiles.push(reportUrl);
+    }
 
-      const mergedSummary = summary !== undefined ? summary : reportSummary?.summary;
-      const mergedRecs = recommendations !== undefined ? recommendations : reportSummary?.recommendations;
-      const mergedTips = tips !== undefined ? tips : reportSummary?.tips;
-      const mergedNotes = additionalNotes !== undefined ? additionalNotes : reportSummary?.additionalNotes;
+    const mergedSummary = summary !== undefined ? summary : reportSummary?.summary;
+    const mergedRecs = recommendations !== undefined ? recommendations : reportSummary?.recommendations;
+    const mergedTips = tips !== undefined ? tips : reportSummary?.tips;
+    const mergedNotes = additionalNotes !== undefined ? additionalNotes : reportSummary?.additionalNotes;
 
-      booking.reportSummary = {
-        summary: mergedSummary !== undefined ? String(mergedSummary) : (booking.reportSummary?.summary || ''),
-        recommendations: mergedRecs !== undefined ? String(mergedRecs) : (booking.reportSummary?.recommendations || ''),
-        tips: mergedTips !== undefined ? String(mergedTips) : (booking.reportSummary?.tips || ''),
-        additionalNotes: mergedNotes !== undefined ? String(mergedNotes) : (booking.reportSummary?.additionalNotes || ''),
-        updatedAt: new Date(),
-        updatedByRole: req.user?.role === 'ADMIN' ? 'ADMIN' : 'LAB',
-      };
-      
-      const requiresAdminApproval = lab?.requiresAdminApprovalForReport !== undefined ? lab.requiresAdminApprovalForReport : true;
-      
-      if (requiresAdminApproval) {
-        booking.isReportApprovedByAdmin = false;
-        import('../types').then(({ BookingStatus }) => {
-          booking.status = BookingStatus.IN_PROGRESS;
-          booking.save().then((updatedBooking) => {
-            res.status(200).json({
-              success: true,
-              message: 'Result submitted and pending admin approval',
-              data: updatedBooking,
-            });
+    booking.reportSummary = {
+      summary: mergedSummary !== undefined ? String(mergedSummary) : (booking.reportSummary?.summary || ''),
+      recommendations: mergedRecs !== undefined ? String(mergedRecs) : (booking.reportSummary?.recommendations || ''),
+      tips: mergedTips !== undefined ? String(mergedTips) : (booking.reportSummary?.tips || ''),
+      additionalNotes: mergedNotes !== undefined ? String(mergedNotes) : (booking.reportSummary?.additionalNotes || ''),
+      updatedAt: new Date(),
+      updatedByRole: req.user?.role === 'ADMIN' ? 'ADMIN' : 'LAB',
+    };
+
+    if (!booking.metadata) booking.metadata = {};
+    booking.metadata.reportSubmittedAt = new Date();
+    booking.metadata.reportUploadedBy = req.user?.id || 'LAB';
+    delete booking.metadata.rejectionReason; // Clear any previous rejection reason
+
+    const requiresAdminApproval = lab?.requiresAdminApprovalForReport !== undefined ? lab.requiresAdminApprovalForReport : true;
+    
+    if (requiresAdminApproval) {
+      booking.isReportApprovedByAdmin = false;
+      booking.status = BookingStatus.IN_PROGRESS;
+    } else {
+      booking.isReportApprovedByAdmin = true;
+      booking.status = BookingStatus.COMPLETED;
+    }
+
+    booking.markModified('reportFiles');
+    booking.markModified('reportSummary');
+    booking.markModified('metadata');
+
+    const updatedBooking = await booking.save();
+
+    if (!requiresAdminApproval && updatedBooking.userId) {
+      try {
+        const user = updatedBooking.userId as any;
+        if (user.email) {
+          const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
+          await sendTestReportReadyEmail(user.email, {
+            customerName,
+            bookingId: updatedBooking._id.toString(),
           });
-        });
-      } else {
-        booking.isReportApprovedByAdmin = true;
-        import('../types').then(({ BookingStatus }) => {
-          booking.status = BookingStatus.COMPLETED;
-          booking.save().then(async (updatedBooking) => {
-            if (updatedBooking.userId) {
-              try {
-                const user = updatedBooking.userId as any;
-                if (user.email) {
-                  const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-                  await sendTestReportReadyEmail(user.email, {
-                    customerName,
-                    bookingId: updatedBooking._id.toString(),
-                  });
-                }
-              } catch (e) {
-                console.error('Failed to send report ready email:', e);
-              }
-            }
-            res.status(200).json({
-              success: true,
-              message: 'Result submitted and approved automatically',
-              data: updatedBooking,
-            });
-          });
-        });
+        }
+      } catch (e) {
+        console.error('Failed to send report ready email:', e);
       }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: requiresAdminApproval 
+        ? 'Test report submitted successfully and pending admin approval' 
+        : 'Test report submitted and approved automatically',
+      data: updatedBooking,
     });
   } catch (error: any) {
     res.status(500).json({

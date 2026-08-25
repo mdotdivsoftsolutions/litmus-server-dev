@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const lab_portal_controller_1 = require("../controllers/lab-portal.controller");
+const laboratory_controller_1 = require("../controllers/laboratory.controller");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const types_1 = require("../types");
 const router = (0, express_1.Router)();
@@ -119,6 +120,8 @@ router.patch('/profile', lab_portal_controller_1.updateMyLabProfile);
  *         description: Collection details updated successfully
  */
 router.patch('/bookings/:id/collection', lab_portal_controller_1.updateCollectionDetails);
+router.patch('/bookings/:id/result', laboratory_controller_1.submitBookingResult);
+router.patch('/bookings/:bookingId/result', laboratory_controller_1.submitBookingResult);
 // Test management
 router.get('/platform-tests', lab_portal_controller_1.getPlatformTests);
 router.post('/tests/add-existing', lab_portal_controller_1.addExistingTestToLab);
