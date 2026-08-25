@@ -10,6 +10,7 @@ const Booking_1 = __importDefault(require("../models/Booking"));
 const Payment_1 = __importDefault(require("../models/Payment"));
 const types_1 = require("../types");
 const invoice_service_1 = require("../services/invoice.service");
+const notification_service_1 = __importDefault(require("../services/notification.service"));
 const logger_1 = __importDefault(require("../utils/logger"));
 // ─────────────────────────────────────────────────────────────────────────────
 // POST /api/v1/payment/create-order
@@ -140,6 +141,10 @@ const verifyPayment = async (req, res) => {
             invoiceDate: existingBooking?.invoiceDate || new Date(),
         });
         logger_1.default.info(`Payment verified: ${razorpay_payment_id} for booking: ${bookingId}, Invoice: ${invoiceNum}`);
+        // Dispatch booking confirmation notification only AFTER payment is verified
+        notification_service_1.default.notifyConfirmedBookingById(bookingId).catch((notifErr) => {
+            logger_1.default.error(`Error sending booking confirmation email after verifyPayment for ${bookingId}:`, notifErr);
+        });
         res.status(200).json({
             success: true,
             message: 'Payment verified successfully',
@@ -241,6 +246,10 @@ const webhookHandler = async (req, res) => {
                     invoiceDate: existingBooking?.invoiceDate || new Date(),
                 });
                 logger_1.default.info(`Webhook: booking ${targetBookingId} marked as PAID via ${eventType}, Invoice: ${invoiceNum}`);
+                // Dispatch booking confirmation notification via Webhook (idempotent)
+                notification_service_1.default.notifyConfirmedBookingById(targetBookingId).catch((notifErr) => {
+                    logger_1.default.error(`Error sending booking confirmation email after webhook for ${targetBookingId}:`, notifErr);
+                });
             }
             else {
                 logger_1.default.warn(`Webhook: no booking found for order ${razorpay_order_id}`);

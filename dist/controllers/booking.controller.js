@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.downloadBookingReport = exports.updateCourierTracking = exports.getBookingById = exports.getMyBookings = exports.createBooking = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
 const client_s3_1 = require("@aws-sdk/client-s3");
 const Booking_1 = __importDefault(require("../models/Booking"));
@@ -11,7 +12,6 @@ const Laboratory_1 = __importDefault(require("../models/Laboratory"));
 const Test_1 = __importDefault(require("../models/Test"));
 const Package_1 = __importDefault(require("../models/Package"));
 const types_1 = require("../types");
-const notification_service_1 = __importDefault(require("../services/notification.service"));
 const PlatformSettings_1 = require("../models/PlatformSettings");
 const spaces_1 = __importDefault(require("../config/spaces"));
 const bookingRules_1 = require("../utils/bookingRules");
@@ -60,43 +60,6 @@ const createBooking = async (req, res) => {
             collectionStatus,
             collectionMethod: collectionMethod === 'PICKUP' || collectionMethod === 'COURIER' ? collectionMethod : undefined,
         });
-        try {
-            const populatedBooking = await Booking_1.default.findById(booking._id)
-                .populate('userId', 'firstName lastName email phone')
-                .populate('items.testId', 'testName')
-                .populate('items.packageId', 'name');
-            if (populatedBooking && populatedBooking.userId) {
-                const user = populatedBooking.userId;
-                const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Valued Customer';
-                const testNames = populatedBooking.items.map(item => {
-                    if (item.testId)
-                        return item.testId.testName;
-                    if (item.packageId)
-                        return item.packageId.name;
-                    return 'Diagnostic Test';
-                }).filter(Boolean).join(', ');
-                const productNames = populatedBooking.items.map(item => {
-                    return item.samples?.map(s => s.productName).filter(Boolean).join(', ');
-                }).filter(Boolean).join(', ');
-                const totalSamples = populatedBooking.items.reduce((total, item) => {
-                    return total + (item.samples?.reduce((sum, s) => sum + (Number(s.quantity) || 1), 0) || 0);
-                }, 0);
-                notification_service_1.default.notifyOrderConfirmation({
-                    customerEmail: user.email,
-                    customerPhone: user.phone,
-                    customerName,
-                    bookingId: booking._id.toString(),
-                    productName: productNames || 'Diagnostic Sample',
-                    testNames: testNames || 'Food Quality & Safety Diagnostics',
-                    sampleQty: totalSamples.toString(),
-                    amount: booking.totalAmount,
-                    bookingDate: new Date(bookingDate).toLocaleDateString('en-IN'),
-                }).catch(() => { });
-            }
-        }
-        catch (notifErr) {
-            console.error('Error dispatching booking confirmation notification:', notifErr);
-        }
         res.status(201).json({
             success: true,
             data: booking,
@@ -173,7 +136,22 @@ const getMyBookings = async (req, res) => {
 exports.getMyBookings = getMyBookings;
 const getBookingById = async (req, res) => {
     try {
-        const booking = await Booking_1.default.findById(req.params.id)
+        const rawId = String(req.params.id);
+        let query;
+        if (mongoose_1.default.Types.ObjectId.isValid(rawId) && rawId.length === 24) {
+            query = { _id: rawId };
+        }
+        else {
+            query = {
+                $or: [
+                    { 'metadata.bookingId': rawId },
+                    { 'metadata.orderId': rawId },
+                    { 'metadata.displayBookingId': rawId },
+                    { invoiceNumber: rawId },
+                ],
+            };
+        }
+        const booking = await Booking_1.default.findOne(query)
             .populate('labId')
             .populate('items.testId')
             .populate('items.packageId')
@@ -251,6 +229,9 @@ const updateCourierTracking = async (req, res) => {
             submittedAt: booking.courierDetails?.submittedAt || new Date(),
         };
         booking.collectionStatus = types_1.CollectionStatus.SHIPPED;
+        if (!booking.metadata.collectorAssignedAt) {
+            booking.metadata.collectorAssignedAt = booking.courierDetails.submittedAt;
+        }
         booking.markModified('metadata');
         await booking.save();
         res.status(200).json({

@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import path from 'path';
+import fs from 'fs';
 import logger from './logger';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -42,6 +44,19 @@ export interface CustomerEmailData {
   trackingId?: string;
   courierName?: string;
   reportUrl?: string;
+}
+
+function formatCurrency(amount?: string | number): string {
+  if (amount === undefined || amount === null || amount === '') return '';
+  if (typeof amount === 'number') {
+    return isNaN(amount) ? '' : `₹${amount.toLocaleString('en-IN')}`;
+  }
+  const cleanStr = String(amount).replace(/[^0-9.]/g, '');
+  const num = parseFloat(cleanStr);
+  if (!isNaN(num)) {
+    return `₹${num.toLocaleString('en-IN')}`;
+  }
+  return String(amount).startsWith('₹') ? String(amount) : `₹${amount}`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -92,21 +107,13 @@ function renderLitmusEmailLayout({
           
           <!-- Header Bar -->
           <tr>
-            <td style="padding: 32px 36px 20px 36px;">
+            <td style="padding: 28px 36px 16px 36px;">
               <table width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td align="left">
-                    <table cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                        <td style="vertical-align: middle;">
-                          <div style="background-color: #004B60; color: #ffffff; width: 36px; height: 36px; border-radius: 8px; text-align: center; line-height: 36px; font-weight: 900; font-size: 20px;">L</div>
-                        </td>
-                        <td style="vertical-align: middle; padding-left: 10px;">
-                          <span style="font-size: 22px; font-weight: 800; color: #004B60; letter-spacing: -0.4px;">litmus</span>
-                          <span style="font-size: 9px; font-weight: 700; color: #64748b; display: block; text-transform: uppercase; letter-spacing: 0.8px; margin-top: -2px;">Food Analytics &amp; Diagnostics</span>
-                        </td>
-                      </tr>
-                    </table>
+                    <a href="${SITE_URL}" target="_blank" style="text-decoration: none; display: inline-block;">
+                      <img src="https://litmuslabs.sgp1.digitaloceanspaces.com/email/litmus-brand-logo.png" alt="Litmus Food Analytics" width="115" height="44" border="0" style="display: block; width: 115px; height: auto; max-width: 115px; border: 0; outline: none; text-decoration: none;" />
+                    </a>
                   </td>
                 </tr>
               </table>
@@ -117,9 +124,9 @@ function renderLitmusEmailLayout({
           <tr>
             <td style="padding: 0 36px 36px 36px;">
               <!-- Headline -->
-              <h1 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 16px 0; line-height: 1.3; letter-spacing: -0.3px;">
+              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 18px; font-weight: 600; color: #0f172a; margin: 0 0 16px 0; line-height: 1.4; letter-spacing: -0.15px;">
                 ${headline}
-              </h1>
+              </div>
 
               <!-- Greeting -->
               <p style="font-size: 14px; font-weight: 600; color: #334155; margin: 0 0 12px 0;">
@@ -199,13 +206,14 @@ function renderLitmusEmailLayout({
 // ─────────────────────────────────────────────────────────────────────────────
 // Generic Email Dispatch Helper
 // ─────────────────────────────────────────────────────────────────────────────
-const sendGenericEmail = async (to: string, subject: string, html: string) => {
+const sendGenericEmail = async (to: string, subject: string, html: string, attachments: any[] = []) => {
   try {
     const info = await transporter.sendMail({
       from: DEFAULT_SENDER,
       to,
       subject,
       html,
+      attachments,
     });
     logger.info(`[Mailer] Message sent to ${to} | Subject: "${subject}" | ID: ${info.messageId}`);
     return true;
@@ -290,7 +298,7 @@ export const sendBookingConfirmedEmail = async (to: string, data: CustomerEmailD
           ${data.amount ? `
           <tr>
             <td style="padding: 6px 0; color: #64748b; font-weight: 600;">Total Paid:</td>
-            <td style="padding: 6px 0; font-weight: 800; color: #0f172a;">₹${Number(data.amount).toLocaleString('en-IN')} (Incl. GST)</td>
+            <td style="padding: 6px 0; font-weight: 800; color: #0f172a;">${formatCurrency(data.amount)} (Incl. GST)</td>
           </tr>
           ` : ''}
           ${data.bookingDate ? `
@@ -463,7 +471,7 @@ export const sendPaymentPendingEmail = async (to: string, data: CustomerEmailDat
           ${data.amount ? `
           <tr>
             <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Cart Total:</td>
-            <td style="padding: 5px 0; font-weight: 800; color: #004B60;">₹${Number(data.amount).toLocaleString('en-IN')}</td>
+            <td style="padding: 5px 0; font-weight: 800; color: #004B60;">${formatCurrency(data.amount)}</td>
           </tr>
           ` : ''}
         </table>

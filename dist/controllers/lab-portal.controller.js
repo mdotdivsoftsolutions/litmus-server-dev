@@ -151,6 +151,15 @@ const updateBookingStatus = async (req, res) => {
             return;
         }
         booking.status = status;
+        if (!booking.metadata)
+            booking.metadata = {};
+        if (status === types_1.BookingStatus.IN_PROGRESS && !booking.metadata.testingStartedAt) {
+            booking.metadata.testingStartedAt = new Date();
+        }
+        if (status === types_1.BookingStatus.COMPLETED && !booking.metadata.completedAt) {
+            booking.metadata.completedAt = new Date();
+        }
+        booking.markModified('metadata');
         await booking.save();
         res.status(200).json({
             success: true,
@@ -216,14 +225,27 @@ const updateCollectionDetails = async (req, res) => {
                 res.status(404).json({ success: false, message: 'Booking not found or not assigned to this lab' });
                 return;
             }
-            if (status)
+            if (!booking.metadata)
+                booking.metadata = {};
+            if (status) {
                 booking.collectionStatus = status;
+                if ((status === 'COLLECTED' || status === 'REACHED') && !booking.metadata.sampleCollectedAt) {
+                    booking.metadata.sampleCollectedAt = new Date();
+                }
+                if (status === 'ASSIGNED' && !booking.metadata.collectorAssignedAt) {
+                    booking.metadata.collectorAssignedAt = new Date();
+                }
+            }
             if (collectorName !== undefined || collectorContact !== undefined) {
                 booking.assignedCollector = {
                     name: collectorName,
                     contact: collectorContact
                 };
+                if (collectorName && !booking.metadata.collectorAssignedAt) {
+                    booking.metadata.collectorAssignedAt = new Date();
+                }
             }
+            booking.markModified('metadata');
             await booking.save();
             await booking.populate('userId', 'firstName lastName email');
             if (status === 'COLLECTED' && booking.userId) {

@@ -579,18 +579,35 @@ const updateAdminBookingStatus = async (req, res) => {
             res.status(404).json({ success: false, message: 'Booking not found' });
             return;
         }
+        if (!booking.metadata)
+            booking.metadata = {};
         if (status && Object.values(types_1.BookingStatus).includes(status)) {
             booking.status = status;
+            if (status === types_1.BookingStatus.APPROVED && !booking.metadata.adminApprovedAt) {
+                booking.metadata.adminApprovedAt = new Date();
+            }
+            if (status === types_1.BookingStatus.IN_PROGRESS && !booking.metadata.testingStartedAt) {
+                booking.metadata.testingStartedAt = new Date();
+            }
+            if (status === types_1.BookingStatus.COMPLETED) {
+                if (!booking.metadata.completedAt)
+                    booking.metadata.completedAt = new Date();
+                if (!booking.metadata.testingStartedAt)
+                    booking.metadata.testingStartedAt = booking.metadata.completedAt;
+            }
         }
         if (paymentStatus && Object.values(types_1.PaymentStatus).includes(paymentStatus)) {
             booking.paymentStatus = paymentStatus;
+            if (paymentStatus === types_1.PaymentStatus.SUCCESS && !booking.metadata.paymentConfirmedAt) {
+                booking.metadata.paymentConfirmedAt = new Date();
+            }
         }
         if (labId !== undefined) {
-            if (!booking.metadata)
-                booking.metadata = {};
             if (labId === 'litmus_direct') {
                 booking.labId = undefined;
                 booking.metadata.isLitmusDirect = true;
+                if (!booking.metadata.labAssignedAt)
+                    booking.metadata.labAssignedAt = new Date();
             }
             else if (labId === 'smart_allocation' || labId === '') {
                 booking.labId = undefined;
@@ -599,10 +616,15 @@ const updateAdminBookingStatus = async (req, res) => {
             else {
                 booking.labId = labId;
                 booking.metadata.isLitmusDirect = false;
+                booking.metadata.labAssignedAt = new Date();
             }
-            booking.markModified('metadata');
         }
+        booking.markModified('metadata');
         await booking.save();
+        if (booking.paymentStatus === types_1.PaymentStatus.SUCCESS || booking.status === types_1.BookingStatus.APPROVED) {
+            const { default: NotificationService } = await Promise.resolve().then(() => __importStar(require('../services/notification.service')));
+            NotificationService.notifyConfirmedBookingById(booking._id.toString()).catch(() => { });
+        }
         res.status(200).json({
             success: true,
             message: 'Booking updated successfully',
@@ -789,13 +811,24 @@ const updateBookingReport = async (req, res) => {
                     updatedAt: new Date(),
                     updatedByRole: 'ADMIN',
                 };
+                if (!booking.metadata)
+                    booking.metadata = {};
+                if (booking.reportFiles?.length || mergedSummary) {
+                    if (!booking.metadata.reportUploadedAt)
+                        booking.metadata.reportUploadedAt = new Date();
+                }
                 const wasApproved = booking.isReportApprovedByAdmin;
                 if (isReportApprovedByAdmin !== undefined) {
                     booking.isReportApprovedByAdmin = Boolean(isReportApprovedByAdmin);
                     if (booking.isReportApprovedByAdmin) {
                         booking.status = BookingStatus.COMPLETED;
+                        if (!booking.metadata.completedAt)
+                            booking.metadata.completedAt = new Date();
+                        if (!booking.metadata.reportUploadedAt)
+                            booking.metadata.reportUploadedAt = booking.metadata.completedAt;
                     }
                 }
+                booking.markModified('metadata');
                 await booking.save();
                 if (!wasApproved && booking.isReportApprovedByAdmin && booking.userId) {
                     try {
@@ -1100,8 +1133,17 @@ const updateCollectionDetails = async (req, res) => {
             res.status(404).json({ success: false, message: 'Booking not found' });
             return;
         }
-        if (status)
+        if (!booking.metadata)
+            booking.metadata = {};
+        if (status) {
             booking.collectionStatus = status;
+            if ((status === 'COLLECTED' || status === 'REACHED') && !booking.metadata.sampleCollectedAt) {
+                booking.metadata.sampleCollectedAt = new Date();
+            }
+            if (status === 'ASSIGNED' && !booking.metadata.collectorAssignedAt) {
+                booking.metadata.collectorAssignedAt = new Date();
+            }
+        }
         if (collectionMethod)
             booking.collectionMethod = collectionMethod;
         if (collectorName !== undefined || collectorContact !== undefined) {
@@ -1109,15 +1151,19 @@ const updateCollectionDetails = async (req, res) => {
                 name: collectorName || '',
                 contact: collectorContact || ''
             };
+            if (collectorName && !booking.metadata.collectorAssignedAt) {
+                booking.metadata.collectorAssignedAt = new Date();
+            }
         }
         const newTrackingId = courierDetails?.trackingId || trackingId;
         if (newTrackingId !== undefined) {
             const cName = courierDetails?.courierName || courierName || '';
             const cNotes = courierDetails?.notes || notes || '';
-            if (!booking.metadata)
-                booking.metadata = {};
             if (!Array.isArray(booking.metadata.trackingHistory)) {
                 booking.metadata.trackingHistory = [];
+            }
+            if (!booking.metadata.collectorAssignedAt) {
+                booking.metadata.collectorAssignedAt = new Date();
             }
             booking.metadata.trackingHistory.unshift({
                 trackingId: String(newTrackingId).trim(),

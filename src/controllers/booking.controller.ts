@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import path from 'path';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 import Booking from '../models/Booking';
@@ -151,7 +152,23 @@ export const getMyBookings = async (req: Request, res: Response): Promise<void> 
 
 export const getBookingById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const booking = await Booking.findById(req.params.id)
+    const rawId = String(req.params.id);
+    let query: any;
+
+    if (mongoose.Types.ObjectId.isValid(rawId) && rawId.length === 24) {
+      query = { _id: rawId };
+    } else {
+      query = {
+        $or: [
+          { 'metadata.bookingId': rawId },
+          { 'metadata.orderId': rawId },
+          { 'metadata.displayBookingId': rawId },
+          { invoiceNumber: rawId },
+        ],
+      };
+    }
+
+    const booking = await Booking.findOne(query)
       .populate('labId')
       .populate('items.testId')
       .populate('items.packageId')
