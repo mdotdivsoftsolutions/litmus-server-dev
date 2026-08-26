@@ -36,6 +36,11 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
       ];
     }
 
+    if (req.query.subcategory && req.query.subcategory !== 'All') {
+      const subRegex = new RegExp(`^${(req.query.subcategory as string).trim()}$`, 'i');
+      query.applicableSubcategories = { $in: [subRegex] };
+    }
+
     if (req.query.search) {
       const searchRegex = new RegExp(req.query.search as string, 'i');
       if (query.$or) {

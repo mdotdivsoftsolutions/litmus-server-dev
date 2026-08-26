@@ -83,11 +83,26 @@ export const processCategoriesImport = async (dataRows: any[]): Promise<ImportSu
     try {
       const description = row.description || row.Description || '';
       const imageUrl = row.imageUrl || row.image || row['Image URL'] || '';
+      const rawSubcats = row.subcategories || row.subCategories || row['Subcategories'] || '';
+      let subcategoriesList: any[] = [];
+      if (rawSubcats) {
+        subcategoriesList = String(rawSubcats)
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+          .map((name) => ({ name, slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-') }));
+      }
 
       const existing = await Category.findOne({ name: { $regex: new RegExp(`^${name.trim()}$`, 'i') } });
       if (existing) {
         existing.description = description || existing.description;
         if (imageUrl) existing.imageUrl = imageUrl;
+        if (subcategoriesList.length > 0) {
+          // Merge without duplicating existing names
+          const existingNames = new Set((existing.subcategories || []).map((s: any) => s.name.toLowerCase()));
+          const newSubs = subcategoriesList.filter((s) => !existingNames.has(s.name.toLowerCase()));
+          existing.subcategories = [...(existing.subcategories || []), ...newSubs];
+        }
         await existing.save();
         summary.updated++;
       } else {
@@ -95,6 +110,7 @@ export const processCategoriesImport = async (dataRows: any[]): Promise<ImportSu
           name: name.trim(),
           description: description.trim(),
           imageUrl: imageUrl.trim() || undefined,
+          subcategories: subcategoriesList,
         });
         summary.created++;
       }
@@ -216,6 +232,15 @@ export const processTestsImport = async (dataRows: any[]): Promise<ImportSummary
         }
       }
 
+      // Subcategories parsing
+      const rawSubcats = row.applicableSubcategories || row.subcategories || row.subCategories || row['Subcategories'] || row['Applicable Subcategories'] || '';
+      const applicableSubcategories: string[] = rawSubcats
+        ? String(rawSubcats)
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
+
       // Creator & Lab
       const creatorType = String(row.creatorType).toUpperCase() === 'LAB' ? 'LAB' : 'ADMIN';
       let labId: string | undefined = undefined;
@@ -241,6 +266,7 @@ export const processTestsImport = async (dataRows: any[]): Promise<ImportSummary
         isPopular: isPopular,
         isApplicableToAll: isApplicableToAll,
         applicableCategories: applicableCategoryIds,
+        applicableSubcategories: applicableSubcategories,
         creatorType: creatorType,
         labId: labId || undefined,
         approvalStatus: 'APPROVED',

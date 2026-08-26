@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createCategory, getCategories, getCategory, updateCategory, deleteCategory } from '../controllers/category.controller';
+import { createCategory, getCategories, getCategory, updateCategory, deleteCategory, addSubcategory, updateSubcategory, deleteSubcategory } from '../controllers/category.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -103,5 +103,10 @@ router.patch('/:id', updateCategory);
  *         description: Category deleted successfully
  */
 router.delete('/:id', deleteCategory);
+
+// Subcategories Management (Admin only)
+router.post('/:id/subcategories', addSubcategory);
+router.patch('/:id/subcategories/:subId', updateSubcategory);
+router.delete('/:id/subcategories/:subId', deleteSubcategory);
 
 export default router;

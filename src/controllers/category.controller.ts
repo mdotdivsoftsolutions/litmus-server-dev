@@ -41,7 +41,8 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
       },
       {
         $addFields: {
-          testCount: { $size: '$tests' }
+          testCount: { $size: '$tests' },
+          productCount: { $size: '$tests' }
         }
       },
       {
@@ -139,3 +140,124 @@ export const deleteCategory = async (req: Request, res: Response): Promise<void>
     });
   }
 };
+
+export const addSubcategory = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { name, description, imageUrl } = req.body;
+    if (!name || !name.trim()) {
+      res.status(400).json({ success: false, message: 'Subcategory name is required' });
+      return;
+    }
+
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      res.status(404).json({ success: false, message: 'Category not found' });
+      return;
+    }
+
+    const trimmedName = name.trim();
+    const existing = (category.subcategories || []).some(
+      (s: any) => s.name.toLowerCase() === trimmedName.toLowerCase()
+    );
+
+    if (existing) {
+      res.status(400).json({ success: false, message: 'Subcategory already exists in this category' });
+      return;
+    }
+
+    category.subcategories = category.subcategories || [];
+    category.subcategories.push({
+      name: trimmedName,
+      slug: trimmedName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      description: description?.trim(),
+      imageUrl: imageUrl?.trim(),
+    });
+
+    await category.save();
+
+    res.status(200).json({
+      success: true,
+      data: category,
+      message: 'Subcategory added successfully',
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: 'Failed to add subcategory',
+      error: error.message,
+    });
+  }
+};
+
+export const updateSubcategory = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { name, description, imageUrl } = req.body;
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      res.status(404).json({ success: false, message: 'Category not found' });
+      return;
+    }
+
+    const subId = req.params.subId;
+    const sub = (category.subcategories || []).find(
+      (s: any) => String(s._id) === String(subId) || s.name === subId
+    );
+
+    if (!sub) {
+      res.status(404).json({ success: false, message: 'Subcategory not found' });
+      return;
+    }
+
+    if (name && name.trim()) {
+      sub.name = name.trim();
+      sub.slug = name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    }
+    if (description !== undefined) sub.description = description?.trim();
+    if (imageUrl !== undefined) sub.imageUrl = imageUrl?.trim();
+
+    await category.save();
+
+    res.status(200).json({
+      success: true,
+      data: category,
+      message: 'Subcategory updated successfully',
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: 'Failed to update subcategory',
+      error: error.message,
+    });
+  }
+};
+
+export const deleteSubcategory = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      res.status(404).json({ success: false, message: 'Category not found' });
+      return;
+    }
+
+    const subId = req.params.subId;
+    category.subcategories = (category.subcategories || []).filter(
+      (s: any) => String(s._id) !== String(subId) && s.name !== subId
+    );
+
+    await category.save();
+
+    res.status(200).json({
+      success: true,
+      data: category,
+      message: 'Subcategory removed successfully',
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: 'Failed to remove subcategory',
+      error: error.message,
+    });
+  }
+};
+
+

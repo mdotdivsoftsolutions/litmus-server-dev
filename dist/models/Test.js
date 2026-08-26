@@ -88,6 +88,12 @@ const TestSchema = new mongoose_1.Schema({
             ref: 'Category',
         },
     ],
+    applicableSubcategories: [
+        {
+            type: String,
+            trim: true,
+        },
+    ],
     isApplicableToAll: {
         type: Boolean,
         default: false,

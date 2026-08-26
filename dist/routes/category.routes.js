@@ -98,4 +98,8 @@ router.patch('/:id', category_controller_1.updateCategory);
  *         description: Category deleted successfully
  */
 router.delete('/:id', category_controller_1.deleteCategory);
+// Subcategories Management (Admin only)
+router.post('/:id/subcategories', category_controller_1.addSubcategory);
+router.patch('/:id/subcategories/:subId', category_controller_1.updateSubcategory);
+router.delete('/:id/subcategories/:subId', category_controller_1.deleteSubcategory);
 exports.default = router;

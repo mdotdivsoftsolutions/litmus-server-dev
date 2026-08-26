@@ -56,6 +56,12 @@ const TestSchema: Schema = new Schema(
         ref: 'Category',
       },
     ],
+    applicableSubcategories: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     isApplicableToAll: {
       type: Boolean,
       default: false,

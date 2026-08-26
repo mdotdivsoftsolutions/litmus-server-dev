@@ -154,10 +154,19 @@ export interface ILaboratory extends Document {
   updatedAt: Date;
 }
 
+export interface ISubcategory {
+  _id?: mongoose.Types.ObjectId | string;
+  name: string;
+  slug?: string;
+  description?: string;
+  imageUrl?: string;
+}
+
 export interface ICategory extends Document {
   name: string;
   description?: string;
   imageUrl?: string;
+  subcategories?: ISubcategory[];
   productCount?: number;
   metadata?: any;
   createdAt: Date;
@@ -188,6 +197,7 @@ export interface ITest extends Document {
   isPopular?: boolean;
   metadata?: any;
   applicableCategories?: mongoose.Types.ObjectId[];
+  applicableSubcategories?: string[];
   isApplicableToAll: boolean;
   creatorType?: 'ADMIN' | 'LAB';
   labId?: mongoose.Types.ObjectId;
@@ -235,10 +245,12 @@ export interface IBooking extends Document {
   paymentStatus: PaymentStatus;
   bookingDate: Date;
   reportFiles?: string[];
+  reportUrl?: string;
   reportSummary?: IReportSummary;
   isReportApprovedByAdmin: boolean;
   collectionStatus?: CollectionStatus;
   collectionMethod?: 'PICKUP' | 'COURIER';
+  collectionDetails?: any;
   courierDetails?: {
     trackingId: string;
     courierName?: string;
