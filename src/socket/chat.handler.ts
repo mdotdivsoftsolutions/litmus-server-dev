@@ -248,6 +248,7 @@ export function registerChatHandlers(io: Server, socket: Socket) {
           senderType: MessageSenderType.BOT,
           senderName: 'Litmus Assistant',
           text: botResult.answer,
+          actionSuggestions: botResult.actionSuggestions,
         });
 
         const botReplyPayload = {
@@ -536,6 +537,49 @@ export function registerChatHandlers(io: Server, socket: Socket) {
     });
   });
 
+  // ── 9b. CANCEL LIVE SUPPORT / RETURN TO BOT ──────────────────────────────
+  socket.on(
+    'cancel_live_support',
+    async (
+      data: { sessionId: string },
+      callback?: (res: any) => void
+    ) => {
+      try {
+        const { sessionId } = data;
+        if (!sessionId) return;
+
+        // Reset session to BOT status
+        const session = await ChatSession.findOneAndUpdate(
+          { sessionId },
+          { $set: { status: ChatSessionStatus.BOT, assignedAgent: null, queuedAt: null, unreadAgentCount: 0 } },
+          { new: true }
+        );
+
+        // System notification in room
+        const { message: cancelSysMsg } = await ChatService.addMessage({
+          sessionId,
+          senderType: MessageSenderType.SYSTEM,
+          text: 'Live support request was cancelled. Switched back to AI Assistant.',
+        });
+        io.to(`chat_session_${sessionId}`).emit('receive_message', cancelSysMsg);
+
+        // Broadcast to admin channel to cancel/dismiss pending incoming notifications
+        io.to('admin_support_channel').emit('chat_request_cancelled', { sessionId });
+        io.to('admin_support_channel').emit('chat_session_updated', {
+          sessionId,
+          status: ChatSessionStatus.BOT,
+        });
+
+        io.to(`chat_session_${sessionId}`).emit('chat_cancelled', { sessionId, status: ChatSessionStatus.BOT });
+
+        if (typeof callback === 'function') callback({ success: true, session });
+      } catch (err: any) {
+        logger.error(`[Socket] cancel_live_support error: ${err.message}`);
+        if (typeof callback === 'function') callback({ success: false, message: err.message });
+      }
+    }
+  );
+
   // ── 10. RESOLVE / CLOSE CHAT ─────────────────────────────────────────────
   socket.on(
     'close_chat',
@@ -566,6 +610,7 @@ export function registerChatHandlers(io: Server, socket: Socket) {
           showRatingPrompt: true,
         });
 
+        io.to('admin_support_channel').emit('chat_request_cancelled', { sessionId });
         io.to('admin_support_channel').emit('chat_session_updated', {
           sessionId,
           status: ChatSessionStatus.RESOLVED,

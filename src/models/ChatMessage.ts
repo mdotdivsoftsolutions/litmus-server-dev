@@ -42,6 +42,13 @@ const ChatMessageSchema: Schema = new Schema(
         size: { type: Number },
       },
     ],
+    actionSuggestions: [
+      {
+        label: { type: String, required: true },
+        action: { type: String, required: true },
+        payload: { type: Schema.Types.Mixed },
+      },
+    ],
     isInternalNote: {
       type: Boolean,
       default: false,

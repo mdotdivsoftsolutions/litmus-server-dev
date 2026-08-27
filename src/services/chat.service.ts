@@ -207,6 +207,7 @@ export class ChatService {
     senderName?: string;
     text: string;
     attachments?: IChatAttachment[];
+    actionSuggestions?: Array<{ label: string; action: string; payload?: any }>;
     isInternalNote?: boolean;
   }): Promise<{ message: IChatMessage; isDuplicate: boolean }> {
     // Deduplication check if clientMessageId is provided
@@ -232,6 +233,7 @@ export class ChatService {
       senderName: params.senderName,
       text: encryptedText,
       attachments: params.attachments,
+      actionSuggestions: params.actionSuggestions,
       isInternalNote: params.isInternalNote || false,
     });
 
@@ -252,6 +254,7 @@ export class ChatService {
 
     const returnedMessage: any = message.toObject();
     returnedMessage.text = params.text;
+    returnedMessage.actionSuggestions = params.actionSuggestions;
 
     return { message: returnedMessage, isDuplicate: false };
   }

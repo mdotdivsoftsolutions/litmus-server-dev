@@ -396,6 +396,12 @@ export interface IChatAttachment {
   size?: number;
 }
 
+export interface IChatActionSuggestion {
+  label: string;
+  action: string;
+  payload?: any;
+}
+
 export interface IChatMessage extends Document {
   sessionId: string;
   sessionObjectId?: mongoose.Types.ObjectId;
@@ -405,9 +411,11 @@ export interface IChatMessage extends Document {
   senderName?: string;
   text: string;
   attachments?: IChatAttachment[];
+  actionSuggestions?: IChatActionSuggestion[];
   isInternalNote?: boolean;
   readAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
+
 
