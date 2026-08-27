@@ -311,16 +311,20 @@ export function registerChatHandlers(io: Server, socket: Socket) {
 
         // Fetch recent transcript for agent preview
         const recentTranscript = await ChatService.getTranscript(sessionId, false);
+        const lastUserMsg = [...recentTranscript].reverse().find((m) => m.senderType === MessageSenderType.USER);
+        const resolvedInitialQuery = initialQuery || lastUserMsg?.text || '';
 
         // Broadcast dispatch alert to all online Admin / Employee desks
+        const isRegisteredSession = session.userType === ChatUserType.REGISTERED && Boolean(session.userId);
         const dispatchPayload = {
           sessionId,
           session,
           guestInfo: session.guestInfo,
-          user: session.userId,
-          userType: session.userType,
+          user: isRegisteredSession ? session.userId : null,
+          userId: isRegisteredSession ? (typeof session.userId === 'object' ? (session.userId as any)._id : session.userId) : undefined,
+          userType: isRegisteredSession ? ChatUserType.REGISTERED : ChatUserType.GUEST,
           queuedAt: session.queuedAt || new Date(),
-          initialQuery: initialQuery || recentTranscript[recentTranscript.length - 2]?.text || '',
+          initialQuery: resolvedInitialQuery,
           transcriptPreview: recentTranscript.slice(-4),
         };
 

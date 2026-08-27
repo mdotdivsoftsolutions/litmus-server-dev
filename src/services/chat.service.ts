@@ -128,21 +128,20 @@ export class ChatService {
     userId?: string;
     userType?: ChatUserType;
   }): Promise<IChatSession | null> {
+    const isRegistered = params.userType === ChatUserType.REGISTERED && Boolean(params.userId);
+
     const updateQuery: any = {
       status: ChatSessionStatus.QUEUED,
       queuedAt: new Date(),
       lastMessageAt: new Date(),
+      userType: isRegistered ? ChatUserType.REGISTERED : ChatUserType.GUEST,
+      userId: isRegistered ? new mongoose.Types.ObjectId(params.userId) : null,
     };
 
-    if (params.userId && params.userType === ChatUserType.REGISTERED) {
-      updateQuery.userId = new mongoose.Types.ObjectId(params.userId);
-      updateQuery.userType = ChatUserType.REGISTERED;
-    }
-
     if (params.guestInfo) {
-      if (params.guestInfo.name) updateQuery['guestInfo.name'] = params.guestInfo.name;
-      if (params.guestInfo.phone) updateQuery['guestInfo.phone'] = params.guestInfo.phone;
-      if (params.guestInfo.email) updateQuery['guestInfo.email'] = params.guestInfo.email;
+      if (params.guestInfo.name !== undefined) updateQuery['guestInfo.name'] = params.guestInfo.name;
+      if (params.guestInfo.phone !== undefined) updateQuery['guestInfo.phone'] = params.guestInfo.phone;
+      if (params.guestInfo.email !== undefined) updateQuery['guestInfo.email'] = params.guestInfo.email;
     }
 
     const session = await ChatSession.findOneAndUpdate(
