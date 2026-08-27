@@ -130,8 +130,11 @@ export function registerChatHandlers(io: Server, socket: Socket) {
       try {
         let finalSessionId = data.sessionId;
         let guestInfo = data.guestInfo;
-        let userId = data.userId || (authData.isUser ? authData.userId : undefined);
-        let userType = userId ? ChatUserType.REGISTERED : ChatUserType.GUEST;
+        
+        // Only treat as REGISTERED if explicit userType is REGISTERED and an actual customer userId exists
+        const isExplicitRegistered = data.userType === 'REGISTERED' && Boolean(data.userId || (authData.isUser && authData.userId));
+        const userId = isExplicitRegistered ? (data.userId || authData.userId) : undefined;
+        const userType = isExplicitRegistered ? ChatUserType.REGISTERED : ChatUserType.GUEST;
 
         // Verify guest token if provided for session recovery
         if (data.guestToken) {
@@ -273,16 +276,24 @@ export function registerChatHandlers(io: Server, socket: Socket) {
       data: {
         sessionId: string;
         guestInfo?: { name?: string; phone?: string; email?: string };
+        userId?: string;
+        userType?: 'REGISTERED' | 'GUEST';
         initialQuery?: string;
       },
       callback?: (res: any) => void
     ) => {
       try {
-        const { sessionId, guestInfo, initialQuery } = data;
+        const { sessionId, guestInfo, initialQuery, userId, userType } = data;
         if (!sessionId) return;
 
-        // Transition session to QUEUED status
-        const session = await ChatService.queueSession({ sessionId, guestInfo });
+        // Transition session to QUEUED status and bind active user if registered
+        const isRegistered = userType === 'REGISTERED' && Boolean(userId);
+        const session = await ChatService.queueSession({
+          sessionId,
+          guestInfo,
+          userId: isRegistered ? userId : undefined,
+          userType: isRegistered ? ChatUserType.REGISTERED : ChatUserType.GUEST,
+        });
         if (!session) {
           const errRes = { success: false, message: 'Session not found' };
           if (typeof callback === 'function') callback(errRes);

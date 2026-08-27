@@ -73,32 +73,32 @@ export class ChatService {
       userAgent?: string;
     };
   }): Promise<IChatSession> {
-    let session = await ChatSession.findOne({ sessionId: params.sessionId }).populate(
-      'assignedAgent',
-      'firstName lastName profilePic designation department role email phone'
-    );
+    let session = await ChatSession.findOne({ sessionId: params.sessionId })
+      .populate('userId', 'firstName lastName email phone companyName profilePic')
+      .populate('assignedAgent', 'firstName lastName profilePic designation department role email phone');
 
     if (!session) {
       session = new ChatSession({
         sessionId: params.sessionId,
         userType: params.userType,
-        userId: params.userId ? new mongoose.Types.ObjectId(params.userId) : undefined,
+        userId: (params.userType === ChatUserType.REGISTERED && params.userId) ? new mongoose.Types.ObjectId(params.userId) : undefined,
         guestInfo: params.guestInfo,
         status: ChatSessionStatus.BOT,
         startedAt: new Date(),
         lastMessageAt: new Date(),
       });
       await session.save();
+      session = await ChatSession.findById(session._id)
+        .populate('userId', 'firstName lastName email phone companyName profilePic')
+        .populate('assignedAgent', 'firstName lastName profilePic designation department role email phone') as any;
     } else {
       let isUpdated = false;
-      if (params.guestInfo && !session.guestInfo?.name && params.guestInfo.name) {
-        // Update guest info if provided later
+      if (params.guestInfo) {
         session.guestInfo = { ...session.guestInfo, ...params.guestInfo };
         isUpdated = true;
       }
 
-      // Upgrade session to REGISTERED if user logged in
-      if (session.userType === ChatUserType.GUEST && params.userType === ChatUserType.REGISTERED && params.userId) {
+      if (params.userType === ChatUserType.REGISTERED && params.userId) {
         session.userType = ChatUserType.REGISTERED;
         session.userId = new mongoose.Types.ObjectId(params.userId);
         isUpdated = true;
@@ -106,10 +106,13 @@ export class ChatService {
 
       if (isUpdated) {
         await session.save();
+        session = await ChatSession.findById(session._id)
+          .populate('userId', 'firstName lastName email phone companyName profilePic')
+          .populate('assignedAgent', 'firstName lastName profilePic designation department role email phone') as any;
       }
     }
 
-    return session;
+    return session as IChatSession;
   }
 
   /**
@@ -122,12 +125,19 @@ export class ChatService {
       phone?: string;
       email?: string;
     };
+    userId?: string;
+    userType?: ChatUserType;
   }): Promise<IChatSession | null> {
     const updateQuery: any = {
       status: ChatSessionStatus.QUEUED,
       queuedAt: new Date(),
       lastMessageAt: new Date(),
     };
+
+    if (params.userId && params.userType === ChatUserType.REGISTERED) {
+      updateQuery.userId = new mongoose.Types.ObjectId(params.userId);
+      updateQuery.userType = ChatUserType.REGISTERED;
+    }
 
     if (params.guestInfo) {
       if (params.guestInfo.name) updateQuery['guestInfo.name'] = params.guestInfo.name;
@@ -139,7 +149,9 @@ export class ChatService {
       { sessionId: params.sessionId },
       { $set: updateQuery },
       { new: true }
-    ).populate('userId', 'firstName lastName email phone companyName');
+    )
+      .populate('userId', 'firstName lastName email phone companyName profilePic')
+      .populate('assignedAgent', 'firstName lastName profilePic designation department role email phone');
 
     return session;
   }
