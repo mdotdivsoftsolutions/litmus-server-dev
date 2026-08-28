@@ -354,8 +354,6 @@ Suggested fix: Standardize all unit testing under tests/*.spec.ts with Vitest an
 Severity: Low
 Status: Fixed (Removed scratch scripts from root directory; test suite consolidated in tests/).
 ```
-
-
 ---
 
 ## 15. Testing
