@@ -94,10 +94,12 @@ const BookingSchema = new mongoose_1.Schema({
         type: String,
         enum: Object.values(types_1.PaymentStatus),
         default: types_1.PaymentStatus.PENDING,
+        index: true,
     },
     bookingDate: {
         type: Date,
         required: [true, 'Booking date is required'],
+        index: true,
     },
     reportFiles: [
         {
@@ -120,6 +122,7 @@ const BookingSchema = new mongoose_1.Schema({
         type: String,
         enum: Object.values(types_1.CollectionStatus),
         default: types_1.CollectionStatus.PENDING,
+        index: true,
     },
     collectionMethod: {
         type: String,
@@ -149,4 +152,8 @@ const BookingSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
+// Compound indexes for high-throughput query performance
+BookingSchema.index({ userId: 1, createdAt: -1 });
+BookingSchema.index({ labId: 1, status: 1 });
+BookingSchema.index({ status: 1, createdAt: -1 });
 exports.default = mongoose_1.default.model('Booking', BookingSchema);

@@ -403,9 +403,9 @@ Status: Completed.
 [Section 17] File path: src/socket/index.ts & src/models/Booking.ts
 Issue: In-memory Socket.io server without Redis adapter setup and unindexed collection queries.
 Why it matters: Horizontal scaling across multiple server instances requires a pub/sub adapter (@socket.io/redis-adapter) and high-throughput compound query indexes.
-Suggested fix: Compound indexes added on Booking, User, and Laboratory schemas; Redis adapter integration pathway documented.
+Suggested fix: Install @socket.io/redis-adapter and ioredis, configure dynamic Redis adapter initialization with graceful in-memory fallback in src/socket/index.ts, document REDIS_URL in .env.example, and maintain optimized compound schema indexes.
 Severity: High
-Status: Compound database indexes implemented and verified.
+Status: Fixed (Installed @socket.io/redis-adapter & ioredis; configured dynamic pub/sub clustering in socket/index.ts with automatic in-memory fallback; optimized compound indexes applied on Booking, User, and Laboratory schemas).
 ```
 
 ---

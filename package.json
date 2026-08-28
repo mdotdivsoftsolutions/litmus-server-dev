@@ -23,11 +23,13 @@
   "homepage": "https://github.com/Manu-Madhu/litmus_backend#readme",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1063.0",
+    "@socket.io/redis-adapter": "^8.3.0",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "ioredis": "^6.0.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.2",
     "morgan": "^1.10.1",
@@ -64,4 +66,3 @@
     "node": ">=18.0.0"
   }
 }
-

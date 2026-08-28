@@ -1,6 +1,8 @@
 import { Server as HttpServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
+import { createAdapter } from '@socket.io/redis-adapter';
+import Redis from 'ioredis';
 import { registerChatHandlers } from './chat.handler';
 import { ChatService } from '../services/chat.service';
 import { UserRole } from '../types';
@@ -29,6 +31,30 @@ export function initSocketServer(httpServer: HttpServer): Server {
   });
 
   ioInstance = io;
+
+  // ── Redis Adapter for Horizontal Scaling (Optional / Configurable) ─────────
+  const redisUrl = process.env.REDIS_URL || (process.env.REDIS_HOST ? `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT || 6379}` : null);
+  if (redisUrl) {
+    try {
+      const pubClient = new Redis(redisUrl, {
+        lazyConnect: true,
+        maxRetriesPerRequest: 3,
+        retryStrategy: (times) => (times > 3 ? null : Math.min(times * 100, 2000)),
+      });
+      const subClient = pubClient.duplicate();
+
+      Promise.all([pubClient.connect(), subClient.connect()])
+        .then(() => {
+          io.adapter(createAdapter(pubClient, subClient));
+          logger.info('🚀 [Socket.IO] Redis adapter initialized successfully for horizontal clustering');
+        })
+        .catch((err) => {
+          logger.warn(`⚠️ [Socket.IO] Redis adapter connection skipped (${err.message}). Using in-memory adapter.`);
+        });
+    } catch (err: any) {
+      logger.warn(`⚠️ [Socket.IO] Failed to configure Redis adapter: ${err.message}`);
+    }
+  }
 
   // ── Authentication Middleware ─────────────────────────────────────────────
   io.use((socket: Socket, next) => {
@@ -60,7 +86,6 @@ export function initSocketServer(httpServer: HttpServer): Server {
             }
           }
         }
-
 
         if (decoded && (decoded.id || decoded.userId || decoded._id)) {
           const userId = (decoded.id || decoded.userId || decoded._id).toString();

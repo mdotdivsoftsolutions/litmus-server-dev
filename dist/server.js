@@ -3,10 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Handle uncaught exceptions before loading app dependencies
+process.on('uncaughtException', (err) => {
+    console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...', err.name, err.message, err.stack);
+    process.exit(1);
+});
 const dotenv_1 = __importDefault(require("dotenv"));
 // Load env vars before everything else
 dotenv_1.default.config();
-// GitHub Actions CI/CD Deployment Trigger Test
 const http_1 = __importDefault(require("http"));
 const app_1 = __importDefault(require("./app"));
 const db_1 = require("./config/db");
@@ -31,5 +35,12 @@ if (!process.env.VERCEL) {
         logger_1.default.info(`API Docs available at http://localhost:${PORT}/api-docs`);
     });
 }
+// Handle unhandled promise rejections gracefully
+process.on('unhandledRejection', (err) => {
+    logger_1.default.error(`UNHANDLED REJECTION! 💥 ${err?.message || err}`);
+    server.close(() => {
+        process.exit(1);
+    });
+});
 // Export the Express API for Vercel
 exports.default = app_1.default;

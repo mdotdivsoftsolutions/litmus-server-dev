@@ -215,5 +215,48 @@ class AuthService {
         await OTP_1.default.deleteOne({ _id: otpRecord._id });
         return { success: true, message: 'Password reset successfully' };
     }
+    static async getProfile(userId) {
+        const user = await User_1.default.findById(userId).select('-password').populate('labId', 'labName');
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    }
+    static async updateProfile(userId, data) {
+        const { role, password, email, ...updateData } = data;
+        // Check phone uniqueness only if phone is being changed
+        if (updateData.phone && typeof updateData.phone === 'string') {
+            const cleanedPhone = updateData.phone.trim();
+            updateData.phone = cleanedPhone;
+            const currentUser = await User_1.default.findById(userId).select('phone');
+            if (currentUser && currentUser.phone !== cleanedPhone) {
+                const existingPhone = await User_1.default.findOne({
+                    phone: cleanedPhone,
+                    _id: { $ne: userId },
+                });
+                if (existingPhone) {
+                    throw new Error('Mobile number is already registered to another account');
+                }
+            }
+        }
+        const user = await User_1.default.findByIdAndUpdate(userId, updateData, { new: true, runValidators: false }).select('-password');
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    }
+    static async changePassword(userId, currentPassword, newPassword) {
+        const user = await User_1.default.findById(userId).select('+password');
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const isMatch = await user.comparePassword(currentPassword);
+        if (!isMatch) {
+            throw new Error('Incorrect current password');
+        }
+        user.password = newPassword;
+        await user.save();
+        return { success: true, message: 'Password changed successfully' };
+    }
 }
 exports.AuthService = AuthService;

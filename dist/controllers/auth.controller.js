@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const auth_service_1 = require("../services/auth.service");
-const User_1 = __importDefault(require("../models/User"));
 const logger_1 = __importDefault(require("../utils/logger"));
 class AuthController {
     static async sendOtp(req, res) {
@@ -137,73 +136,36 @@ class AuthController {
     }
     static async getMe(req, res) {
         try {
-            const user = await User_1.default.findById(req.user?.id).select('-password').populate('labId', 'labName');
-            if (!user) {
-                res.status(404).json({ success: false, message: 'User not found' });
-                return;
-            }
+            const user = await auth_service_1.AuthService.getProfile(req.user.id);
             res.status(200).json({ success: true, data: user });
         }
         catch (error) {
             logger_1.default.error(`GetMe Error: ${error.message}`);
-            res.status(500).json({ success: false, message: 'Internal server error' });
+            const status = error.message === 'User not found' ? 404 : 500;
+            res.status(status).json({ success: false, message: error.message });
         }
     }
     static async updateProfile(req, res) {
         try {
-            // Disallow updating sensitive fields like role or password via this endpoint
-            const { role, password, email, ...updateData } = req.body;
-            // Only check for phone uniqueness if the phone is actually being changed
-            if (updateData.phone && typeof updateData.phone === 'string') {
-                const cleanedPhone = updateData.phone.trim();
-                updateData.phone = cleanedPhone;
-                // Find the current user's phone to skip check if unchanged
-                const currentUser = await User_1.default.findById(req.user?.id).select('phone');
-                if (currentUser && currentUser.phone !== cleanedPhone) {
-                    const existingPhone = await User_1.default.findOne({
-                        phone: cleanedPhone,
-                        _id: { $ne: req.user?.id },
-                    });
-                    if (existingPhone) {
-                        res.status(400).json({ success: false, message: 'Mobile number is already registered to another account' });
-                        return;
-                    }
-                }
-            }
-            // Use runValidators: false to prevent Mongoose unique index validators from
-            // triggering false duplicate errors on unchanged fields during partial updates
-            const user = await User_1.default.findByIdAndUpdate(req.user?.id, updateData, { new: true, runValidators: false }).select('-password');
-            if (!user) {
-                res.status(404).json({ success: false, message: 'User not found' });
-                return;
-            }
+            const user = await auth_service_1.AuthService.updateProfile(req.user.id, req.body);
             res.status(200).json({ success: true, message: 'Profile updated successfully', data: user });
         }
         catch (error) {
             logger_1.default.error(`UpdateProfile Error: ${error.message}`);
-            res.status(400).json({ success: false, message: error.message });
+            const status = error.message === 'User not found' ? 404 : 400;
+            res.status(status).json({ success: false, message: error.message });
         }
     }
     static async changePassword(req, res) {
         try {
             const { currentPassword, newPassword } = req.body;
-            const user = await User_1.default.findById(req.user?.id).select('+password');
-            if (!user) {
-                res.status(404).json({ success: false, message: 'User not found' });
-                return;
-            }
-            const isMatch = await user.comparePassword(currentPassword);
-            if (!isMatch) {
-                res.status(401).json({ success: false, message: 'Incorrect current password' });
-                return;
-            }
-            user.password = newPassword;
-            await user.save();
-            res.status(200).json({ success: true, message: 'Password changed successfully' });
+            const result = await auth_service_1.AuthService.changePassword(req.user.id, currentPassword, newPassword);
+            res.status(200).json(result);
         }
         catch (error) {
             logger_1.default.error(`ChangePassword Error: ${error.message}`);
-            res.status(400).json({ success: false, message: error.message });
+            const status = error.message === 'User not found' ? 404 : (error.message === 'Incorrect current password' ? 401 : 400);
+            res.status(status).json({ success: false, message: error.message });
         }
     }
     static async refreshToken(req, res) {

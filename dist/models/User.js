@@ -81,6 +81,7 @@ const UserSchema = new mongoose_1.Schema({
     labId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Laboratory',
+        index: true,
     },
     isActive: {
         type: Boolean,
@@ -147,6 +148,7 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         enum: ['INDIVIDUAL', 'FOOD_BUSINESS', 'ENTERPRISE', 'LAB_PARTNER'],
         default: 'INDIVIDUAL',
+        index: true,
     },
     alternatePhone: {
         type: String,
@@ -156,6 +158,7 @@ const UserSchema = new mongoose_1.Schema({
         type: String,
         enum: ['PENDING', 'VERIFIED', 'REJECTED'],
         default: 'PENDING',
+        index: true,
     },
     kycVerifiedAt: {
         type: Date,
@@ -186,6 +189,9 @@ const UserSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
+// Compound index for administrative user lookups
+UserSchema.index({ role: 1, createdAt: -1 });
+UserSchema.index({ role: 1, isActive: 1 });
 // Encrypt password before saving
 UserSchema.pre('save', async function () {
     if (!this.isModified('password')) {

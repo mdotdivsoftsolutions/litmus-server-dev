@@ -4,6 +4,7 @@ const express_1 = require("express");
 const auth_controller_1 = require("../controllers/auth.controller");
 const validate_middleware_1 = require("../middleware/validate.middleware");
 const auth_middleware_1 = require("../middleware/auth.middleware");
+const rateLimiter_1 = require("../middleware/rateLimiter");
 const auth_validator_1 = require("../validators/auth.validator");
 const router = (0, express_1.Router)();
 router.post('/check-availability', (0, validate_middleware_1.validate)(auth_validator_1.checkAvailabilitySchema), auth_controller_1.AuthController.checkAvailability);
@@ -30,7 +31,7 @@ router.post('/check-availability', (0, validate_middleware_1.validate)(auth_vali
  *       400:
  *         description: Validation error
  */
-router.post('/send-otp', (0, validate_middleware_1.validate)(auth_validator_1.sendOtpSchema), auth_controller_1.AuthController.sendOtp);
+router.post('/send-otp', rateLimiter_1.otpRateLimiter, (0, validate_middleware_1.validate)(auth_validator_1.sendOtpSchema), auth_controller_1.AuthController.sendOtp);
 /**
  * @swagger
  * /api/v1/auth/forgot-password:
@@ -55,7 +56,7 @@ router.post('/send-otp', (0, validate_middleware_1.validate)(auth_validator_1.se
  *       400:
  *         description: Validation error or user not found
  */
-router.post('/forgot-password', (0, validate_middleware_1.validate)(auth_validator_1.forgotPasswordSchema), auth_controller_1.AuthController.forgotPassword);
+router.post('/forgot-password', rateLimiter_1.otpRateLimiter, (0, validate_middleware_1.validate)(auth_validator_1.forgotPasswordSchema), auth_controller_1.AuthController.forgotPassword);
 /**
  * @swagger
  * /api/v1/auth/verify-otp:
@@ -83,7 +84,7 @@ router.post('/forgot-password', (0, validate_middleware_1.validate)(auth_validat
  *       400:
  *         description: Validation error or invalid OTP
  */
-router.post('/verify-otp', (0, validate_middleware_1.validate)(auth_validator_1.verifyOtpSchema), auth_controller_1.AuthController.verifyOtp);
+router.post('/verify-otp', rateLimiter_1.otpRateLimiter, (0, validate_middleware_1.validate)(auth_validator_1.verifyOtpSchema), auth_controller_1.AuthController.verifyOtp);
 /**
  * @swagger
  * /api/v1/auth/reset-password:
@@ -115,7 +116,7 @@ router.post('/verify-otp', (0, validate_middleware_1.validate)(auth_validator_1.
  *       400:
  *         description: Validation error or invalid OTP
  */
-router.post('/reset-password', (0, validate_middleware_1.validate)(auth_validator_1.resetPasswordSchema), auth_controller_1.AuthController.resetPassword);
+router.post('/reset-password', rateLimiter_1.authRateLimiter, (0, validate_middleware_1.validate)(auth_validator_1.resetPasswordSchema), auth_controller_1.AuthController.resetPassword);
 /**
  * @swagger
  * /api/v1/auth/register:
@@ -159,7 +160,7 @@ router.post('/reset-password', (0, validate_middleware_1.validate)(auth_validato
  *       400:
  *         description: Validation error or invalid OTP
  */
-router.post('/register', (0, validate_middleware_1.validate)(auth_validator_1.registerSchema), auth_controller_1.AuthController.register);
+router.post('/register', rateLimiter_1.authRateLimiter, (0, validate_middleware_1.validate)(auth_validator_1.registerSchema), auth_controller_1.AuthController.register);
 /**
  * @swagger
  * /api/v1/auth/login:
@@ -187,7 +188,7 @@ router.post('/register', (0, validate_middleware_1.validate)(auth_validator_1.re
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', (0, validate_middleware_1.validate)(auth_validator_1.loginSchema), auth_controller_1.AuthController.login);
+router.post('/login', rateLimiter_1.authRateLimiter, (0, validate_middleware_1.validate)(auth_validator_1.loginSchema), auth_controller_1.AuthController.login);
 /**
  * @swagger
  * /api/v1/auth/logout:
