@@ -15,7 +15,6 @@ const ChatMessageSchema: Schema = new Schema(
 
     clientMessageId: {
       type: String,
-      sparse: true,
     },
     senderType: {
       type: String,

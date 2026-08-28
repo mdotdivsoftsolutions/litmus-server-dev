@@ -6,6 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.razorpay = void 0;
 const razorpay_1 = __importDefault(require("razorpay"));
 exports.razorpay = new razorpay_1.default({
-    key_id: process.env.RAZORPAY_KEY_ID || '',
-    key_secret: process.env.RAZORPAY_KEY_SECRET || '',
+    key_id: process.env.RAZORPAY_KEY_ID || 'rzp_test_placeholder',
+    key_secret: process.env.RAZORPAY_KEY_SECRET || 'placeholder_secret',
 });

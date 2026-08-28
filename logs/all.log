@@ -37329,3 +37329,21 @@
 2026-08-28 14:36:36:3636 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
 2026-08-28 14:36:39:3639 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-08-28 14:36:39:3639 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-28 14:53:28:5328 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-28 14:53:28:5328 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-28 14:53:28:5328 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-28 14:53:28:5328 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-28 14:53:30:5330 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-28 14:53:30:5330 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-28 14:56:13:5613 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-28 14:56:13:5613 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-28 14:56:13:5613 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-28 14:56:13:5613 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-28 14:56:17:5617 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-28 14:56:17:5617 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-28 14:56:41:5641 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-28 14:56:41:5641 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-28 14:56:41:5641 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-28 14:56:41:5641 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-28 14:56:44:5644 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-28 14:56:44:5644 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
