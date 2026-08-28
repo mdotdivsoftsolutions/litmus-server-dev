@@ -1,8 +1,13 @@
+// Handle uncaught exceptions before loading app dependencies
+process.on('uncaughtException', (err: Error) => {
+  console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...', err.name, err.message, err.stack);
+  process.exit(1);
+});
+
 import dotenv from 'dotenv';
 // Load env vars before everything else
 dotenv.config();
 
-// GitHub Actions CI/CD Deployment Trigger Test
 import http from 'http';
 import app from './app';
 import { connectDB } from './config/db';
@@ -10,7 +15,6 @@ import logger from './utils/logger';
 import { startUserStatusJob } from './jobs/userStatus.job';
 import { startAbandonedCartJob } from './jobs/abandonedCart.job';
 import { initSocketServer } from './socket';
-
 
 const PORT = process.env.PORT || 5000;
 
@@ -20,7 +24,6 @@ connectDB();
 // Initialize cron jobs
 startUserStatusJob();
 startAbandonedCartJob();
-
 
 // Create HTTP server for Express and Socket.IO
 const server = http.createServer(app);
@@ -36,6 +39,15 @@ if (!process.env.VERCEL) {
   });
 }
 
+// Handle unhandled promise rejections gracefully
+process.on('unhandledRejection', (err: any) => {
+  logger.error(`UNHANDLED REJECTION! 💥 ${err?.message || err}`);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
 // Export the Express API for Vercel
 export default app;
+
 

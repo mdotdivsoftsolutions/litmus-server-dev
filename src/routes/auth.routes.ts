@@ -2,11 +2,13 @@ import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { validate } from '../middleware/validate.middleware';
 import { authMiddleware } from '../middleware/auth.middleware';
+import { authRateLimiter, otpRateLimiter } from '../middleware/rateLimiter';
 import { registerSchema, loginSchema, sendOtpSchema, checkAvailabilitySchema, forgotPasswordSchema, verifyOtpSchema, resetPasswordSchema } from '../validators/auth.validator';
 
 const router = Router();
 
 router.post('/check-availability', validate(checkAvailabilitySchema), AuthController.checkAvailability);
+
 
 /**
  * @swagger
@@ -31,7 +33,7 @@ router.post('/check-availability', validate(checkAvailabilitySchema), AuthContro
  *       400:
  *         description: Validation error
  */
-router.post('/send-otp', validate(sendOtpSchema), AuthController.sendOtp);
+router.post('/send-otp', otpRateLimiter, validate(sendOtpSchema), AuthController.sendOtp);
 
 /**
  * @swagger
@@ -57,7 +59,7 @@ router.post('/send-otp', validate(sendOtpSchema), AuthController.sendOtp);
  *       400:
  *         description: Validation error or user not found
  */
-router.post('/forgot-password', validate(forgotPasswordSchema), AuthController.forgotPassword);
+router.post('/forgot-password', otpRateLimiter, validate(forgotPasswordSchema), AuthController.forgotPassword);
 
 /**
  * @swagger
@@ -86,7 +88,7 @@ router.post('/forgot-password', validate(forgotPasswordSchema), AuthController.f
  *       400:
  *         description: Validation error or invalid OTP
  */
-router.post('/verify-otp', validate(verifyOtpSchema), AuthController.verifyOtp);
+router.post('/verify-otp', otpRateLimiter, validate(verifyOtpSchema), AuthController.verifyOtp);
 
 /**
  * @swagger
@@ -119,7 +121,7 @@ router.post('/verify-otp', validate(verifyOtpSchema), AuthController.verifyOtp);
  *       400:
  *         description: Validation error or invalid OTP
  */
-router.post('/reset-password', validate(resetPasswordSchema), AuthController.resetPassword);
+router.post('/reset-password', authRateLimiter, validate(resetPasswordSchema), AuthController.resetPassword);
 
 /**
  * @swagger
@@ -164,7 +166,7 @@ router.post('/reset-password', validate(resetPasswordSchema), AuthController.res
  *       400:
  *         description: Validation error or invalid OTP
  */
-router.post('/register', validate(registerSchema), AuthController.register);
+router.post('/register', authRateLimiter, validate(registerSchema), AuthController.register);
 
 /**
  * @swagger
@@ -193,7 +195,8 @@ router.post('/register', validate(registerSchema), AuthController.register);
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', validate(loginSchema), AuthController.login);
+router.post('/login', authRateLimiter, validate(loginSchema), AuthController.login);
+
 
 /**
  * @swagger

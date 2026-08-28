@@ -5,6 +5,8 @@ import { registerChatHandlers } from './chat.handler';
 import { ChatService } from '../services/chat.service';
 import { UserRole } from '../types';
 import logger from '../utils/logger';
+import { ALLOWED_ORIGINS } from '../config/cors';
+import { SOCKET_EVENTS } from '../constants';
 
 let ioInstance: Server | null = null;
 
@@ -16,23 +18,9 @@ export function getIO(): Server {
 }
 
 export function initSocketServer(httpServer: HttpServer): Server {
-  const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:8080',
-    'http://localhost:8081',
-    'http://localhost:3000',
-    'http://127.0.0.1:5173',
-    'http://127.0.0.1:8080',
-    'https://litmus-frontend-dev.vercel.app',
-    'https://litmus-user-frontend-dev-beta.vercel.app',
-    'https://litmus-lab-frontend-dev.vercel.app',
-    'https://litmus-user-frontend.vercel.app',
-    process.env.FRONTEND_URL || '',
-  ].filter(Boolean);
-
   const io = new Server(httpServer, {
     cors: {
-      origin: allowedOrigins,
+      origin: ALLOWED_ORIGINS,
       credentials: true,
     },
     pingInterval: 25000,
@@ -52,22 +40,27 @@ export function initSocketServer(httpServer: HttpServer): Server {
         parseCookie(socket.handshake.headers.cookie || '', 'refreshToken') ||
         parseCookie(socket.handshake.headers.cookie || '', 'token');
 
-      const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || process.env.JWT_SECRET || 'litmus_jwt_access_secret_key_2026';
-      const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET || 'litmus_jwt_refresh_secret_key_2026';
+      const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || process.env.JWT_SECRET;
+      const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET;
 
       if (token) {
         let decoded: any = null;
-        try {
-          decoded = jwt.verify(token, JWT_ACCESS_SECRET);
-        } catch {
+        if (JWT_ACCESS_SECRET) {
           try {
-            decoded = jwt.verify(token, JWT_REFRESH_SECRET);
+            decoded = jwt.verify(token, JWT_ACCESS_SECRET);
           } catch {
-            try {
-              decoded = jwt.decode(token);
-            } catch {}
+            if (JWT_REFRESH_SECRET) {
+              try {
+                decoded = jwt.verify(token, JWT_REFRESH_SECRET);
+              } catch {
+                try {
+                  decoded = jwt.decode(token);
+                } catch {}
+              }
+            }
           }
         }
+
 
         if (decoded && (decoded.id || decoded.userId || decoded._id)) {
           const userId = (decoded.id || decoded.userId || decoded._id).toString();

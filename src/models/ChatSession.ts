@@ -7,7 +7,6 @@ const ChatSessionSchema: Schema = new Schema(
       type: String,
       required: true,
       unique: true,
-      index: true,
     },
     userType: {
       type: String,
@@ -18,10 +17,9 @@ const ChatSessionSchema: Schema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      index: true,
     },
     guestInfo: {
-      guestId: { type: String, index: true },
+      guestId: { type: String },
       name: { type: String, trim: true },
       phone: { type: String, trim: true },
       email: { type: String, trim: true, lowercase: true },
@@ -33,13 +31,13 @@ const ChatSessionSchema: Schema = new Schema(
       enum: Object.values(ChatSessionStatus),
       default: ChatSessionStatus.BOT,
       required: true,
-      index: true,
     },
     assignedAgent: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       index: true,
     },
+
     claimedAt: {
       type: Date,
     },

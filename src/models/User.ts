@@ -45,11 +45,13 @@ const UserSchema: Schema = new Schema(
     labId: {
       type: Schema.Types.ObjectId,
       ref: 'Laboratory',
+      index: true,
     },
     isActive: {
       type: Boolean,
       default: true,
     },
+
     lastLoginAt: {
       type: Date,
       default: Date.now,
@@ -111,6 +113,7 @@ const UserSchema: Schema = new Schema(
       type: String,
       enum: ['INDIVIDUAL', 'FOOD_BUSINESS', 'ENTERPRISE', 'LAB_PARTNER'],
       default: 'INDIVIDUAL',
+      index: true,
     },
     alternatePhone: {
       type: String,
@@ -120,6 +123,7 @@ const UserSchema: Schema = new Schema(
       type: String,
       enum: ['PENDING', 'VERIFIED', 'REJECTED'],
       default: 'PENDING',
+      index: true,
     },
     kycVerifiedAt: {
       type: Date,
@@ -153,6 +157,10 @@ const UserSchema: Schema = new Schema(
   }
 );
 
+// Compound index for administrative user lookups
+UserSchema.index({ role: 1, createdAt: -1 });
+UserSchema.index({ role: 1, isActive: 1 });
+
 // Encrypt password before saving
 UserSchema.pre('save', async function () {
   if (!this.isModified('password')) {
@@ -168,3 +176,4 @@ UserSchema.methods.comparePassword = async function (enteredPassword: string): P
 };
 
 export default mongoose.model<IUser>('User', UserSchema);
+

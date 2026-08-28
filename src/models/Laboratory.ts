@@ -144,9 +144,15 @@ const LaboratorySchema: Schema = new Schema(
       default: false,
     },
   },
+
   {
     timestamps: true,
   }
 );
 
+LaboratorySchema.index({ userId: 1 });
+LaboratorySchema.index({ isActive: 1, isDeleted: 1 });
+LaboratorySchema.index({ rating: -1, reviewCount: -1 });
+
 export default mongoose.model<ILaboratory>('Laboratory', LaboratorySchema);
+

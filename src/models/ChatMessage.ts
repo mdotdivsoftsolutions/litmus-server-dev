@@ -6,13 +6,13 @@ const ChatMessageSchema: Schema = new Schema(
     sessionId: {
       type: String,
       required: true,
-      index: true,
     },
     sessionObjectId: {
       type: Schema.Types.ObjectId,
       ref: 'ChatSession',
       index: true,
     },
+
     clientMessageId: {
       type: String,
       sparse: true,
