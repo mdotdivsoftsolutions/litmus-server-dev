@@ -104,7 +104,7 @@ export const getLabDashboardStats = async (req: Request, res: Response): Promise
     // Schedule / Upcoming active jobs
     const activeSchedule = bookings.filter(b => [BookingStatus.PENDING, BookingStatus.APPROVED, BookingStatus.IN_PROGRESS].includes(b.status as any)).length;
 
-    // Recent 5-6 bookings formatted
+    // Recent bookings formatted
     const recentBookings = bookings.slice(0, 6).map(b => {
       const userObj = b.userId as any;
       const userName = `${userObj?.firstName || ''} ${userObj?.lastName || ''}`.trim() || b.collectionDetails?.name || 'Customer';
@@ -125,7 +125,7 @@ export const getLabDashboardStats = async (req: Request, res: Response): Promise
       };
     });
 
-    // Pending uploads (bookings in APPROVED, IN_PROGRESS, or COMPLETED without report uploaded)
+    // Pending uploads
     const pendingUploads = bookings
       .filter(b => {
         const hasReport = Boolean(b.reportFiles?.length || b.reportUrl || b.metadata?.reportUrl);
@@ -148,7 +148,7 @@ export const getLabDashboardStats = async (req: Request, res: Response): Promise
         };
       });
 
-    // Weekly Load for the last 7 days
+    // Weekly Load
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const weeklyLoad: { day: string; date: string; bookings: number }[] = [];
     for (let i = 6; i >= 0; i--) {
@@ -323,76 +323,73 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
       return;
     }
 
-    import('../models/Booking').then(async ({ default: Booking }) => {
-      const { sendSampleCollectedEmail, sendCollectionDelayedEmail } = await import('../utils/mailer');
-      // Find the booking and make sure it belongs to this lab
-      const booking = await Booking.findOne({ _id: id, labId: lab._id });
+    const { sendSampleCollectedEmail, sendCollectionDelayedEmail } = await import('../utils/mailer');
+    const booking = await Booking.findOne({ _id: id, labId: lab._id });
 
-      if (!booking) {
-        res.status(404).json({ success: false, message: 'Booking not found or not assigned to this lab' });
-        return;
+    if (!booking) {
+      res.status(404).json({ success: false, message: 'Booking not found or not assigned to this lab' });
+      return;
+    }
+
+    if (!booking.metadata) booking.metadata = {};
+
+    if (status) {
+      booking.collectionStatus = status;
+      if ((status === 'COLLECTED' || status === 'REACHED') && !booking.metadata.sampleCollectedAt) {
+        booking.metadata.sampleCollectedAt = new Date();
       }
-
-      if (!booking.metadata) booking.metadata = {};
-
-      if (status) {
-        booking.collectionStatus = status;
-        if ((status === 'COLLECTED' || status === 'REACHED') && !booking.metadata.sampleCollectedAt) {
-          booking.metadata.sampleCollectedAt = new Date();
-        }
-        if (status === 'ASSIGNED' && !booking.metadata.collectorAssignedAt) {
-          booking.metadata.collectorAssignedAt = new Date();
-        }
+      if (status === 'ASSIGNED' && !booking.metadata.collectorAssignedAt) {
+        booking.metadata.collectorAssignedAt = new Date();
       }
-      if (collectorName !== undefined || collectorContact !== undefined) {
-        booking.assignedCollector = {
-          name: collectorName,
-          contact: collectorContact
-        };
-        if (collectorName && !booking.metadata.collectorAssignedAt) {
-          booking.metadata.collectorAssignedAt = new Date();
-        }
+    }
+    if (collectorName !== undefined || collectorContact !== undefined) {
+      booking.assignedCollector = {
+        name: collectorName,
+        contact: collectorContact
+      };
+      if (collectorName && !booking.metadata.collectorAssignedAt) {
+        booking.metadata.collectorAssignedAt = new Date();
       }
+    }
 
-      booking.markModified('metadata');
-      await booking.save();
-      await booking.populate('userId', 'firstName lastName email');
+    booking.markModified('metadata');
+    await booking.save();
+    await booking.populate('userId', 'firstName lastName email');
 
-      if (status === 'COLLECTED' && booking.userId) {
-        try {
-          const user = booking.userId as any;
-          const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-          if (user.email) {
-            await sendSampleCollectedEmail(user.email, {
-              customerName,
-              bookingId: booking._id.toString(),
-            });
-          }
-        } catch (e) {
-          console.error('Failed to send sample collected email:', e);
+    if (status === 'COLLECTED' && booking.userId) {
+      try {
+        const user = booking.userId as any;
+        const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+        if (user.email) {
+          await sendSampleCollectedEmail(user.email, {
+            customerName,
+            bookingId: booking._id.toString(),
+          });
         }
+      } catch (e) {
+        console.error('Failed to send sample collected email:', e);
       }
+    }
 
-      if (notifyDelay && booking.userId) {
-        try {
-          const user = booking.userId as any;
-          const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-          if (user.email) {
-            await sendCollectionDelayedEmail(user.email, {
-              customerName,
-              bookingId: booking._id.toString(),
-            });
-          }
-        } catch (e) {
-          console.error('Failed to send collection delayed email:', e);
+    if (notifyDelay && booking.userId) {
+      try {
+        const user = booking.userId as any;
+        const customerName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+        if (user.email) {
+          await sendCollectionDelayedEmail(user.email, {
+            customerName,
+            bookingId: booking._id.toString(),
+          });
         }
+      } catch (e) {
+        console.error('Failed to send collection delayed email:', e);
       }
+    }
 
-      res.status(200).json({
-        success: true,
-        message: 'Collection details updated successfully',
-        data: booking,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Collection details updated successfully',
+      data: booking,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -433,7 +430,6 @@ export const createMyLabTest = async (req: Request, res: Response): Promise<void
     };
     const test = await Test.create(testData);
     
-    // Auto-associate test with lab
     lab.tests.push(test._id);
     await lab.save();
 
@@ -452,7 +448,7 @@ export const updateMyLabTest = async (req: Request, res: Response): Promise<void
     if (!test) { res.status(404).json({ success: false, message: 'Test not found' }); return; }
 
     Object.assign(test, req.body);
-    test.approvalStatus = ApprovalStatus.PENDING; // Require re-approval on edit
+    test.approvalStatus = ApprovalStatus.PENDING;
     await test.save();
 
     res.status(200).json({ success: true, data: test });
@@ -521,7 +517,7 @@ export const updateMyLabPackage = async (req: Request, res: Response): Promise<v
     if (!pkg) { res.status(404).json({ success: false, message: 'Package not found' }); return; }
 
     Object.assign(pkg, req.body);
-    pkg.approvalStatus = ApprovalStatus.PENDING; // Require re-approval
+    pkg.approvalStatus = ApprovalStatus.PENDING;
     await pkg.save();
 
     res.status(200).json({ success: true, data: pkg });

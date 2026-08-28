@@ -39,10 +39,11 @@ Status: Fixed (Centralized in src/config/cors.ts)
 [Section 1] File path: test-api.js, test-axios.js, test_lab_pricing.js, test_query.js (Backend Root)
 Issue: Ad-hoc scratch test files left in the backend root directory.
 Why it matters: Clutters root directory, confuses new developers, and contains untracked local query logic.
-Suggested fix: Standardize all automated test suites inside tests/ directory using Vitest.
+Suggested fix: Remove ad-hoc scratch scripts and standardize all automated test suites inside tests/ directory using Vitest.
 Severity: Low
-Status: Identified; unit test suite established in tests/utils.spec.ts.
+Status: Fixed (Removed scratch scripts from backend root; all automated tests consolidated under tests/*.spec.ts).
 ```
+
 
 ---
 
@@ -57,22 +58,24 @@ Status: Identified; unit test suite established in tests/utils.spec.ts.
 
 ### ⚠️ Violations Flagged & Remediated
 ```
-[Section 2] File path: src/controllers/lab-employee.controller.ts vs src/controllers/activityStatus.controller.ts
+[Section 2] File path: src/controllers/lab-employee.controller.ts, lab-portal.controller.ts, src/routes/lab-employee.routes.ts, lab-portal.routes.ts
 Issue: Mixed casing styles in filenames (kebab-case vs camelCase).
-Why it matters: Can cause import casing mismatches across case-sensitive file systems (Linux CI vs Windows local).
-Suggested fix: Maintain uniform naming conventions (*.controller.ts, *.service.ts) across all domains.
+Why it matters: Inconsistent file casing causes import mismatches across case-sensitive operating systems and CI pipelines.
+Suggested fix: Standardize on camelCase for all controller (*.controller.ts) and route (*.routes.ts) files across the entire codebase.
 Severity: Low
-Status: Documented & standardized.
+Status: Fixed (Renamed to labEmployee.controller.ts, labPortal.controller.ts, labEmployee.routes.ts, and labPortal.routes.ts; updated imports in routes/index.ts).
 ```
 
+
 ```
-[Section 2] File path: src/routes/index.ts : Lines 42-43 & 45
-Issue: Inconsistent route plurals: /booking and /bookings mounted concurrently, and singular /payment vs plural /packages, /tests, /labs.
+[Section 2] File path: src/routes/index.ts : Lines 42-47
+Issue: Inconsistent route plurals: singular /payment vs plural /packages, /tests, /labs, and duplicate /booking mounts.
 Why it matters: Inconsistent REST route patterns create ambiguity for API consumers.
-Suggested fix: Standardize collection routes to plural forms (/bookings, /payments).
+Suggested fix: Standardize collection routes to canonical plural forms (/bookings, /payments) with backwards-compatible singular aliases (/booking, /payment) and support dual webhook routes in app.ts.
 Severity: Low
-Status: Aliases maintained for backward compatibility.
+Status: Fixed (Canonical plural endpoints /bookings and /payments mounted as primary REST standard; singular aliases retained for seamless frontend compatibility; app.ts updated to verify raw body on both webhook paths).
 ```
+
 
 ---
 
@@ -171,11 +174,10 @@ Status: Fixed (Created src/middleware/rateLimiter.ts and attached to auth routes
 [Section 6] File path: src/controllers/auth.controller.ts : Lines 146, 171, 185
 Issue: Direct Mongoose queries (User.findById, User.findOne, User.findByIdAndUpdate) executed inside controller methods instead of delegating to AuthService.
 Why it matters: Tightly couples DB queries to Express controllers, preventing reuse across sockets, cron jobs, or CLI tools.
-Suggested fix: Move DB lookups into service methods.
+Suggested fix: Move DB lookups into service methods (AuthService.getProfile, AuthService.updateProfile, AuthService.changePassword).
 Severity: Medium
-Status: Remediation architecture documented.
+Status: Fixed (Extracted all direct user queries into AuthService methods; AuthController now cleanly delegates all data operations without importing User model directly).
 ```
-
 ---
 
 ## 7. Utils / Helpers
@@ -348,10 +350,11 @@ Status: Fixed in package.json.
 [Section 14] File path: backend/
 Issue: Scratch test scripts in root folder (test-api.js, test-axios.js, test_lab_pricing.js, test_query.js).
 Why it matters: Workspace clutter and non-standard testing mechanisms.
-Suggested fix: Standardized all unit testing under tests/*.spec.ts with Vitest.
+Suggested fix: Standardize all unit testing under tests/*.spec.ts with Vitest and remove root scratch scripts.
 Severity: Low
-Status: Addressed; test suite operational.
+Status: Fixed (Removed scratch scripts from root directory; test suite consolidated in tests/).
 ```
+
 
 ---
 

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import authRoutes from './auth.routes';
 import employeeRoutes from './employee.routes';
-import labEmployeeRoutes from './lab-employee.routes';
+import labEmployeeRoutes from './labEmployee.routes';
 import adminRoutes from './admin.routes';
 import categoryRoutes from './category.routes';
 import productRoutes from './product.routes';
@@ -10,8 +10,9 @@ import laboratoryRoutes from './laboratory.routes';
 import bookingRoutes from './booking.routes';
 import uploadRoutes from './upload.routes';
 import paymentRoutes from './payment.routes';
-import labPortalRoutes from './lab-portal.routes';
+import labPortalRoutes from './labPortal.routes';
 import reviewRoutes from './review.routes';
+
 import packageRoutes from './package.routes';
 import tagRoutes from './tag.routes';
 import testTypeRoutes from './testType.routes';
@@ -40,9 +41,10 @@ router.use('/products', productRoutes);
 router.use('/tests', testRoutes);
 router.use('/labs', laboratoryRoutes);
 router.use('/bookings', bookingRoutes);
-router.use('/booking', bookingRoutes); // To satisfy the GET /booking/:id request if they strictly use the singular path as well
+router.use('/booking', bookingRoutes); // Backward compatibility alias
 router.use('/upload', uploadRoutes);
-router.use('/payment', paymentRoutes);
+router.use('/payments', paymentRoutes);
+router.use('/payment', paymentRoutes); // Backward compatibility alias
 router.use('/reviews', reviewRoutes);
 router.use('/packages', packageRoutes);
 router.use('/tags', tagRoutes);

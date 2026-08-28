@@ -1,5 +1,22 @@
 import { Router } from 'express';
-import { getLabDashboardStats, getMyLabBookings, getMyLabProfile, updateMyLabProfile, updateBookingStatus, updateCollectionDetails, getMyLabTests, createMyLabTest, updateMyLabTest, getMyLabPackages, createMyLabPackage, updateMyLabPackage, getPlatformTests, addExistingTestToLab, getPlatformPackages, addExistingPackageToLab } from '../controllers/lab-portal.controller';
+import {
+  getLabDashboardStats,
+  getMyLabBookings,
+  getMyLabProfile,
+  updateMyLabProfile,
+  updateBookingStatus,
+  updateCollectionDetails,
+  getMyLabTests,
+  createMyLabTest,
+  updateMyLabTest,
+  getMyLabPackages,
+  createMyLabPackage,
+  updateMyLabPackage,
+  getPlatformTests,
+  addExistingTestToLab,
+  getPlatformPackages,
+  addExistingPackageToLab,
+} from '../controllers/labPortal.controller';
 import { submitBookingResult } from '../controllers/laboratory.controller';
 import { authMiddleware, roleMiddleware } from '../middleware/auth.middleware';
 import { UserRole } from '../types';

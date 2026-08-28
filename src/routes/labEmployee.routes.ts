@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { LabEmployeeController } from '../controllers/lab-employee.controller';
-import { authMiddleware, permissionMiddleware, labOwnerMiddleware } from '../middleware/auth.middleware';
+import { LabEmployeeController } from '../controllers/labEmployee.controller';
+import { authMiddleware, permissionMiddleware } from '../middleware/auth.middleware';
 import { Permission } from '../types';
 
 const router = Router();

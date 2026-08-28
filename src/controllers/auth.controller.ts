@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
-import User from '../models/User';
 import logger from '../utils/logger';
 
 export class AuthController {
@@ -143,84 +142,35 @@ export class AuthController {
 
   static async getMe(req: Request, res: Response): Promise<void> {
     try {
-      const user = await User.findById(req.user?.id).select('-password').populate('labId', 'labName');
-      if (!user) {
-        res.status(404).json({ success: false, message: 'User not found' });
-        return;
-      }
+      const user = await AuthService.getProfile(req.user!.id);
       res.status(200).json({ success: true, data: user });
     } catch (error: any) {
       logger.error(`GetMe Error: ${error.message}`);
-      res.status(500).json({ success: false, message: 'Internal server error' });
+      const status = error.message === 'User not found' ? 404 : 500;
+      res.status(status).json({ success: false, message: error.message });
     }
   }
 
   static async updateProfile(req: Request, res: Response): Promise<void> {
     try {
-      // Disallow updating sensitive fields like role or password via this endpoint
-      const { role, password, email, ...updateData } = req.body;
-
-      // Only check for phone uniqueness if the phone is actually being changed
-      if (updateData.phone && typeof updateData.phone === 'string') {
-        const cleanedPhone = updateData.phone.trim();
-        updateData.phone = cleanedPhone;
-
-        // Find the current user's phone to skip check if unchanged
-        const currentUser = await User.findById(req.user?.id).select('phone');
-        if (currentUser && currentUser.phone !== cleanedPhone) {
-          const existingPhone = await User.findOne({
-            phone: cleanedPhone,
-            _id: { $ne: req.user?.id },
-          });
-          if (existingPhone) {
-            res.status(400).json({ success: false, message: 'Mobile number is already registered to another account' });
-            return;
-          }
-        }
-      }
-      
-      // Use runValidators: false to prevent Mongoose unique index validators from
-      // triggering false duplicate errors on unchanged fields during partial updates
-      const user = await User.findByIdAndUpdate(
-        req.user?.id,
-        updateData,
-        { new: true, runValidators: false }
-      ).select('-password');
-
-      if (!user) {
-        res.status(404).json({ success: false, message: 'User not found' });
-        return;
-      }
-
+      const user = await AuthService.updateProfile(req.user!.id, req.body);
       res.status(200).json({ success: true, message: 'Profile updated successfully', data: user });
     } catch (error: any) {
       logger.error(`UpdateProfile Error: ${error.message}`);
-      res.status(400).json({ success: false, message: error.message });
+      const status = error.message === 'User not found' ? 404 : 400;
+      res.status(status).json({ success: false, message: error.message });
     }
   }
 
   static async changePassword(req: Request, res: Response): Promise<void> {
     try {
       const { currentPassword, newPassword } = req.body;
-      const user = await User.findById(req.user?.id).select('+password');
-      if (!user) {
-        res.status(404).json({ success: false, message: 'User not found' });
-        return;
-      }
-      
-      const isMatch = await user.comparePassword(currentPassword);
-      if (!isMatch) {
-        res.status(401).json({ success: false, message: 'Incorrect current password' });
-        return;
-      }
-      
-      user.password = newPassword;
-      await user.save();
-      
-      res.status(200).json({ success: true, message: 'Password changed successfully' });
+      const result = await AuthService.changePassword(req.user!.id, currentPassword, newPassword);
+      res.status(200).json(result);
     } catch (error: any) {
       logger.error(`ChangePassword Error: ${error.message}`);
-      res.status(400).json({ success: false, message: error.message });
+      const status = error.message === 'User not found' ? 404 : (error.message === 'Incorrect current password' ? 401 : 400);
+      res.status(status).json({ success: false, message: error.message });
     }
   }
 

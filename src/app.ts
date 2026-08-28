@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 // Razorpay webhook signature verification requires the raw request body.
 // We apply express.raw() only to the webhook path; all other routes use JSON.
 app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.path === '/api/v1/payment/webhook') {
+  if (req.path === '/api/v1/payment/webhook' || req.path === '/api/v1/payments/webhook') {
     express.raw({ type: 'application/json' })(req, res, next);
   } else {
     express.json({ limit: '10mb' })(req, res, next);

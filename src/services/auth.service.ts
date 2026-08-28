@@ -224,4 +224,63 @@ export class AuthService {
 
     return { success: true, message: 'Password reset successfully' };
   }
+
+  static async getProfile(userId: string) {
+    const user = await User.findById(userId).select('-password').populate('labId', 'labName');
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
+
+  static async updateProfile(userId: string, data: Record<string, any>) {
+    const { role, password, email, ...updateData } = data;
+
+    // Check phone uniqueness only if phone is being changed
+    if (updateData.phone && typeof updateData.phone === 'string') {
+      const cleanedPhone = updateData.phone.trim();
+      updateData.phone = cleanedPhone;
+
+      const currentUser = await User.findById(userId).select('phone');
+      if (currentUser && currentUser.phone !== cleanedPhone) {
+        const existingPhone = await User.findOne({
+          phone: cleanedPhone,
+          _id: { $ne: userId },
+        });
+        if (existingPhone) {
+          throw new Error('Mobile number is already registered to another account');
+        }
+      }
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      updateData,
+      { new: true, runValidators: false }
+    ).select('-password');
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  }
+
+  static async changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const user = await User.findById(userId).select('+password');
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      throw new Error('Incorrect current password');
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return { success: true, message: 'Password changed successfully' };
+  }
 }
+
