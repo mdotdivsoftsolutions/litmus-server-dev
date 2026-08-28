@@ -37317,3 +37317,15 @@
 2026-08-28 14:31:58:3158 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
 2026-08-28 14:32:00:320 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-08-28 14:32:00:320 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-28 14:36:07:367 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-28 14:36:07:367 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-28 14:36:07:367 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-28 14:36:07:367 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-28 14:36:10:3610 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-28 14:36:10:3610 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-08-28 14:36:36:3636 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-08-28 14:36:36:3636 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-08-28 14:36:36:3636 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-08-28 14:36:36:3636 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-08-28 14:36:39:3639 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-08-28 14:36:39:3639 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m

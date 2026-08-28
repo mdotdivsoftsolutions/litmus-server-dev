@@ -1,4 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
+import path from 'path';
+
+const siteUrl = process.env.API_BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -10,8 +13,8 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: 'http://localhost:5000',
-        description: 'Development server',
+        url: siteUrl,
+        description: process.env.NODE_ENV === 'production' ? 'Production Server' : 'Development Server',
       },
     ],
     components: {
@@ -20,6 +23,7 @@ const options: swaggerJSDoc.Options = {
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT',
+          description: 'Enter your JWT access token to authenticate API requests',
         },
       },
     },
@@ -29,7 +33,14 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
-  apis: ['./src/routes/*.ts', './src/models/*.ts'],
+  apis: [
+    path.join(__dirname, '../routes/*.[jt]s'),
+    path.join(__dirname, '../models/*.[jt]s'),
+    './src/routes/*.ts',
+    './src/models/*.ts',
+    './dist/routes/*.js',
+    './dist/models/*.js',
+  ],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
