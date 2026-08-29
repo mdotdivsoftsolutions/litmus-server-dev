@@ -2,6 +2,19 @@ import { Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
 import logger from '../utils/logger';
 
+const getCookieOptions = (maxAge?: number) => {
+  const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
+  const cookieDomain = process.env.COOKIE_DOMAIN || (isSecure ? '.litmuslabs.in' : undefined);
+
+  return {
+    httpOnly: true,
+    secure: isSecure,
+    sameSite: (isSecure ? 'lax' : 'lax') as 'lax' | 'none' | 'strict',
+    ...(cookieDomain ? { domain: cookieDomain } : {}),
+    ...(maxAge !== undefined ? { maxAge } : {}),
+  };
+};
+
 export class AuthController {
   static async sendOtp(req: Request, res: Response): Promise<void> {
     try {
@@ -62,23 +75,9 @@ export class AuthController {
   static async register(req: Request, res: Response): Promise<void> {
     try {
       const { user, accessToken, refreshToken } = await AuthService.register(req.body);
-      
-      const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
-      const sameSiteValue = isSecure ? 'none' : 'lax';
 
-      res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: sameSiteValue,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
-      
-      res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: sameSiteValue,
-        maxAge: 15 * 60 * 1000, // 15 mins
-      });
+      res.cookie('refreshToken', refreshToken, getCookieOptions(7 * 24 * 60 * 60 * 1000));
+      res.cookie('accessToken', accessToken, getCookieOptions(15 * 60 * 1000));
 
       res.status(201).json({
         success: true,
@@ -95,22 +94,8 @@ export class AuthController {
     try {
       const { user, accessToken, refreshToken } = await AuthService.login(req.body);
 
-      const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
-      const sameSiteValue = isSecure ? 'none' : 'lax';
-
-      res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: sameSiteValue,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      });
-      
-      res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: sameSiteValue,
-        maxAge: 15 * 60 * 1000, // 15 mins
-      });
+      res.cookie('refreshToken', refreshToken, getCookieOptions(7 * 24 * 60 * 60 * 1000));
+      res.cookie('accessToken', accessToken, getCookieOptions(15 * 60 * 1000));
 
       res.status(200).json({
         success: true,
@@ -124,19 +109,8 @@ export class AuthController {
   }
 
   static async logout(req: Request, res: Response): Promise<void> {
-    const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
-    const sameSiteValue = isSecure ? 'none' : 'lax';
-
-    res.clearCookie('refreshToken', {
-      httpOnly: true,
-      secure: isSecure,
-      sameSite: sameSiteValue,
-    });
-    res.clearCookie('accessToken', {
-      httpOnly: true,
-      secure: isSecure,
-      sameSite: sameSiteValue,
-    });
+    res.clearCookie('refreshToken', getCookieOptions());
+    res.clearCookie('accessToken', getCookieOptions());
     res.status(200).json({ success: true, message: 'Logged out successfully' });
   }
 
@@ -184,22 +158,8 @@ export class AuthController {
 
       const { accessToken, refreshToken: newRefreshToken } = await AuthService.refreshToken(refreshToken);
 
-      const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
-      const sameSiteValue = isSecure ? 'none' : 'lax';
-
-      res.cookie('refreshToken', newRefreshToken, {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: sameSiteValue,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
-      
-      res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        secure: isSecure,
-        sameSite: sameSiteValue,
-        maxAge: 15 * 60 * 1000, // 15 mins
-      });
+      res.cookie('refreshToken', newRefreshToken, getCookieOptions(7 * 24 * 60 * 60 * 1000));
+      res.cookie('accessToken', accessToken, getCookieOptions(15 * 60 * 1000));
 
       res.status(200).json({
         success: true,

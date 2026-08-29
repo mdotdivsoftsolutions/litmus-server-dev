@@ -215,3 +215,32 @@
 2026-08-26 08:43:29:4329 [31merror[39m: [31mMongoDB connection error: Server selection timed out after 8000 ms[39m
 2026-08-26 08:43:47:4347 [31merror[39m: [31m[Queue SLA Worker Error]: Socket 'secureConnect' timed out after 10007ms (connectTimeoutMS: 10000)[39m
 2026-08-27 23:39:17:3917 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +07356924029: Authentication Error[39m
+2026-08-30 00:57:01:571 [31merror[39m: [31mMongoDB connection attempt failed: Server selection timed out after 8000 ms[39m
+2026-08-30 00:57:01:571 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-30 00:57:01:571 [31merror[39m: [31mMongoDB connection error: Server selection timed out after 8000 ms[39m
+2026-08-30 00:57:01:571 [31merror[39m: [31mUNHANDLED REJECTION! 💥 Server selection timed out after 8000 ms[39m
+2026-08-30 00:58:03:583 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 00:59:03:593 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:00:03:03 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:01:03:13 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:02:03:23 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:03:03:33 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:04:59:459 [31merror[39m: [31mMongoDB connection attempt failed: connection 2 to 89.192.9.206:27017 timed out[39m
+2026-08-30 01:04:59:459 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-30 01:04:59:459 [31merror[39m: [31mMongoDB connection error: connection 2 to 89.192.9.206:27017 timed out[39m
+2026-08-30 01:04:59:459 [31merror[39m: [31mUNHANDLED REJECTION! 💥 connection 2 to 89.192.9.206:27017 timed out[39m
+2026-08-30 01:05:09:59 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:06:09:69 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:07:09:79 [31merror[39m: [31m[Queue SLA Worker Error]: Operation `chatsessions.find()` buffering timed out after 10000ms[39m
+2026-08-30 01:11:33:1133 [31merror[39m: [31mMongoDB connection attempt failed: Server selection timed out after 8000 ms[39m
+2026-08-30 01:11:33:1133 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-30 01:11:33:1133 [31merror[39m: [31mMongoDB connection error: Server selection timed out after 8000 ms[39m
+2026-08-30 01:11:33:1133 [31merror[39m: [31mUNHANDLED REJECTION! 💥 Server selection timed out after 8000 ms[39m
+2026-08-30 01:11:55:1155 [31merror[39m: [31mMongoDB connection attempt failed: Socket 'secureConnect' timed out after 10006ms (connectTimeoutMS: 10000)[39m
+2026-08-30 01:11:55:1155 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-30 01:11:55:1155 [31merror[39m: [31mMongoDB connection error: Socket 'secureConnect' timed out after 10006ms (connectTimeoutMS: 10000)[39m
+2026-08-30 01:11:55:1155 [31merror[39m: [31mUNHANDLED REJECTION! 💥 Socket 'secureConnect' timed out after 10006ms (connectTimeoutMS: 10000)[39m
+2026-08-30 01:16:19:1619 [31merror[39m: [31mMongoDB connection attempt failed: Server selection timed out after 8000 ms[39m
+2026-08-30 01:16:19:1619 [31merror[39m: [31mFatal database connection error. Exiting process...[39m
+2026-08-30 01:16:19:1619 [31merror[39m: [31mMongoDB connection error: Server selection timed out after 8000 ms[39m
+2026-08-30 01:16:19:1619 [31merror[39m: [31mUNHANDLED REJECTION! 💥 Server selection timed out after 8000 ms[39m

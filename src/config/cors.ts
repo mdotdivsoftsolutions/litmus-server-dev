@@ -1,16 +1,25 @@
 import { CorsOptions } from 'cors';
 
 export const ALLOWED_ORIGINS = [
-  'http://localhost:5173',
+  'http://localhost:5173',//LOCAL Host
   'http://localhost:8080',
   'http://localhost:8081',
   'http://localhost:3000',
-  'http://127.0.0.1:5173',
-  'http://127.0.0.1:8080',
-  'https://litmus-frontend-dev.vercel.app',
+  'https://litmus-frontend-dev.vercel.app',//DEV Domain
   'https://litmus-user-frontend-dev-beta.vercel.app',
   'https://litmus-lab-frontend-dev.vercel.app',
   'https://litmus-user-frontend.vercel.app',
+  'https://admin.dev.litmuslabs.in',//DEV Domain
+  'https://lab.dev.litmuslabs.in',
+  'https://app.dev.litmuslabs.in',
+  'https://admin.qa.litmuslabs.in',//QA Domain
+  'https://lab.qa.litmuslabs.in',
+  'https://app.qa.litmuslabs.in',
+  'https://litmuslabs.in',//PROD domains
+  'https://www.litmuslabs.in',
+  'https://app.litmuslabs.in',
+  'https://admin.litmuslabs.in',
+  'https://lab.litmuslabs.in',
   process.env.FRONTEND_URL || '',
 ].filter(Boolean);
 
