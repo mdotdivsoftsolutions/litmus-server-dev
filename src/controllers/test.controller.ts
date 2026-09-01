@@ -67,9 +67,12 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
       testQuery.skip(skip).limit(limit);
     }
 
-    const tests = await testQuery;
-    const total = await Test.countDocuments(query);
+    const [tests, total] = await Promise.all([
+      testQuery.lean(),
+      Test.countDocuments(query)
+    ]);
 
+    res.setHeader('Cache-Control', 'public, max-age=30, stale-while-revalidate=120');
     res.status(200).json({
       success: true,
       count: tests.length,
