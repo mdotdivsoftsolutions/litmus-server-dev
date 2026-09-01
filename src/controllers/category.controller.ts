@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Category from '../models/Category';
+import Test from '../models/Test';
 
 export const createCategory = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -19,42 +20,38 @@ export const createCategory = async (req: Request, res: Response): Promise<void>
 
 export const getCategories = async (req: Request, res: Response): Promise<void> => {
   try {
-    const categories = await Category.aggregate([
-      {
-        $lookup: {
-          from: 'tests',
-          let: { categoryId: '$_id' },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $or: [
-                    { $eq: ['$isApplicableToAll', true] },
-                    { $in: ['$$categoryId', { $ifNull: ['$applicableCategories', []] }] }
-                  ]
-                }
-              }
-            }
-          ],
-          as: 'tests'
-        }
-      },
-      {
-        $addFields: {
-          testCount: { $size: '$tests' },
-          productCount: { $size: '$tests' }
-        }
-      },
-      {
-        $project: {
-          tests: 0
-        }
-      }
+    const [categories, applicableToAllCount, categoryCounts] = await Promise.all([
+      Category.find().sort({ createdAt: -1 }).lean(),
+      Test.countDocuments({ isApplicableToAll: true }),
+      Test.aggregate([
+        { $match: { isApplicableToAll: { $ne: true } } },
+        { $unwind: '$applicableCategories' },
+        { $group: { _id: '$applicableCategories', count: { $sum: 1 } } }
+      ])
     ]);
+
+    const countMap = new Map<string, number>();
+    categoryCounts.forEach((c: any) => {
+      if (c._id) {
+        countMap.set(c._id.toString(), c.count);
+      }
+    });
+
+    const categoriesWithCount = categories.map((cat: any) => {
+      const catId = cat._id.toString();
+      const specificCount = countMap.get(catId) || 0;
+      const totalTestCount = applicableToAllCount + specificCount;
+      return {
+        ...cat,
+        testCount: totalTestCount,
+        productCount: totalTestCount,
+      };
+    });
+
     res.status(200).json({
       success: true,
-      count: categories.length,
-      data: categories,
+      count: categoriesWithCount.length,
+      data: categoriesWithCount,
     });
   } catch (error: any) {
     res.status(500).json({

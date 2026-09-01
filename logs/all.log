@@ -37581,3 +37581,37 @@
 2026-08-30 01:16:51:1651 [32minfo[39m: [32m[Socket Connected] id=BAk7d22lqMjiMM3bAAAB isAgent=true userId=6a1bea183328e67cbc6e6265[39m
 2026-08-30 01:16:51:1651 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=BAk7d22lqMjiMM3bAAAB][39m
 2026-08-30 01:16:51:1651 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=BAk7d22lqMjiMM3bAAAB][39m
+2026-09-01 23:49:21:4921 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-01 23:49:21:4921 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-01 23:49:21:4921 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-01 23:49:21:4921 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-01 23:49:23:4923 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-01 23:49:23:4923 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-01 23:49:31:4931 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-01 23:49:31:4931 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-01 23:49:31:4931 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-01 23:49:31:4931 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-01 23:49:33:4933 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-01 23:49:33:4933 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-01 23:49:57:4957 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 10.159 ms - 65[0m[39m
+2026-09-01 23:49:58:4958 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 651.801 ms - 254[0m[39m
+2026-09-01 23:49:59:4959 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 316.953 ms - 923[0m[39m
+2026-09-01 23:50:19:5019 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 654.218 ms - 424[0m[39m
+2026-09-01 23:50:20:5020 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 299.899 ms - 586[0m[39m
+2026-09-01 23:50:20:5020 [32minfo[39m: [32m[0mGET /api/v1/chat/presence [32m200[0m 2.539 ms - 65[0m[39m
+2026-09-01 23:50:20:5020 [32minfo[39m: [32m[Socket Connected] id=wlVHx4s6QEXRFpQpAAAB isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-09-01 23:50:20:5020 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=wlVHx4s6QEXRFpQpAAAB][39m
+2026-09-01 23:50:20:5020 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=wlVHx4s6QEXRFpQpAAAB][39m
+2026-09-01 23:50:20:5020 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?status=QUEUED&limit=20 [32m200[0m 293.870 ms - 81[0m[39m
+2026-09-01 23:50:22:5022 [32minfo[39m: [32m[0mPOST /api/v1/auth/login [32m200[0m 680.413 ms - 424[0m[39m
+2026-09-01 23:50:22:5022 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 291.192 ms - 586[0m[39m
+2026-09-01 23:50:23:5023 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [32m200[0m 1221.280 ms - 3874[0m[39m
+2026-09-01 23:50:24:5024 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [32m200[0m 1774.743 ms - 29617[0m[39m
+2026-09-01 23:50:24:5024 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [32m200[0m 1874.658 ms - 385[0m[39m
+2026-09-01 23:50:24:5024 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [32m200[0m 2394.513 ms - 35871[0m[39m
+2026-09-01 23:50:26:5026 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 300.967 ms - 4283[0m[39m
+2026-09-01 23:50:36:5036 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 296.165 ms - 586[0m[39m
+2026-09-01 23:50:37:5037 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 847.604 ms - -[0m[39m
+2026-09-01 23:50:40:5040 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 281.564 ms - -[0m[39m
+2026-09-01 23:50:41:5041 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 831.299 ms - -[0m[39m
+2026-09-01 23:50:57:5057 [32minfo[39m: [32m[0mGET /api/v1/tests?client=%5Bobject+Object%5D&queryKey%5B%5D=adminTests&signal=%5Bobject+AbortSignal%5D [32m200[0m 1678.434 ms - 116016[0m[39m
