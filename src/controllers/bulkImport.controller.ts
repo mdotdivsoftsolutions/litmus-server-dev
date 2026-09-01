@@ -7,6 +7,7 @@ import Package from '../models/Package';
 import Laboratory from '../models/Laboratory';
 import User from '../models/User';
 import { UserRole } from '../types';
+import { invalidateCategoryCache } from './category.controller';
 
 interface ImportSummary {
   totalRows: number;
@@ -530,6 +531,7 @@ export const importCategories = async (req: Request, res: Response): Promise<voi
     const rows = extractRowsFromSheet(sheet, ['name', 'categoryName']);
 
     const summary = await processCategoriesImport(rows);
+    invalidateCategoryCache();
     res.status(200).json({ success: true, message: 'Categories import completed', summary });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message || 'Failed to process Categories import' });
@@ -549,6 +551,7 @@ export const importTests = async (req: Request, res: Response): Promise<void> =>
     const rows = extractRowsFromSheet(sheet, ['testName', 'name']);
 
     const summary = await processTestsImport(rows);
+    invalidateCategoryCache();
     res.status(200).json({ success: true, message: 'Tests import completed', summary });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message || 'Failed to process Tests import' });

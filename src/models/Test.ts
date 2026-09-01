@@ -89,4 +89,7 @@ const TestSchema: Schema = new Schema(
   }
 );
 
+TestSchema.index({ applicableCategories: 1 });
+TestSchema.index({ isApplicableToAll: 1 });
+
 export default mongoose.model<ITest>('Test', TestSchema);
