@@ -26,6 +26,7 @@ import optionRoutes from './systemOption.routes';
 import platformSettingsRoutes from './platformSettings.routes';
 import chatRoutes from './chat.routes';
 import bulkImportRoutes from './bulkImport.routes';
+import notificationRoutes from './notification.routes';
 
 const router = Router();
 
@@ -58,5 +59,7 @@ router.use('/consultations', consultationRoutes);
 router.use('/options', optionRoutes);
 router.use('/settings', platformSettingsRoutes);
 router.use('/chat', chatRoutes);
+router.use('/notifications', notificationRoutes);
 
 export default router;
+

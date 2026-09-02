@@ -74,10 +74,34 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       collectionMethod: collectionMethod === 'PICKUP' || collectionMethod === 'COURIER' ? collectionMethod : undefined,
     });
 
+    // Asynchronously dispatch In-App Notifications for Admin and Lab
+    const { InAppNotificationService } = await import('../services/inAppNotification.service');
+    InAppNotificationService.createNotification({
+      recipientRole: 'ADMIN',
+      type: 'NEW_BOOKING',
+      title: 'New Booking Placed',
+      message: `Order #${booking._id.toString().slice(-6).toUpperCase()} placed for ₹${Number(totalAmount || 0).toLocaleString('en-IN')}`,
+      link: `/admin/bookings/${booking._id}`,
+      metadata: { bookingId: booking._id, totalAmount, userId },
+    }).catch(() => {});
+
+    if (labId) {
+      InAppNotificationService.createNotification({
+        recipientRole: 'LAB',
+        recipientLabId: labId,
+        type: 'BOOKING_ASSIGNED',
+        title: 'New Diagnostic Booking Assigned',
+        message: `Booking #${booking._id.toString().slice(-6).toUpperCase()} assigned to your laboratory`,
+        link: `/lab/bookings/${booking._id}`,
+        metadata: { bookingId: booking._id, totalAmount },
+      }).catch(() => {});
+    }
+
     res.status(201).json({
       success: true,
       data: booking,
     });
+
   } catch (error: any) {
     res.status(400).json({
       success: false,

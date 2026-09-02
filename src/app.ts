@@ -60,6 +60,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use('/api/v1', apiRoutes);
+app.use('/api', apiRoutes);
+
 
 // Base route for testing / health check
 app.get('/', (req: Request, res: Response) => {
