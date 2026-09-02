@@ -183,14 +183,32 @@ export const processTestsImport = async (dataRows: any[]): Promise<ImportSummary
         }
       }
 
+      // Extract direct test price/mrp if given
+      const rawDirectPrice = row.price !== undefined && String(row.price).trim() !== '' 
+        ? Number(row.price) 
+        : (row.mrp !== undefined && String(row.mrp).trim() !== '' 
+          ? Number(row.mrp) 
+          : (row.basePrice !== undefined && String(row.basePrice).trim() !== '' ? Number(row.basePrice) : undefined));
+
+      // Calculate base price: Priority to direct price/mrp column, fallback to sum of parameters
+      let basePrice = rawDirectPrice !== undefined && !isNaN(rawDirectPrice) 
+        ? rawDirectPrice 
+        : parameters.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
+
       // Default fallback parameter if empty
       if (parameters.length === 0) {
-        const directPrice = Number(row.price || row.basePrice || 0);
-        parameters = [{ name: 'Standard Parameter', unit: '', minLimit: '', maxLimit: '', price: directPrice }];
+        parameters = [{ name: 'Standard Parameter', unit: '', minLimit: '', maxLimit: '', price: basePrice }];
+      } else {
+        // If basePrice is set but individual parameters have 0 price, distribute basePrice evenly across parameters
+        const totalParamPrice = parameters.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
+        if (basePrice > 0 && totalParamPrice === 0 && parameters.length > 0) {
+          const perParam = Math.floor(basePrice / parameters.length);
+          const remainder = basePrice - perParam * parameters.length;
+          parameters.forEach((p, idx) => {
+            p.price = idx === 0 ? perParam + remainder : perParam;
+          });
+        }
       }
-
-      // Calculate base price from parameters
-      const basePrice = parameters.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
 
       // Turn around time parsing
       let turnAroundTime = row.turnAroundTime || row.tat || row['Turn Around Time'] || '';
@@ -207,14 +225,20 @@ export const processTestsImport = async (dataRows: any[]): Promise<ImportSummary
         }
       }
 
-      // Discount calculation
+      // Discount & Offer Price calculation
       const discountType = ['FLAT', 'PERCENTAGE'].includes(String(row.discountType).toUpperCase())
         ? String(row.discountType).toUpperCase()
         : 'NONE';
       const discountValue = Number(row.discountValue || 0);
       let offerPrice: number | undefined = undefined;
 
-      if (discountType === 'FLAT' && discountValue > 0) {
+      const rawOfferPrice = row.offerPrice !== undefined && String(row.offerPrice).trim() !== '' 
+        ? Number(row.offerPrice) 
+        : (row.sellingPrice !== undefined && String(row.sellingPrice).trim() !== '' ? Number(row.sellingPrice) : undefined);
+
+      if (rawOfferPrice !== undefined && !isNaN(rawOfferPrice)) {
+        offerPrice = rawOfferPrice;
+      } else if (discountType === 'FLAT' && discountValue > 0) {
         offerPrice = Math.max(0, basePrice - discountValue);
       } else if (discountType === 'PERCENTAGE' && discountValue > 0) {
         offerPrice = Math.max(0, basePrice - basePrice * (discountValue / 100));
