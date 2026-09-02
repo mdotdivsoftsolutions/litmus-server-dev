@@ -37671,3 +37671,55 @@
 2026-09-02 00:01:37:137 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=h0KUzcBfvSqXOEq3AAAB][39m
 2026-09-02 00:01:39:139 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-09-02 00:01:39:139 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-02 09:31:35:3135 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-02 09:31:35:3135 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-02 09:31:35:3135 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-02 09:31:35:3135 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-02 09:31:37:3137 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-02 09:31:37:3137 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-02 09:37:50:3750 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-02 09:37:51:3751 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-02 09:37:51:3751 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-02 09:37:51:3751 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-02 09:37:53:3753 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-02 09:37:53:3753 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-02 09:37:57:3757 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-02 09:37:58:3758 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-02 09:37:58:3758 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-02 09:37:58:3758 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-02 09:38:00:380 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-02 09:38:00:380 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-02 09:39:08:398 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-02 09:39:08:398 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-02 09:39:08:398 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-02 09:39:08:398 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-02 09:39:10:3910 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-02 09:39:10:3910 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-02 09:39:40:3940 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-02 09:39:41:3941 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-02 09:39:41:3941 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-02 09:39:41:3941 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-02 09:39:43:3943 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-02 09:39:43:3943 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-02 09:40:33:4033 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 6.371 ms - 65[0m[39m
+2026-09-02 09:40:34:4034 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 620.529 ms - 255[0m[39m
+2026-09-02 09:40:34:4034 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 351.610 ms - 586[0m[39m
+2026-09-02 09:40:35:4035 [32minfo[39m: [32m[Socket Connected] id=a-FO5hID5bUVGKTkAAAB isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-09-02 09:40:35:4035 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=a-FO5hID5bUVGKTkAAAB][39m
+2026-09-02 09:40:35:4035 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=a-FO5hID5bUVGKTkAAAB][39m
+2026-09-02 09:40:35:4035 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 851.054 ms - -[0m[39m
+2026-09-02 09:40:35:4035 [32minfo[39m: [32m[0mGET /api/v1/chat/presence [32m200[0m 1.445 ms - 157[0m[39m
+2026-09-02 09:40:35:4035 [32minfo[39m: [32m[0mGET /api/v1/chat/sessions?status=QUEUED&limit=20 [36m304[0m 872.624 ms - -[0m[39m
+2026-09-02 09:40:36:4036 [32minfo[39m: [32m[0mGET /api/v1/admin/labs [36m304[0m 1175.959 ms - -[0m[39m
+2026-09-02 09:40:36:4036 [32minfo[39m: [32m[0mGET /api/v1/admin/payments [32m200[0m 1755.636 ms - 29617[0m[39m
+2026-09-02 09:40:36:4036 [32minfo[39m: [32m[0mGET /api/v1/admin/stats [36m304[0m 1959.877 ms - -[0m[39m
+2026-09-02 09:40:37:4037 [32minfo[39m: [32m[0mGET /api/v1/admin/bookings [32m200[0m 2334.146 ms - 35871[0m[39m
+2026-09-02 09:41:47:4147 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-02 09:41:47:4147 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-02 09:41:47:4147 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-02 09:41:47:4147 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-02 09:41:49:4149 [32minfo[39m: [32m[Socket Connected] id=ueKmkyBIB-KOcnPUAAAB isAgent=true userId=6a1bea183328e67cbc6e6265[39m
+2026-09-02 09:41:49:4149 [32minfo[39m: [32m[Socket] Agent Litmus Staff (6a1bea183328e67cbc6e6265) joined admin_support_channel [socket=ueKmkyBIB-KOcnPUAAAB][39m
+2026-09-02 09:41:49:4149 [32minfo[39m: [32m[Socket] Explicit agent registered: System Admin (6a1bea183328e67cbc6e6265) [socket=ueKmkyBIB-KOcnPUAAAB][39m
+2026-09-02 09:41:50:4150 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-02 09:41:50:4150 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
