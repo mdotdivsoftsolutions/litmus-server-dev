@@ -245,3 +245,9 @@
 2026-08-30 01:16:19:1619 [31merror[39m: [31mMongoDB connection error: Server selection timed out after 8000 ms[39m
 2026-08-30 01:16:19:1619 [31merror[39m: [31mUNHANDLED REJECTION! 💥 Server selection timed out after 8000 ms[39m
 2026-09-07 10:00:03:03 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +09677268682: Authentication Error[39m
+2026-09-07 10:27:51:2751 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-09-07 10:33:07:337 [31merror[39m: [31mLogin Error: Invalid credentials[39m
+2026-09-07 10:42:00:420 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +917356924029: Authentication Error[39m
+2026-09-07 11:35:03:353 [31merror[39m: [31mRegister Error: Invalid or expired OTP[39m
+2026-09-07 12:00:05:05 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +09677268682: Authentication Error[39m
+2026-09-07 12:07:06:76 [31merror[39m: [31mGetMe Error: User not found[39m

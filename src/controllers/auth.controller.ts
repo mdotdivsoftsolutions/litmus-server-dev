@@ -2,14 +2,18 @@ import { Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
 import logger from '../utils/logger';
 
-const getCookieOptions = (maxAge?: number) => {
+const getCookieOptions = (req?: Request, maxAge?: number) => {
   const isSecure = process.env.NODE_ENV === 'production' || !!process.env.VERCEL;
-  const cookieDomain = process.env.COOKIE_DOMAIN || (isSecure ? '.litmuslabs.in' : undefined);
+  const origin = req?.get('origin') || req?.get('referer') || '';
+  const host = req?.get('host') || '';
+  const isLitmusDomain = origin.includes('litmuslabs.in') || host.includes('litmuslabs.in');
+  const cookieDomain = process.env.COOKIE_DOMAIN || (isLitmusDomain ? '.litmuslabs.in' : undefined);
 
   return {
     httpOnly: true,
     secure: isSecure,
-    sameSite: (isSecure ? 'lax' : 'lax') as 'lax' | 'none' | 'strict',
+    sameSite: (isSecure ? (isLitmusDomain ? 'lax' : 'none') : 'lax') as 'lax' | 'none' | 'strict',
+    path: '/',
     ...(cookieDomain ? { domain: cookieDomain } : {}),
     ...(maxAge !== undefined ? { maxAge } : {}),
   };
@@ -76,8 +80,8 @@ export class AuthController {
     try {
       const { user, accessToken, refreshToken } = await AuthService.register(req.body);
 
-      res.cookie('refreshToken', refreshToken, getCookieOptions(7 * 24 * 60 * 60 * 1000));
-      res.cookie('accessToken', accessToken, getCookieOptions(15 * 60 * 1000));
+      res.cookie('refreshToken', refreshToken, getCookieOptions(req, 7 * 24 * 60 * 60 * 1000));
+      res.cookie('accessToken', accessToken, getCookieOptions(req, 15 * 60 * 1000));
 
       res.status(201).json({
         success: true,
@@ -94,8 +98,8 @@ export class AuthController {
     try {
       const { user, accessToken, refreshToken } = await AuthService.login(req.body);
 
-      res.cookie('refreshToken', refreshToken, getCookieOptions(7 * 24 * 60 * 60 * 1000));
-      res.cookie('accessToken', accessToken, getCookieOptions(15 * 60 * 1000));
+      res.cookie('refreshToken', refreshToken, getCookieOptions(req, 7 * 24 * 60 * 60 * 1000));
+      res.cookie('accessToken', accessToken, getCookieOptions(req, 15 * 60 * 1000));
 
       res.status(200).json({
         success: true,
@@ -109,8 +113,8 @@ export class AuthController {
   }
 
   static async logout(req: Request, res: Response): Promise<void> {
-    res.clearCookie('refreshToken', getCookieOptions());
-    res.clearCookie('accessToken', getCookieOptions());
+    res.clearCookie('refreshToken', getCookieOptions(req));
+    res.clearCookie('accessToken', getCookieOptions(req));
     res.status(200).json({ success: true, message: 'Logged out successfully' });
   }
 
@@ -158,8 +162,8 @@ export class AuthController {
 
       const { accessToken, refreshToken: newRefreshToken } = await AuthService.refreshToken(refreshToken);
 
-      res.cookie('refreshToken', newRefreshToken, getCookieOptions(7 * 24 * 60 * 60 * 1000));
-      res.cookie('accessToken', accessToken, getCookieOptions(15 * 60 * 1000));
+      res.cookie('refreshToken', newRefreshToken, getCookieOptions(req, 7 * 24 * 60 * 60 * 1000));
+      res.cookie('accessToken', accessToken, getCookieOptions(req, 15 * 60 * 1000));
 
       res.status(200).json({
         success: true,
