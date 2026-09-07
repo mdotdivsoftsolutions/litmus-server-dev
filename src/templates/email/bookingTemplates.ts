@@ -1,15 +1,15 @@
 import { renderLitmusEmailLayout, formatCurrency, CustomerEmailData } from './emailLayout';
 
-const SITE_URL = process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const SITE_URL = (process.env.FRONTEND_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/+$/, '');
 
 export function renderBookingConfirmedEmail(to: string, data: CustomerEmailData): string {
   const orderUrl = data.bookingId ? `${SITE_URL}/orders/${data.bookingId}` : `${SITE_URL}/orders`;
 
   return renderLitmusEmailLayout({
-    title: 'Booking Confirmed - Litmus Food Analytics',
-    headline: 'Your diagnostic test booking is confirmed',
+    title: 'Booking Confirmed - Litmus Labs',
+    headline: 'Booking Confirmed',
     recipientName: data.customerName,
-    introText: 'Thank you for choosing Litmus Food Analytics. We have received and confirmed your test booking. Our operations desk is preparing your sample intake and diagnostic scheduling.',
+    introText: 'Thank you for choosing Litmus Labs. We have received and confirmed your test booking. Our operations desk is preparing your sample intake and diagnostic scheduling.',
     calloutHtml: `
       <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">

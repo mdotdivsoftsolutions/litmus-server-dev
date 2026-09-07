@@ -87,7 +87,7 @@ export const sendOtpEmail = async (to: string, otp: string): Promise<boolean> =>
 };
 
 export const sendBookingConfirmedEmail = async (to: string, data: CustomerEmailData): Promise<boolean> => {
-  const subject = `Booking Confirmed #${data.bookingId || ''} - Litmus Diagnostics`;
+  const subject = `Booking Confirmed #${data.bookingId || ''} - Litmus Labs`;
   const html = renderBookingConfirmedEmail(to, data);
   return sendGenericEmail(to, subject, html);
 };
