@@ -1,8 +1,4 @@
-/**
- * Invoice Service for Litmus Food Analytics LLP
- * Handles GST calculations, number-to-words conversion, structured invoice data generation,
- * and high-definition printable HTML document rendering matching the official Litmus invoice format.
- */
+import { formatGstState } from '../utils/gstStateCodes';
 
 export interface InvoiceCompanyDetails {
   legalName: string;
@@ -179,10 +175,45 @@ export function buildInvoiceData(booking: any, payment?: any): InvoiceData {
   const customerName = `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.name || "Customer";
   const customerCompanyName = user.companyName || customerName.toUpperCase();
 
-  const customerState = user.address?.state ? `32-${user.address.state}` : "32-Kerala";
-  const customerAddress = user.address?.street 
-    ? `${user.address.street}, ${user.address.city || ""}, ${user.address.state || ""} - ${user.address.zipCode || ""}`.trim()
-    : "KRA-149, Chittilappilly House, Krishna puram, P.O.Ollukkara, Thrissur - 680 655";
+  const gstinNumber = user.gstNumber || user.gstin || undefined;
+
+  // Address candidate sources in priority order: booking collection details -> user billing address -> user general address -> user shipping address
+  const col = booking.metadata?.collectionDetails;
+  const bill = user.billingAddress;
+  const addr = user.address;
+  const ship = user.shippingAddress;
+
+  const rawState =
+    col?.state ||
+    bill?.state ||
+    (typeof addr === "object" && addr ? addr.state : undefined) ||
+    ship?.state ||
+    (typeof addr === "string" ? addr : undefined) ||
+    "";
+
+  const customerState = formatGstState(rawState, gstinNumber);
+
+  const street = col?.address || col?.street || bill?.street || (typeof addr === "object" && addr ? addr.street : "") || ship?.street || "";
+  const city = col?.city || bill?.city || (typeof addr === "object" && addr ? addr.city : "") || ship?.city || "";
+  const pincode = col?.pincode || bill?.pincode || (typeof addr === "object" && addr ? (addr.pincode || addr.zipCode) : "") || ship?.pincode || "";
+
+  let customerAddress = "";
+  if (typeof addr === "string" && addr.trim() && !street) {
+    customerAddress = addr.trim();
+  } else if (street) {
+    const parts = [
+      street,
+      city,
+      rawState ? (pincode ? `${rawState} - ${pincode}` : rawState) : pincode,
+    ].filter(Boolean);
+    customerAddress = parts.join(", ");
+  } else {
+    const parts = [
+      city,
+      rawState ? (pincode ? `${rawState} - ${pincode}` : rawState) : pincode,
+    ].filter(Boolean);
+    customerAddress = parts.length > 0 ? parts.join(", ") : "Thrissur, Kerala - 680 655";
+  }
 
   // Calculate items with standard 18% GST (9% CGST + 9% SGST)
   const itemsSum = (booking.items || []).reduce((sum: number, it: any) => sum + (Number(it.price) || 0), 0);
@@ -269,7 +300,7 @@ export function buildInvoiceData(booking: any, payment?: any): InvoiceData {
     invoiceNumber: invoiceNum,
     invoiceDate: formattedDate,
     invoiceTime: formattedTime,
-    placeOfSupply: "32-Kerala",
+    placeOfSupply: customerState || "32-Kerala",
     poDate: formattedPoDate,
     poNumber: poNum,
     bookingId: `BKG-${booking._id.toString().slice(-6).toUpperCase()}`,
@@ -281,10 +312,10 @@ export function buildInvoiceData(booking: any, payment?: any): InvoiceData {
       name: customerName,
       companyName: customerCompanyName,
       address: customerAddress,
-      phone: user.phone || "8089547854",
-      email: user.email || "litmusfoodanalytics@gmail.com",
+      phone: user.phone || col?.phone || "8089547854",
+      email: user.email || col?.email || "litmusfoodanalytics@gmail.com",
       state: customerState,
-      gstin: user.gstin || undefined,
+      gstin: gstinNumber,
     },
     items,
     totals: {

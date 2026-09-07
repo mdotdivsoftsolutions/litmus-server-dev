@@ -37,7 +37,7 @@ export const getBookingInvoice = async (req: Request, res: Response): Promise<vo
     const { id } = req.params;
 
     const booking = await Booking.findById(id)
-      .populate('userId', 'firstName lastName email phone companyName fssaiNumber address')
+      .populate('userId', 'firstName lastName email phone companyName fssaiNumber address billingAddress shippingAddress gstNumber gstin')
       .populate('labId', 'labName nablAccreditationNumber isNablAccredited location')
       .populate('items.testId', 'testName price')
       .populate('items.packageId', 'name price');
@@ -82,7 +82,7 @@ export const renderBookingInvoiceHtml = async (req: Request, res: Response): Pro
     const { id } = req.params;
 
     const booking = await Booking.findById(id)
-      .populate('userId', 'firstName lastName email phone companyName fssaiNumber address')
+      .populate('userId', 'firstName lastName email phone companyName fssaiNumber address billingAddress shippingAddress gstNumber gstin')
       .populate('labId', 'labName nablAccreditationNumber isNablAccredited location')
       .populate('items.testId', 'testName price')
       .populate('items.packageId', 'name price');
