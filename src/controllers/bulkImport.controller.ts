@@ -6,6 +6,7 @@ import Test from '../models/Test';
 import Package from '../models/Package';
 import Laboratory from '../models/Laboratory';
 import User from '../models/User';
+import Tag from '../models/Tag';
 import { UserRole } from '../types';
 import { invalidateCategoryCache } from './category.controller';
 
@@ -59,7 +60,19 @@ function extractRowsFromSheet(sheet: XLSX.WorkSheet, keyFieldCandidates: string[
     const rowObj: any = { _rowNumber: r + 1 };
     rawHeaders.forEach((header, colIdx) => {
       if (header) {
-        rowObj[header] = row[colIdx] !== undefined ? String(row[colIdx]).trim() : '';
+        let val = row[colIdx] !== undefined ? String(row[colIdx]).trim() : '';
+        // If cell has a hyperlink target in sheet, prioritize the actual URL
+        const cellRef = XLSX.utils.encode_cell({ r, c: colIdx });
+        const cell = sheet[cellRef];
+        if (cell && cell.l && cell.l.Target) {
+          val = String(cell.l.Target).trim();
+        } else if (cell && typeof cell.f === 'string' && cell.f.toUpperCase().includes('HYPERLINK')) {
+          const match = cell.f.match(/HYPERLINK\s*\(\s*["']([^"']+)["']/i);
+          if (match && match[1]) {
+            val = match[1].trim();
+          }
+        }
+        rowObj[header] = val;
       }
     });
 
@@ -396,6 +409,22 @@ export const processPackagesImport = async (dataRows: any[], defaultAdminId?: st
         : 'PERCENTAGE';
       const discountValue = Number(row.discountValue || 0);
 
+      const tagVal = (row.tag || '').trim();
+      if (tagVal) {
+        try {
+          await Tag.findOneAndUpdate(
+            { name: { $regex: new RegExp(`^${tagVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') } },
+            { $setOnInsert: { name: tagVal } },
+            { upsert: true }
+          );
+        } catch (_) {}
+      }
+
+      let imageVal = (row.image || row.imageUrl || '').trim();
+      if (imageVal && !imageVal.startsWith('http://') && !imageVal.startsWith('https://') && !imageVal.startsWith('/')) {
+        imageVal = '';
+      }
+
       const pkgPayload: any = {
         name: name.trim(),
         description: (row.description || 'Comprehensive laboratory testing package.').trim(),
@@ -408,9 +437,9 @@ export const processPackagesImport = async (dataRows: any[], defaultAdminId?: st
         discountValue: discountValue,
         price: price > 0 ? price : mrp,
         tat: tat,
-        tag: (row.tag || '').trim() || undefined,
+        tag: tagVal || undefined,
         features: features,
-        image: (row.image || row.imageUrl || '').trim() || undefined,
+        image: imageVal || undefined,
         createdBy: fallbackAdminId,
         approvalStatus: 'APPROVED',
       };
