@@ -175,14 +175,22 @@ export function buildInvoiceData(booking: any, payment?: any): InvoiceData {
   const customerName = `${user.firstName || ""} ${user.lastName || ""}`.trim() || user.name || "Customer";
   const customerCompanyName = user.companyName || customerName.toUpperCase();
 
-  const gstinNumber = user.gstNumber || user.gstin || undefined;
+  const col = booking.metadata?.collectionDetails || booking.collectionDetails || {};
+  const bill = user.billingAddress || {};
+  const addr = user.address || {};
+  const ship = user.shippingAddress || {};
+
+  // 1. Prioritize GST number entered at checkout (collectionDetails / metadata)
+  // 2. Fall back to user profile gstNumber or gstin
+  const gstinNumber =
+    col?.gstNumber ||
+    booking.metadata?.gstNumber ||
+    booking.gstNumber ||
+    user.gstNumber ||
+    user.gstin ||
+    undefined;
 
   // Address candidate sources in priority order: booking collection details -> user billing address -> user general address -> user shipping address
-  const col = booking.metadata?.collectionDetails;
-  const bill = user.billingAddress;
-  const addr = user.address;
-  const ship = user.shippingAddress;
-
   const rawState =
     col?.state ||
     bill?.state ||
@@ -191,11 +199,25 @@ export function buildInvoiceData(booking: any, payment?: any): InvoiceData {
     (typeof addr === "string" ? addr : undefined) ||
     "";
 
-  const customerState = formatGstState(rawState, gstinNumber);
+  const customerCity =
+    col?.city ||
+    bill?.city ||
+    (typeof addr === "object" && addr ? addr.city : "") ||
+    ship?.city ||
+    "";
+
+  const customerPincode =
+    col?.pincode ||
+    bill?.pincode ||
+    (typeof addr === "object" && addr ? (addr.pincode || addr.zipCode) : "") ||
+    ship?.pincode ||
+    "";
+
+  const customerState = formatGstState(rawState, gstinNumber, customerCity, customerPincode);
 
   const street = col?.address || col?.street || bill?.street || (typeof addr === "object" && addr ? addr.street : "") || ship?.street || "";
-  const city = col?.city || bill?.city || (typeof addr === "object" && addr ? addr.city : "") || ship?.city || "";
-  const pincode = col?.pincode || bill?.pincode || (typeof addr === "object" && addr ? (addr.pincode || addr.zipCode) : "") || ship?.pincode || "";
+  const city = customerCity;
+  const pincode = customerPincode;
 
   let customerAddress = "";
   if (typeof addr === "string" && addr.trim() && !street) {
@@ -696,6 +718,7 @@ export function generateInvoiceHtml(data: InvoiceData): string {
         <div style="text-transform: uppercase; margin-bottom: 6px;">${data.customer.companyName || data.customer.name}</div>
         <div style="margin-bottom: 8px;">${data.customer.address}</div>
         <div style="margin-bottom: 6px;">Contact No.: ${data.customer.phone}</div>
+        ${data.customer.gstin ? `<div style="margin-bottom: 6px;">GSTIN: ${data.customer.gstin}</div>` : ''}
         <div>State: ${data.customer.state}</div>
       </div>
 

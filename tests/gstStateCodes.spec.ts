@@ -31,4 +31,18 @@ describe('GST State Codes Utility', () => {
     expect(formatGstState('')).toBe('32-Kerala');
     expect(formatGstState(null, null)).toBe('32-Kerala');
   });
+
+  it('should infer state from Indian PIN code when state name and GSTIN are missing', () => {
+    expect(formatGstState('', '', 'Thirumullaivoyal', '600062')).toBe('33-Tamil Nadu');
+    expect(formatGstState('', '', '', '682028')).toBe('32-Kerala');
+    expect(formatGstState('', '', '', '560001')).toBe('29-Karnataka');
+    expect(formatGstState('', '', '', '110001')).toBe('07-Delhi');
+  });
+
+  it('should infer state from city when state name, GSTIN and PIN code are missing', () => {
+    expect(formatGstState('', '', 'Chennai', '')).toBe('33-Tamil Nadu');
+    expect(formatGstState('', '', 'Kochi', '')).toBe('32-Kerala');
+    expect(formatGstState('', '', 'Bengaluru', '')).toBe('29-Karnataka');
+    expect(formatGstState('', '', 'Mumbai', '')).toBe('27-Maharashtra');
+  });
 });

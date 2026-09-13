@@ -41422,3 +41422,48 @@
 2026-09-13 22:13:35:1335 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-09-13 22:13:35:1335 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
 2026-09-13 22:13:38:1338 [32minfo[39m: [32m[Socket Connected] id=Ab3FVQMuLpiG7kiyAAAB isAgent=false userId=Guest[39m
+2026-09-13 22:24:45:2445 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 3.408 ms - 65[0m[39m
+2026-09-13 22:24:45:2445 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 268.613 ms - 36[0m[39m
+2026-09-13 22:24:46:2446 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 582.556 ms - 254[0m[39m
+2026-09-13 22:24:46:2446 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 261.579 ms - 923[0m[39m
+2026-09-13 22:24:51:2451 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 273.568 ms - 3022[0m[39m
+2026-09-13 22:24:52:2452 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 526.793 ms - 18177[0m[39m
+2026-09-13 22:24:52:2452 [32minfo[39m: [32m[Socket Connected] id=417hezpB68nw3j0dAAAD isAgent=false userId=Guest[39m
+2026-09-13 22:24:52:2452 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 813.299 ms - 7703[0m[39m
+2026-09-13 22:24:52:2452 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 260.498 ms - -[0m[39m
+2026-09-13 22:24:52:2452 [32minfo[39m: [32m[Socket Connected] id=gvDqnVN6ITnRSdNzAAAF isAgent=false userId=Guest[39m
+2026-09-13 22:24:53:2453 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1055.666 ms - 689[0m[39m
+2026-09-13 22:25:00:250 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.099 ms - -[0m[39m
+2026-09-13 22:25:01:251 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1088.783 ms - -[0m[39m
+2026-09-13 22:26:34:2634 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 0.941 ms - 18177[0m[39m
+2026-09-13 22:26:34:2634 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 265.633 ms - 3022[0m[39m
+2026-09-13 22:26:35:2635 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 813.484 ms - 7703[0m[39m
+2026-09-13 22:26:52:2652 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 269.897 ms - -[0m[39m
+2026-09-13 22:26:53:2653 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1043.122 ms - -[0m[39m
+2026-09-13 22:27:00:270 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.623 ms - -[0m[39m
+2026-09-13 22:27:01:271 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1081.144 ms - -[0m[39m
+2026-09-13 22:27:03:273 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 268.819 ms - -[0m[39m
+2026-09-13 22:27:04:274 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1037.296 ms - -[0m[39m
+2026-09-13 22:27:10:2710 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 261.455 ms - -[0m[39m
+2026-09-13 22:27:11:2711 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 1074.510 ms - -[0m[39m
+2026-09-13 22:31:08:318 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-13 22:31:08:318 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-13 22:31:08:318 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-13 22:31:08:318 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-13 22:31:09:319 [32minfo[39m: [32m[Socket Connected] id=DlnW-MPx1lBRJ-e8AAAB isAgent=false userId=Guest[39m
+2026-09-13 22:31:10:3110 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-13 22:31:10:3110 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-13 22:31:23:3123 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-13 22:31:23:3123 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-13 22:31:23:3123 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-13 22:31:23:3123 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-13 22:31:24:3124 [32minfo[39m: [32m[Socket Connected] id=3VYoKWV02Bg-KfmAAAAB isAgent=false userId=Guest[39m
+2026-09-13 22:31:26:3126 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-13 22:31:26:3126 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-13 22:31:33:3133 [32minfo[39m: [32mConnecting to MongoDB Atlas...[39m
+2026-09-13 22:31:33:3133 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-13 22:31:33:3133 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-13 22:31:33:3133 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-13 22:31:35:3135 [32minfo[39m: [32m[Socket Connected] id=9ibPfbP0H8XKI6NwAAAB isAgent=false userId=Guest[39m
+2026-09-13 22:31:35:3135 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-13 22:31:35:3135 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
