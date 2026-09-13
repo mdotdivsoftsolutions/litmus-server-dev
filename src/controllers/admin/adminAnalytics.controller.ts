@@ -80,6 +80,8 @@ export const getAdminStats = async (req: Request, res: Response): Promise<void> 
         totalConsultations,
         pendingConsultations,
         pendingApprovals,
+        pendingTests: Number(pendingTests) || 0,
+        pendingPackages: Number(pendingPackages) || 0,
         pendingReports,
         totalReports,
         totalCategories,
