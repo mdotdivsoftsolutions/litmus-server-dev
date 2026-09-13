@@ -422,7 +422,7 @@ export function registerChatHandlers(io: Server, socket: Socket) {
         io.to(`chat_session_${sessionId}`).emit('chat_connected', {
           sessionId,
           agentName: 'Litmus Support Specialist',
-          agentRole: 'Diagnostic Specialist',
+          agentRole: 'Food Testing Specialist',
           claimedAt: session.claimedAt,
         });
 
@@ -715,7 +715,7 @@ export function registerChatHandlers(io: Server, socket: Socket) {
         io.to(`chat_session_${sessionId}`).emit('chat_connected', {
           sessionId,
           agentName: targetAgentName || 'Litmus Specialist',
-          agentRole: 'Diagnostic Specialist',
+          agentRole: 'Food Testing Specialist',
         });
 
         // Broadcast update to all staff channels

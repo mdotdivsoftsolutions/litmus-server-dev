@@ -9,7 +9,7 @@ export function renderBookingConfirmedEmail(to: string, data: CustomerEmailData)
     title: 'Booking Confirmed - Litmus Labs',
     headline: 'Booking Confirmed',
     recipientName: data.customerName,
-    introText: 'Thank you for choosing Litmus Labs. We have received and confirmed your test booking. Our operations desk is preparing your sample intake and diagnostic scheduling.',
+    introText: 'Thank you for choosing Litmus Labs. We have received and confirmed your test booking. Our operations desk is preparing your sample intake and food test scheduling.',
     calloutHtml: `
       <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
@@ -68,7 +68,7 @@ export function renderSampleCollectedEmail(to: string, data: CustomerEmailData):
     title: 'Sample Collected - Litmus',
     headline: 'Your sample has been collected successfully',
     recipientName: data.customerName,
-    introText: 'Your diagnostic sample has been safely collected and is now en route to our accredited laboratory facility under regulated transport conditions.',
+    introText: 'Your food testing sample has been safely collected and is now en route to our accredited laboratory facility under regulated transport conditions.',
     calloutHtml: `
       <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
@@ -108,7 +108,7 @@ export function renderSampleReceivedEmail(to: string, data: CustomerEmailData): 
     title: 'Sample Received - Litmus',
     headline: 'Sample received & registered in LIMS',
     recipientName: data.customerName,
-    introText: 'Your sample has physically arrived at our laboratory and is registered in the Laboratory Information Management System (LIMS). Certified analysts are now conducting the diagnostic procedures.',
+    introText: 'Your sample has physically arrived at our laboratory and is registered in the Laboratory Information Management System (LIMS). Certified analysts are now conducting the food testing procedures.',
     calloutHtml: `
       <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
@@ -128,7 +128,7 @@ export function renderSampleReceivedEmail(to: string, data: CustomerEmailData): 
           </tr>
           <tr>
             <td style="padding: 5px 0; color: #64748b; font-weight: 600;">Status:</td>
-            <td style="padding: 5px 0; font-weight: 700; color: #004B60;">Diagnostic Analysis In Progress</td>
+            <td style="padding: 5px 0; font-weight: 700; color: #004B60;">Food Testing Analysis In Progress</td>
           </tr>
         </table>
       </div>
@@ -149,14 +149,14 @@ export function renderTestReportReadyEmail(to: string, data: CustomerEmailData):
     title: 'Test Report Published - Litmus',
     headline: 'Your certified test report is ready for download',
     recipientName: data.customerName,
-    introText: 'Great news! Testing and quality verification for your booking has been completed. Your official, NABL-accredited diagnostic report is now available on your dashboard.',
+    introText: 'Great news! Testing and quality verification for your booking has been completed. Your official, NABL-accredited food test report is now available on your dashboard.',
     calloutHtml: `
       <div style="background-color: #f0f7f9; border: 1.5px solid #004B60; border-radius: 10px; padding: 20px; text-align: center;">
         <div style="font-size: 14px; font-weight: 800; color: #004B60; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
           ✓ Quality Verification Completed
         </div>
         <p style="font-size: 13px; color: #004B60; margin: 0; font-weight: 600;">
-          Booking #${data.bookingId || ''} &bull; Certified by Senior Pathologist / Quality Officer
+          Booking #${data.bookingId || ''} &bull; Certified by Senior Food Analyst / Quality Officer
         </p>
       </div>
     `,
@@ -174,9 +174,9 @@ export function renderPaymentPendingEmail(to: string, data: CustomerEmailData): 
 
   return renderLitmusEmailLayout({
     title: 'Complete Your Booking - Litmus',
-    headline: 'You have pending diagnostic tests in your cart',
+    headline: 'You have pending food tests in your cart',
     recipientName: data.customerName,
-    introText: 'We noticed that you selected diagnostic tests on Litmus, but the checkout process has not been completed. Secure your priority testing slot today.',
+    introText: 'We noticed that you selected food tests on Litmus, but the checkout process has not been completed. Secure your priority testing slot today.',
     calloutHtml: `
       <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #334155;">
@@ -231,7 +231,7 @@ export function renderRevisedTimelineEmail(to: string, data: CustomerEmailData):
     ctaText: 'View Updated Timeline',
     ctaUrl: orderUrl,
     secondaryHtml: `
-      <p style="margin: 0;">Our laboratory team is actively prioritizing your test assay. We apologize for any inconvenience and appreciate your patience in ensuring clinical accuracy.</p>
+      <p style="margin: 0;">Our laboratory team is actively prioritizing your test assay. We apologize for any inconvenience and appreciate your patience in ensuring analytical accuracy.</p>
     `,
     recipientEmail: to,
   });

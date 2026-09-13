@@ -62,7 +62,7 @@ export const sendGenericEmail = async (
       attachments,
       headers: {
         'X-Entity-Ref-ID': Date.now().toString(),
-        'X-Mailer': 'Litmus Diagnostic Notification Engine',
+        'X-Mailer': 'Litmus Food Testing Notification Engine',
       },
     });
     logger.info(`[Mailer] Message sent to ${to} | Subject: "${subject}" | ID: ${info.messageId}`);

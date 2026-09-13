@@ -45,7 +45,7 @@ export const LITMUS_KNOWLEDGE_BASE: BotKnowledgeItem[] = [
     ],
     intent: 'greeting',
     response:
-      'Hello! Welcome to Litmus Diagnostic & Food Testing Assistance. How can we assist you with your laboratory testing needs today?',
+      'Hello! Welcome to Litmus Food Testing Assistance. How can we assist you with your laboratory testing needs today?',
     actionSuggestions: DEFAULT_FAQ_PROMPTS,
   },
   {
@@ -124,7 +124,7 @@ export class BotKnowledgeService {
     if (!cleanQuery) {
       return {
         answer:
-          'Hello! Welcome to Litmus Diagnostic & Food Testing Assistance. How can we assist you with your laboratory testing needs today?',
+          'Hello! Welcome to Litmus Food Testing Assistance. How can we assist you with your laboratory testing needs today?',
         intent: 'welcome',
         actionSuggestions: DEFAULT_FAQ_PROMPTS,
         matched: true,

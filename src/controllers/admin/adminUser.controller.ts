@@ -326,7 +326,7 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
         id: `ACT-BKG-${b._id}`,
         type: 'BOOKING',
         title: `Placed Order ${bkgCode}`,
-        description: `Diagnostic booking created for ₹${b.totalAmount?.toLocaleString() || 0} (${b.status || 'Pending'}).`,
+        description: `Food testing booking created for ₹${b.totalAmount?.toLocaleString() || 0} (${b.status || 'Pending'}).`,
         date: b.createdAt,
         status: b.status,
         metadata: { bookingId: b._id, amount: b.totalAmount },
@@ -350,7 +350,7 @@ export const getUserDetailedProfile = async (req: Request, res: Response): Promi
       activities.push({
         id: `ACT-CNS-${c._id}`,
         type: 'CONSULTATION',
-        title: `Requested Consultation: ${c.topic || c.serviceName || 'Diagnostic Inquiries'}`,
+        title: `Requested Consultation: ${c.topic || c.serviceName || 'Food Testing Inquiries'}`,
         description: `Status: ${c.status || 'Pending'}. Scheduled with Litmus technical team.`,
         date: c.createdAt,
         status: c.status,

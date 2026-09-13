@@ -45,7 +45,7 @@ const defaultWorkflowChannel = (email = true, whatsapp = true, extra = {}) => ({
 });
 
 const defaultCourierAddress = {
-  facilityName: 'Litmus Sample Central Intake & Diagnostics Hub',
+  facilityName: 'Litmus Sample Central Intake & Food Testing Hub',
   attention: 'Sample Logistics & Ingestion Desk',
   street: 'Tower B, Innovation Corridor, Old Mahabalipuram Road (OMR)',
   city: 'Chennai',

@@ -11,7 +11,7 @@ export const CANNED_RESPONSES = [
     id: 'greeting',
     category: 'Greetings',
     title: 'Warm Welcome',
-    text: 'Hello! Thank you for reaching out to Litmus Diagnostic Support. How may I assist you with your testing requirements today?',
+    text: 'Hello! Thank you for reaching out to Litmus Food Testing Support. How may I assist you with your testing requirements today?',
   },
   {
     id: 'sample_packaging',
@@ -173,7 +173,7 @@ export class ChatController {
       if (!isAuthorized) {
         res.status(403).json({
           success: false,
-          message: 'Access Denied: You are not authorized to view this diagnostic conversation.',
+          message: 'Access Denied: You are not authorized to view this food testing conversation.',
         });
         return;
       }

@@ -56,7 +56,7 @@ export class NotificationService {
         await sendBookingConfirmedEmail(params.customerEmail, {
           customerName: params.customerName,
           bookingId: params.bookingId,
-          productName: params.productName || 'Diagnostic Sample',
+          productName: params.productName || 'Food Testing Sample',
           testList: params.testNames || 'Food Quality & Safety Suite',
           sampleQty: params.sampleQty || '1',
           bookingDate: params.bookingDate || new Date().toLocaleDateString('en-IN'),
@@ -103,7 +103,7 @@ export class NotificationService {
       const testNames = booking.items.map((item: any) => {
         if (item.testId) return item.testId.testName;
         if (item.packageId) return item.packageId.name;
-        return 'Diagnostic Test';
+        return 'Food Test';
       }).filter(Boolean).join(', ');
 
       const productNames = booking.items.map((item: any) => {
@@ -124,8 +124,8 @@ export class NotificationService {
         customerPhone: user.phone,
         customerName,
         bookingId: booking._id.toString(),
-        productName: productNames || 'Diagnostic Sample',
-        testNames: testNames || 'Food Quality & Safety Diagnostics',
+        productName: productNames || 'Food Testing Sample',
+        testNames: testNames || 'Food Quality & Safety Testing',
         sampleQty: totalSamples.toString(),
         amount: booking.totalAmount,
         bookingDate: new Date(booking.bookingDate || Date.now()).toLocaleDateString('en-IN'),
@@ -281,7 +281,7 @@ export class NotificationService {
       if (workflow.email && params.customerEmail) {
         await sendPaymentPendingEmail(params.customerEmail, {
           customerName: params.customerName,
-          testList: params.testNames || `${params.itemCount} diagnostic items`,
+          testList: params.testNames || `${params.itemCount} food test items`,
           amount: String(params.totalAmount || '0'),
         });
       }

@@ -109,7 +109,7 @@ export const getLabDashboardStats = async (req: Request, res: Response): Promise
       const userObj = b.userId as any;
       const userName = `${userObj?.firstName || ''} ${userObj?.lastName || ''}`.trim() || b.collectionDetails?.name || 'Customer';
       const productNames = b.items?.map((i: any) => i.samples?.[0]?.productName || i.packageId?.name || i.testId?.testName || i.testId?.name).filter(Boolean);
-      const product = productNames?.length > 0 ? productNames.join(', ') : 'Diagnostic Order';
+      const product = productNames?.length > 0 ? productNames.join(', ') : 'Food Testing Order';
       const testsCount = b.items?.reduce((count: number, i: any) => count + (i.samples?.reduce((sc: number, s: any) => sc + (s.selectedParameters?.length || 1), 0) || 1), 0) || 0;
 
       return {
@@ -136,7 +136,7 @@ export const getLabDashboardStats = async (req: Request, res: Response): Promise
         const userObj = b.userId as any;
         const userName = `${userObj?.firstName || ''} ${userObj?.lastName || ''}`.trim() || b.collectionDetails?.name || 'Customer';
         const productNames = b.items?.map((i: any) => i.samples?.[0]?.productName || i.packageId?.name || i.testId?.testName || i.testId?.name).filter(Boolean);
-        const product = productNames?.length > 0 ? productNames.join(', ') : 'Diagnostic Test';
+        const product = productNames?.length > 0 ? productNames.join(', ') : 'Food Test';
         return {
           id: b._id,
           displayId: `BKG-${b._id.toString().substring(b._id.toString().length - 6).toUpperCase()}`,

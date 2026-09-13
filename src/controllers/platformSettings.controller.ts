@@ -112,7 +112,7 @@ export const testWhatsAppNotification = async (req: Request, res: Response) => {
       result = await WhatsAppService.sendTemplateMessage(targetPhone, templateName || 'hello_world', 'en_US');
     } else {
       const testMessage = message || [
-        `🔔 *LITMUS DIAGNOSTICS - WHATSAPP INTEGRATION TEST*`,
+        `🔔 *LITMUS FOOD TESTING - WHATSAPP INTEGRATION TEST*`,
         `━━━━━━━━━━━━━━━━━━━━━`,
         `This is a test notification from the Litmus Admin Panel to verify that WhatsApp Business Cloud API workflows and live dispatch are active and functioning correctly.`,
         ``,

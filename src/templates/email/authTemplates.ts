@@ -31,7 +31,7 @@ export function renderLabWelcomeEmail(to: string, labName: string, plainPassword
     title: 'Welcome to Litmus - Lab Partner',
     headline: 'Welcome to the Litmus Laboratory Network',
     recipientName: labName,
-    introText: 'Your laboratory has been officially onboarded to the Litmus diagnostic network. You can now access your dedicated LIMS portal to receive orders, manage test allocations, and submit verified reports.',
+    introText: 'Your laboratory has been officially onboarded to the Litmus food testing network. You can now access your dedicated LIMS portal to receive orders, manage test allocations, and submit verified reports.',
     calloutHtml: `
       <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
         <h4 style="font-size: 12px; font-weight: 800; color: #004B60; text-transform: uppercase; margin: 0 0 10px 0;">Partner Access Credentials</h4>

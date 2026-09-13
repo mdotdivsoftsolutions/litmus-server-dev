@@ -90,7 +90,7 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
         recipientRole: 'LAB',
         recipientLabId: labId,
         type: 'BOOKING_ASSIGNED',
-        title: 'New Diagnostic Booking Assigned',
+        title: 'New Food Testing Booking Assigned',
         message: `Booking #${booking._id.toString().slice(-6).toUpperCase()} assigned to your laboratory`,
         link: `/lab/bookings/${booking._id}`,
         metadata: { bookingId: booking._id, totalAmount },

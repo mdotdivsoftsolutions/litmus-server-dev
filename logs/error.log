@@ -252,3 +252,14 @@
 2026-09-07 12:00:05:05 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +09677268682: Authentication Error[39m
 2026-09-07 12:07:06:76 [31merror[39m: [31mGetMe Error: User not found[39m
 2026-09-08 10:00:04:04 [31merror[39m: [31m[WhatsApp API Error] Failed to send message to +09677268682: Authentication Error[39m
+2026-09-13 20:59:20:5920 [31merror[39m: [31m[Server Error] {"method":"GET","url":"/api/v1/auth/me","statusCode":500,"message":"Origin 'http://192.168.56.1:8081' is not allowed by CORS","isOperational":false,"userId":"anonymous"} - Stack: Error: Origin 'http://192.168.56.1:8081' is not allowed by CORS[39m
+[31m    at origin (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\src\config\cors.ts:32:16)[39m
+[31m    at C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\cors\lib\index.js:219:13[39m
+[31m    at optionsCallback (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\cors\lib\index.js:199:9)[39m
+[31m    at corsMiddleware (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\cors\lib\index.js:204:7)[39m
+[31m    at Layer.handleRequest (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\router\lib\layer.js:152:17)[39m
+[31m    at trimPrefix (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\router\index.js:342:13)[39m
+[31m    at C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\router\index.js:297:9[39m
+[31m    at processParams (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\router\index.js:582:12)[39m
+[31m    at next (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\router\index.js:291:5)[39m
+[31m    at Function.handle (C:\Users\mdont\OneDrive\Desktop\Projects\13.Litmus\backend\node_modules\router\index.js:186:3)[39m
