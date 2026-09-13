@@ -41517,3 +41517,43 @@
 2026-09-13 23:10:09:109 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
 2026-09-13 23:10:11:1011 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
 2026-09-13 23:10:11:1011 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m
+2026-09-13 23:12:16:1216 [32minfo[39m: [32m[Socket Connected] id=kN3tQdBCINpLjJOYAAAC isAgent=false userId=Guest[39m
+2026-09-13 23:12:19:1219 [32minfo[39m: [32m[0mGET /api/v1/reviews/public [32m200[0m 1514.500 ms - 3022[0m[39m
+2026-09-13 23:12:19:1219 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 1747.890 ms - 18177[0m[39m
+2026-09-13 23:12:20:1220 [32minfo[39m: [32m[0mGET /api/v1/packages [32m200[0m 2235.924 ms - 7703[0m[39m
+2026-09-13 23:12:20:1220 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 265.769 ms - 36[0m[39m
+2026-09-13 23:12:26:1226 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 0.930 ms - 65[0m[39m
+2026-09-13 23:12:26:1226 [32minfo[39m: [32m[0mGET /api/v1/categories [32m200[0m 1.151 ms - 18177[0m[39m
+2026-09-13 23:12:26:1226 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=12 [32m200[0m 281.443 ms - 7333[0m[39m
+2026-09-13 23:12:26:1226 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 581.765 ms - 254[0m[39m
+2026-09-13 23:12:27:1227 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 271.478 ms - 923[0m[39m
+2026-09-13 23:16:06:166 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 1693.623 ms - -[0m[39m
+2026-09-13 23:16:07:167 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=12 [36m304[0m 3017.764 ms - -[0m[39m
+2026-09-13 23:16:08:168 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 3823.030 ms - 689[0m[39m
+2026-09-13 23:17:07:177 [32minfo[39m: [32m[Socket Connected] id=vzpGgcLuh4--K7-lAAAE isAgent=false userId=Guest[39m
+2026-09-13 23:17:15:1715 [32minfo[39m: [32m[Socket Connected] id=ubktfY8TkHklf2wXAAAG isAgent=false userId=Guest[39m
+2026-09-13 23:17:21:1721 [32minfo[39m: [32m[Socket Connected] id=MH2Vv6uHi_pPYrNrAAAI isAgent=false userId=Guest[39m
+2026-09-13 23:18:47:1847 [32minfo[39m: [32m[Socket Connected] id=UcWOmSGEWB6oRQPRAAAK isAgent=false userId=Guest[39m
+2026-09-13 23:25:16:2516 [32minfo[39m: [32m[Socket Connected] id=vrP9ZDRcGMOdMgiSAAAM isAgent=false userId=Guest[39m
+2026-09-13 23:26:02:262 [32minfo[39m: [32m[Socket Connected] id=6U7KFPasSdH59S65AAAO isAgent=false userId=Guest[39m
+2026-09-13 23:27:15:2715 [32minfo[39m: [32m[Socket Connected] id=ctUC5x_j0TtaxOMeAAAQ isAgent=false userId=Guest[39m
+2026-09-13 23:27:38:2738 [32minfo[39m: [32m[Socket Connected] id=o-kFQiu7EoOb14_sAAAS isAgent=false userId=Guest[39m
+2026-09-13 23:27:53:2753 [32minfo[39m: [32m[Socket Connected] id=81qCOxG_Jjfvx054AAAU isAgent=false userId=Guest[39m
+2026-09-13 23:36:28:3628 [32minfo[39m: [32m[0mGET /api/v1/auth/me [33m401[0m 1.815 ms - 65[0m[39m
+2026-09-13 23:36:29:3629 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=12 [36m304[0m 1346.221 ms - -[0m[39m
+2026-09-13 23:36:30:3630 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1615.809 ms - 36[0m[39m
+2026-09-13 23:36:30:3630 [32minfo[39m: [32m[0mGET /api/v1/categories [36m304[0m 1721.153 ms - -[0m[39m
+2026-09-13 23:36:32:3632 [32minfo[39m: [32m[0mPOST /api/v1/auth/refresh-token [32m200[0m 3379.867 ms - 254[0m[39m
+2026-09-13 23:36:32:3632 [32minfo[39m: [32m[0mGET /api/v1/auth/me [32m200[0m 266.437 ms - 923[0m[39m
+2026-09-13 23:36:47:3647 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 277.428 ms - -[0m[39m
+2026-09-13 23:36:47:3647 [32minfo[39m: [32m[0mGET /api/v1/cart [32m200[0m 1091.425 ms - 689[0m[39m
+2026-09-13 23:37:36:3736 [32minfo[39m: [32m[0mGET /api/v1/auth/me [36m304[0m 1710.379 ms - -[0m[39m
+2026-09-13 23:37:38:3738 [32minfo[39m: [32m[0mGET /api/v1/tests?search=&page=1&limit=12 [36m304[0m 3055.047 ms - -[0m[39m
+2026-09-13 23:37:38:3738 [32minfo[39m: [32m[0mGET /api/v1/cart [36m304[0m 3862.464 ms - -[0m[39m
+2026-09-13 23:40:24:4024 [32minfo[39m: [32mConnecting to MongoDB Atlas with optimized connection pooling...[39m
+2026-09-13 23:40:24:4024 [32minfo[39m: [32m🚀 Socket.IO server successfully initialized and attached.[39m
+2026-09-13 23:40:24:4024 [32minfo[39m: [32mServer running in development mode on port 5000[39m
+2026-09-13 23:40:24:4024 [32minfo[39m: [32mAPI Docs available at http://localhost:5000/api-docs[39m
+2026-09-13 23:40:25:4025 [32minfo[39m: [32m[Socket Connected] id=XhHqy-SRs7BLTL6KAAAB isAgent=false userId=Guest[39m
+2026-09-13 23:40:26:4026 [32minfo[39m: [32mMongoDB connected successfully to host: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net[39m
+2026-09-13 23:40:26:4026 [32minfo[39m: [32mMongoDB Connected: ac-0gbpdre-shard-00-00.qfo3j6s.mongodb.net (Database: litmus-dev)[39m

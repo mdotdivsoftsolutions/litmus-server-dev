@@ -20,7 +20,10 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
 
     if (status && status !== 'all') {
       const normalizedStatus = String(status).trim().toUpperCase().replace(/\s+/g, '_');
-      if (normalizedStatus in BookingStatus || Object.values(BookingStatus).includes(normalizedStatus as BookingStatus)) {
+      if (normalizedStatus === 'TO_ASSIGN' || normalizedStatus === 'UNASSIGNED') {
+        filter.labId = { $in: [null, undefined] };
+        filter.status = { $in: [BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] };
+      } else if (normalizedStatus in BookingStatus || Object.values(BookingStatus).includes(normalizedStatus as BookingStatus)) {
         filter.status = normalizedStatus;
       }
     }
