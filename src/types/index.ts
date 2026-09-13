@@ -169,6 +169,7 @@ export interface ICategory extends Document {
   subcategories?: ISubcategory[];
   productCount?: number;
   metadata?: any;
+  isDeleted?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -203,6 +204,7 @@ export interface ITest extends Document {
   labId?: mongoose.Types.ObjectId;
   approvalStatus?: ApprovalStatus;
   rejectionReason?: string;
+  isDeleted?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -264,6 +266,7 @@ export interface IBooking extends Document {
   invoiceNumber?: string;
   invoiceDate?: Date;
   metadata?: any;
+  isDeleted?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -308,6 +311,7 @@ export interface IPackage extends Document {
   createdBy: mongoose.Types.ObjectId;
   approvalStatus?: ApprovalStatus;
   rejectionReason?: string;
+  isDeleted?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

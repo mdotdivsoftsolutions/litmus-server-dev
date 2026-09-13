@@ -76,7 +76,7 @@ export const getPackages = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 0; // 0 means no limit
 
-    const query: any = {};
+    const query: any = { isDeleted: { $ne: true } };
     if (req.query.search) {
       const searchRegex = new RegExp(req.query.search as string, 'i');
       query.$or = [
@@ -121,7 +121,7 @@ export const getPackages = async (req: Request, res: Response) => {
 // @access  Public
 export const getPackageById = async (req: Request, res: Response) => {
   try {
-    const pkg = await Package.findById(req.params.id)
+    const pkg = await Package.findOne({ _id: req.params.id, isDeleted: { $ne: true } })
       .populate('categoryId', 'name')
       .populate('tests', 'testName price offerPrice');
 
@@ -180,12 +180,13 @@ export const updatePackage = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Delete a package
-// @route   DELETE /api/v1/packages/:id
-// @access  Private/Admin/Lab
 export const deletePackage = async (req: Request, res: Response) => {
   try {
-    const pkg = await Package.findById(req.params.id);
+    const pkg = await Package.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true }
+    );
 
     if (!pkg) {
       return res.status(404).json({
@@ -193,8 +194,6 @@ export const deletePackage = async (req: Request, res: Response) => {
         message: 'Package not found',
       });
     }
-
-    await pkg.deleteOne();
 
     res.status(200).json({
       success: true,
@@ -206,6 +205,38 @@ export const deletePackage = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Server Error: Could not delete package',
+    });
+  }
+};
+
+// @desc    Bulk delete packages
+// @route   POST /api/v1/packages/bulk-delete
+// @access  Private/Admin/Lab
+export const bulkDeletePackages = async (req: Request, res: Response) => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide an array of package IDs to delete',
+      });
+    }
+
+    const result = await Package.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isDeleted: true } }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully deleted ${result.modifiedCount} package(s)`,
+      data: { modifiedCount: result.modifiedCount },
+    });
+  } catch (error: any) {
+    logger.error(`Error in bulkDeletePackages: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error: Could not bulk delete packages',
     });
   }
 };

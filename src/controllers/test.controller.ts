@@ -22,7 +22,7 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
     const page = parseInt(req.query.page as string, 10) || 1;
     const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 0; // 0 means no limit
     
-    const query: any = {};
+    const query: any = { isDeleted: { $ne: true } };
     if (req.query.isPopular === 'true') {
       query.isPopular = true;
     } else if (req.query.isPopular === 'false') {
@@ -59,20 +59,20 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
 
     const skip = (page - 1) * (limit || 10);
 
-    const testQuery = Test.find(query)
+    let queryBuilder = Test.find(query)
       .populate('applicableCategories', 'name')
-      .populate('labId', 'labName');
-    
+      .populate('labId', 'labName')
+      .sort({ createdAt: -1 });
+
     if (limit > 0) {
-      testQuery.skip(skip).limit(limit);
+      queryBuilder = queryBuilder.skip(skip).limit(limit);
     }
 
     const [tests, total] = await Promise.all([
-      testQuery.lean(),
-      Test.countDocuments(query)
+      queryBuilder.exec(),
+      Test.countDocuments(query),
     ]);
 
-    res.setHeader('Cache-Control', 'public, max-age=30, stale-while-revalidate=120');
     res.status(200).json({
       success: true,
       count: tests.length,
@@ -92,7 +92,7 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
 
 export const getTestById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const test = await Test.findById(req.params.id)
+    const test = await Test.findOne({ _id: req.params.id, isDeleted: { $ne: true } })
       .populate('applicableCategories', 'name')
       .populate('labId', 'labName');
     if (!test) {
@@ -117,10 +117,14 @@ export const getTestById = async (req: Request, res: Response): Promise<void> =>
 
 export const updateTest = async (req: Request, res: Response): Promise<void> => {
   try {
-    const test = await Test.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const test = await Test.findOneAndUpdate(
+      { _id: req.params.id, isDeleted: { $ne: true } },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     if (!test) {
       res.status(404).json({
@@ -145,7 +149,11 @@ export const updateTest = async (req: Request, res: Response): Promise<void> => 
 
 export const deleteTest = async (req: Request, res: Response): Promise<void> => {
   try {
-    const test = await Test.findByIdAndDelete(req.params.id);
+    const test = await Test.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true }
+    );
 
     if (!test) {
       res.status(404).json({
@@ -158,11 +166,42 @@ export const deleteTest = async (req: Request, res: Response): Promise<void> => 
     res.status(200).json({
       success: true,
       data: {},
+      message: 'Test deleted successfully',
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Failed to delete test',
+      error: error.message,
+    });
+  }
+};
+
+export const bulkDeleteTests = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      res.status(400).json({
+        success: false,
+        message: 'Please provide an array of test IDs to delete',
+      });
+      return;
+    }
+
+    const result = await Test.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isDeleted: true } }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully deleted ${result.modifiedCount} test(s)`,
+      data: { modifiedCount: result.modifiedCount },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to bulk delete tests',
       error: error.message,
     });
   }

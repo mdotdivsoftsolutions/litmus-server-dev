@@ -83,6 +83,11 @@ const TestSchema: Schema = new Schema(
     rejectionReason: {
       type: String,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   {
     timestamps: true,
@@ -91,5 +96,6 @@ const TestSchema: Schema = new Schema(
 
 TestSchema.index({ applicableCategories: 1 });
 TestSchema.index({ isApplicableToAll: 1 });
+TestSchema.index({ isDeleted: 1 });
 
 export default mongoose.model<ITest>('Test', TestSchema);

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createCategory, getCategories, getCategory, updateCategory, deleteCategory, addSubcategory, updateSubcategory, deleteSubcategory } from '../controllers/category.controller';
+import { createCategory, getCategories, getCategory, updateCategory, deleteCategory, bulkDeleteCategories, addSubcategory, updateSubcategory, deleteSubcategory } from '../controllers/category.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -57,6 +57,33 @@ router.use(authMiddleware, adminMiddleware);
  *         description: Category created successfully
  */
 router.post('/', createCategory);
+
+/**
+ * @swagger
+ * /api/v1/category/bulk-delete:
+ *   post:
+ *     summary: Bulk soft delete categories (Admin only)
+ *     tags: [Category]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - ids
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: Categories deleted successfully
+ */
+router.post('/bulk-delete', bulkDeleteCategories);
 
 /**
  * @swagger

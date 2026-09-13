@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, updateAdminUserProfile, addUserAdminNote, getAdminBookings, updateAdminBookingStatus, assignLabToBooking, rejectBooking, approveBookingResult, updateBookingReport, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage } from '../controllers/admin.controller';
+import { getUsers, getUserById, updateUserStatus, createUser, getUserDetailedProfile, updateAdminUserProfile, addUserAdminNote, getAdminBookings, updateAdminBookingStatus, assignLabToBooking, rejectBooking, approveBookingResult, updateBookingReport, rejectBookingResult, getAdminStats, getAdminPayments, getAdminAnalytics, updateCollectionDetails, getPendingApprovals, approveTest, rejectTest, approvePackage, rejectPackage, deleteAdminBooking, bulkDeleteAdminBookings } from '../controllers/admin.controller';
 import { getAdminSettings, updateAdminSettings, testWhatsAppNotification, triggerAbandonedCartScan } from '../controllers/platformSettings.controller';
 
 import { createLab, getLabs, getLabById, updateLab, deleteLab } from '../controllers/laboratory.controller';
@@ -251,6 +251,53 @@ router.delete('/lab/:id', deleteLab);
  *         description: List of all bookings
  */
 router.get('/bookings', getAdminBookings);
+
+/**
+ * @swagger
+ * /api/v1/admin/bookings/bulk-delete:
+ *   post:
+ *     summary: Bulk soft delete bookings (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - ids
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: Bookings deleted successfully
+ */
+router.post('/bookings/bulk-delete', bulkDeleteAdminBookings);
+
+/**
+ * @swagger
+ * /api/v1/admin/booking/{id}:
+ *   delete:
+ *     summary: Soft delete a single booking (Admin only)
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Booking deleted successfully
+ */
+router.delete('/booking/:id', deleteAdminBooking);
 
 /**
  * @swagger

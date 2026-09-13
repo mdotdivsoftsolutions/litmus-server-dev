@@ -40,6 +40,11 @@ const CategorySchema: Schema = new Schema(
     metadata: {
       type: Schema.Types.Mixed,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   {
     timestamps: true,
@@ -47,5 +52,6 @@ const CategorySchema: Schema = new Schema(
 );
 
 CategorySchema.index({ createdAt: -1 });
+CategorySchema.index({ isDeleted: 1 });
 
 export default mongoose.model<ICategory>('Category', CategorySchema);

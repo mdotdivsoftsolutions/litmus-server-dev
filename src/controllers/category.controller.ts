@@ -44,14 +44,15 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
     }
 
     const [categories, applicableToAllCount, categoryCounts, packageCounts] = await Promise.all([
-      Category.find().sort({ createdAt: -1 }).lean(),
-      Test.countDocuments({ isApplicableToAll: true }),
+      Category.find({ isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean(),
+      Test.countDocuments({ isApplicableToAll: true, isDeleted: { $ne: true } }),
       Test.aggregate([
-        { $match: { isApplicableToAll: { $ne: true } } },
+        { $match: { isApplicableToAll: { $ne: true }, isDeleted: { $ne: true } } },
         { $unwind: '$applicableCategories' },
         { $group: { _id: '$applicableCategories', count: { $sum: 1 } } }
       ]),
       Package.aggregate([
+        { $match: { isDeleted: { $ne: true } } },
         { $group: { _id: '$categoryId', count: { $sum: 1 } } }
       ])
     ]);
@@ -105,7 +106,7 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
 
 export const getCategory = async (req: Request, res: Response): Promise<void> => {
   try {
-    const category = await Category.findById(req.params.id);
+    const category = await Category.findOne({ _id: req.params.id, isDeleted: { $ne: true } });
     if (!category) {
       res.status(404).json({
         success: false,
@@ -157,7 +158,11 @@ export const updateCategory = async (req: Request, res: Response): Promise<void>
 
 export const deleteCategory = async (req: Request, res: Response): Promise<void> => {
   try {
-    const category = await Category.findByIdAndDelete(req.params.id);
+    const category = await Category.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true }
+    );
 
     if (!category) {
       res.status(404).json({
@@ -171,11 +176,43 @@ export const deleteCategory = async (req: Request, res: Response): Promise<void>
     res.status(200).json({
       success: true,
       data: {},
+      message: 'Category deleted successfully',
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Failed to delete category',
+      error: error.message,
+    });
+  }
+};
+
+export const bulkDeleteCategories = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      res.status(400).json({
+        success: false,
+        message: 'Please provide an array of category IDs to delete',
+      });
+      return;
+    }
+
+    const result = await Category.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isDeleted: true } }
+    );
+
+    invalidateCategoryCache();
+    res.status(200).json({
+      success: true,
+      message: `Successfully deleted ${result.modifiedCount} category(s)`,
+      data: { modifiedCount: result.modifiedCount },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to bulk delete categories',
       error: error.message,
     });
   }

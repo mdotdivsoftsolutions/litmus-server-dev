@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createTest, getTests, getTestById, updateTest, deleteTest } from '../controllers/test.controller';
+import { createTest, getTests, getTestById, updateTest, deleteTest, bulkDeleteTests } from '../controllers/test.controller';
 import { authMiddleware, adminMiddleware } from '../middleware/auth.middleware';
 
 const router = Router();
@@ -73,6 +73,33 @@ router.use(authMiddleware, adminMiddleware);
  *         description: Test created successfully
  */
 router.post('/', createTest);
+
+/**
+ * @swagger
+ * /api/v1/test/bulk-delete:
+ *   post:
+ *     summary: Bulk soft delete tests (Admin only)
+ *     tags: [Test]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - ids
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: Tests deleted successfully
+ */
+router.post('/bulk-delete', bulkDeleteTests);
 
 /**
  * @swagger

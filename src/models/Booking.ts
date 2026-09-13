@@ -117,6 +117,11 @@ const BookingSchema: Schema = new Schema(
     metadata: {
       type: Schema.Types.Mixed,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   {
     timestamps: true,
@@ -127,6 +132,7 @@ const BookingSchema: Schema = new Schema(
 BookingSchema.index({ userId: 1, createdAt: -1 });
 BookingSchema.index({ labId: 1, status: 1 });
 BookingSchema.index({ status: 1, createdAt: -1 });
+BookingSchema.index({ isDeleted: 1 });
 
 export default mongoose.model<IBooking>('Booking', BookingSchema);
 

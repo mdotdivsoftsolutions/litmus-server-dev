@@ -80,6 +80,11 @@ const PackageSchema: Schema = new Schema(
     rejectionReason: {
       type: String,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   {
     timestamps: true,

@@ -16,7 +16,7 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
 
     const { status, paymentStatus, search, startDate, endDate, page, limit } = req.query;
 
-    const filter: any = {};
+    const filter: any = { isDeleted: { $ne: true } };
 
     if (status && status !== 'all') {
       const normalizedStatus = String(status).trim().toUpperCase().replace(/\s+/g, '_');
@@ -573,6 +573,68 @@ export const updateCollectionDetails = async (req: Request, res: Response): Prom
     res.status(500).json({
       success: false,
       message: 'Failed to update collection details',
+      error: error.message,
+    });
+  }
+};
+
+export const deleteAdminBooking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { default: Booking } = await import('../../models/Booking');
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true }
+    );
+
+    if (!booking) {
+      res.status(404).json({
+        success: false,
+        message: 'Booking not found',
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+      message: 'Booking deleted successfully',
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete booking',
+      error: error.message,
+    });
+  }
+};
+
+export const bulkDeleteAdminBookings = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      res.status(400).json({
+        success: false,
+        message: 'Please provide an array of booking IDs to delete',
+      });
+      return;
+    }
+
+    const { default: Booking } = await import('../../models/Booking');
+    const result = await Booking.updateMany(
+      { _id: { $in: ids } },
+      { $set: { isDeleted: true } }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: `Successfully deleted ${result.modifiedCount} booking(s)`,
+      data: { modifiedCount: result.modifiedCount },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to bulk delete bookings',
       error: error.message,
     });
   }

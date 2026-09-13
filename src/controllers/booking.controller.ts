@@ -116,7 +116,7 @@ export const getMyBookings = async (req: Request, res: Response): Promise<void> 
     const userId = req.user?.id;
     const { page, limit, search, status, reportsOnly } = parseBookingListParams(req.query as Record<string, unknown>);
 
-    const filter: Record<string, any> = { userId, ...bookingListStatusFilter(status, reportsOnly) };
+    const filter: Record<string, any> = { userId, isDeleted: { $ne: true }, ...bookingListStatusFilter(status, reportsOnly) };
 
     if (search) {
       const escaped = escapeRegex(search);
@@ -191,6 +191,7 @@ export const getBookingById = async (req: Request, res: Response): Promise<void>
         ],
       };
     }
+    query.isDeleted = { $ne: true };
 
     const booking = await Booking.findOne(query)
       .populate('labId')
