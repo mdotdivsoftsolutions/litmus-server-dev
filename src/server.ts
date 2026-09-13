@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import http from 'http';
+import mongoose from 'mongoose';
 import app from './app';
 import { connectDB } from './config/db';
 import logger from './utils/logger';
@@ -38,6 +39,39 @@ if (!process.env.VERCEL) {
     logger.info(`API Docs available at http://localhost:${PORT}/api-docs`);
   });
 }
+
+// Graceful shutdown to prevent orphaned connections on MongoDB Atlas
+const gracefulShutdown = async (signal: string) => {
+  logger.info(`Received ${signal}. Gracefully closing HTTP server and database connections...`);
+  server.close(async () => {
+    try {
+      if (mongoose.connection.readyState !== 0) {
+        await mongoose.connection.close(false);
+        logger.info('MongoDB connection closed cleanly.');
+      }
+    } catch (err: any) {
+      logger.error(`Error during database disconnection: ${err.message}`);
+    } finally {
+      process.exit(0);
+    }
+  });
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+// ts-node-dev / nodemon restart signal
+process.once('SIGUSR2', async () => {
+  try {
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.connection.close(false);
+    }
+  } catch {
+    // Ignore error on restart
+  } finally {
+    process.kill(process.pid, 'SIGUSR2');
+  }
+});
 
 // Handle unhandled promise rejections gracefully
 process.on('unhandledRejection', (err: any) => {

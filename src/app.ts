@@ -7,6 +7,7 @@ import { swaggerSpec } from './config/swagger';
 import { corsOptions } from './config/cors';
 import apiRoutes from './routes';
 import logger from './utils/logger';
+import mongoose from 'mongoose';
 import { connectDB } from './config/db';
 import { errorHandler } from './middleware/errorHandler';
 import { ApiError } from './utils/ApiError';
@@ -40,10 +41,14 @@ app.use(
   })
 );
 
-// Database connection assurance middleware (vital for Serverless cold-starts & connection drops)
+// Database connection assurance middleware (fast check for Serverless cold-starts & connection drops)
 app.use(async (req: Request, res: Response, next: NextFunction) => {
   // Skip DB connection check for docs and health check root
   if (req.path === '/' || req.path.startsWith('/api-docs')) {
+    return next();
+  }
+  // If already connected, bypass connectDB immediately with 0 overhead
+  if (mongoose.connection.readyState === 1) {
     return next();
   }
   try {

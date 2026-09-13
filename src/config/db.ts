@@ -54,41 +54,53 @@ export const connectDB = async (): Promise<typeof mongoose> => {
     throw new Error(errorMsg);
   }
 
-  // If already connected, return cached connection
-  if (cached.conn && mongoose.connection.readyState === 1) {
-    return cached.conn;
+  // 1. If already connected, return immediately (prevents duplicate connections)
+  if (mongoose.connection.readyState === 1) {
+    cached.conn = mongoose;
+    return mongoose;
   }
 
   registerConnectionListeners();
 
-  // If connection is already in progress, await the existing promise
+  // 2. If connection is already in progress, await the existing promise
+  if (mongoose.connection.readyState === 2 && cached.promise) {
+    cached.conn = await cached.promise;
+    return cached.conn;
+  }
+
+  // 3. If no connection or previous promise failed, initiate a new connection with optimal pooling
   if (!cached.promise) {
+    const isServerless = Boolean(process.env.VERCEL);
     const connectionOptions: mongoose.ConnectOptions = {
-      // Prevents driver from hanging for 30s during connection/DNS issues
+      // Prevents driver from hanging during connection/DNS issues
       serverSelectionTimeoutMS: 8000,
       // Initial socket connection timeout
       connectTimeoutMS: 10000,
-      // Close sockets after 45s of inactivity
+      // Close sockets after 45s of query inactivity
       socketTimeoutMS: 45000,
-      // Maintain optimal connection pool
-      maxPoolSize: 10,
-      minPoolSize: 1,
+      // Automatically release idle connections after 20s to stay well below Atlas M0 connection limits
+      maxIdleTimeMS: 20000,
+      // Optimal connection pool for M0 Free Tier (prevents connection exhaustion)
+      maxPoolSize: isServerless ? 3 : 5,
+      // Allow pool to scale down to 0 idle connections when traffic is low
+      minPoolSize: 0,
       // Check connection health every 10s to prune dead sockets
       heartbeatFrequencyMS: 10000,
       // Enable automatic index building in development, disable in production for performance
       autoIndex: process.env.NODE_ENV !== 'production',
     };
 
-    logger.info('Connecting to MongoDB Atlas...');
+    logger.info('Connecting to MongoDB Atlas with optimized connection pooling...');
     cached.promise = mongoose
       .connect(mongoURI, connectionOptions)
       .then((m) => {
         logger.info(`MongoDB Connected: ${m.connection.host} (Database: ${m.connection.name})`);
+        cached.conn = m;
         return m;
       })
       .catch((err) => {
         logger.error(`MongoDB connection attempt failed: ${err.message}`);
-        // Reset promise so subsequent requests can retry
+        // Reset promise so subsequent requests can retry cleanly
         cached.promise = null;
         cached.conn = null;
         throw err;
