@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Category from '../models/Category';
 import Test from '../models/Test';
+import Package from '../models/Package';
 
 let cachedCategories: any[] | null = null;
 let cacheExpiry = 0;
@@ -42,13 +43,16 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
       return;
     }
 
-    const [categories, applicableToAllCount, categoryCounts] = await Promise.all([
+    const [categories, applicableToAllCount, categoryCounts, packageCounts] = await Promise.all([
       Category.find().sort({ createdAt: -1 }).lean(),
       Test.countDocuments({ isApplicableToAll: true }),
       Test.aggregate([
         { $match: { isApplicableToAll: { $ne: true } } },
         { $unwind: '$applicableCategories' },
         { $group: { _id: '$applicableCategories', count: { $sum: 1 } } }
+      ]),
+      Package.aggregate([
+        { $group: { _id: '$categoryId', count: { $sum: 1 } } }
       ])
     ]);
 
@@ -59,14 +63,24 @@ export const getCategories = async (req: Request, res: Response): Promise<void> 
       }
     });
 
+    const packageCountMap = new Map<string, number>();
+    packageCounts.forEach((p: any) => {
+      if (p._id) {
+        packageCountMap.set(p._id.toString(), p.count);
+      }
+    });
+
     const categoriesWithCount = categories.map((cat: any) => {
       const catId = cat._id.toString();
+      const isGeneral = cat.name && cat.name.trim().toLowerCase() === 'general';
       const specificCount = countMap.get(catId) || 0;
-      const totalTestCount = applicableToAllCount + specificCount;
+      const packageCount = packageCountMap.get(catId) || 0;
+      const totalTestCount = isGeneral ? 0 : (applicableToAllCount + specificCount);
       return {
         ...cat,
         testCount: totalTestCount,
-        productCount: totalTestCount,
+        packageCount,
+        productCount: isGeneral ? packageCount : totalTestCount,
       };
     });
 
