@@ -151,13 +151,12 @@ export const verifyPayment = async (req: Request, res: Response): Promise<void> 
       { upsert: true, new: true }
     );
 
-    // Update Booking paymentStatus + booking status to APPROVED and ensure invoiceNumber is assigned
+    // Update Booking paymentStatus and ensure invoiceNumber is assigned
     const existingBooking = await Booking.findById(bookingId);
     const invoiceNum = existingBooking?.invoiceNumber || generateInvoiceNumber(bookingId, existingBooking?.bookingDate || new Date());
     
     await Booking.findByIdAndUpdate(bookingId, {
       paymentStatus: PaymentStatus.SUCCESS,
-      status: BookingStatus.APPROVED,
       invoiceNumber: invoiceNum,
       invoiceDate: existingBooking?.invoiceDate || new Date(),
     });
@@ -283,7 +282,6 @@ export const webhookHandler = async (req: Request, res: Response): Promise<void>
 
         await Booking.findByIdAndUpdate(targetBookingId, {
           paymentStatus: PaymentStatus.SUCCESS,
-          status: BookingStatus.APPROVED,
           invoiceNumber: invoiceNum,
           invoiceDate: existingBooking?.invoiceDate || new Date(),
         });

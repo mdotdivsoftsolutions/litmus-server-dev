@@ -22,7 +22,7 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
       const normalizedStatus = String(status).trim().toUpperCase().replace(/\s+/g, '_');
       if (normalizedStatus === 'TO_ASSIGN' || normalizedStatus === 'UNASSIGNED') {
         filter.labId = { $in: [null, undefined] };
-        filter.status = { $in: [BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] };
+        filter.status = { $in: [BookingStatus.PENDING, BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] };
       } else if (normalizedStatus in BookingStatus || Object.values(BookingStatus).includes(normalizedStatus as BookingStatus)) {
         filter.status = normalizedStatus;
       }
@@ -202,22 +202,42 @@ export const assignLabToBooking = async (req: Request, res: Response): Promise<v
     const isLitmusDirect = !labId || labId === 'litmus_direct' || labId === 'litmus' || labId === 'litmus_internal';
     const updatedLabId = isLitmusDirect ? undefined : labId;
 
-    const booking = await Booking.findByIdAndUpdate(
-      id,
-      { 
-        labId: updatedLabId, 
-        status: BookingStatus.IN_PROGRESS 
-      },
-      { new: true }
-    );
+    const booking = await Booking.findById(id);
     if (!booking) {
       res.status(404).json({ success: false, message: 'Booking not found' });
       return;
     }
 
+    if (!booking.metadata) booking.metadata = {};
+    booking.labId = updatedLabId as any;
+    booking.status = BookingStatus.APPROVED;
+    booking.metadata.isLitmusDirect = isLitmusDirect;
+    if (!booking.metadata.adminApprovedAt) booking.metadata.adminApprovedAt = new Date();
+    booking.metadata.labAssignedAt = new Date();
+    booking.markModified('metadata');
+    await booking.save();
+
+    if (booking.paymentStatus === PaymentStatus.SUCCESS || booking.status === BookingStatus.APPROVED) {
+      const { default: NotificationService } = await import('../../services/notification.service');
+      NotificationService.notifyConfirmedBookingById(booking._id.toString()).catch(() => {});
+    }
+
+    if (updatedLabId) {
+      const { InAppNotificationService } = await import('../../services/inAppNotification.service');
+      InAppNotificationService.createNotification({
+        recipientRole: 'LAB',
+        recipientLabId: updatedLabId,
+        type: 'BOOKING_ASSIGNED',
+        title: 'New Food Testing Booking Assigned',
+        message: `Booking #${booking._id.toString().slice(-6).toUpperCase()} assigned to your laboratory`,
+        link: `/lab/bookings/${booking._id}`,
+        metadata: { bookingId: booking._id, totalAmount: booking.totalAmount },
+      }).catch(() => {});
+    }
+
     res.status(200).json({
       success: true,
-      message: 'Lab assigned successfully',
+      message: 'Lab assigned and booking approved successfully',
       data: booking,
     });
   } catch (error: any) {
