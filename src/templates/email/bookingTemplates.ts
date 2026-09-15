@@ -170,7 +170,7 @@ export function renderTestReportReadyEmail(to: string, data: CustomerEmailData):
 }
 
 export function renderPaymentPendingEmail(to: string, data: CustomerEmailData): string {
-  const checkoutUrl = `${SITE_URL}/cart`;
+  const checkoutUrl = data.checkoutUrl || `${SITE_URL}/cart?auth=login`;
 
   return renderLitmusEmailLayout({
     title: 'Complete Your Booking - Litmus',

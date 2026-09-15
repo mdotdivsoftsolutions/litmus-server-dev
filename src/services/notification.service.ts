@@ -283,6 +283,7 @@ export class NotificationService {
           customerName: params.customerName,
           testList: params.testNames || `${params.itemCount} food test items`,
           amount: String(params.totalAmount || '0'),
+          checkoutUrl: params.checkoutUrl,
         });
       }
 

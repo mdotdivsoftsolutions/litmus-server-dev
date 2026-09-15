@@ -40,11 +40,6 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
 
     if (labId === 'admin') {
       labId = undefined; // Litmus Smart Allocation
-    } else if (labId) {
-      const lab = await Laboratory.findById(labId);
-      if (lab && lab.isAutoBooking) {
-        status = BookingStatus.IN_PROGRESS; // Auto-approved and moved to lab side
-      }
     }
 
     const collectionMethod = metadata?.collectionMethod || metadata?.collectionDetails?.collectionMethod;

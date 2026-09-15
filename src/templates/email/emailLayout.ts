@@ -14,6 +14,7 @@ export interface CustomerEmailData {
   trackingId?: string;
   courierName?: string;
   reportUrl?: string;
+  checkoutUrl?: string;
 }
 
 export interface EmailLayoutOptions {
