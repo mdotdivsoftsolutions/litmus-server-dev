@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  # ── Self-Hosted Production MongoDB with Tuned Cache & Authentication ───────
+  mongodb:
+    image: mongo:7.0
+    container_name: litmus_prod_mongodb
+    restart: always
+    command: ["mongod", "--wiredTigerCacheSizeGB", "1.5", "--auth"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=litmus_production
+    ports:
+      # Expose only to localhost (or keep purely inside internal docker network)
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_prod_data:/data/db
+      - mongo_prod_config:/data/configdb
+    networks:
+      - litmus_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis In-Memory Store (Socket.IO clustering & pub/sub) ────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: litmus_redis
+    restart: always
+    command: redis-server --appendonly yes
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - litmus_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Litmus Backend Service ────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: litmus_backend
+    restart: always
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - COOKIE_DOMAIN=${COOKIE_DOMAIN:-.litmuslabs.in}
+      - MONGO_URI=mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongodb:27017/litmus_production?authSource=admin
+      - REDIS_URL=redis://redis:6379
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - JWT_ACCESS_EXPIRES_IN=15m
+      - JWT_REFRESH_EXPIRES_IN=7d
+      - DO_SPACES_ENDPOINT=${DO_SPACES_ENDPOINT}
+      - DO_SPACES_KEY=${DO_SPACES_KEY}
+      - DO_SPACES_SECRET=${DO_SPACES_SECRET}
+      - DO_SPACES_NAME=${DO_SPACES_NAME}
+      - DO_SPACES_REGION=${DO_SPACES_REGION}
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
+      - RAZORPAY_WEBHOOK_SECRET=${RAZORPAY_WEBHOOK_SECRET}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+      - WHATSAPP_API_TOKEN=${WHATSAPP_API_TOKEN}
+      - WHATSAPP_PHONE_NUMBER_ID=${WHATSAPP_PHONE_NUMBER_ID}
+      - WHATSAPP_BUSINESS_ACCOUNT_ID=${WHATSAPP_BUSINESS_ACCOUNT_ID}
+      - WHATSAPP_API_VERSION=v25.0
+      - ADMIN_WHATSAPP_NUMBER=${ADMIN_WHATSAPP_NUMBER}
+      - FRONTEND_URL=${FRONTEND_URL:-https://litmuslabs.in}
+    ports:
+      - "127.0.0.1:5000:5000"
+    networks:
+      - litmus_network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  mongo_prod_data:
+    driver: local
+  mongo_prod_config:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  litmus_network:
+    driver: bridge
