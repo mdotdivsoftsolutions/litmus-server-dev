@@ -12,7 +12,7 @@ const getCookieOptions = (req?: Request, maxAge?: number) => {
   return {
     httpOnly: true,
     secure: isSecure,
-    sameSite: (isSecure ? (isLitmusDomain ? 'lax' : 'none') : 'lax') as 'lax' | 'none' | 'strict',
+    sameSite: (isSecure ? 'none' : 'lax') as 'lax' | 'none' | 'strict',
     path: '/',
     ...(cookieDomain ? { domain: cookieDomain } : {}),
     ...(maxAge !== undefined ? { maxAge } : {}),

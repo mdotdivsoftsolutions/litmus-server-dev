@@ -35,6 +35,9 @@ const transporter = nodemailer.createTransport({
   pool: true,
   maxConnections: 5,
   maxMessages: 100,
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 15000,
 });
 
 const DEFAULT_SENDER = `"Litmus Food Analytics" <${process.env.SMTP_FROM || 'noreply@litmustest.in'}>`;
