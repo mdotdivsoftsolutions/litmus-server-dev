@@ -29,8 +29,11 @@ services:
     depends_on:
       redis:
         condition: service_healthy
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     env_file:
-      - .env.dev
+      - .env
     environment:
       - NODE_ENV=development
       - PORT=5000
