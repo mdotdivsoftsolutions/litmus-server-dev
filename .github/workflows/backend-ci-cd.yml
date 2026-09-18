@@ -3,13 +3,12 @@ name: 🚀 Backend CI/CD Pipeline
 on:
   push:
     branches: [ main, dev ]
-    paths:
-      - 'backend/**'
-      - '.github/workflows/backend-ci-cd.yml'
   pull_request:
     branches: [ main, dev ]
-    paths:
-      - 'backend/**'
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   # ==========================================
@@ -18,9 +17,6 @@ jobs:
   test:
     name: 🧪 Run Lints & Vitest Suite
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
 
     steps:
       - name: 📥 Checkout Repository
@@ -31,7 +27,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: 📦 Install Dependencies
         run: npm ci
@@ -84,8 +80,8 @@ jobs:
       - name: 🔨 Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -108,9 +104,9 @@ jobs:
           key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
           script: |
             echo "⚡ Deploying latest Litmus backend release to PRODUCTION..."
-            cd /opt/litmus-deployment
+            cd /opt/litmus-deployment/backend
             docker pull ghcr.io/${{ github.repository }}/litmus-backend:prod
-            docker-compose -f docker-compose.prod.yml up -d --no-deps --build backend
+            docker compose -f docker-compose.prod.yml up -d --no-deps --build backend
             docker image prune -f
             sleep 5
             docker ps | grep litmus_backend
@@ -134,9 +130,9 @@ jobs:
           key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
           script: |
             echo "⚡ Deploying latest Litmus backend release to DEVELOPMENT..."
-            cd /opt/litmus-dev-deployment
+            cd /opt/litmus-dev-deployment/backend
             docker pull ghcr.io/${{ github.repository }}/litmus-backend:dev
-            docker-compose -f docker-compose.dev.yml up -d --no-deps --build backend
+            docker compose -f docker-compose.dev.yml up -d --no-deps --build backend
             docker image prune -f
             sleep 5
             docker ps | grep litmus_dev_backend
