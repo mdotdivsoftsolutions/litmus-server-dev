@@ -67,11 +67,12 @@ export const getAdminBookings = async (req: Request, res: Response): Promise<voi
 
       const orConditions: any[] = [
         { userId: { $in: userIds } },
+        { orderCode: { $regex: escaped, $options: 'i' } },
         { invoiceNumber: { $regex: escaped, $options: 'i' } },
         { 'items.samples.productName': { $regex: escaped, $options: 'i' } }
       ];
 
-      const cleanHex = q.replace(/^BKG-/i, '').trim();
+      const cleanHex = q.replace(/^BKG-/i, '').replace(/^LIT-ORD-/i, '').trim();
       if (cleanHex.length === 24 && /^[0-9a-fA-F]{24}$/.test(cleanHex)) {
         const { default: mongoose } = await import('mongoose');
         orConditions.push({ _id: new mongoose.Types.ObjectId(cleanHex) });

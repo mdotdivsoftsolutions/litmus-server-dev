@@ -106,6 +106,12 @@ const BookingSchema: Schema = new Schema(
       name: { type: String },
       contact: { type: String }
     },
+    orderCode: {
+      type: String,
+      sparse: true,
+      index: true,
+      unique: true,
+    },
     invoiceNumber: {
       type: String,
       sparse: true,

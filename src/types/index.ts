@@ -263,6 +263,7 @@ export interface IBooking extends Document {
     name: string;
     contact: string;
   };
+  orderCode?: string;
   invoiceNumber?: string;
   invoiceDate?: Date;
   metadata?: any;
