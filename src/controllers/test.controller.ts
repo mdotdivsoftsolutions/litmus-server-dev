@@ -62,7 +62,8 @@ export const getTests = async (req: Request, res: Response): Promise<void> => {
     let queryBuilder = Test.find(query)
       .populate('applicableCategories', 'name')
       .populate('labId', 'labName')
-      .sort({ createdAt: -1 });
+      .sort({ testName: 1 }); // Alphabetical order A→Z
+
 
     if (limit > 0) {
       queryBuilder = queryBuilder.skip(skip).limit(limit);

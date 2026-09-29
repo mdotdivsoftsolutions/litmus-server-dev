@@ -10,6 +10,7 @@ import { BookingStatus, CollectionStatus, UserRole } from '../types';
 import { sendBookingConfirmedEmail } from '../utils/mailer';
 import NotificationService from '../services/notification.service';
 import { getPlatformSettings } from '../models/PlatformSettings';
+import { getNextSequence } from '../models/Counter';
 
 import spacesClient from '../config/spaces';
 import {
@@ -57,6 +58,12 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       }
     }
 
+    // Generate human-readable sequential order code: LIT-ORD-10001, LIT-ORD-10002 ...
+    const seq = await getNextSequence('booking_order_code');
+    // Seed at 10001 so all codes have consistent 5-digit padding
+    const paddedSeq = String(seq + 10000).padStart(5, '0');
+    const orderCode = `LIT-ORD-${paddedSeq}`;
+
     const booking = await Booking.create({
       userId,
       labId,
@@ -66,6 +73,7 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       metadata,
       status,
       collectionStatus,
+      orderCode,
       collectionMethod: collectionMethod === 'PICKUP' || collectionMethod === 'COURIER' ? collectionMethod : undefined,
     });
 
@@ -75,7 +83,7 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
       recipientRole: 'ADMIN',
       type: 'NEW_BOOKING',
       title: 'New Booking Placed',
-      message: `Order #${booking._id.toString().slice(-6).toUpperCase()} placed for ₹${Number(totalAmount || 0).toLocaleString('en-IN')}`,
+      message: `Order ${booking.orderCode || '#' + booking._id.toString().slice(-6).toUpperCase()} placed for ₹${Number(totalAmount || 0).toLocaleString('en-IN')}`,
       link: `/admin/bookings/${booking._id}`,
       metadata: { bookingId: booking._id, totalAmount, userId },
     }).catch(() => {});
@@ -86,7 +94,7 @@ export const createBooking = async (req: Request, res: Response): Promise<void> 
         recipientLabId: labId,
         type: 'BOOKING_ASSIGNED',
         title: 'New Food Testing Booking Assigned',
-        message: `Booking #${booking._id.toString().slice(-6).toUpperCase()} assigned to your laboratory`,
+        message: `Booking ${booking.orderCode || '#' + booking._id.toString().slice(-6).toUpperCase()} assigned to your laboratory`,
         link: `/lab/bookings/${booking._id}`,
         metadata: { bookingId: booking._id, totalAmount },
       }).catch(() => {});
@@ -179,6 +187,7 @@ export const getBookingById = async (req: Request, res: Response): Promise<void>
     } else {
       query = {
         $or: [
+          { orderCode: rawId },
           { 'metadata.bookingId': rawId },
           { 'metadata.orderId': rawId },
           { 'metadata.displayBookingId': rawId },
