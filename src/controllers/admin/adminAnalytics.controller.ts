@@ -41,21 +41,23 @@ export const getAdminStats = async (req: Request, res: Response): Promise<void> 
       User.countDocuments({ role: UserRole.EMPLOYEE, isActive: true }),
       Laboratory.countDocuments({ isDeleted: { $ne: true } }),
       Laboratory.countDocuments({ isDeleted: { $ne: true }, isActive: true }),
-      Booking.countDocuments(),
-      Booking.countDocuments({ status: BookingStatus.PENDING }),
-      Booking.countDocuments({ status: { $in: [BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] } }),
+      Booking.countDocuments({ isDeleted: { $ne: true } }),
+      Booking.countDocuments({ status: BookingStatus.PENDING, isDeleted: { $ne: true } }),
+      Booking.countDocuments({ status: { $in: [BookingStatus.APPROVED, BookingStatus.IN_PROGRESS] }, isDeleted: { $ne: true } }),
       Consultation.countDocuments().catch(() => 0),
       Consultation.countDocuments({ status: 'Pending' }).catch(() => 0),
-      Test.countDocuments({ approvalStatus: ApprovalStatus.PENDING }).catch(() => 0),
-      Package.countDocuments({ approvalStatus: ApprovalStatus.PENDING }).catch(() => 0),
+      Test.countDocuments({ approvalStatus: ApprovalStatus.PENDING, isDeleted: { $ne: true } }).catch(() => 0),
+      Package.countDocuments({ approvalStatus: ApprovalStatus.PENDING, isDeleted: { $ne: true } }).catch(() => 0),
       Booking.countDocuments({
         reportFiles: { $exists: true, $ne: [] },
-        isReportApprovedByAdmin: false
+        isReportApprovedByAdmin: false,
+        isDeleted: { $ne: true }
       }).catch(() => 0),
       Booking.countDocuments({
         reportFiles: { $exists: true, $ne: [] },
+        isDeleted: { $ne: true }
       }).catch(() => 0),
-      Category.countDocuments().catch(() => 0),
+      Category.countDocuments({ isDeleted: { $ne: true } }).catch(() => 0),
       Test.countDocuments({ isDeleted: { $ne: true } }).catch(() => 0),
       Package.countDocuments({ isDeleted: { $ne: true } }).catch(() => 0),
       Review.countDocuments().catch(() => 0),
@@ -137,7 +139,7 @@ export const getAdminAnalytics = async (req: Request, res: Response): Promise<vo
     fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
     
     const bookingVolumeAgg = await Booking.aggregate([
-      { $match: { createdAt: { $gte: fourteenDaysAgo } } },
+      { $match: { createdAt: { $gte: fourteenDaysAgo }, isDeleted: { $ne: true } } },
       { 
         $group: { 
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }, 
@@ -154,7 +156,7 @@ export const getAdminAnalytics = async (req: Request, res: Response): Promise<vo
 
     // 2. Revenue by Lab
     const revenueByLabAgg = await Booking.aggregate([
-      { $match: { status: { $ne: 'PENDING' } } },
+      { $match: { status: { $ne: 'PENDING' }, isDeleted: { $ne: true } } },
       { $unwind: { path: "$items", preserveNullAndEmptyArrays: true } },
       {
         $group: {
@@ -204,6 +206,7 @@ export const getAdminAnalytics = async (req: Request, res: Response): Promise<vo
 
     // 4. Top Products
     const topProductsAgg = await Booking.aggregate([
+      { $match: { isDeleted: { $ne: true } } },
       { $unwind: "$items" },
       {
         $group: {
