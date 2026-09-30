@@ -56,8 +56,8 @@ export const getAdminStats = async (req: Request, res: Response): Promise<void> 
         reportFiles: { $exists: true, $ne: [] },
       }).catch(() => 0),
       Category.countDocuments().catch(() => 0),
-      Test.countDocuments().catch(() => 0),
-      Package.countDocuments().catch(() => 0),
+      Test.countDocuments({ isDeleted: { $ne: true } }).catch(() => 0),
+      Package.countDocuments({ isDeleted: { $ne: true } }).catch(() => 0),
       Review.countDocuments().catch(() => 0),
       Payment.find({ status: PaymentStatus.SUCCESS }).select('amount').catch(() => []),
     ]);
